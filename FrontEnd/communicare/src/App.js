@@ -17,9 +17,9 @@ function App() {
         < Route path="/fgpassword" element={<ForgotPassword />} />
 
         <Route element={<AuthWrapper />}>
-          < Route path="/profile" element={<Profile />} />
+          
         </Route>
-
+        < Route path="/profile" element={<Profile />} />
 
         <Route element={<AdminRouteWrapper />}></Route>
 
