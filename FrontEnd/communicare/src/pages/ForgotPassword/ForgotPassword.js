@@ -97,7 +97,7 @@ function EmailAuthentication(){
             <button className="fluid ui button blue">Submit</button>
 
             <div className="text">
-              Já possui conta? <Link className="loginLink" to="/login">Iniciar sessão</Link>
+              Já possui conta? <Link className="loginLink" to="/">Iniciar sessão</Link>
             </div>
 
 

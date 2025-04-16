@@ -43,6 +43,6 @@ const AuthWrapper = () => {
   if (auth != false && isLoading) {
     return null; // or loading spinner, etc...
   }
-  return auth ? <Outlet /> : <Navigate to="/login" replace />;
+  return auth ? <Outlet /> : <Navigate to="/" replace />;
 };
 export default AuthWrapper;

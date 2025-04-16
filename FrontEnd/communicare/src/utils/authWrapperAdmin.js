@@ -55,7 +55,7 @@ const AdminRouteWrapper = () => {
         return <div>Loading...</div>;
     }
 
-    return isAdmin ? <Outlet /> : <Navigate to="/home" replace />;
+    return isAdmin ? <Outlet /> : <Navigate to="/profile" replace />;
 };
 
 export default AdminRouteWrapper;
