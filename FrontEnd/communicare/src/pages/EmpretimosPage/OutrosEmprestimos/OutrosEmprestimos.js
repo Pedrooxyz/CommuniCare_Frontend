@@ -1,6 +1,8 @@
 import React from "react";
 import { FaSearch, FaCubes } from "react-icons/fa";
-import "./OutrosEmpretimos.css";
+import "./OutrosEmprestimos.css";
+
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -56,7 +58,7 @@ const Search = () => {
 }
 
 
-const pedidos = [
+export const pedidos = [
   {
     id: 1,
     user: person7,
@@ -94,6 +96,9 @@ const pedidos = [
 
 
 const ListaPedidos = () =>{
+
+  const navigate = useNavigate();
+
   return(
     <div className="cards">
       {pedidos.map((pedido) => (
@@ -110,7 +115,7 @@ const ListaPedidos = () =>{
           <span><img  src={cares} width={30} height={30} alt="Cares" /> {pedido.caresHour}</span>
         </div>
         <div className="moreInfo">
-          <button>Mais Informações</button>
+        <button onClick={() => navigate(`/maisInfo/${pedido.id}`)}>Mais Informações</button>
         </div>
 
       </div>  
@@ -123,7 +128,7 @@ const ListaPedidos = () =>{
 }
 
 
-function OutrosEmpretimos(){
+function OutrosEmprestimos(){
   return (
     <>
       <HeaderProfileCares />
@@ -134,4 +139,4 @@ function OutrosEmpretimos(){
   );
 }
 
-export default OutrosEmpretimos;
+export default OutrosEmprestimos;

@@ -1,0 +1,120 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #E9DEDE;
+  }
+  
+  header {
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+    position: absolute; 
+    top: 0; 
+    right: 0; 
+    padding: 10px 20px 10px; 
+  }
+  
+  header p{
+    font-weight: bold;
+    font-size: 20px;
+  }
+  
+  .imgHeaderVol{
+    border-radius: 50%;
+    object-fit: cover; /* garante que a imagem preencha o espaço sem distorcer */
+    
+    
+  }
+  
+  .detalhesContainer {
+    display: flex;
+    gap: 40px;
+    padding: 40px;
+    background-color: #f0e4e4;
+  }
+  
+  .colunaEsquerda, .colunaDireita {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+  }
+  
+  .colunaEsquerda {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .imgPedidosDetalhes {
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    object-fit: cover;
+  }
+  
+  .tempoControl {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-weight: bold;
+  }
+  
+  .tempoControl button {
+    font-size: 20px;
+    padding: 5px 15px;
+    background-color: #f2dcdc;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .botaoAceitar {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+    padding: 12px 25px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .colunaDireita {
+    flex: 1;
+  }
+  
+  .tituloDetalhe {
+    font-size: 28px;
+    background-color: #ffeef0;
+    padding: 10px 20px;
+    border-radius: 15px;
+    text-align: center;
+  }
+  
+  .descricaoDetalhe {
+    background-color: #ffefdf;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 20px;
+  }
+  
+  .boxDetalhes {
+    background-color: #ffe9d2;
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 20px;
+  }
+  
+  .boxDetalhes h3 {
+    background-color: #ffcbcb;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 20px;
+    text-align: center;
+  }
