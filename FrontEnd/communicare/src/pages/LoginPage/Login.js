@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   return (
-    <header>
+    <header className="header log">
       <img className="iconCC" src={iconCC} width={60} height={60} alt="IconCare" />
     </header>
   );
@@ -100,14 +100,14 @@ function DadosAuthentication() {
 
 
         <form onSubmit={handleSubmit}>
-          <h1>Login</h1>
+          <h1 className="h1Log">Login</h1>
           <img className="iconImage" src={icon} width={100} height={100} alt="Icon" />
 
           <div className="divider"></div>
           <div className="form">
             
             <div className="field">
-              <input
+              <input className="inputDadosLog"
                 type="text"
                 name="email"
                 placeholder="Email"
@@ -118,7 +118,7 @@ function DadosAuthentication() {
 
              
              <div className="field password-field">
-              <input
+              <input className="inputDadosLog"
                 type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Password"
@@ -142,18 +142,20 @@ function DadosAuthentication() {
             )}
 
             
-            <button className="fluid ui button blue" type="submit" disabled={isLoggingIn}>
+            <button className="buttonEntrar" type="submit" disabled={isLoggingIn}>
               {isLoggingIn ? "A entrar..." : "Entrar"}
             </button>
 
-            <div className="text">
+            <div className="textLog">
               Novo no Condominio?{" "}
-              <Link className="registarLink" to="/registar">
+              <Link className="logLinks" to="/registar">
                 Criar conta
               </Link>
             </div>
-            <div className="text">
-              <span>Esqueceu-se da password?</span>
+            <div className="textLog">
+            <Link className="logLinks" to="/fgpassword">
+                Esqueceu-se da password?
+            </Link>
             </div>
           </div>
         </form>

@@ -32,16 +32,19 @@
   }
   
   .detalhesContainer {
+    
     display: flex;
     gap: 40px;
-    padding: 40px;
-    background-color: #f0e4e4;
+    padding: 20px;
+    width: 80%;
+    justify-content: center;
+    margin:0px auto;
   }
   
   .colunaEsquerda, .colunaDireita {
     background: white;
     border-radius: 20px;
-    padding: 20px;
+    padding: 10px 20px 50px;
   }
   
   .colunaEsquerda {
@@ -49,17 +52,50 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
   }
   
-  .imgPedidosDetalhes {
-    width: 100%;
+ .userTitle{
+  display: flex;
+  margin-bottom: 0px;
+  
+ }
+
+  .imgUsers{
+    object-fit: cover; /* garante que a imagem preencha o espaço sem distorcer */
+    border-radius: 50%; /* 100px funciona, mas 50% é mais semântico pra círculos */
+    margin-left: 0px;
+  }
+
+  .imgItemDetalhes {
+    width: 90%;
     height: auto;
     border-radius: 15px;
     object-fit: cover;
+    margin-top: 0px;
   }
   
-  .tempoControl {
+
+  .infoItem{
+    width: 90%;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  .infoItem span {
+    background-color: #FAEEE7;
+    padding: 10px 20px;
+    border-radius: 15px;
+    font-size: 20px;
+    display: inline-flex;             /* permite usar alinhamento interno */
+    align-items: center;             /* alinha ícone/texto verticalmente */
+    justify-content: center;         /* alinha conteúdo horizontalmente */
+    gap: 8px;                         /* espaço entre ícone e texto */
+  }
+
+ /* .tempoControl {
     display: flex;
     align-items: center;
     gap: 20px;
@@ -73,48 +109,66 @@
     border-radius: 10px;
     border: none;
     cursor: pointer;
-  }
+  }*/
   
   .botaoAceitar {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #A6FC96;
+    font-size: 20px;
+    color: rgb(0, 0, 0);
     font-weight: bold;
-    padding: 12px 25px;
+    padding: 12px 55px;
     border-radius: 10px;
     border: none;
     cursor: pointer;
-  }
+    margin: 25px 0px 10px;
+    }
   
   .colunaDireita {
     flex: 1;
   }
   
-  .tituloDetalhe {
-    font-size: 28px;
-    background-color: #ffeef0;
+  .tituloItem {
+    font-size: 27px;
+    background-color: #FFEEF5;
     padding: 10px 20px;
     border-radius: 15px;
     text-align: center;
+    
+  }
+
+  .colunaDireita .tituloItem{
+    width: 30%;
   }
   
   .descricaoDetalhe {
-    background-color: #ffefdf;
+    background-color: #FAEEE7;
     padding: 15px;
     border-radius: 10px;
     margin-top: 20px;
   }
   
   .boxDetalhes {
-    background-color: #ffe9d2;
-    padding: 20px;
+    background-color: #FAEEE7;
+    padding: 15px 20px;
     border-radius: 15px;
     margin-top: 20px;
+    height: 50%;
   }
   
-  .boxDetalhes h3 {
-    background-color: #ffcbcb;
-    padding: 10px;
+  .h3Detalhes {
+    background-color: #FFEEF5;
+    padding: 10px ;
     border-radius: 10px;
     font-size: 20px;
     text-align: center;
+    width: 30%;
+    font-size: 20px;
   }
+
+ .detalhesText {
+  font-family:Arial, Helvetica, sans-serif;
+ }
+
+ .decriptionText{
+  font-family:Arial, Helvetica, sans-serif;
+ }

@@ -16,7 +16,7 @@ import loja from '../../assets/loja.png'
 
 const HeaderNot = () => {
   return(
-    <header>
+    <header className="headerNot">
      <img className="imgHeader" src={msgNot} width={45} height={45} alt="msgNot" />
      <img className="imgHeader" src={notification} width={45} height={45} alt="Notifications" />
     </header>
@@ -49,9 +49,9 @@ const DadosUserPI = () =>{
 
      </div>
 
-      <div className="grid">
+      <div className="gridProfile">
         {/* Coluna de Perfil */}
-        <div className="card profile">
+        <div className="cardPofile profile">
           <h2 className="name">Carla Maria Silva</h2>
           <h3>Contactos:</h3>
           <p className="contact">email: carla11silva@gmail.com</p>
@@ -61,7 +61,7 @@ const DadosUserPI = () =>{
         </div>
 
         {/* Coluna de Voluntariados */}
-        <div className="card">
+        <div className="cardPofile">
           <h2 className="section">Voluntariados</h2>
           
           <div className="botoes">
@@ -87,7 +87,7 @@ const DadosUserPI = () =>{
         </div>
 
         {/* Coluna de Empréstimos */}
-        <div className="card">
+        <div className="cardPofile">
             <h2 className="section">Empretimos</h2>
 
             <div className="botoes">
@@ -107,7 +107,7 @@ const DadosUserPI = () =>{
                 <div className="item">Secador</div>
                 <div className="item">Martelo</div>
                 <div className="item">Corta relva</div>
-                <div className="item">Pistola de encher pneus</div>
+                
             </div>
             </div>
 

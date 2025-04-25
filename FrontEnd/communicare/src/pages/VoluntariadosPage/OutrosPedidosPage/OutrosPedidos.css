@@ -19,16 +19,14 @@
     padding: 10px 20px 10px; 
   }
   
-  header p{
+  header .ptext{
+    
     font-weight: bold;
     font-size: 20px;
   }
   
   .imgHeaderVol{
     border-radius: 50%;
-    object-fit: cover; /* garante que a imagem preencha o espaço sem distorcer */
-    
-    
   }
   
   .mainName{
@@ -51,10 +49,6 @@
     padding: 20px;
   }
   
-  .choose {
-    display: flex;
-    width: 100%; /* garante que o conteúdo use a largura total */
-  }
   
   
   .tabs {
@@ -66,16 +60,14 @@
   }
   
   .tab {
-    flex: 1;
     background-color: #FFAEAE;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 75px;
     border-radius: 999px;
     font-weight: bold;
     cursor: pointer;
-    margin-left: 60px;
-    text-align: center; /*ver se tiro ou não*/
+    margin-left: 90px;
   }
   
   .tab.active {
@@ -128,7 +120,7 @@
     
   }
   
-  .userTitleOE{
+  .userTitle{
     display: flex;
     justify-content: space-between;
     column-gap: 50px;
@@ -136,20 +128,18 @@
     margin-bottom: 15px;
   }
   
-  .imgItemOE {
+  .imgPedidos {
     width: 370px;
     height: 230px;
     object-fit: cover;
     border-radius: 12px;
-    margin: 15px auto 25px auto; /* topo, horizontal, baixo, horizontal */
+    margin: 0 auto 25px auto; /* topo, horizontal, baixo, horizontal */
     display: block; /* necessário para margin: auto funcionar em imagens */
     
   }
   
-  .imgUsersOE{
-    object-fit: cover; /* garante que a imagem preencha o espaço sem distorcer */
-    border-radius: 50%; /* 100px funciona, mas 50% é mais semântico pra círculos */
-    margin-left: 20px;
+  .imgUsers{
+    border-radius: 100px;
     margin-left: 20px;
   }
   
@@ -168,7 +158,8 @@
   }
   
   
-  .card p {
+  .card .ptext {
+    
     background-color: #f9f3f0;
     padding: 10px 20px;
     border-radius: 10px;
@@ -182,7 +173,7 @@
       -ms-overflow-style: none;
   }
   
-  .infoItemOE {
+  .infoPedido, .datetime {
     display: flex;
     justify-content: space-between;
     margin-top: 30px;
@@ -194,29 +185,14 @@
   
   
   
-  .infoItemOE span {
+  .infoPedido span,
+  .datetime span {
     background-color: #FAEEE7;
     padding: 10px 20px;
     border-radius: 15px;
-    font-size: 20px;
+  font-size: 20px;
     display: inline-flex;             /* permite usar alinhamento interno */
     align-items: center;             /* alinha ícone/texto verticalmente */
     justify-content: center;         /* alinha conteúdo horizontalmente */
     gap: 8px;                         /* espaço entre ícone e texto */
-  }
-  
-  
-  .moreInfo {
-    text-align: center;
-  }
-  
-  .moreInfo button{
-    background-color: #FAEEE7;
-    display: inline-block;
-    border-radius: 10px;
-    padding: 10px 20px;
-    border: none;
-    font-size: 20px;
-    margin-top: 15px;
-    cursor: pointer;
   }

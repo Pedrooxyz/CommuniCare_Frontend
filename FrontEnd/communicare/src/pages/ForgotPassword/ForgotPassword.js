@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
   return(
-    <header>
+    <header className="header ep">
      <img className="iconCC" src={iconCC} width={60} height={60} alt="IconCare" />
     </header>
   )
@@ -73,7 +73,7 @@ function EmailAuthentication(){
         )}
 
         <form onSubmit={handleSubmit}>
-          <h1>Esqueci-me da password</h1>
+          <h1 className="h1FP">Esqueci-me da password</h1>
           
           <img className="iconImage" src={icon} width={100} height={100} alt="Icon"  />
 
@@ -82,7 +82,7 @@ function EmailAuthentication(){
 
 
             <div className="field">
-              <input
+              <input className="inputDadosFP"
                 type="text"
                 name="email"
                 placeholder="Email de recuperação "
@@ -90,14 +90,14 @@ function EmailAuthentication(){
                 onChange={handleChange}
               />
             </div>
-            <p>{formErrors.email}</p>
+            <p className="pErros">{formErrors.email}</p>
 
             
 
-            <button className="fluid ui button blue">Submit</button>
+            <button className="buttonSubmit">Submit</button>
 
-            <div className="text">
-              Já possui conta? <Link className="loginLink" to="/">Iniciar sessão</Link>
+            <div className="textFP">
+              Já possui conta? <Link className="fpLinks" to="/">Iniciar sessão</Link>
             </div>
 
 

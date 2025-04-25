@@ -58,7 +58,7 @@ const Search = () => {
 }
 
 
-export const pedidos = [
+export const items = [
   {
     id: 1,
     user: person7,
@@ -68,7 +68,13 @@ export const pedidos = [
       "Precisa aparar o jardim? Emprestamos um corta-relvas! Interessado? Fale connosco!",
     units: 1,
     caresHour: "35/h",
-    
+    details:`Corta-relvas Elétrico GreenTech 3000
+- Elétrico com fio
+- Potência: 1800W
+- Largura de corte: 40 cm
+- Altura de corte: Ajustável (25-75 mm)
+- Capacidade do saco de recolha: 50L
+- Peso: 12 kg`
   },
   {
     id: 2,
@@ -79,43 +85,55 @@ export const pedidos = [
       "Precisa encher pneus ou usar ferramentas pneumáticas? Entre em contato!",
     units: 2,
     caresHour: "40/h",
-    
+    details:`Martelo Clássico GreenTech Standard 500
+- Manual, cabo ergonómico em madeira
+- Peso da cabeça: 500 g
+- Comprimento do cabo: 30 cm
+- Material da cabeça: Aço forjado
+- Aplicação: Cravar pregos, pequenos trabalhos de demolição
+- Peso total: 0,6 kg`
   },
   {
     id: 3,
     user: person9,
-    title: "Mover móvel",
+    title: "Martelo",
     image: martelo,
     description:
       "Precisa de um martelo? Temos disponíveis, comunique connosco!!",
     units: 3,
     caresHour: "20/h",
-    
+    details: `Martelo Clássico GreenTech Standard 500
+- Manual, cabo ergonómico em madeira
+- Peso da cabeça: 500 g
+- Comprimento do cabo: 30 cm
+- Material da cabeça: Aço forjado
+- Aplicação: Cravar pregos, pequenos trabalhos de demolição
+- Peso total: 0,6 kg`
   }
 ];
 
 
-const ListaPedidos = () =>{
+const ListaItems = () =>{
 
   const navigate = useNavigate();
 
   return(
     <div className="cards">
-      {pedidos.map((pedido) => (
-      <div className="card" key={pedido.id}>
-        <div className="userTitle">
-          <img className="imgUsers" src={pedido.user} width={70} height={70} alt={pedido.title} />
-          <h2>{pedido.title}</h2>
+      {items.map((item) => (
+      <div className="card" key={item.id}>
+        <div className="userTitleOE">
+          <img className="imgUsersOE" src={item.user} width={70} height={70} alt={item.title} />
+          <h2>{item.title}</h2>
         </div>
-        <img className="imgPedidos" src={pedido.image} alt={pedido.title} />
+        <img className="imgItemOE" src={item.image} alt={item.title} />
 
-        <p>{pedido.description}</p>
-        <div className="infoPedido">
-          <span><FaCubes /> {pedido.units}</span>
-          <span><img  src={cares} width={30} height={30} alt="Cares" /> {pedido.caresHour}</span>
+        <p>{item.description}</p>
+        <div className="infoItemOE">
+          <span><FaCubes /> {item.units}</span>
+          <span><img  src={cares} width={30} height={30} alt="Cares" /> {item.caresHour}</span>
         </div>
         <div className="moreInfo">
-        <button onClick={() => navigate(`/maisInfo/${pedido.id}`)}>Mais Informações</button>
+        <button onClick={() => navigate(`/maisInfo/${item.id}`)}>Mais Informações</button>
         </div>
 
       </div>  
@@ -133,7 +151,7 @@ function OutrosEmprestimos(){
     <>
       <HeaderProfileCares />
       <Search />
-      <ListaPedidos />
+      <ListaItems />
       
     </>
   );

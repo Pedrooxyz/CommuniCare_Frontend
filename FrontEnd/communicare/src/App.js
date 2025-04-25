@@ -6,6 +6,8 @@ import Login from "./pages/LoginPage/Login";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Profile from "./pages/ProfilePage/Profile";
 
+import OutrosVoluntariados from "./pages/VoluntariadosPage/OutrosPedidosPage/OutrosPedidos"
+
 import OutrosEmprestimos from "./pages/EmpretimosPage/OutrosEmprestimos/OutrosEmprestimos";
 import MaisInformacoes from "./pages/EmpretimosPage/OutrosEmprestimos/MaisInformacoes/MaisInformacoes";
 
@@ -23,13 +25,16 @@ function App() {
         < Route path="/registar" element={<Registar />} />
         < Route path="/fgpassword" element={<ForgotPassword />} />
 
+        < Route path="/outrosPedidos" element={<OutrosVoluntariados />} />
+
         < Route path="/outrosEmprestimos" element={<OutrosEmprestimos />} />
         < Route path="/maisInfo/:id" element={<MaisInformacoes />} />
-        
+
+        < Route path="/profile" element={<Profile />} />
 
         <Route element={<AuthWrapper />}>
 
-          < Route path="/profile" element={<Profile />} />
+          
 
           <Route element={<AdminRouteWrapper />}>
           </Route>
