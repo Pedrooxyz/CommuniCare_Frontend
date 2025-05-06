@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Notificacoes.css';
+import { api } from '../../utils/axios';
 
 const Header = () => {
   return (
@@ -23,71 +24,87 @@ const Header = () => {
   );
 };
 
-const Notification = ({ time, title, description }) => {
+const Notification = ({ id, time, description, onMarkAsRead, isRead }) => {
+  const handleClick = () => {
+    if (!isRead) {
+      onMarkAsRead(id);
+    }
+  };
+
   return (
-    <div className="notification-card">
+    <div
+      className={`notification-card ${isRead ? 'notification-read' : ''}`}
+      onClick={handleClick}
+    >
       <svg className="notification-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3-7 3V5z"></path>
       </svg>
       <div className="notification-content">
-        <p className="notification-time-title">[{time}] {title}</p>
-        <p className="notification-description">{description}</p>
+        <p className="notification-time">{time || 'N/A'}</p>
+        <p className="notification-description">{description || 'Sem mensagem'}</p>
       </div>
     </div>
   );
 };
 
 const NotificationsList = () => {
-  const notifications = [
-    {
-      time: "10:15",
-      title: "Pedido de Empréstimo Aceite",
-      description: "O seu pedido de empréstimo foi aprovado! Entre em contato com o doador para combinar o horário.",
-    },
-    {
-      time: "14:30",
-      title: "Pedido de Ajuda Publicado",
-      description: "O seu pedido de ajuda foi publicado! Voluntários agora podem visualizar e oferecer assistência.",
-    },
-    {
-      time: "16:45",
-      title: "Receção dos Créditos",
-      description: "Os créditos referentes à sua ação foram recebidos! Consulte seu saldo na plataforma.",
-    },
-    {
-      time: "19:00",
-      title: "Compra Confirmada",
-      description: "A sua compra na Loja de Pontos foi confirmada! Aguarde mais detalhes sobre a retirada ou entrega.",
-    },
-    {
-      time: "18:10",
-      title: "Condições Inválidas",
-      description: "O seu pedido de empréstimo não respeita as políticas da aplicação, por isso não pode ser publicado.",
-    },
-    {
-      time: "21:55",
-      title: "Voluntariado não compatível",
-      description: "O seu pedido de voluntariado não foi aceite devido a não ser compatível com o requisitante do voluntariado.",
-    },
-  ];
+  const [notifications, setNotifications] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await api.get('Notificacoes');
+        console.log('Notificações carregadas:', response.data);
+        setNotifications(response.data);
+      } catch (err) {
+        console.error('Erro ao carregar notificações:', err.response?.data || err.message);
+        setError(err.response?.data || 'Erro ao carregar as notificações.');
+      }
+    };
+
+    fetchNotifications();
+  }, []);
+
+  const markAsRead = async (id) => {
+    try {
+      const response = await api.put(`Notificacoes/MarcarComoLida/${id}`);
+      setNotifications(notifications.map((notif) =>
+        notif.id === id ? { ...notif, lida: true } : notif
+      ));
+    } catch (error) {
+      console.error("Erro ao marcar como lida:", error);
+    }
+  };
+
+  if (error) {
+    return <div className="error-message">{error}</div>;
+  }
+
+  if (notifications.length === 0) {
+    return <div className="no-notifications">Não há notificações para mostrar.</div>;
+  }
 
   return (
     <div className="notifications-container">
-      {notifications.map((notification, index) => (
+      {notifications.map((notification) => (
         <Notification
-          key={index}
-          time={notification.time}
-          title={notification.title}
-          description={notification.description}
+          key={notification.notificacaoId}
+          id={notification.notificacaoId}
+          time={new Date(notification.dataMensagem).toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' }) || 'N/A'}
+          description={notification.mensagem || 'Sem mensagem'}
+          onMarkAsRead={markAsRead}
+          isRead={notification.lida === 1}
         />
       ))}
     </div>
   );
 };
 
-const Notificacoes = () => {
+const Notificacoes = ({ backgroundImage }) => {
   return (
     <div className="notifications-page">
+      <div className="bgImg" style={{ backgroundImage: `url(${backgroundImage})` }}></div>
       <Header />
       <NotificationsList />
     </div>
