@@ -30,11 +30,10 @@ function App() {
         < Route path="/outrosEmprestimos" element={<OutrosEmprestimos />} />
         < Route path="/maisInfo/:id" element={<MaisInformacoes />} />
 
-        < Route path="/profile" element={<Profile />} />
 
         <Route element={<AuthWrapper />}>
 
-          
+        < Route path="/profile" element={<Profile />} />          
 
           <Route element={<AdminRouteWrapper />}>
           </Route>

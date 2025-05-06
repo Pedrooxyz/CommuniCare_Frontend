@@ -52,7 +52,7 @@ function DadosAuthentication() {
     try {
 
       
-      const response = await api.post("Utilizadores/login", {
+      const response = await api.post("Utilizadores/Login", {
         email,
         password,
       });
