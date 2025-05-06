@@ -1,117 +1,114 @@
 import "./ForgotPassword.css";
-import { useState, useEffect } from "react";
+import { useState, useRef } from "react";
 import iconCC from "../../assets/iconCC.jpg";
 import backImage from '../../assets/back.jpg';
 import icon from '../../assets/icon.jpg';
-
+import { api } from '../../utils/axios.js';
 import { Link } from 'react-router-dom';
 
-
-
 const Header = () => {
-  return(
+  return (
     <header className="header ep">
-     <img className="iconCC" src={iconCC} width={60} height={60} alt="IconCare" />
+      <img className="iconCC" src={iconCC} width={60} height={60} alt="IconCare" />
     </header>
-  )
-  
-}
+  );
+};
 
-function EmailAuthentication(){
-  const initialValues ={
-    email:"",
-  };
-
-  const [formValues, setFormValues] = useState(initialValues);
+function EmailAuthentication() {
+  const [email, setEmail] = useState("");
   const [formErrors, setFormErrors] = useState({});
-  const [isSubmit, setIsSubmit] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleChange = (e) => {
-    const {name, value} = e.target;
-    setFormValues({...formValues, [name]: value});
-  };
+  const errorMessageRef = useRef(null);
 
-  const handleSubmit = (e) =>{
-    e.preventDefault();
-    setFormErrors(validate(formValues));
-    setIsSubmit(true);
-  };
-
-  
-  useEffect(() =>{
-    console.log(formErrors);
-    if(Object.keys(formErrors).length === 0 && isSubmit){
-      alert("Enviado para o email");
-      console.log(formValues);
-    }
-  }, [formErrors, formValues, isSubmit]);
-
-  const validate = (values) => {
+  const validate = (value) => {
     const errors = {};
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    
 
-    
-    if(!values.email){
+    if (!value) {
       errors.email = "Email é necessário!";
-    }else if (!regex.test(values.email)){
+    } else if (!regex.test(value)) {
       errors.email = "Não é válido para o formato de email!";
     }
+
     return errors;
   };
 
-  return(
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const errors = validate(email);
+    setFormErrors(errors);
+    setSuccessMessage("");
+    setErrorMessage("");
+
+    if (Object.keys(errors).length === 0) {
+      setIsSubmitting(true);
+      try {
+        const response = await api.post("/utilizadores/RecuperarSenha", {
+          email,
+        });
+
+        setSuccessMessage("E-mail de recuperação enviado com sucesso!");
+        setEmail("");
+      } catch (error) {
+        setErrorMessage(error?.response?.data?.message || "Erro ao enviar pedido. Tente novamente.");
+        if (errorMessageRef.current) {
+          errorMessageRef.current.style.display = "block";
+        }
+      } finally {
+        setIsSubmitting(false);
+      }
+    }
+  };
+
+  return (
     <>
       <div className="bgImg" style={{ backgroundImage: `url(${backImage})` }}></div>
       <div className="container">
-        {Object.keys(formErrors).length === 0 && isSubmit ? (
-          <div className="message success">
-            Registo foi sucedido
-          </div>
-        ) : (
-          console.log("Dados inseridos", formValues)
-        )}
-
         <form onSubmit={handleSubmit}>
           <h1 className="h1FP">Esqueci-me da password</h1>
-          
-          <img className="iconImage" src={icon} width={100} height={100} alt="Icon"  />
+          <img className="iconImage" src={icon} width={100} height={100} alt="Icon" />
 
           <div className="divider"></div>
           <div className="form">
-
-
             <div className="field">
-              <input className="inputDadosFP"
+              <input
+                className="inputDadosFP"
                 type="text"
                 name="email"
-                placeholder="Email de recuperação "
-                value={formValues.email}
-                onChange={handleChange}
+                placeholder="Email de recuperação"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <p className="pErros">{formErrors.email}</p>
 
-            
+            {errorMessage && (
+              <p ref={errorMessageRef} style={{ color: "red" }}>
+                {errorMessage}
+              </p>
+            )}
 
-            <button className="buttonSubmit">Submit</button>
+            {successMessage && (
+              <p style={{ color: "green" }}>
+                {successMessage}
+              </p>
+            )}
+
+            <button className="buttonSubmit" type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "A enviar..." : "Submeter"}
+            </button>
 
             <div className="textFP">
               Já possui conta? <Link className="fpLinks" to="/">Iniciar sessão</Link>
             </div>
-
-
           </div>
         </form>
-        
-
-        
-        
       </div>
     </>
-  )
-
-
+  );
 }
 
 function ForgotPassword() {
@@ -123,6 +120,4 @@ function ForgotPassword() {
   );
 }
 
-
-
-export default ForgotPassword
+export default ForgotPassword;

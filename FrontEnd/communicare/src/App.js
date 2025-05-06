@@ -5,6 +5,7 @@ import Registar from "./pages/RegistPage/Registar";
 import Login from "./pages/LoginPage/Login";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Profile from "./pages/ProfilePage/Profile";
+import ResetPassword from "./pages/ResetPassword/ResetPassword";
 
 import OutrosVoluntariados from "./pages/VoluntariadosPage/OutrosPedidosPage/OutrosPedidos"
 
@@ -35,8 +36,10 @@ function App() {
         <Route element={<AuthWrapper />}>
 
         < Route path="/profile" element={<Profile />} />
+
         <Route path="/notificacoes" element={<Notificacoes />} />
-                  
+
+        <Route path="/resetpassword" element={<ResetPassword />} />
 
           <Route element={<AdminRouteWrapper />}>
           </Route>
