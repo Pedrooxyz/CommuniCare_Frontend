@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch, FaCubes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';  // Importa o axios para fazer as requisições à API
+import { api } from '../../../utils/axios.js';
 import "./OutrosEmprestimos.css";
 
 // Importação das imagens
@@ -103,13 +103,20 @@ const ListaItems = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await axios.get('/api/ItensEmprestimos/Disponiveis');
-        console.log("Itens recebidos:", response.data); // Verifica a resposta da API
+        const token = localStorage.getItem('token'); 
+        const response = await api.get('/ItensEmprestimo/Disponiveis', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log("Itens recebidos:", response.data);
+        console.log("Resposta da API:", response); 
         setItems(response.data);
       } catch (error) {
         console.error('Erro ao buscar os itens disponíveis:', error);
       }
     };
+    console.log(localStorage.getItem('token'));
 
     fetchItems();
   }, []);

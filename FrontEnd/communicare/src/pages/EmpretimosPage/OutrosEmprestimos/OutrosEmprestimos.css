@@ -112,9 +112,10 @@
   
   .cards {
     display: flex;
-    column-gap: 30px;
-    padding-left: 50px;
-    padding-right: 50px;
+    flex-wrap: wrap; /* permite que os itens se movam para a linha seguinte quando necessário */
+    column-gap: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
     padding-bottom: 20px;
   }
   
@@ -123,9 +124,9 @@
     border-radius: 20px;
     padding: 15px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    width: 500px;
+    width: 480px;
     height: 650px;
-    
+    margin-bottom: 10px;
   }
   
   .userTitleOE{
