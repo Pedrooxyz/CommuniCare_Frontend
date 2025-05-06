@@ -51,25 +51,23 @@ function DadosAuthentication() {
 
     try {
 
-      
-      const response = await api.post("Utilizadores/Login", {
+      const response = await api.post("Utilizadores/login", {
         email,
         password,
       });
-
       
-      const { token, userId, userName, expiresIn } = response.data;
+      const { token, message } = response.data;
 
       
       localStorage.setItem("token", token);
-      localStorage.setItem("userId", userId);
+
+      /*localStorage.setItem("userId", userId);
       localStorage.setItem("userName", userName);
       localStorage.setItem("isLoggedIn", true);
       localStorage.setItem("tokenIssuedAt", Date.now());
-      localStorage.setItem("tokenExpiresIn", expiresIn);
+      localStorage.setItem("tokenExpiresIn", expiresIn);*/
 
-     
-      setPopupMessage("Login realizado com sucesso!");
+      setPopupMessage(message);
       setShowPopup(true);
 
       
