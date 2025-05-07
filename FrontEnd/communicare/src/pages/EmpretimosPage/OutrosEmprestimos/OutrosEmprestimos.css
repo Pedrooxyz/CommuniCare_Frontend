@@ -147,12 +147,14 @@
     
   }
   
-  .imgUsersOE{
-    object-fit: cover; /* garante que a imagem preencha o espaço sem distorcer */
-    border-radius: 50%; /* 100px funciona, mas 50% é mais semântico pra círculos */
+  .imgUsers {
+    object-fit: cover; /* Garante que a imagem preenche o espaço sem distorcer */
+    border-radius: 50%; /* Para formato circular */
     margin-left: 20px;
-    margin-left: 20px;
+    width: 70px; /* Tamanho fixo para garantir visibilidade */
+    height: 70px; /* Tamanho fixo */
   }
+  
   
   
   

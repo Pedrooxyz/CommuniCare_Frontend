@@ -66,7 +66,7 @@ const DetalhesItem = () => {
     const fetchFotoEmprestador = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await api.get(`/ItemEmprestimo/${id}/foto-emprestador`, {
+        const response = await api.get(`/ItensEmprestimo/${id}/foto-emprestador`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -98,6 +98,10 @@ const DetalhesItem = () => {
           <img
             className="imgUsers"
             src={fotoEmprestador}
+            onError={(e) => {
+              e.target.onerror = null; // Evita loop infinito se a suplente falhar
+              e.target.src = '../../../../assets/icon.jpg';
+            }}
             alt="User"
             width={70}
             height={70}
@@ -121,15 +125,6 @@ const DetalhesItem = () => {
         <div className="descricaoDetalhe">
           <p className="decriptionText">{item.descItem || "Sem descrição disponível."}</p>
         </div>
-
-        {item.detalhes && (
-          <>
-            <h3 className="h3Detalhes">Detalhes</h3>
-            <div className="boxDetalhes">
-              <pre className="detalhesText">{item.detalhes}</pre>
-            </div>
-          </>
-        )}
       </div>
     </div>
   );

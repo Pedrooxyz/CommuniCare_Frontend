@@ -45,7 +45,7 @@ const Search = () => {
   );
 };
 
-export const items = [
+/*export const items = [
   {
     id: 1,
     user: person7,
@@ -94,30 +94,49 @@ export const items = [
     * Aplicação: Cravar pregos, pequenos trabalhos de demolição
     * Peso total: 0,6 kg`
   }
-];
+];*/
 
 const ListaItems = () => {
   const [items, setItems] = useState([]);
+  const [fotosEmprestadores, setFotosEmprestadores] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const token = localStorage.getItem('token'); 
+        const token = localStorage.getItem('token');
         const response = await api.get('/ItensEmprestimo/Disponiveis', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         console.log("Itens recebidos:", response.data);
-        console.log("Resposta da API:", response); 
         setItems(response.data);
+
+        // Agora, buscar fotos dos emprestadores para cada item
+        response.data.forEach(async (item) => {
+          try {
+            const fotoResponse = await api.get(`/ItensEmprestimo/${item.itemId}/foto-emprestador`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+            const urlFoto = `http://localhost:5000/${fotoResponse.data}`;
+            setFotosEmprestadores(prev => ({
+              ...prev,
+              [item.itemId]: urlFoto
+            }));
+          } catch (error) {
+            console.error(`Erro ao buscar foto do emprestador para item ${item.itemId}:`, error);
+          }
+        });
+
       } catch (error) {
         console.error('Erro ao buscar os itens disponíveis:', error);
       }
     };
-    console.log(localStorage.getItem('token'));
 
+    console.log(localStorage.getItem('token'));
     fetchItems();
   }, []);
 
@@ -126,22 +145,35 @@ const ListaItems = () => {
       {items.map((item) => (
         <div className="card" key={item.itemId}>
           <div className="userTitleOE">
-            <img className="imgUsersOE" src={person7} width={70} height={70} alt={item.nomeItem} /> {/* Alterado para 'nomeItem' */}
-            <h2>{item.nomeItem}</h2> {/* Alterado para 'nomeItem' */}
+            <img
+              className="imgUsers"
+              src={fotosEmprestadores}
+              onError={(e) => {
+                e.target.onerror = null; 
+                e.target.src = '../../../../assets/icon.jpg';
+              }}
+              alt="User"
+              width={70}
+              height={70}
+            />
+            <h2>{item.nomeItem}</h2>
           </div>
-
-          <img className="imgItemOE" src={item.fotografiaItem || cortaRelva} alt={item.nomeItem} /> {/* Alterado para 'fotografiaItem' */}
-          <p>{item.descItem || "Sem descrição disponível."}</p> {/* Alterado para 'descItem' */}
-
+          <img className="imgItemOE" src={item.fotografiaItem} alt={item.nomeItem} /> 
+          <p>
+            {item.descItem || "Sem descrição disponível."}
+          </p>          
           <div className="infoItemOE">
             <span><FaCubes /> {item.disponivel}</span> {/* Alterado para 'disponivel' */}
-            <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}/h</span> {/* Alterado para 'comissaoCares' */}
+            <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}(h)</span> {/* Alterado para 'comissaoCares' */}
           </div>
-
           <div className="moreInfo">
             <button onClick={() => navigate(`/maisInfo/${item.itemId}`)}>Mais Informações</button>
+            
           </div>
+
         </div>
+        
+        
       ))}
     </div>
   );
