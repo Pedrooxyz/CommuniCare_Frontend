@@ -22,6 +22,7 @@ import MeusEmprestimos from "./pages/EmpretimosPage/MeusEmprestimos/MeusEmpresti
 
 import Loja from "./pages/Loja/Loja";
 import PublicarArtigo from "./pages/PublicarArtigoPage/PublicarArtigo";
+import DetalhesArtigo from "./pages/Loja/DetalhesArtigo/DetalhesArtigo";
 
 
 import AdminRouteWrapper from "./utils/authWrapperAdmin";
@@ -56,6 +57,7 @@ function App() {
         < Route path="/meusEmprestimos" element={<MeusEmprestimos />} />
         <Route path="/pedirEmprestimo" element={<PedirEmprestimo />} />
         <Route path="/loja" element={<Loja />} />
+        <Route path="/detalhesArtigo/:artigoId" element={<DetalhesArtigo />} />
 
           <Route element={<AdminRouteWrapper />}>
 

@@ -1,0 +1,107 @@
+.detalhes-container {
+    font-family: Arial, sans-serif;
+    background-color: #f5f0e9;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  
+  .detalhes-header-vol {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  .detalhes-ptext {
+    margin: 0;
+    font-weight: bold;
+  }
+  
+  .detalhes-imgHeaderVol {
+    border-radius: 50%;
+  }
+  
+  .detalhes-titulo-principal {
+    text-align: center;
+    font-size: 2em;
+    margin: 0 0 20px;
+    color: #333;
+  }
+  
+  .detalhes-card {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .detalhes-card h3 {
+    background-color: #f5e1e1;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 1.5em;
+    margin: 0 0 15px;
+  }
+  
+  .detalhes-img-artigo {
+    margin-bottom: 15px;
+  }
+  
+  .detalhes-img-artigo img {
+    max-width: 100%;
+    border-radius: 10px;
+  }
+  
+  .detalhes-no-img {
+    display: inline-block;
+    padding: 10px;
+    background-color: #fff5f5;
+    border-radius: 10px;
+  }
+  
+  .detalhes-descricao-artigo {
+    background-color: #fff5f5;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 1em;
+    line-height: 1.5;
+  }
+  
+  .detalhes-custo-artigo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin: 10px 0;
+  }
+  
+  .detalhes-custo-artigo .detalhes-icon {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .detalhes-botao-comprar {
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+  }
+  
+  .detalhes-botao-comprar:hover {
+    background-color: #e65a50;
+  }

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./Loja.css";
-import person1 from '../../assets/person1.jpg';
-import cares from '../../assets/Cares.png';  // Ícone de Cares
-import { api } from '../../utils/axios.js';
-import { useNavigate } from 'react-router-dom';
+import person1 from "../../assets/person1.jpg";
+import cares from "../../assets/Cares.png"; // Ícone de Cares
+import { api } from "../../utils/axios.js";
+import { useNavigate } from "react-router-dom";
 
 const HeaderProfileCares = () => {
   return (
@@ -24,16 +24,16 @@ function Loja() {
     const fetchArtigos = async () => {
       setIsLoading(true);
       try {
-        const token = localStorage.getItem('token');
-        const response = await api.get('Artigos/Disponiveis', {
+        const token = localStorage.getItem("token");
+        const response = await api.get("Artigos/Disponiveis", {
           headers: {
-            'Authorization': `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
         setArtigos(response.data);
       } catch (error) {
-        console.error('Erro ao carregar artigos:', error);
-        alert('Erro ao carregar artigos da loja.');
+        console.error("Erro ao carregar artigos:", error);
+        alert("Erro ao carregar artigos da loja.");
       } finally {
         setIsLoading(false);
       }
@@ -47,9 +47,13 @@ function Loja() {
     // Aqui poderás redirecionar ou chamar outra API de compra se quiseres
   };
 
+  const handleMaisDetalhes = (artigoId) => {
+    navigate(`/detalhesArtigo/${artigoId}`);
+  };
+
   // Função para redirecionar para a página de publicação de artigo
   const handleNovoArtigo = () => {
-    navigate('/publicarartigo');
+    navigate("/publicarartigo");
   };
 
   return (
@@ -63,9 +67,9 @@ function Loja() {
         <div className="conteudo-loja">
           {artigos.map((artigo) => (
             <div key={artigo.artigoId} className="card-artigo">
-              <h3>{artigo.nomeArtigo}</h3>  
+              <h3>{artigo.nomeArtigo}</h3>
               <div className="img-artigo">
-                {artigo.fotografiaArt !== 'string' && artigo.fotografiaArt ? (
+                {artigo.fotografiaArt !== "string" && artigo.fotografiaArt ? (
                   <img src={`data:image/jpeg;base64,${artigo.fotografiaArt}`} alt={artigo.nomeArtigo} />
                 ) : (
                   <span className="no-img">Sem imagem</span>
@@ -78,9 +82,14 @@ function Loja() {
                 <strong>{artigo.custoCares}</strong>
               </div>
 
-              <button className="botao-comprar" onClick={() => handleComprar(artigo.artigoId)}>
-                Comprar
-              </button>
+              <div className="botoes-artigo">
+                <button className="botao-mais-detalhes" onClick={() => handleMaisDetalhes(artigo.artigoId)}>
+                  Mais Detalhes
+                </button>
+                <button className="botao-comprar" onClick={() => handleComprar(artigo.artigoId)}>
+                  Comprar
+                </button>
+              </div>
             </div>
           ))}
 
