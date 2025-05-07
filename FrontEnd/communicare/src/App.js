@@ -17,6 +17,7 @@ import PedirVoluntariado from "./pages/VoluntariadosPage/PedirVoluntariado/Pedir
 import PedirEmprestimo from "./pages/EmpretimosPage/PedirEmprestimo/PedirEmprestimo";
 
 import Loja from "./pages/Loja/Loja";
+import PublicarArtigo from "./pages/PublicarArtigoPage/PublicarArtigo";
 
 
 import AdminRouteWrapper from "./utils/authWrapperAdmin";
@@ -50,6 +51,9 @@ function App() {
         <Route path="/loja" element={<Loja />} />
 
           <Route element={<AdminRouteWrapper />}>
+
+          <Route path="/publicarartigo" element={<PublicarArtigo />} />  
+
           </Route>
           
         </Route>

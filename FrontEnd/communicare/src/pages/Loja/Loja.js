@@ -3,7 +3,6 @@ import "./Loja.css";
 import person1 from '../../assets/person1.jpg';
 import cares from '../../assets/Cares.png';
 import { api } from '../../utils/axios.js';
-
 import { useNavigate } from 'react-router-dom';
 
 const HeaderProfileCares = () => {
@@ -26,7 +25,7 @@ function Loja() {
       setIsLoading(true);
       try {
         const token = localStorage.getItem('token');
-        const response = await api.get('ArtigosLoja/ListarArtigos', {
+        const response = await api.get('ArtigosLoja/Disponiveis', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -61,7 +60,10 @@ function Loja() {
             <div key={artigo.artigoId} className="card-artigo">
               <div className="img-artigo">
                 {artigo.fotografiaArt !== 'string' && artigo.fotografiaArt ? (
-                  <img src={`data:image/jpeg;base64,${artigo.fotografiaArt}`} alt={artigo.nomeArtigo} />
+                  <img
+                    src={`data:image/jpeg;base64,${artigo.fotografiaArt}`}
+                    alt={artigo.nomeArtigo}
+                  />
                 ) : (
                   <span className="no-img">Sem imagem</span>
                 )}
