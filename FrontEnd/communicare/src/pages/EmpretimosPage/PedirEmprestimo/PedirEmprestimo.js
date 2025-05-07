@@ -4,7 +4,7 @@ import person1 from '../../../assets/person1.jpg';
 import cares from '../../../assets/Cares.png';
 import { api } from '../../../utils/axios.js';
 
-import { useNavigate } from 'react-router-dom'; // Para navegação após sucesso
+import { useNavigate } from 'react-router-dom'; 
 
 const HeaderProfileCares = () => {
   return (
@@ -88,7 +88,7 @@ function PedirEmprestimo() {
       });
   
       if (response.status === 200) {
-        alert(response.data.mensagem);
+        alert(response.data);
         setTitulo("");
         setDetalhes("");
         setData("");
@@ -101,6 +101,7 @@ function PedirEmprestimo() {
       } else {
         alert('Erro ao enviar o pedido: ' + response.data.mensagem);
       }
+      console.log('Resposta do servidor:', response.data);
       
     } catch (error) {
       console.error('Erro ao enviar o pedido:', error);
