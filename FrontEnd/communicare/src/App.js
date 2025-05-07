@@ -18,6 +18,8 @@ import Notificacoes from "./pages/NotificacoesPage/Notificacoes";
 import PedirVoluntariado from "./pages/VoluntariadosPage/PedirVoluntariado/PedirVoluntariado";
 import PedirEmprestimo from "./pages/EmpretimosPage/PedirEmprestimo/PedirEmprestimo";
 
+import MeusEmprestimos from "./pages/EmpretimosPage/MeusEmprestimos/MeusEmprestimoPage"
+
 import Loja from "./pages/Loja/Loja";
 import PublicarArtigo from "./pages/PublicarArtigoPage/PublicarArtigo";
 
@@ -51,6 +53,7 @@ function App() {
         <Route path="/notificacoes" element={<Notificacoes />} />
 
         <Route path="/pedirVoluntariado" element={<PedirVoluntariado />} />  
+        < Route path="/meusEmprestimos" element={<MeusEmprestimos />} />
         <Route path="/pedirEmprestimo" element={<PedirEmprestimo />} />
         <Route path="/loja" element={<Loja />} />
 
