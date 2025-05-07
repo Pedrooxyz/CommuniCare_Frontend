@@ -74,7 +74,7 @@ function PublicarArtigo() {
         setImagemBase64("");
         setCustoCares("");
         setQuantidade("");
-        navigate("/MeusArtigos");
+        navigate("/loja");
       } else {
         alert("Erro: " + response.data.mensagem);
       }
