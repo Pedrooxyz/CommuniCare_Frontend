@@ -11,13 +11,15 @@ import OutrosVoluntariados from "./pages/VoluntariadosPage/OutrosPedidosPage/Out
 
 import OutrosEmprestimos from "./pages/EmpretimosPage/OutrosEmprestimos/OutrosEmprestimos";
 import MaisInformacoes from "./pages/EmpretimosPage/OutrosEmprestimos/MaisInformacoes/MaisInformacoes";
+import PendentesEmprestimos from "./pages/EmpretimosPage/PendentesEmprestimos/PendentesEmprestimos";
+import PendentesMaisInformacoes from "./pages/EmpretimosPage/PendentesEmprestimos/MaisInformacoes/PendentesMaisInformacoes";
 
 import Notificacoes from "./pages/NotificacoesPage/Notificacoes";
 
 import AdminRouteWrapper from "./utils/authWrapperAdmin";
 import AuthWrapper from "./utils/authWrapper";
 
-
+     
 function App() {
   return (
     <BrowserRouter>
@@ -31,7 +33,8 @@ function App() {
 
         < Route path="/outrosEmprestimos" element={<OutrosEmprestimos />} />
         < Route path="/maisInfo/:id" element={<MaisInformacoes />} />
-
+        < Route path="/pendentesEmprestimos" element={<PendentesEmprestimos />} />
+        < Route path="/pendentesMaisInformacoes/:id" element={<PendentesMaisInformacoes />} />
 
         <Route element={<AuthWrapper />}>
 
