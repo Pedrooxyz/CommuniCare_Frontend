@@ -16,6 +16,8 @@ import Notificacoes from "./pages/NotificacoesPage/Notificacoes";
 import PedirVoluntariado from "./pages/VoluntariadosPage/PedirVoluntariado/PedirVoluntariado";
 import PedirEmprestimo from "./pages/EmpretimosPage/PedirEmprestimo/PedirEmprestimo";
 
+import Loja from "./pages/Loja/Loja";
+
 
 import AdminRouteWrapper from "./utils/authWrapperAdmin";
 import AuthWrapper from "./utils/authWrapper";
@@ -45,6 +47,7 @@ function App() {
 
         <Route path="/pedirVoluntariado" element={<PedirVoluntariado />} />  
         <Route path="/pedirEmprestimo" element={<PedirEmprestimo />} />
+        <Route path="/loja" element={<Loja />} />
 
           <Route element={<AdminRouteWrapper />}>
           </Route>
