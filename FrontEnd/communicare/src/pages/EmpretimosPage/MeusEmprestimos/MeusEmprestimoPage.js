@@ -19,6 +19,38 @@ const HeaderProfileCares = () => {
 };
 
 const Search = () => {
+  const navigate = useNavigate();
+  const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null); 
+  
+  const verificarTipoUtilizador = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await api.get("/Utilizadores/VerificarAdmin", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setUserTipoUtilizadorId(response.data); 
+    } catch (error) {
+      console.error("Erro ao verificar o tipo de utilizador", error);
+      setUserTipoUtilizadorId(false); // Caso ocorra erro, tratamos como não admin
+    }
+  };
+
+  // Carregar o tipo de utilizador ao montar o componente
+  useEffect(() => {
+    verificarTipoUtilizador(); // Verifica o tipo de utilizador assim que o componente for montado
+  }, []);
+
+  const handleClickPendentes = () => {
+    if (userTipoUtilizadorId === true) {
+      navigate("/PendentesEmprestimos"); // Navega para a página desejada
+    } else {
+      alert("Apenas administradores podem aceder a esta página!");
+    }
+  };
+
   return (
     <div>
       <div className="mainName">
@@ -26,8 +58,16 @@ const Search = () => {
       </div>
       <div className="tabs">
         <div className="choose">
-          <button className="tab active">Meus Empréstimos</button>
-          <button className="tab">Outros Empréstimos</button>
+        <button className="tab" onClick={() => navigate("/meusEmprestimos")}>
+            Meus Empréstimos
+          </button>
+          <button className="tab active" onClick={() => navigate("/outrosEmprestimos")}>Outros Emprestimos</button>
+          {/* Condição para mostrar o botão "Empréstimos Pendentes" apenas se o TipoUtilizadorId for admin */}
+          {userTipoUtilizadorId === true && (
+            <button className="tab" onClick={handleClickPendentes}>
+              Empréstimos Pendentes
+            </button>
+          )}
         </div>
         <div className="search-wrapper">
           <input type="text" placeholder="Pesquisar..." className="search" />
