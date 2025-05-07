@@ -1,67 +1,123 @@
 .container-loja {
-    padding: 1rem;
-  }
-  
-  .titulo-principal {
-    text-align: center;
-    color: #333;
-    margin-bottom: 1rem;
-  }
-  
-  .conteudo-loja {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-  }
-  
-  .card-artigo {
-    background-color: #fff;
-    border-radius: 8px;
-    width: 220px;
-    padding: 1rem;
-    box-shadow: 0 0 6px rgba(0,0,0,0.1);
-    text-align: center;
-  }
-  
-  .img-artigo {
-    height: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 0.5rem;
-  }
-  
-  .img-artigo img {
-    max-height: 100%;
-    max-width: 100%;
-    border-radius: 4px;
-  }
-  
-  .no-img {
-    background-color: #eee;
-    padding: 1rem;
-    border-radius: 4px;
-    color: #777;
-  }
-  
-  .descricao-artigo {
-    font-size: 0.9rem;
-    color: #555;
-    min-height: 40px;
-  }
-  
-  .botao-comprar {
-    margin-top: 0.5rem;
-    background-color: #0077cc;
-    color: white;
-    border: none;
-    padding: 0.4rem 0.8rem;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .botao-comprar:hover {
-    background-color: #005fa3;
-  }
-  
+  padding: 1rem;
+  margin-top: 2rem; /* Adicionando margem no topo da página */
+}
+
+.titulo-principal {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1.5rem; /* Aumentar a margem inferior para dar mais espaço */
+}
+
+.conteudo-loja {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem; /* Aumentando o espaçamento entre os cards */
+}
+
+.card-artigo {
+  background-color: #fff;
+  border-radius: 8px;
+  width: 260px; /* Aumentando a largura dos cards */
+  padding: 1rem;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-top: 1rem; /* Adicionando margem superior para os cards não ficarem colados ao topo */
+}
+
+.img-artigo {
+  height: 180px; /* Aumentando a altura da imagem */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem; /* Adicionando mais espaço entre a imagem e a descrição */
+}
+
+.img-artigo img {
+  max-height: 100%;
+  max-width: 100%;
+  border-radius: 4px;
+}
+
+.no-img {
+  background-color: #eee;
+  padding: 1rem;
+  border-radius: 4px;
+  color: #777;
+}
+
+.descricao-artigo {
+  font-size: 0.9rem;
+  color: #555;
+  min-height: 40px;
+  margin-bottom: 1rem; /* Espaço abaixo da descrição */
+}
+
+.custo-artigo {
+  font-size: 1.2rem;
+  color: #0077cc;
+  font-weight: bold;
+  margin: 1rem 0;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem; /* Espaço entre o ícone e o texto */
+}
+
+.custo-artigo .icon {
+  width: 20px; /* Ajusta o tamanho do ícone */
+  height: 20px; /* Ajusta o tamanho do ícone */
+}
+
+.botao-comprar {
+  margin-top: 0.5rem;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.botao-comprar:hover {
+  background-color: #005fa3;
+}
+
+/* Estilo para o card de "Publicar novo artigo" */
+.novo-artigo {
+  background-color: #fff; /* Mantendo a mesma cor de fundo */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  color: #0077cc;
+  border-radius: 8px; /* Mantendo o mesmo arredondamento */
+  padding: 1rem;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1); /* Mesmo estilo de sombra */
+  text-align: center;
+  width: 260px; /* Mantendo o mesmo tamanho que os outros cards */
+  height: 250px; /* Mesmo tamanho de altura */
+}
+
+.titulo-novo-artigo {
+  font-size: 1.2rem;
+  color: #0077cc;
+  font-weight: bold;
+  margin-bottom: 10px; /* Espaçamento entre o título e o ícone */
+  text-align: center;
+}
+
+.icone-plus {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Preenche todo o card */
+}
+
+.icone-plus h3 {
+  font-size: 4rem;
+  margin: 0;
+}
