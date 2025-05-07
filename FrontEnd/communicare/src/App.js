@@ -11,6 +11,8 @@ import OutrosVoluntariados from "./pages/VoluntariadosPage/OutrosPedidosPage/Out
 
 import OutrosEmprestimos from "./pages/EmpretimosPage/OutrosEmprestimos/OutrosEmprestimos";
 import MaisInformacoes from "./pages/EmpretimosPage/OutrosEmprestimos/MaisInformacoes/MaisInformacoes";
+import PendentesEmprestimos from "./pages/EmpretimosPage/PendentesEmprestimos/PendentesEmprestimos";
+import PendentesMaisInformacoes from "./pages/EmpretimosPage/PendentesEmprestimos/MaisInformacoes/PendentesMaisInformacoes";
 
 import Notificacoes from "./pages/NotificacoesPage/Notificacoes";
 import PedirVoluntariado from "./pages/VoluntariadosPage/PedirVoluntariado/PedirVoluntariado";
@@ -37,6 +39,8 @@ function App() {
 
         < Route path="/outrosEmprestimos" element={<OutrosEmprestimos />} />
         < Route path="/maisInfo/:id" element={<MaisInformacoes />} />
+        < Route path="/pendentesEmprestimos" element={<PendentesEmprestimos />} />
+        < Route path="/pendentesMaisInformacoes/:id" element={<PendentesMaisInformacoes />} />
 
         <Route path="/resetpassword" element={<ResetPassword />} />
 
