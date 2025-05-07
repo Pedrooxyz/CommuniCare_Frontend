@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { FaSearch, FaCubes, FaEdit, FaTrash } from "react-icons/fa";
 import { api } from "../../../utils/axios.js";
@@ -39,6 +40,7 @@ const Search = () => {
 
 const ListaItems = () => {
   const [items, setItems] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -64,6 +66,13 @@ const ListaItems = () => {
 
   return (
     <div className="cards">
+      
+    <div className="card adicionar-card" onClick={() => navigate("/pedirEmprestimo")} style={{ cursor: "pointer" }}>
+      <div className="TitleOE">
+        <h2>Adicionar Item</h2>
+      </div>
+      <div className="adicionarIcon" style={{ fontSize: "100px", textAlign: "center", marginTop: "190px" }}>+</div>
+    </div>
       {items.map((item) => (
         <div className="card" key={item.itemId}>
           <div className="TitleOE">
