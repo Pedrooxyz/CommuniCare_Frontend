@@ -1,0 +1,150 @@
+.container-loja {
+    padding: 1rem;
+    margin-top: 2rem; /* Adicionando margem no topo da página */
+  }
+  
+  .titulo-principal {
+    text-align: center;
+    color: #333;
+    margin-bottom: 3rem; /* Aumentando a margem inferior para dar mais espaço entre o título e os artigos */
+  }
+  
+  .conteudo-loja {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem; /* Aumentando o espaçamento entre os cards */
+  }
+  
+  .card-artigo {
+    background-color: #fff;
+    border-radius: 8px;
+    width: 260px; /* Aumentando a largura dos cards */
+    padding: 1rem;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-top: 1rem; /* Adicionando margem superior para os cards não ficarem colados ao topo */
+  }
+  
+  .img-artigo {
+    width: 220px; /* Definindo uma largura fixa */
+    height: 180px; /* Mantendo a altura fixa */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem; /* Adicionando mais espaço entre a imagem e o custo */
+  }
+  
+  .img-artigo img {
+    width: 100%; /* A imagem ocupa toda a largura do contêiner */
+    height: 100%; /* A imagem ocupa toda a altura do contêiner */
+    object-fit: contain; /* Mantém a proporção da imagem sem distorção */
+    border-radius: 4px;
+  }
+  
+  .no-img {
+    width: 100%; /* Ocupa toda a largura do contêiner */
+    height: 100%; /* Ocupa toda a altura do contêiner */
+    background-color: #eee;
+    padding: 1rem;
+    border-radius: 4px;
+    color: #777;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+  }
+  
+  .custo-artigo {
+    font-size: 1.2rem;
+    color: #0077cc;
+    font-weight: bold;
+    margin: 1rem 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem; /* Espaço entre o ícone e o texto */
+  }
+  
+  .custo-artigo .icon {
+    width: 20px; /* Ajusta o tamanho do ícone */
+    height: 20px; /* Ajusta o tamanho do ícone */
+  }
+  
+  .botoes-artigo {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  
+  .botao-mais-detalhes {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 0.4rem 0.8rem; /* Reduzindo o tamanho do botão */
+    border-radius: 20px; /* Arredondando mais as bordas */
+    cursor: pointer;
+    flex: 1;
+    font-size: 0.85rem; /* Ajustando o tamanho da fonte */
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+  }
+  
+  .botao-mais-detalhes:hover {
+    background-color: #e0e0e0;
+    transform: scale(1.02);
+  }
+  
+  .botao-comprar {
+    margin-top: 0;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    padding: 0.4rem 0.8rem; /* Reduzindo o tamanho do botão */
+    border-radius: 20px; /* Arredondando mais as bordas para combinar */
+    cursor: pointer;
+    flex: 1;
+    font-size: 0.85rem; /* Ajustando o tamanho da fonte */
+  }
+  
+  .botao-comprar:hover {
+    background-color: #005fa3;
+  }
+  
+  /* Estilo para o card de "Publicar novo artigo" */
+  .novo-artigo {
+    background-color: #fff; /* Mantendo a mesma cor de fundo */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color: #0077cc;
+    border-radius: 8px; /* Mantendo o mesmo arredondamento */
+    padding: 1rem;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1); /* Mesmo estilo de sombra */
+    text-align: center;
+    width: 260px; /* Mantendo o mesmo tamanho que os outros cards */
+    height: 250px; /* Mesmo tamanho de altura */
+  }
+  
+  .titulo-novo-artigo {
+    font-size: 1.2rem;
+    color: #0077cc;
+    font-weight: bold;
+    margin-bottom: 10px; /* Espaçamento entre o título e o ícone */
+    text-align: center;
+  }
+  
+  .icone-plus {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Preenche todo o card */
+  }
+  
+  .icone-plus h3 {
+    font-size: 4rem;
+    margin: 0;
+  }

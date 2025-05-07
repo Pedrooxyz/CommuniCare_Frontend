@@ -6,11 +6,15 @@ import person1 from "../../../assets/person1.jpg";
 import cares from "../../../assets/Cares.png";
 
 const HeaderProfileCares = () => {
+  const navigate = useNavigate();
+  
   return (
     <header className="detalhes-header-vol">
-      <p className="detalhes-ptext">1000</p>
-      <img className="detalhes-imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
-      <img className="detalhes-imgHeaderVol" src={person1} width={60} height={60} alt="Person" />
+      <div className="detalhes-header-right">
+        <p className="detalhes-ptext">1000</p>
+        <img className="detalhes-imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
+        <img className="detalhes-imgHeaderVol" src={person1} width={60} height={60} alt="Person" />
+      </div>
     </header>
   );
 };
@@ -26,7 +30,14 @@ const DetalhesArtigo = () => {
       setIsLoading(true);
       try {
         const token = localStorage.getItem("token");
-        const response = await api.get(`Artigos/Disponiveis/${artigoId}`, {
+        console.log("Token:", token);
+        if (!token) {
+          alert("Você precisa estar autenticado para acessar os detalhes do artigo.");
+          navigate("/login");
+          return;
+        }
+
+        const response = await api.get(`Artigos/${artigoId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -34,26 +45,25 @@ const DetalhesArtigo = () => {
         setArtigo(response.data);
       } catch (error) {
         console.error("Erro ao carregar detalhes do artigo:", error);
-        alert("Erro ao carregar detalhes do artigo.");
+        alert("Erro ao carregar detalhes do artigo. Verifique se o artigo existe.");
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchArtigo();
-  }, [artigoId]);
+  }, [artigoId, navigate]);
 
   const handleComprar = () => {
     alert(`Comprar artigo ID: ${artigoId}`);
-    // Aqui pode-se redirecionar ou chamar outra API de compra
   };
 
   if (isLoading) {
-    return <p>A carregar detalhes...</p>;
+    return <p className="detalhes-loading">A carregar detalhes...</p>;
   }
 
   if (!artigo) {
-    return <p>Artigo não encontrado.</p>;
+    return <p className="detalhes-error">Artigo não encontrado.</p>;
   }
 
   return (
@@ -61,7 +71,7 @@ const DetalhesArtigo = () => {
       <HeaderProfileCares />
       <h1 className="detalhes-titulo-principal">Detalhes do Artigo</h1>
       <div className="detalhes-card">
-        <h3>{artigo.nomeArtigo}</h3>
+        <h3 className="detalhes-titulo-artigo">{artigo.nomeArtigo}</h3>
         <div className="detalhes-img-artigo">
           {artigo.fotografiaArt && artigo.fotografiaArt !== "string" ? (
             <img src={`data:image/jpeg;base64,${artigo.fotografiaArt}`} alt={artigo.nomeArtigo} />

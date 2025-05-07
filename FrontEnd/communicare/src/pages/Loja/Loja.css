@@ -6,7 +6,7 @@
 .titulo-principal {
   text-align: center;
   color: #333;
-  margin-bottom: 1.5rem; /* Aumentar a margem inferior para dar mais espaço */
+  margin-bottom: 3rem; /* Aumentando a margem inferior para dar mais espaço entre o título e os artigos */
 }
 
 .conteudo-loja {
@@ -27,31 +27,32 @@
 }
 
 .img-artigo {
-  height: 180px; /* Aumentando a altura da imagem */
+  width: 220px; /* Definindo uma largura fixa */
+  height: 180px; /* Mantendo a altura fixa */
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1rem; /* Adicionando mais espaço entre a imagem e a descrição */
+  margin-bottom: 1rem; /* Adicionando mais espaço entre a imagem e o custo */
 }
 
 .img-artigo img {
-  max-height: 100%;
-  max-width: 100%;
+  width: 100%; /* A imagem ocupa toda a largura do contêiner */
+  height: 100%; /* A imagem ocupa toda a altura do contêiner */
+  object-fit: contain; /* Mantém a proporção da imagem sem distorção */
   border-radius: 4px;
 }
 
 .no-img {
+  width: 100%; /* Ocupa toda a largura do contêiner */
+  height: 100%; /* Ocupa toda a altura do contêiner */
   background-color: #eee;
   padding: 1rem;
   border-radius: 4px;
   color: #777;
-}
-
-.descricao-artigo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 0.9rem;
-  color: #555;
-  min-height: 40px;
-  margin-bottom: 1rem; /* Espaço abaixo da descrição */
 }
 
 .custo-artigo {

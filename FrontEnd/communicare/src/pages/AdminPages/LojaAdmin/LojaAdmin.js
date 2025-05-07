@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "./Loja.css";
-import person1 from "../../assets/person1.jpg";
-import cares from "../../assets/Cares.png"; // Ícone de Cares
-import { api } from "../../utils/axios.js";
+import "./LojaAdmin.css";
+import person1 from "../../../assets/person1.jpg";
+import cares from "../../../assets/Cares.png"; // Ícone de Cares
+import { api } from "../../../utils/axios.js";
 import { useNavigate } from "react-router-dom";
 
 const HeaderProfileCares = () => {
@@ -51,6 +51,11 @@ function Loja() {
     navigate(`/detalhesArtigo/${artigoId}`);
   };
 
+  // Função para redirecionar para a página de publicação de artigo
+  const handleNovoArtigo = () => {
+    navigate("/publicarartigo");
+  };
+
   return (
     <div className="container-loja">
       <HeaderProfileCares />
@@ -85,6 +90,14 @@ function Loja() {
               </div>
             </div>
           ))}
+
+          {/* Card para publicar novo artigo */}
+          <div className="card-artigo novo-artigo" onClick={handleNovoArtigo}>
+            <p className="titulo-novo-artigo">Publicar novo artigo</p>
+            <div className="icone-plus">
+              <h3>+</h3>
+            </div>
+          </div>
         </div>
       )}
     </div>
