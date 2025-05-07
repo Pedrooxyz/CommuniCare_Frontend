@@ -14,17 +14,81 @@ import cortaRelva from '../../../assets/cortaRelva.jpg';
 import compressor from '../../../assets/compressor.jpg';
 
 const HeaderProfileCares = () => {
+  const [userInfo, setUserInfo] = useState(null);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await api.get('/Utilizadores/InfoUtilizador', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log("User info recebida:", response.data);
+        setUserInfo(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar info do utilizador:", error);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
+
   return (
     <header>
-      <p>100</p>
+      <p style={{ textAlign: "center" }}>
+        {userInfo ? userInfo.numCares : "..."}
+      </p>      
+
       <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
-      <img className="imgHeaderVol" src={person1} width={60} height={60} alt="Person" />
+      <img
+        className="imgHeaderVol"
+        src={userInfo ? `http://localhost:5000/${userInfo.fotoUtil}` : '../../../../assets/icon.jpg'}
+        width={60}
+        height={60}
+        alt="User"
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = '../../../../assets/icon.jpg'; // Fallback caso a imagem não exista
+        }}
+      />
     </header>
   );
 };
 
 const Search = () => {
-  const navigate = useNavigate(); // inicialização do navigate
+  const navigate = useNavigate();
+  const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null); 
+  
+  const verificarTipoUtilizador = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await api.get("/Utilizadores/VerificarAdmin", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setUserTipoUtilizadorId(response.data); 
+    } catch (error) {
+      console.error("Erro ao verificar o tipo de utilizador", error);
+      setUserTipoUtilizadorId(false); // Caso ocorra erro, tratamos como não admin
+    }
+  };
+
+  // Carregar o tipo de utilizador ao montar o componente
+  useEffect(() => {
+    verificarTipoUtilizador(); // Verifica o tipo de utilizador assim que o componente for montado
+  }, []);
+
+  const handleClickPendentes = () => {
+    if (userTipoUtilizadorId === true) {
+      navigate("/PendentesEmprestimos"); // Navega para a página desejada
+    } else {
+      alert("Apenas administradores podem aceder a esta página!");
+    }
+  };
 
   return (
     <div>
@@ -33,15 +97,15 @@ const Search = () => {
       </div>
       <div className="tabs">
         <div className="choose">
-        <button className="tab">
-          Meus Empréstimos
-        </button>
-        <button className="tab" onClick={() => navigate("/outrosEmprestimos")}>
-         Outros Empréstimos
-        </button>
-        <button className="tab active">
-          Empréstimos Pendentes
-        </button>         
+          <button className="tab" onClick={() => navigate("/meusEmprestimos")}>
+            Meus Empréstimos
+          </button>
+          <button className="tab" onClick={() => navigate("/outrosEmprestimos")}>Outros Emprestimos</button>
+          {userTipoUtilizadorId === true && (
+            <button className="tab active" onClick={handleClickPendentes}>
+              Empréstimos Pendentes
+            </button>
+          )}          
         </div>
         <div className="search-wrapper">
           <input type="text" placeholder="Pesquisar..." className="search" />

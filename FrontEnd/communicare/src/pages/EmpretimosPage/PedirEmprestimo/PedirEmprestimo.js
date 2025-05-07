@@ -6,11 +6,45 @@ import { api } from '../../../utils/axios.js';
 import { useNavigate } from 'react-router-dom';
 
 const HeaderProfileCares = () => {
+  const [userInfo, setUserInfo] = useState(null);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await api.get('/Utilizadores/InfoUtilizador', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log("User info recebida:", response.data);
+        setUserInfo(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar info do utilizador:", error);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
+
   return (
-    <header className="header-vol">
-      <p>100</p>
+    <header>
+      <p style={{ textAlign: "center" }}>
+        {userInfo ? userInfo.numCares : "..."}
+      </p>      
+
       <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
-      <img className="imgHeaderVol profile-pic" src={person1} width={60} height={60} alt="Person" />
+      <img
+        className="imgHeaderVol"
+        src={userInfo ? `http://localhost:5000/${userInfo.fotoUtil}` : '../../../../assets/icon.jpg'}
+        width={60}
+        height={60}
+        alt="User"
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = '../../../../assets/icon.jpg'; // Fallback caso a imagem não exista
+        }}
+      />
     </header>
   );
 };

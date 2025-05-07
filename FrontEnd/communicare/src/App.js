@@ -13,12 +13,13 @@ import OutrosEmprestimos from "./pages/EmpretimosPage/OutrosEmprestimos/OutrosEm
 import MaisInformacoes from "./pages/EmpretimosPage/OutrosEmprestimos/MaisInformacoes/MaisInformacoes";
 import PendentesEmprestimos from "./pages/EmpretimosPage/PendentesEmprestimos/PendentesEmprestimos";
 import PendentesMaisInformacoes from "./pages/EmpretimosPage/PendentesEmprestimos/MaisInformacoes/PendentesMaisInformacoes";
+import MeusEmprestimos from "./pages/EmpretimosPage/MeusEmprestimos/MeusEmprestimoPage"
+import PedirEmprestimo from "./pages/EmpretimosPage/PedirEmprestimo/PedirEmprestimo";
+
 
 import Notificacoes from "./pages/NotificacoesPage/Notificacoes";
 import PedirVoluntariado from "./pages/VoluntariadosPage/PedirVoluntariado/PedirVoluntariado";
-import PedirEmprestimo from "./pages/EmpretimosPage/PedirEmprestimo/PedirEmprestimo";
 
-import MeusEmprestimos from "./pages/EmpretimosPage/MeusEmprestimos/MeusEmprestimoPage"
 
 import Loja from "./pages/Loja/Loja";
 import PublicarArtigo from "./pages/PublicarArtigoPage/PublicarArtigo";
@@ -44,6 +45,8 @@ function App() {
         < Route path="/maisInfo/:id" element={<MaisInformacoes />} />
         < Route path="/pendentesEmprestimos" element={<PendentesEmprestimos />} />
         < Route path="/pendentesMaisInformacoes/:id" element={<PendentesMaisInformacoes />} />
+        < Route path="/meusEmprestimos" element={<MeusEmprestimos />} />
+        <Route path="/pedirEmprestimo" element={<PedirEmprestimo />} />
 
         <Route path="/resetpassword" element={<ResetPassword />} />
 
@@ -54,8 +57,7 @@ function App() {
         <Route path="/notificacoes" element={<Notificacoes />} />
 
         <Route path="/pedirVoluntariado" element={<PedirVoluntariado />} />  
-        < Route path="/meusEmprestimos" element={<MeusEmprestimos />} />
-        <Route path="/pedirEmprestimo" element={<PedirEmprestimo />} />
+
         <Route path="/loja" element={<Loja />} />
         <Route path="/detalhesArtigo/:artigoId" element={<DetalhesArtigo />} />
 

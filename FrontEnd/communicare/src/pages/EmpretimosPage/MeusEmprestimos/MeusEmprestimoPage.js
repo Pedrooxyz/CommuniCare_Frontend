@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { FaSearch, FaCubes, FaEdit, FaTrash } from "react-icons/fa";
 import { api } from "../../../utils/axios.js";
@@ -6,7 +7,6 @@ import "./MeusEmprestimosPage.css";
 import person1 from "../../../assets/person1.jpg";
 import cares from "../../../assets/Cares.png";
 import cortaRelva from "../../../assets/cortaRelva.jpg";
-import compressor from "../../../assets/compressor.jpg";
 
 const HeaderProfileCares = () => {
   return (
@@ -19,6 +19,38 @@ const HeaderProfileCares = () => {
 };
 
 const Search = () => {
+  const navigate = useNavigate();
+  const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null); 
+  
+  const verificarTipoUtilizador = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await api.get("/Utilizadores/VerificarAdmin", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setUserTipoUtilizadorId(response.data); 
+    } catch (error) {
+      console.error("Erro ao verificar o tipo de utilizador", error);
+      setUserTipoUtilizadorId(false); // Caso ocorra erro, tratamos como não admin
+    }
+  };
+
+  // Carregar o tipo de utilizador ao montar o componente
+  useEffect(() => {
+    verificarTipoUtilizador(); // Verifica o tipo de utilizador assim que o componente for montado
+  }, []);
+
+  const handleClickPendentes = () => {
+    if (userTipoUtilizadorId === true) {
+      navigate("/PendentesEmprestimos"); // Navega para a página desejada
+    } else {
+      alert("Apenas administradores podem aceder a esta página!");
+    }
+  };
+
   return (
     <div>
       <div className="mainName">
@@ -26,8 +58,16 @@ const Search = () => {
       </div>
       <div className="tabs">
         <div className="choose">
-          <button className="tab active">Meus Empréstimos</button>
-          <button className="tab">Outros Empréstimos</button>
+        <button className="tab" onClick={() => navigate("/meusEmprestimos")}>
+            Meus Empréstimos
+          </button>
+          <button className="tab active" onClick={() => navigate("/outrosEmprestimos")}>Outros Emprestimos</button>
+          {/* Condição para mostrar o botão "Empréstimos Pendentes" apenas se o TipoUtilizadorId for admin */}
+          {userTipoUtilizadorId === true && (
+            <button className="tab" onClick={handleClickPendentes}>
+              Empréstimos Pendentes
+            </button>
+          )}
         </div>
         <div className="search-wrapper">
           <input type="text" placeholder="Pesquisar..." className="search" />
@@ -40,39 +80,53 @@ const Search = () => {
 
 const ListaItems = () => {
   const [items, setItems] = useState([]);
-  const [userInfo, setUserInfo] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchItems = async () => {
       try {
-        const userResponse = await api.get("/Utilizadores/InfoUtilizador");
-        console.log("Utilizador autenticado:", userResponse.data);
-        setUserInfo(userResponse.data);
-
-        const itemsResponse = await api.get("/ItensEmprestimo/MeusItens");
-        console.log("Meus itens recebidos:", itemsResponse.data);
-        setItems(itemsResponse.data);
+        const response = await api.get("/ItensEmprestimo/MeusItens");
+        console.log("Itens recebidos:", response.data);
+        setItems(response.data);
       } catch (error) {
-        console.error("Erro ao buscar dados:", error);
+        console.error("Erro ao buscar itens:", error);
       }
     };
 
-    fetchData();
+    fetchItems();
   }, []);
+
+  const getImagemSrc = (fotografiaItem) => {
+    if (fotografiaItem && fotografiaItem.trim() !== "") {
+      return `data:image/jpeg;base64,${fotografiaItem}`;
+    } else {
+      return cortaRelva; // fallback se não houver imagem
+    }
+  };
 
   return (
     <div className="cards">
+      
+    <div className="card adicionar-card" onClick={() => navigate("/pedirEmprestimo")} style={{ cursor: "pointer" }}>
+      <div className="TitleOE">
+        <h2>Adicionar Item</h2>
+      </div>
+      <div className="adicionarIcon" style={{ fontSize: "100px", textAlign: "center", marginTop: "190px" }}>+</div>
+    </div>
       {items.map((item) => (
         <div className="card" key={item.itemId}>
           <div className="TitleOE">
             <h2>{item.nomeItem}</h2>
           </div>
+
           <img
             className="imgItemOE"
-            src={item.fotografiaItem || cortaRelva}
+            src={getImagemSrc(item.fotografiaItem)}
             alt={item.nomeItem}
           />
+
           <p>{item.descItem || "Sem descrição disponível."}</p>
+
           <div className="infoItemOE">
             <span>
               <FaCubes /> {item.disponivel ? "Disponível" : "Emprestado"}
@@ -81,6 +135,7 @@ const ListaItems = () => {
               <img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}/h
             </span>
           </div>
+
           <div className="estadoItem">
             <div>
               <span className="estado">
