@@ -32,14 +32,13 @@ function App() {
         < Route path="/outrosEmprestimos" element={<OutrosEmprestimos />} />
         < Route path="/maisInfo/:id" element={<MaisInformacoes />} />
 
+        <Route path="/resetpassword" element={<ResetPassword />} />
 
         <Route element={<AuthWrapper />}>
 
         < Route path="/profile" element={<Profile />} />
 
         <Route path="/notificacoes" element={<Notificacoes />} />
-
-        <Route path="/resetpassword" element={<ResetPassword />} />
 
           <Route element={<AdminRouteWrapper />}>
           </Route>
