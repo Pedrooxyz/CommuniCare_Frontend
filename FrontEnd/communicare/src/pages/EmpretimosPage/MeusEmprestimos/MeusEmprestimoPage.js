@@ -9,11 +9,45 @@ import cares from "../../../assets/Cares.png";
 import cortaRelva from "../../../assets/cortaRelva.jpg";
 
 const HeaderProfileCares = () => {
+  const [userInfo, setUserInfo] = useState(null);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await api.get('/Utilizadores/InfoUtilizador', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log("User info recebida:", response.data);
+        setUserInfo(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar info do utilizador:", error);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
+
   return (
-    <header className="headerCares">
-      <p>100</p>
+    <header>
+      <p style={{ textAlign: "center" }}>
+        {userInfo ? userInfo.numCares : "..."}
+      </p>      
+
       <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
-      <img className="imgHeaderVol" src={person1} width={60} height={60} alt="Person" />
+      <img
+        className="imgHeaderVol"
+        src={userInfo ? `http://localhost:5000/${userInfo.fotoUtil}` : '../../../../assets/icon.jpg'}
+        width={60}
+        height={60}
+        alt="User"
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = '../../../../assets/icon.jpg'; // Fallback caso a imagem não exista
+        }}
+      />
     </header>
   );
 };
@@ -58,10 +92,10 @@ const Search = () => {
       </div>
       <div className="tabs">
         <div className="choose">
-        <button className="tab" onClick={() => navigate("/meusEmprestimos")}>
+        <button className="tab active" onClick={() => navigate("/meusEmprestimos")}>
             Meus Empréstimos
           </button>
-          <button className="tab active" onClick={() => navigate("/outrosEmprestimos")}>Outros Emprestimos</button>
+          <button className="tab" onClick={() => navigate("/outrosEmprestimos")}>Outros Emprestimos</button>
           {/* Condição para mostrar o botão "Empréstimos Pendentes" apenas se o TipoUtilizadorId for admin */}
           {userTipoUtilizadorId === true && (
             <button className="tab" onClick={handleClickPendentes}>
