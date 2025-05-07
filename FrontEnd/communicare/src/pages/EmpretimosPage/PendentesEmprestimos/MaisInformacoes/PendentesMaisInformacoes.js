@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaCubes, FaSearch } from "react-icons/fa";
 
-import "./MaisInformacoes.css";
+import "./PendentesMaisInformacoes.css";
 
 import person1 from '../../../../assets/person1.jpg';
 import cares from '../../../../assets/Cares.png';
@@ -46,7 +46,6 @@ const DetalhesItem = () => {
   const [item, setItem] = useState(null);
   const [fotoEmprestador, setFotoEmprestador] = useState(null);
 
-
   useEffect(() => {
     const fetchItem = async () => {
       try {
@@ -73,7 +72,6 @@ const DetalhesItem = () => {
         });
         console.log("Foto do emprestador recebida:", response.data);
 
-        // Montar a URL completa da foto
         const urlFoto = `http://localhost:5000/${response.data}`;
         setFotoEmprestador(urlFoto);
       } catch (error) {
@@ -86,6 +84,42 @@ const DetalhesItem = () => {
     fetchFotoEmprestador();
   }, [id]);
 
+  // Função VALIDAR
+  const validarItem = async (itemId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await api.post(`/ItensEmprestimo/ValidarItem-(admin)/${itemId}`, null, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.data);
+      alert("Item validado com sucesso!");
+      // Atualiza estado ou navega (aqui não tens setItems)
+    } catch (error) {
+      console.error("Erro ao validar item:", error);
+      alert("Erro ao validar item.");
+    }
+  };
+
+  // Função REJEITAR
+  const rejeitarItem = async (itemId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await api.post(`/ItensEmprestimo/RejeitarItem-(admin)/${itemId}`, null, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.data);
+      alert("Item rejeitado com sucesso!");
+      // Atualiza estado ou navega (aqui também não tens setItems)
+    } catch (error) {
+      console.error("Erro ao rejeitar item:", error);
+      alert("Erro ao rejeitar item.");
+    }
+  };
+
   if (!item) {
     return <p>A carregar detalhes do item...</p>;
   }
@@ -94,12 +128,12 @@ const DetalhesItem = () => {
     <div className="detalhesContainer">
       {/* LADO ESQUERDO */}
       <div className="colunaEsquerda">
-      <div className="userTitle">
+        <div className="userTitle">
           <img
             className="imgUsers"
             src={fotoEmprestador}
             onError={(e) => {
-              e.target.onerror = null; // Evita loop infinito se a suplente falhar
+              e.target.onerror = null;
               e.target.src = '../../../../assets/icon.jpg';
             }}
             alt="User"
@@ -114,8 +148,10 @@ const DetalhesItem = () => {
           <span> <FaCubes /> {item.disponivel}</span>
           <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}/h</span>
         </div>
-
-        <button className="botaoAceitar">Aceitar</button>
+        <div className="BotAcao">
+          <button className="botaoAceitar" onClick={() => validarItem(item.itemId)}>Aceitar</button>
+          <button className="botaoRejeitar" onClick={() => rejeitarItem(item.itemId)}>Rejeitar</button>
+        </div>
       </div>
 
       {/* LADO DIREITO */}
@@ -129,6 +165,7 @@ const DetalhesItem = () => {
     </div>
   );
 };
+
 
 function MaisInformacoes() {
   return (

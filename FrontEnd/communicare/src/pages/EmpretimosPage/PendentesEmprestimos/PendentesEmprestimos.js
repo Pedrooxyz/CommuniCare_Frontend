@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { FaSearch, FaCubes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { api } from '../../../utils/axios.js';
-import "./OutrosEmprestimos.css";
+import "./PendentesEmprestimos.css";
 
-// Importação das imagens
 import person1 from '../../../assets/person1.jpg';
 import cares from '../../../assets/Cares.png';
 import person7 from '../../../assets/person7.png';
@@ -25,6 +24,8 @@ const HeaderProfileCares = () => {
 };
 
 const Search = () => {
+  const navigate = useNavigate(); // inicialização do navigate
+
   return (
     <div>
       <div className="mainName">
@@ -32,9 +33,15 @@ const Search = () => {
       </div>
       <div className="tabs">
         <div className="choose">
-          <button className="tab">Meus Empréstimos</button>
-          <button className="tab active">Outros Emprestimos</button>
-          <button className="tab">Pendentes</button>
+        <button className="tab">
+          Meus Empréstimos
+        </button>
+        <button className="tab" onClick={() => navigate("/outrosEmprestimos")}>
+         Outros Empréstimos
+        </button>
+        <button className="tab active">
+          Empréstimos Pendentes
+        </button>         
         </div>
         <div className="search-wrapper">
           <input type="text" placeholder="Pesquisar..." className="search" />
@@ -105,15 +112,14 @@ const ListaItems = () => {
     const fetchItems = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await api.get('/ItensEmprestimo/Disponiveis', {
+        const response = await api.get('/ItensEmprestimo/Admin/ItensPendentes', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("Itens recebidos:", response.data);
+        console.log("Itens pendentes recebidos:", response.data);
         setItems(response.data);
-
-        // Agora, buscar fotos dos emprestadores para cada item
+  
         response.data.forEach(async (item) => {
           try {
             const fotoResponse = await api.get(`/ItensEmprestimo/${item.itemId}/foto-emprestador`, {
@@ -121,7 +127,7 @@ const ListaItems = () => {
                 Authorization: `Bearer ${token}`,
               },
             });
-            const urlFoto = `http://localhost:5000/${fotoResponse.data}`;
+            const urlFoto = `${fotoResponse.data}`;
             setFotosEmprestadores(prev => ({
               ...prev,
               [item.itemId]: urlFoto
@@ -130,15 +136,16 @@ const ListaItems = () => {
             console.error(`Erro ao buscar foto do emprestador para item ${item.itemId}:`, error);
           }
         });
-
+  
       } catch (error) {
-        console.error('Erro ao buscar os itens disponíveis:', error);
+        console.error('Erro ao buscar os itens pendentes:', error);
       }
     };
-
+  
     console.log(localStorage.getItem('token'));
     fetchItems();
   }, []);
+  
 
   return (
     <div className="cards">
@@ -147,7 +154,7 @@ const ListaItems = () => {
           <div className="userTitleOE">
             <img
               className="imgUsers"
-              src={fotosEmprestadores}
+              src={person7 || fotosEmprestadores}
               onError={(e) => {
                 e.target.onerror = null; 
                 e.target.src = '../../../../assets/icon.jpg';
@@ -167,7 +174,7 @@ const ListaItems = () => {
             <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}(h)</span> {/* Alterado para 'comissaoCares' */}
           </div>
           <div className="moreInfo">
-            <button onClick={() => navigate(`/maisInfo/${item.itemId}`)}>Mais Informações</button>
+            <button onClick={() => navigate(`/pendentesMaisInformacoes/${item.itemId}`)}>Mais Informações</button>
             
           </div>
 
