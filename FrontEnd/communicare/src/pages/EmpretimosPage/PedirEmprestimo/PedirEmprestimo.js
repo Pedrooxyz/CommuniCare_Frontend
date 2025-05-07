@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./PedirEmprestimo.css";
 import person1 from '../../../assets/person1.jpg';
 import cares from '../../../assets/Cares.png';
 import { api } from '../../../utils/axios.js';
-
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 const HeaderProfileCares = () => {
   return (
@@ -21,11 +20,38 @@ function PedirEmprestimo() {
   const [detalhes, setDetalhes] = useState("");
   const [imagem, setImagem] = useState(null);
   const [imagemBase64, setImagemBase64] = useState("");
-  const [data, setData] = useState("");
   const [numPessoas, setNumPessoas] = useState("");
-  const [numCares, setNumCares] = useState(""); 
-  const [isSubmitting, setIsSubmitting] = useState(false); 
+  const [numCares, setNumCares] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [utilizadorId, setUtilizadorId] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('Utilizador não autenticado.');
+        return;
+      }
+
+      try {
+        const response = await api.get('/Utilizadores/InfoUtilizador');
+        if (response.status === 200) {
+          setUtilizadorId(response.data.utilizadorId); // Aqui está a correção para pegar o utilizadorId
+        } else {
+          alert('Erro ao obter as informações do utilizador.');
+        }
+      } catch (error) {
+        console.error('Erro ao buscar informações do utilizador:', error);
+        alert('Erro ao buscar informações do utilizador.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
 
   const handleImagemChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -55,54 +81,54 @@ function PedirEmprestimo() {
     }
   };
 
-  
   const handleSubmit = async () => {
-    if (!titulo || !detalhes || !numPessoas || !numCares ) {
+    if (!titulo || !detalhes || !numPessoas || !numCares) {
       alert('Preencha todos os campos antes de enviar.');
       return;
     }
-  
+
+    if (!utilizadorId) {
+      alert("Informações do utilizador ainda a carregar. Aguarde uns segundos e tente novamente.");
+      return;
+    }
+
     const token = localStorage.getItem('token');
-  
     if (!token) {
       alert('Utilizador não autenticado.');
       return;
     }
-  
+
     const pedidoData = {
       nomeItem: titulo,
       descItem: detalhes,
       disponivel: 1,
       fotografiaItem: imagemBase64,
       comissaoCares: parseInt(numCares),
-      idEmprestador: 0, // Aqui podes colocar o ID do utilizador autenticado, se o tiveres
+      idEmprestador: utilizadorId, // Usando utilizadorId aqui
     };
-  
+
     try {
       setIsSubmitting(true);
       const response = await api.post('ItensEmprestimo/AdicionarItem', pedidoData, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
-        }
+        },
       });
-  
+
       if (response.status === 200) {
         alert(response.data);
         setTitulo("");
         setDetalhes("");
-        setData("");
         setNumPessoas("");
         setNumCares("");
         setImagem(null);
         setImagemBase64("");
-  
         navigate('/MeusEmprestimos');
       } else {
         alert('Erro ao enviar o pedido: ' + response.data.mensagem);
       }
       console.log('Resposta do servidor:', response.data);
-      
     } catch (error) {
       console.error('Erro ao enviar o pedido:', error);
       alert('Erro ao enviar o pedido.');
@@ -110,7 +136,7 @@ function PedirEmprestimo() {
       setIsSubmitting(false);
     }
   };
-  
+
   return (
     <div className="container-Emprestimo">
       <HeaderProfileCares />
@@ -134,16 +160,13 @@ function PedirEmprestimo() {
             </span>
           </div>
 
-        
           <div className="icones-info">
-        
-        <span>
-            <img src={cares} alt="Cares Icon" style={{ width: '24px', height: '24px' }} />
-            <input type="text" placeholder="Número Cares Hora" maxLength={4} value={numCares} onChange={handleSelecionarNumeroCares} />
-        </span>
+            <span>
+              <img src={cares} alt="Cares Icon" style={{ width: '24px', height: '24px' }} />
+              <input type="text" placeholder="Número Cares Hora" maxLength={4} value={numCares} onChange={handleSelecionarNumeroCares} />
+            </span>
+          </div>
         </div>
-
-       </div>
 
         <div className="form-lado-direito">
           <div className="linha-titulo">

@@ -1,0 +1,251 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #E9DEDE;
+  }
+  
+  .headerCares {
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px 20px;
+  }
+  
+  .headerCares p {
+    font-weight: bold;
+    font-size: 20px;
+  }
+  
+  .imgHeaderVol {
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .mainName {
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    margin: 20px 520px 0;
+    border-radius: 15px;
+    margin-bottom: 30px;
+  }
+  
+  .mainName h1 {
+    margin: 15px 0;
+    font-weight: bold;
+    font-size: 40px;
+  }
+  
+  .app {
+    padding: 20px;
+  }
+  
+  .choose {
+    display: flex;
+    width: 100%;
+  }
+  
+  .tabs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .tab {
+    flex: 1;
+    background-color: #FFAEAE;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 60px;
+    text-align: center; /* ver se tiro ou não */
+  }
+  
+  .tab.active {
+    background-color: #FF7C7C;
+  }
+  
+  .search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .search {
+    background-color: #E8F1FF;
+    flex: 1;
+    padding: 10px 20px 10px 40px;
+    padding-right: 500px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin: 0 50px 0 20px;
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 35px;
+    color: #888;
+  }
+  
+  .search::placeholder {
+    margin-left: 3px;
+  }
+  
+  .cards {
+    display: flex;
+    column-gap: 30px;
+    padding: 0 50px 20px;
+  }
+  
+  .card {
+    background-color: white;
+    border-radius: 20px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 450px;
+    height: 650px;
+  }
+  
+  .TitleOE {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 0 50px;
+  }
+  
+  .imgItemOE {
+    width: 370px;
+    height: 230px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin: 15px auto 25px;
+    display: block;
+  }
+  
+  .imgUsersOE {
+    object-fit: cover;
+    border-radius: 50%;
+    margin-left: 20px;
+  }
+  
+  .card h2 {
+    background-color: #ffeef0;
+    text-align: center;
+    font-size: 26px;
+    border-radius: 10px;
+    padding: 10px 20px;
+    margin-right: 50px;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  
+  .card p {
+    background-color: #f9f3f0;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    width: 400px;
+    height: 100px;
+    margin: 0 15px;
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  .card p::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+  }
+  
+  .infoItemOE {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 20px 5px;
+    font-weight: bold;
+  }
+  
+  .infoItemOE span {
+    background-color: #FAEEE7;
+    padding: 10px 20px;
+    border-radius: 15px;
+    font-size: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .moreInfo {
+    text-align: center;
+  }
+  
+  .moreInfo button {
+    background-color: #FAEEE7;
+    display: inline-block;
+    border-radius: 10px;
+    padding: 10px 20px;
+    border: none;
+    font-size: 20px;
+    margin-top: 15px;
+    cursor: pointer;
+  }
+  
+  .EditDeleteButtons {
+    border: none;
+    background: none;
+    padding: 10px;
+    outline: none;
+    cursor: pointer;
+    font-size: 25px;
+  }
+  
+  .estadoItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    margin: 0 20px;
+  }
+  
+  .estadoItem span {
+    background-color: #FAEEE7;
+    padding: 10px 20px;
+    border-radius: 15px;
+    font-size: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .estado {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+  }
+  
+  .estado-circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  
+  .estado-circle.disponivel {
+    background-color: #28a745;
+  }
+  
+  .estado-circle.emprestado {
+    background-color: #dc3545;
+  }
+  
