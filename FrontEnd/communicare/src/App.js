@@ -13,6 +13,9 @@ import OutrosEmprestimos from "./pages/EmpretimosPage/OutrosEmprestimos/OutrosEm
 import MaisInformacoes from "./pages/EmpretimosPage/OutrosEmprestimos/MaisInformacoes/MaisInformacoes";
 
 import Notificacoes from "./pages/NotificacoesPage/Notificacoes";
+import PedirVoluntariado from "./pages/VoluntariadosPage/PedirVoluntariado/PedirVoluntariado";
+import PedirEmprestimo from "./pages/EmpretimosPage/PedirEmprestimo/PedirEmprestimo";
+
 
 import AdminRouteWrapper from "./utils/authWrapperAdmin";
 import AuthWrapper from "./utils/authWrapper";
@@ -39,6 +42,9 @@ function App() {
         < Route path="/profile" element={<Profile />} />
 
         <Route path="/notificacoes" element={<Notificacoes />} />
+
+        <Route path="/pedirVoluntariado" element={<PedirVoluntariado />} />  
+        <Route path="/pedirEmprestimo" element={<PedirEmprestimo />} />
 
           <Route element={<AdminRouteWrapper />}>
           </Route>
