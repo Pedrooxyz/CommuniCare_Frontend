@@ -54,7 +54,6 @@ function PedirEmprestimo() {
   const [detalhes, setDetalhes] = useState("");
   const [imagem, setImagem] = useState(null);
   const [imagemBase64, setImagemBase64] = useState("");
-  const [numPessoas, setNumPessoas] = useState("");
   const [numCares, setNumCares] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [utilizadorId, setUtilizadorId] = useState(null);
@@ -99,13 +98,7 @@ function PedirEmprestimo() {
     }
   };
 
-  const handleSelecionarNumeroPessoas = (e) => {
-    const value = e.target.value;
-    const intValue = parseInt(value);
-    if (value === '' || (intValue >= 1 && intValue <= 99)) {
-      setNumPessoas(value);
-    }
-  };
+
 
   const handleSelecionarNumeroCares = (e) => {
     const value = e.target.value;
@@ -116,7 +109,7 @@ function PedirEmprestimo() {
   };
 
   const handleSubmit = async () => {
-    if (!titulo || !detalhes || !numPessoas || !numCares) {
+    if (!titulo || !detalhes || !numCares) {
       alert('Preencha todos os campos antes de enviar.');
       return;
     }
@@ -138,7 +131,7 @@ function PedirEmprestimo() {
       disponivel: 1,
       fotografiaItem: imagemBase64,
       comissaoCares: parseInt(numCares),
-      idEmprestador: utilizadorId, // Usando utilizadorId aqui
+      idEmprestador: utilizadorId, 
     };
 
     try {
@@ -154,7 +147,6 @@ function PedirEmprestimo() {
         alert(response.data);
         setTitulo("");
         setDetalhes("");
-        setNumPessoas("");
         setNumCares("");
         setImagem(null);
         setImagemBase64("");
@@ -188,11 +180,6 @@ function PedirEmprestimo() {
             </label>
           </div>
 
-          <div className="icones-info">
-            <span>👥
-              <input type="text" placeholder="Número Pessoas" maxLength={2} value={numPessoas} onChange={handleSelecionarNumeroPessoas} />
-            </span>
-          </div>
 
           <div className="icones-info">
             <span>
