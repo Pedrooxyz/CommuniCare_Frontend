@@ -18,7 +18,12 @@ const HeaderProfileCares = () => {
 function Loja() {
   const [artigos, setArtigos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false); // Estado para verificar se o utilizador é admin
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [mostrarPopup, setMostrarPopup] = useState(false);
+  const [artigoSelecionado, setArtigoSelecionado] = useState(null);
+  const [transacaoId, setTransacaoId] = useState(null); // Estado para armazenar o transacaoId
+  const [mostrarEscolhaComprovativo, setMostrarEscolhaComprovativo] = useState(false); // Novo estado para mostrar a escolha de comprovativo
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,31 +54,103 @@ function Loja() {
           },
         });
 
-        // Atualiza o estado com a resposta, onde 'true' indica admin e 'false' indica não-admin
-        setIsAdmin(response.data); 
+        setIsAdmin(response.data);
       } catch (error) {
         console.error("Erro ao verificar o tipo de utilizador", error);
-        setIsAdmin(false); // Caso ocorra erro, assumimos que não é admin
+        setIsAdmin(false);
       }
     };
 
-    // Carregar os artigos e verificar se o utilizador é admin ao montar o componente
     fetchArtigos();
     verificarAdmin();
   }, []);
 
   const handleComprar = (artigoId) => {
-    alert(`Comprar artigo ID: ${artigoId}`);
-    // Aqui poderás redirecionar ou chamar outra API de compra se quiseres
+    setArtigoSelecionado(artigoId);
+    setMostrarPopup(true);
+  };
+
+  const confirmarCompra = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await api.post(
+        "Vendas/Comprar",
+        { artigosIds: [artigoSelecionado] },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.data.sucesso) {
+        alert("Compra realizada com sucesso!");
+        const transacaoId = response.data.transacaoId; // Garantir que transacaoId está sendo retornado pelo backend
+        setTransacaoId(transacaoId); // Armazenar o transacaoId
+        setMostrarPopup(false);
+        setMostrarEscolhaComprovativo(true); // Mostrar a escolha de comprovativo após a compra ser bem-sucedida
+      } else {
+        alert("Erro na compra: " + response.data.erro);
+      }
+    } catch (error) {
+      console.error("Erro ao realizar a compra:", error);
+      alert("Erro ao realizar a compra.");
+      setMostrarPopup(false);
+    }
+  };
+
+  const cancelarCompra = () => {
+    setMostrarPopup(false);
+    setArtigoSelecionado(null);
   };
 
   const handleMaisDetalhes = (artigoId) => {
     navigate(`/detalhesArtigo/${artigoId}`);
   };
 
-  // Função para redirecionar para a página de publicação de artigo
   const handleNovoArtigo = () => {
     navigate("/publicarartigo");
+  };
+
+  // Funções para enviar o comprovativo por email ou PDF
+  const enviarComprovativoEmail = async () => {
+  if (!transacaoId) {
+    alert("Transação não encontrada.");
+    return;
+  }
+
+  try {
+    const response = await api.get(`Vendas/Comprovativo/Email/${transacaoId}`);
+    if (response.data.mensagem) {
+      alert(response.data.mensagem); 
+    } else {
+      alert("Erro ao enviar comprovativo por email.");
+    }
+  } catch (error) {
+    alert("Erro ao enviar comprovativo por email.");
+  }
+  setMostrarEscolhaComprovativo(false);
+  };
+
+  const downloadComprovativoPDF = async () => {
+    if (!transacaoId) {
+      alert("Transação não encontrada.");
+      return;
+    }
+
+    try {
+      const response = await api.get(`Vendas/Comprovativo/Download/${transacaoId}`, { responseType: 'blob' });
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'ComprovativoCompra.pdf');
+      document.body.appendChild(link);
+      link.click();
+    } catch (error) {
+      alert("Erro ao baixar comprovativo em PDF.");
+    }
+    setMostrarEscolhaComprovativo(false);
   };
 
   return (
@@ -85,42 +162,65 @@ function Loja() {
         <p>A carregar artigos...</p>
       ) : (
         <div className="conteudo-loja">
-  {/* Condicional para mostrar o card de "Publicar novo artigo" somente se o utilizador for admin */}
-  {isAdmin && (
-    <div className="card-artigo novo-artigo" onClick={handleNovoArtigo}>
-      <p className="titulo-novo-artigo">Publicar novo artigo</p>
-      <div className="icone-plus">
-        <h3>+</h3>
-      </div>
-    </div>
-  )}
+          {isAdmin && (
+            <div className="card-artigo novo-artigo" onClick={handleNovoArtigo}>
+              <p className="titulo-novo-artigo">Publicar novo artigo</p>
+              <div className="icone-plus">
+                <h3>+</h3>
+              </div>
+            </div>
+          )}
 
-  {artigos.map((artigo) => (
-    <div key={artigo.artigoId} className="card-artigo">
-      <h3>{artigo.nomeArtigo}</h3>
-      <div className="img-artigo">
-        {artigo.fotografiaArt !== "string" && artigo.fotografiaArt ? (
-          <img src={`data:image/jpeg;base64,${artigo.fotografiaArt}`} alt={artigo.nomeArtigo} />
-        ) : (
-          <span className="no-img">Sem imagem</span>
-        )}
-      </div>
-      <div className="custo-artigo">
-        <img src={cares} alt="Cares" className="icon" />
-        <strong>{artigo.custoCares}</strong>
-      </div>
+          {artigos.map((artigo) => (
+            <div key={artigo.artigoId} className="card-artigo">
+              <h3>{artigo.nomeArtigo}</h3>
+              <div className="img-artigo">
+                {artigo.fotografiaArt !== "string" && artigo.fotografiaArt ? (
+                  <img src={`data:image/jpeg;base64,${artigo.fotografiaArt}`} alt={artigo.nomeArtigo} />
+                ) : (
+                  <span className="no-img">Sem imagem</span>
+                )}
+              </div>
+              <div className="custo-artigo">
+                <img src={cares} alt="Cares" className="icon" />
+                <strong>{artigo.custoCares}</strong>
+              </div>
 
-      <div className="botoes-artigo">
-        <button className="botao-mais-detalhes" onClick={() => handleMaisDetalhes(artigo.artigoId)}>
-          Mais Detalhes
-        </button>
-        <button className="botao-comprar" onClick={() => handleComprar(artigo.artigoId)}>
-          Comprar
-        </button>
-      </div>
-    </div>
-  ))}
-</div>
+              <div className="botoes-artigo">
+                <button className="botao-mais-detalhes" onClick={() => handleMaisDetalhes(artigo.artigoId)}>
+                  Mais Detalhes
+                </button>
+                <button className="botao-comprar" onClick={() => handleComprar(artigo.artigoId)}>
+                  Comprar
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {mostrarPopup && (
+        <div className="popup-overlay">
+          <div className="popup-box">
+            <p>Tem a certeza de que deseja comprar este artigo?</p>
+            <div className="popup-buttons">
+              <button onClick={confirmarCompra} className="botao-confirmar">Sim</button>
+              <button onClick={cancelarCompra} className="botao-cancelar">Não</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {mostrarEscolhaComprovativo && (
+        <div className="popup-overlay">
+          <div className="popup-box">
+            <p>Como deseja receber o comprovativo?</p>
+            <div className="popup-buttons">
+              <button onClick={enviarComprovativoEmail} className="botao-confirmar">Por E-mail</button>
+              <button onClick={downloadComprovativoPDF} className="botao-confirmar">Baixar PDF</button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
