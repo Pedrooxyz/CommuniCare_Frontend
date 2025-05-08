@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
 import './Notificacoes.css';
 import { api } from '../../utils/axios';
 
 const Header = () => {
+  const navigate = useNavigate(); // Inicializa o hook navigate
+
+  // Função para navegar para a página NotificacoesArq
+  const goToArchivedNotifications = () => {
+    navigate('/notificacoesarq'); // Navega para a página de notificações arquivadas
+  };
+
   return (
     <header className="notification-header">
       <div className="header-left">
@@ -12,10 +20,10 @@ const Header = () => {
         <h1 className="header-title">Notificações</h1>
       </div>
       <div className="header-right">
-        <div className="notification-bell">
-        <svg className="bell-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12V5a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v7a2 2 0 01-2 2H6a2 2 0 01-2-2v-7m16 0H4m8 4h.01"></path>
-        </svg>
+        <div className="notification-bell" onClick={goToArchivedNotifications}> {/* Ícone de campainha com navegação */}
+          <svg className="bell-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12V5a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v7a2 2 0 01-2 2H6a2 2 0 01-2-2v-7m16 0H4m8 4h.01"></path>
+          </svg>
         </div>
         <div className="user-profile"></div>
       </div>
@@ -23,16 +31,17 @@ const Header = () => {
   );
 };
 
+
 const Notification = ({ id, time, description, onMarkAsRead, isRead }) => {
   const handleClick = () => {
     if (!isRead) {
       onMarkAsRead(id);
-    }    
+    }
   };
 
   return (
     <div
-    className={`notification-card ${isRead ? 'notification-read' : ''}`}
+      className={`notification-Card ${isRead ? 'notification-read' : ''}`}
       onClick={handleClick}
     >
       <svg className="notification-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -53,7 +62,7 @@ const NotificationsList = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await api.get('NotificacoesNaoLidas');
+        const response = await api.get('Notificacoes/NotificacoesNaoLidas');
         console.log('Notificações não lidas carregadas:', response.data);
         setNotifications(response.data);
       } catch (err) {

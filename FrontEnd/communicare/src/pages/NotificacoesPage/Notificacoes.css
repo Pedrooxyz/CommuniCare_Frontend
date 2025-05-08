@@ -8,6 +8,7 @@ body {
   background-size: cover;
   height: 100%;
   margin: 0;
+  font-family: 'Arial', sans-serif;
 }
 
 .bgImg {
@@ -35,12 +36,12 @@ body {
 .header-left {
   display: flex;
   align-items: center;
-  flex: 1; /* Garante que o menu e o título ocupem o mesmo espaço */
+  flex: 1;
 }
 
 .header-title {
   text-align: center;
-  flex-grow: 1;  /* Faz com que o título ocupe o máximo de espaço disponível */
+  flex-grow: 1;
   font-size: 24px;
   font-weight: bold;
 }
@@ -57,10 +58,6 @@ body {
   align-items: center;
 }
 
-.menu-icon {
-  margin-right: 10px;  /* Adiciona algum espaço à direita do ícone de menu */
-}
-
 .notification-bell {
   position: relative;
   margin-right: 15px;
@@ -69,6 +66,7 @@ body {
 .bell-icon {
   width: 24px;
   height: 24px;
+  cursor: pointer;
 }
 
 .bell-badge {
@@ -101,7 +99,7 @@ body {
   overflow-y: auto;
 }
 
-.notification-card {
+.notification-Card {
   display: flex;
   align-items: flex-start;
   background-color: rgba(255, 192, 203, 0.3);
@@ -113,14 +111,18 @@ body {
   margin-left: 0;
   margin-right: 0;
   box-sizing: border-box;
-  cursor: pointer; /* Indica que é clicável */
-  transition: background-color 0.3s ease; /* Suaviza a transição de cor */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
   position: relative;
 }
 
+.notification-Card:hover {
+  background-color: #d4edda; /* Suaviza a interação de hover */
+}
+
 .notification-read {
-  background-color: #d4edda !important;/* Cor de fundo verde claro */
-  border-left: 4px solid #28a745; /* Bordo verde para indicar que está lida */
+  background-color: #d4edda !important;
+  border-left: 4px solid #28a745;
 }
 
 .notification-icon {
@@ -140,7 +142,6 @@ body {
   right: 20px;
   font-size: 0.9rem;
   color: #666;
-  margin-bottom: 0;
 }
 
 .notification-description {

@@ -35,12 +35,12 @@
   .header-left {
     display: flex;
     align-items: center;
-    flex: 1; /* Garante que o menu e o título ocupem o mesmo espaço */
+    flex: 1;
   }
   
   .header-title {
     text-align: center;
-    flex-grow: 1;  /* Faz com que o título ocupe o máximo de espaço disponível */
+    flex-grow: 1;
     font-size: 24px;
     font-weight: bold;
   }
@@ -57,13 +57,10 @@
     align-items: center;
   }
   
-  .menu-icon {
-    margin-right: 10px;  /* Adiciona algum espaço à direita do ícone de menu */
-  }
-  
   .notification-bell {
     position: relative;
     margin-right: 15px;
+    cursor: pointer;
   }
   
   .bell-icon {
@@ -99,12 +96,13 @@
     padding: 20px;
     height: calc(100vh - 70px);
     overflow-y: auto;
+    background-color: rgba(245, 245, 245, 0.95);
   }
   
   .notification-card {
     display: flex;
     align-items: flex-start;
-    background-color: rgba(255, 192, 203, 0.3);
+    background-color: #d4edda; /* Cor de fundo verde claro */
     padding: 20px;
     border-radius: 10px;
     margin-bottom: 15px;
@@ -113,14 +111,14 @@
     margin-left: 0;
     margin-right: 0;
     box-sizing: border-box;
-    cursor: pointer; /* Indica que é clicável */
-    transition: background-color 0.3s ease; /* Suaviza a transição de cor */
+    cursor: default;
+    transition: background-color 0.3s ease;
     position: relative;
   }
   
-  .notification-read {
-    background-color: #d4edda !important;/* Cor de fundo verde claro */
-    border-left: 4px solid #28a745; /* Bordo verde para indicar que está lida */
+  .notification-card.read {
+    background-color: #28a745; /* Fundo verde */
+    color: white;
   }
   
   .notification-icon {
@@ -150,7 +148,7 @@
   
   .notifications-page {
     min-height: 100vh;
-    background-color: rgba(245, 245, 245, 0.95);
+    background-color: rgba(245, 245, 245, 0.95) !important;
   }
   
   .error-message {
