@@ -18,6 +18,7 @@ const HeaderProfileCares = () => {
 function Loja() {
   const [artigos, setArtigos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false); // Estado para verificar se o utilizador é admin
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,7 +40,26 @@ function Loja() {
       }
     };
 
+    const verificarAdmin = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await api.get("/Utilizadores/VerificarAdmin", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        // Atualiza o estado com a resposta, onde 'true' indica admin e 'false' indica não-admin
+        setIsAdmin(response.data); 
+      } catch (error) {
+        console.error("Erro ao verificar o tipo de utilizador", error);
+        setIsAdmin(false); // Caso ocorra erro, assumimos que não é admin
+      }
+    };
+
+    // Carregar os artigos e verificar se o utilizador é admin ao montar o componente
     fetchArtigos();
+    verificarAdmin();
   }, []);
 
   const handleComprar = (artigoId) => {
@@ -49,6 +69,11 @@ function Loja() {
 
   const handleMaisDetalhes = (artigoId) => {
     navigate(`/detalhesArtigo/${artigoId}`);
+  };
+
+  // Função para redirecionar para a página de publicação de artigo
+  const handleNovoArtigo = () => {
+    navigate("/publicarartigo");
   };
 
   return (
@@ -85,6 +110,16 @@ function Loja() {
               </div>
             </div>
           ))}
+
+          {/* Condicional para mostrar o card de "Publicar novo artigo" somente se o utilizador for admin */}
+          {isAdmin && (
+            <div className="card-artigo novo-artigo" onClick={handleNovoArtigo}>
+              <p className="titulo-novo-artigo">Publicar novo artigo</p>
+              <div className="icone-plus">
+                <h3>+</h3>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

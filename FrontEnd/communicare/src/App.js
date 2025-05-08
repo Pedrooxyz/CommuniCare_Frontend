@@ -24,7 +24,6 @@ import PedirVoluntariado from "./pages/VoluntariadosPage/PedirVoluntariado/Pedir
 
 
 import Loja from "./pages/Loja/Loja";
-import LojaAdmin from "./pages/AdminPages/LojaAdmin/LojaAdmin";
 import PublicarArtigo from "./pages/PublicarArtigoPage/PublicarArtigo";
 import DetalhesArtigo from "./pages/Loja/DetalhesArtigo/DetalhesArtigo";
 
@@ -69,7 +68,6 @@ function App() {
           <Route element={<AdminRouteWrapper />}>
 
           <Route path="/publicarartigo" element={<PublicarArtigo />} /> 
-          <Route path="/lojaadmin" element={<LojaAdmin />} /> 
 
           </Route>
           
