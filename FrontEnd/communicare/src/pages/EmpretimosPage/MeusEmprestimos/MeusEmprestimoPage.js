@@ -138,6 +138,33 @@ const ListaItems = () => {
     }
   };
 
+  //Esta malllll-------------------------------
+  const handleEdit = (itemId) => {
+    // Aqui você pode navegar para uma página de edição ou abrir um modal de edição
+    console.log("Editar item com ID:", itemId);
+    // Exemplo de navegação para uma página de edição
+    navigate(`/editarItem/${itemId}`);
+  };
+
+  const handleDelete = async (itemId) => {
+    if (window.confirm("Tem certeza que deseja indisponibilizar permanentemente este item?")) {
+      try {
+        const response = await api.delete(`/ItensEmprestimo/IndisponibilizarPermanenteItem/${itemId}`);
+        if (response.status === 204) {
+          console.log("Item indisponibilizado com sucesso.");
+          setItems((prevItems) => prevItems.filter((item) => item.itemId !== itemId));
+        } else {
+          console.error("Erro inesperado ao indisponibilizar o item:", response);
+          alert("Erro ao indisponibilizar o item. Tente novamente.");
+        }
+      } catch (error) {
+        console.error("Erro ao indisponibilizar o item:", error.response || error);
+        alert("Erro ao indisponibilizar o item. Tente novamente.");
+      }
+    }
+  };
+  
+  
   return (
     <div className="cards">
       
@@ -182,10 +209,10 @@ const ListaItems = () => {
               </span>
             </div>
             <div className="controlesAcao">
-              <button className="EditDeleteButtons">
+              <button className="EditDeleteButtons" onClick={() => handleEdit(item.itemId)}>
                 <FaEdit />
               </button>
-              <button className="EditDeleteButtons">
+              <button className="EditDeleteButtons" onClick={() => handleDelete(item.itemId)}>
                 <FaTrash />
               </button>
             </div>
