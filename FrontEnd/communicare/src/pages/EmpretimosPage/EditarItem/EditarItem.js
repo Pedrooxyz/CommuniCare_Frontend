@@ -39,13 +39,13 @@ const EditarItem = () => {
   }, [itemId]);
 
   // Função que trata a mudança dos campos do formulário
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setItem((prevItem) => ({
-      ...prevItem,
-      [name]: name === "comissaoCares" ? parseInt(value, 10) || 0 : value,
-    }));
-  };
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setItem((prevItem) => ({
+    ...prevItem,
+    [name]: name === "comissaoCares" ? Math.min(parseInt(value, 10) || 0, 9999) : value,
+  }));
+};
 
   // Função que lida com o envio do formulário
   const handleSubmit = async (e) => {
