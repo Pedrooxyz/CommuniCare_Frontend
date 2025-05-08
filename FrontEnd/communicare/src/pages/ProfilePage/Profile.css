@@ -2,6 +2,11 @@
     box-sizing: border-box;
   }
   
+  .imgbutton{
+    border: none;
+    outline: none;
+    box-shadow: none;
+  }
   
   body {
     background-color: #E9DEDE;
@@ -13,8 +18,11 @@
 
   .imgHeader{
     border-radius: 50%;
+    border: none;
+    outline: none;
+    box-shadow: none;
   }
-  
+
  .headerNot {
     display: flex;
     column-gap: 10px;
