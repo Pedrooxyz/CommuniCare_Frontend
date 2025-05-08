@@ -80,6 +80,7 @@ const Search = () => {
 };
 
 const DetalhesItem = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [item, setItem] = useState(null);
   const [fotoEmprestador, setFotoEmprestador] = useState(null);
@@ -94,7 +95,7 @@ const DetalhesItem = () => {
           },
         });
         console.log("Item recebido:", response.data);
-        setItem(response.data);
+        setItem(response.data[0]); // <<=== aqui está a correção
       } catch (error) {
         console.error('Erro ao buscar detalhes do item:', error);
       }
@@ -140,24 +141,23 @@ const DetalhesItem = () => {
     }
   };
 
-  // Função REJEITAR
   const rejeitarItem = async (itemId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await api.post(`/ItensEmprestimo/RejeitarItem-(admin)/${itemId}`, null, {
+      const response = await api.delete(`/ItensEmprestimo/RejeitarItem-(admin)/${itemId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       console.log(response.data);
       alert("Item rejeitado com sucesso!");
-      // Atualiza estado ou navega (aqui também não tens setItems)
+      navigate("/PendentesEmprestimos");
     } catch (error) {
       console.error("Erro ao rejeitar item:", error);
       alert("Erro ao rejeitar item.");
     }
   };
-
+  
   if (!item) {
     return <p>A carregar detalhes do item...</p>;
   }
@@ -187,8 +187,22 @@ const DetalhesItem = () => {
           <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}/h</span>
         </div>
         <div className="BotAcao">
-          <button className="botaoAceitar" onClick={() => validarItem(item.itemId)}>Aceitar</button>
-          <button className="botaoRejeitar" onClick={() => rejeitarItem(item.itemId)}>Rejeitar</button>
+          <button 
+            className="botaoAceitar" 
+            onClick={() => {
+              validarItem(item.itemId);
+              navigate("/PendentesEmprestimos");
+            }}
+          >
+            Aceitar
+          </button>
+          <button 
+            className="botaoRejeitar" 
+            onClick={() => rejeitarItem(item.itemId)}
+          >
+            Rejeitar
+          </button>
+         
         </div>
       </div>
 

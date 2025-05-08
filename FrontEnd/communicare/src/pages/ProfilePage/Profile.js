@@ -47,6 +47,8 @@ const DadosUserPI = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [contactos, setContactos] = useState([]);
   const [newPhoto, setNewPhoto] = useState(null);  // Estado para a nova foto
+  const [meusItens, setMeusItens] = useState([]); // Novo estado para os itens
+
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -104,6 +106,37 @@ const DadosUserPI = () => {
       });
     }
   };
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const token = localStorage.getItem('token');
+
+        // Buscar user + contactos
+        const [userResponse, contactosResponse] = await Promise.all([
+          api.get('/Utilizadores/InfoUtilizador', {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+          api.get('/Utilizadores/ContactosUtilizador', {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+        ]);
+
+        setUserInfo(userResponse.data);
+        setContactos(contactosResponse.data);
+
+        // Buscar os itens emprestados
+        const itensResponse = await api.get('/ItensEmprestimo/MeusItens', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setMeusItens(itensResponse.data);
+
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+      }
+    };
+    fetchUserInfo();
+  }, []);
 
   return (
     <div>
@@ -214,9 +247,20 @@ const DadosUserPI = () => {
           <div className="recent">
             <h4 className="recent-name">Recentes:</h4>
             <div className="recent-items">
-              <div className="item">Secador</div>
-              <div className="item">Martelo</div>
-              <div className="item">Corta relva</div>
+              {meusItens.length > 0 ? (
+                meusItens.map((item) => (
+                  <div 
+                    key={item.itemId} 
+                    className="item" 
+                    style={{ cursor: 'pointer' }} 
+                    onClick={() => navigate(`/pendentesMaisInformacoes/${item.itemId}`)}
+                  >
+                    {item.nomeItem}
+                  </div>
+                ))
+              ) : (
+                <p className="contact">Nenhum item encontrado.</p>
+              )}
             </div>
           </div>
         </div>
