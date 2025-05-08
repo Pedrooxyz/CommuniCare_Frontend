@@ -18,6 +18,7 @@ import PedirEmprestimo from "./pages/EmpretimosPage/PedirEmprestimo/PedirEmprest
 
 
 import Notificacoes from "./pages/NotificacoesPage/Notificacoes";
+import NotificacoesArq from "./pages/NotificacoesPage/NotificacoesArq/NotificacoesArq";
 import PedirVoluntariado from "./pages/VoluntariadosPage/PedirVoluntariado/PedirVoluntariado";
 
 
@@ -56,6 +57,7 @@ function App() {
         < Route path="/profile" element={<Profile />} />
 
         <Route path="/notificacoes" element={<Notificacoes />} />
+        <Route path="/notificacoesarq" element={<NotificacoesArq />} />
 
         <Route path="/pedirVoluntariado" element={<PedirVoluntariado />} />  
 

@@ -115,10 +115,11 @@ body {
   box-sizing: border-box;
   cursor: pointer; /* Indica que é clicável */
   transition: background-color 0.3s ease; /* Suaviza a transição de cor */
+  position: relative;
 }
 
 .notification-read {
-  background-color: #d4edda; /* Cor de fundo verde claro */
+  background-color: #d4edda !important;/* Cor de fundo verde claro */
   border-left: 4px solid #28a745; /* Bordo verde para indicar que está lida */
 }
 
@@ -134,9 +135,12 @@ body {
 }
 
 .notification-time {
+  position: absolute;
+  top: 10px;
+  right: 20px;
   font-size: 0.9rem;
   color: #666;
-  margin-bottom: 8px;
+  margin-bottom: 0;
 }
 
 .notification-description {
