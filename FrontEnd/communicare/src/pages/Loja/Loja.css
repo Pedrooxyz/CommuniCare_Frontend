@@ -6,7 +6,7 @@
 .titulo-principal {
   text-align: center;
   color: #333;
-  margin-bottom: 3rem; /* Aumentando a margem inferior para dar mais espaço entre o título e os artigos */
+  margin-bottom: 4.5rem !important; /* Aumentando ainda mais o espaço entre o título e os artigos */
 }
 
 .conteudo-loja {
@@ -26,9 +26,10 @@
   margin-top: 1rem; /* Adicionando margem superior para os cards não ficarem colados ao topo */
 }
 
+/* Definindo a largura e altura do contêiner da imagem */
 .img-artigo {
-  width: 220px; /* Definindo uma largura fixa */
-  height: 180px; /* Mantendo a altura fixa */
+  width: 220px; /* Definindo uma largura fixa para a imagem */
+  height: 220px; /* Definindo uma altura fixa para a imagem, para manter o tamanho igual */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -36,9 +37,9 @@
 }
 
 .img-artigo img {
-  width: 100%; /* A imagem ocupa toda a largura do contêiner */
-  height: 100%; /* A imagem ocupa toda a altura do contêiner */
-  object-fit: contain; /* Mantém a proporção da imagem sem distorção */
+  width: 100%; /* A imagem vai ocupar toda a largura do contêiner */
+  height: 100%; /* A imagem vai ocupar toda a altura do contêiner */
+  object-fit: cover; /* Garante que a imagem ocupe o espaço sem distorcer */
   border-radius: 4px;
 }
 
@@ -112,36 +113,75 @@
   background-color: #005fa3;
 }
 
-/* Estilo para o card de "Publicar novo artigo" */
 .novo-artigo {
-  background-color: #fff; /* Mantendo a mesma cor de fundo */
+  background-color: #fff;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between; /* Ajustando para dar o mesmo espaçamento entre o título, imagem e botões */
   align-items: center;
   font-size: 2rem;
   color: #0077cc;
-  border-radius: 8px; /* Mantendo o mesmo arredondamento */
+  border-radius: 8px;
   padding: 1rem;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1); /* Mesmo estilo de sombra */
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
   text-align: center;
-  width: 260px; /* Mantendo o mesmo tamanho que os outros cards */
-  height: 250px; /* Mesmo tamanho de altura */
+  width: 260px;
+  height: 450px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transição para o hover */
 }
 
+.novo-artigo:hover {
+  transform: scale(1.05); /* Aumenta o card levemente */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Aumenta a sombra para destacar o card */
+}
+
+/* Criando o espaço reservado para a imagem */
+.novo-artigo .img-artigo {
+  width: 220px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  background-color: #eee;
+  border-radius: 4px;
+}
+
+/* Adicionando o ícone ou texto dentro do espaço reservado */
+.novo-artigo .img-artigo .icone-plus {
+  font-size: 4rem; /* Ajustando o tamanho do ícone */
+  color: #0077cc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.novo-artigo .icone-plus {
+  font-size: 4rem; /* Aumentando o tamanho do ícone */
+  color: #0077cc;  /* Definindo a cor azul */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%; /* Ocupa toda a largura e altura do contêiner */
+  text-align: center; /* Alinha o ícone no centro */
+}
+
+.novo-artigo .icone-plus h3 {
+  margin: 0; /* Removendo a margem */
+  font-size: 4rem; /* Definindo o tamanho do ícone */
+}
+
+/* Título do novo artigo */
 .titulo-novo-artigo {
   font-size: 1.2rem;
   color: #0077cc;
   font-weight: bold;
-  margin-bottom: 10px; /* Espaçamento entre o título e o ícone */
+  margin-bottom: 1rem; /* Espaçamento entre o título e o espaço da imagem */
   text-align: center;
-}
-
-.icone-plus {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%; /* Preenche todo o card */
+  margin-top: 1rem; /* Ajustando a margem superior para alinhar com o título dos outros cards */
 }
 
 .icone-plus h3 {

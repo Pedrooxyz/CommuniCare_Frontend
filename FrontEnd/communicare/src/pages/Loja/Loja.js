@@ -85,42 +85,42 @@ function Loja() {
         <p>A carregar artigos...</p>
       ) : (
         <div className="conteudo-loja">
-          {artigos.map((artigo) => (
-            <div key={artigo.artigoId} className="card-artigo">
-              <h3>{artigo.nomeArtigo}</h3>
-              <div className="img-artigo">
-                {artigo.fotografiaArt !== "string" && artigo.fotografiaArt ? (
-                  <img src={`data:image/jpeg;base64,${artigo.fotografiaArt}`} alt={artigo.nomeArtigo} />
-                ) : (
-                  <span className="no-img">Sem imagem</span>
-                )}
-              </div>
-              <div className="custo-artigo">
-                <img src={cares} alt="Cares" className="icon" />
-                <strong>{artigo.custoCares}</strong>
-              </div>
+  {/* Condicional para mostrar o card de "Publicar novo artigo" somente se o utilizador for admin */}
+  {isAdmin && (
+    <div className="card-artigo novo-artigo" onClick={handleNovoArtigo}>
+      <p className="titulo-novo-artigo">Publicar novo artigo</p>
+      <div className="icone-plus">
+        <h3>+</h3>
+      </div>
+    </div>
+  )}
 
-              <div className="botoes-artigo">
-                <button className="botao-mais-detalhes" onClick={() => handleMaisDetalhes(artigo.artigoId)}>
-                  Mais Detalhes
-                </button>
-                <button className="botao-comprar" onClick={() => handleComprar(artigo.artigoId)}>
-                  Comprar
-                </button>
-              </div>
-            </div>
-          ))}
+  {artigos.map((artigo) => (
+    <div key={artigo.artigoId} className="card-artigo">
+      <h3>{artigo.nomeArtigo}</h3>
+      <div className="img-artigo">
+        {artigo.fotografiaArt !== "string" && artigo.fotografiaArt ? (
+          <img src={`data:image/jpeg;base64,${artigo.fotografiaArt}`} alt={artigo.nomeArtigo} />
+        ) : (
+          <span className="no-img">Sem imagem</span>
+        )}
+      </div>
+      <div className="custo-artigo">
+        <img src={cares} alt="Cares" className="icon" />
+        <strong>{artigo.custoCares}</strong>
+      </div>
 
-          {/* Condicional para mostrar o card de "Publicar novo artigo" somente se o utilizador for admin */}
-          {isAdmin && (
-            <div className="card-artigo novo-artigo" onClick={handleNovoArtigo}>
-              <p className="titulo-novo-artigo">Publicar novo artigo</p>
-              <div className="icone-plus">
-                <h3>+</h3>
-              </div>
-            </div>
-          )}
-        </div>
+      <div className="botoes-artigo">
+        <button className="botao-mais-detalhes" onClick={() => handleMaisDetalhes(artigo.artigoId)}>
+          Mais Detalhes
+        </button>
+        <button className="botao-comprar" onClick={() => handleComprar(artigo.artigoId)}>
+          Comprar
+        </button>
+      </div>
+    </div>
+  ))}
+</div>
       )}
     </div>
   );
