@@ -5,6 +5,7 @@ import Registar from "./pages/RegistPage/Registar";
 import Login from "./pages/LoginPage/Login";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Profile from "./pages/ProfilePage/Profile";
+import EditarPerfil from './pages/ProfilePage/EditarPerfilPage/EditarPerfil';
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
 
 import OutrosVoluntariados from "./pages/VoluntariadosPage/OutrosPedidosPage/OutrosPedidos"
@@ -55,6 +56,7 @@ function App() {
         <Route element={<AuthWrapper />}>
 
         < Route path="/profile" element={<Profile />} />
+        < Route path="/editar-perfil" element={<EditarPerfil />} />
 
         <Route path="/notificacoes" element={<Notificacoes />} />
         <Route path="/notificacoesarq" element={<NotificacoesArq />} />

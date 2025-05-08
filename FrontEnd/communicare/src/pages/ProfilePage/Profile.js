@@ -18,14 +18,6 @@ const HeaderNot = () => {
 
   return (
     <header className="headerNot">
-      {/*<img 
-        className="imgHeader" 
-        src={msgNot} 
-        width={45} 
-        height={45} 
-        alt="Mensagens" 
-      />*/}
-      
       <button 
         className="imgButton" 
         onClick={() => navigate("/notificacoes")} 
@@ -54,6 +46,7 @@ const DadosUserPI = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
   const [contactos, setContactos] = useState([]);
+  const [newPhoto, setNewPhoto] = useState(null);  // Estado para a nova foto
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -70,9 +63,6 @@ const DadosUserPI = () => {
           }),
         ]);
 
-        console.log("User info recebida:", userResponse.data);
-        console.log("Contactos recebidos:", contactosResponse.data);
-
         setUserInfo(userResponse.data);
         setContactos(contactosResponse.data);
 
@@ -83,6 +73,37 @@ const DadosUserPI = () => {
 
     fetchUserInfo();
   }, []);
+
+  // Função para lidar com o envio da nova foto
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setNewPhoto(URL.createObjectURL(file));  // Definir a imagem localmente
+
+      const formData = new FormData();
+      formData.append('foto', file);  // Adicionar a imagem ao FormData
+
+      // Enviar para o backend
+      const token = localStorage.getItem('token');
+      api.post('/Utilizadores/EditarFoto', formData, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(response => {
+        console.log("Foto atualizada com sucesso", response);
+        // Atualizar a foto no estado com a resposta da API, caso necessário
+        setUserInfo(prevState => ({
+          ...prevState,
+          fotoUtil: response.data.fotoUrl,  // Assumindo que o backend retorna a URL da foto
+        }));
+      })
+      .catch(error => {
+        console.error("Erro ao atualizar foto", error);
+      });
+    }
+  };
 
   return (
     <div>
@@ -95,14 +116,22 @@ const DadosUserPI = () => {
             height={190}
             alt="icProfile"
           />
-          <img className="iconplus" src={plusP} width={45} height={45} alt="iconplus" />
+          {/* Aqui está a alteração para adicionar a lógica de editar a foto */}
+          <label htmlFor="file-input" className="iconplus">
+            <img src={plusP} width={45} height={45} alt="iconplus" />
+          </label>
+          <input 
+            id="file-input" 
+            type="file" 
+            style={{ display: 'none' }}  // Esconde o input
+            onChange={handlePhotoChange} 
+          />
         </div>
 
         <div className="cares-box">
           <span>
             <img className="cares" src={cares} width={50} height={50} alt="cares" />
-            {userInfo ? userInfo.numCares : "..."}
-          </span>
+            {userInfo ? userInfo.numCares : "..."}</span>
           <span>
             <strong>Loja:</strong>
             <img
@@ -134,7 +163,12 @@ const DadosUserPI = () => {
             <p className="contact">Nenhum contacto disponível</p>
           )}
 
-          <button className="add-contact">Editar Perfil</button>
+          <button 
+            className="add-contact" 
+            onClick={() => navigate('/editar-perfil')}  // Definir a ação diretamente no JSX
+          >
+            Editar Perfil
+          </button>
           <span className="ellipsis"></span>
         </div>
 
@@ -201,3 +235,4 @@ function Profile() {
 }
 
 export default Profile;
+
