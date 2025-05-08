@@ -61,7 +61,9 @@ const HeaderProfileCares = () => {
 
 const Search = () => {
   const navigate = useNavigate();
-  const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null); 
+  const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState(""); // Estado para armazenar o termo de pesquisa
+  const [searchResults, setSearchResults] = useState([]); // Estado para armazenar os resultados da pesquisa
   
   const verificarTipoUtilizador = async () => {
     try {
@@ -72,10 +74,38 @@ const Search = () => {
         },
       });
 
-      setUserTipoUtilizadorId(response.data); 
+      setUserTipoUtilizadorId(response.data);
     } catch (error) {
       console.error("Erro ao verificar o tipo de utilizador", error);
       setUserTipoUtilizadorId(false); // Caso ocorra erro, tratamos como não admin
+    }
+  };
+
+  const handleSearch = async (term) => {
+    try {
+      const token = localStorage.getItem("token");
+  
+      // Enviar o termo dentro do objeto esperado pelo endpoint
+      const response = await api.post(
+        "/ItensEmprestimo/PesquisarItemPorNome", 
+        {
+          nomeItem: term,
+          descItem: "string",
+          comissaoCares: 0,
+          fotografiaItem: "string"
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      
+      setSearchResults(response.data); // Armazenar os resultados da pesquisa
+    } catch (error) {
+      console.error("Erro ao buscar itens", error);
+      setSearchResults([]); // Se ocorrer erro, limpar resultados
     }
   };
 
@@ -84,6 +114,18 @@ const Search = () => {
     verificarTipoUtilizador(); // Verifica o tipo de utilizador assim que o componente for montado
   }, []);
 
+  // Função chamada sempre que o usuário digitar algo
+  const handleInputChange = (e) => {
+    const term = e.target.value.toLowerCase(); // Faz a pesquisa ser case-insensitive
+    setSearchTerm(term); // Atualiza o estado com o termo de pesquisa
+    if (term.trim() !== "") {
+      handleSearch(term); // Chama a função de pesquisa
+    } else {
+      setSearchResults([]); // Limpa resultados se a pesquisa estiver vazia
+    }
+  };
+
+  // Função para navegar para a página de "Empréstimos Pendentes"
   const handleClickPendentes = () => {
     if (userTipoUtilizadorId === true) {
       navigate("/PendentesEmprestimos"); // Navega para a página desejada
@@ -99,11 +141,12 @@ const Search = () => {
       </div>
       <div className="tabs">
         <div className="choose">
-        <button className="tab" onClick={() => navigate("/meusEmprestimos")}>
+          <button className="tab" onClick={() => navigate("/meusEmprestimos")}>
             Meus Empréstimos
           </button>
-          <button className="tab active" onClick={() => navigate("/outrosEmprestimos")}>Outros Emprestimos</button>
-          {/* Condição para mostrar o botão "Empréstimos Pendentes" apenas se o TipoUtilizadorId for admin */}
+          <button className="tab active" onClick={() => navigate("/outrosEmprestimos")}>
+            Outros Empréstimos
+          </button>
           {userTipoUtilizadorId === true && (
             <button className="tab" onClick={handleClickPendentes}>
               Empréstimos Pendentes
@@ -111,13 +154,33 @@ const Search = () => {
           )}
         </div>
         <div className="search-wrapper">
-          <input type="text" placeholder="Pesquisar..." className="search" />
+          <input
+            type="text"
+            placeholder="Pesquisar..."
+            className="search"
+            value={searchTerm}
+            onChange={handleInputChange} // Chama a função sempre que o input mudar
+          />
           <FaSearch className="search-icon" />
         </div>
       </div>
+
+      {/* Exibição dos resultados da pesquisa */}
+      {searchResults.length > 0 && (
+        <div className="search-results">
+          {searchResults.map((item, index) => (
+            <div key={index} className="search-item">
+              <h3>{item.NomeItem}</h3>
+              <p>{item.DescItem}</p>
+              {/* Adicionar mais informações conforme necessário */}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
+
 
 /*export const items = [
   {
