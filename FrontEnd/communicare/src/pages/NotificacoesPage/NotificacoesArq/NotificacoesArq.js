@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './Notificacoes.css';
-import { api } from '../../utils/axios';
+import './NotificacoesArq.css';
+import { api } from '../../../utils/axios';
 
 const Header = () => {
   return (
@@ -53,8 +53,8 @@ const NotificationsList = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await api.get('NotificacoesNaoLidas');
-        console.log('Notificações não lidas carregadas:', response.data);
+        const response = await api.get('Notificacoes');
+        console.log('Notificações carregadas:', response.data);
         setNotifications(response.data);
       } catch (err) {
         console.error('Erro ao carregar notificações:', err.response?.data || err.message);
