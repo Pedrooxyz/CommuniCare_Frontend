@@ -280,11 +280,11 @@ const ListaItems = () => {
           </p>
           <div className="infoItemOE">
             <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}(h)</span>
+            <button className="BotaoInformacaoOutros" onClick={() => navigate(`/maisInfo/${item.itemId}`)}>Mais Informações</button>
           </div>
-          <div className="moreInfo">
-            <button onClick={() => navigate(`/maisInfo/${item.itemId}`)}>Mais Informações</button>
-            <button onClick={() => requisitarItem(item.itemId)} className="requisitar-btn">
-              Requisitar
+          <div className="moreInformation">
+            <button onClick={() => requisitarItem(item.itemId)} className="requisitara-btn">
+              Adquirir
             </button>
           </div>
         </div>
