@@ -2,7 +2,30 @@
     box-sizing: border-box;
   }
   
-  
+    .header-secundario {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px;
+    background-color: #FFAEAE;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 30px;
+  }
+
+  .botao-header-secundario {
+    padding: 10px 16px;
+    border: 1px solid #8d6a6a;
+    background-color: rgb(245, 205, 205);
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+  }
+
+  .botao-header-secundario:hover {
+    background-color: #eaeaea;
+  }
+
   body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
