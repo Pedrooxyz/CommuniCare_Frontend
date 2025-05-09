@@ -3,6 +3,7 @@ import { FaSearch, FaCubes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { api } from '../../../utils/axios.js';
 import "./PendentesEmprestimos.css";
+import iconFallback from '../../../assets/icon.jpg';
 
 import person1 from '../../../assets/person1.jpg';
 import cares from '../../../assets/Cares.png';
@@ -132,6 +133,13 @@ const HeaderSecundario = ({ onValidarRequisicao, onValidarAquisicao, onValidarDe
   );
 };
 
+const getImagemSrc = (fotoItem) => {
+    if (fotoItem && fotoItem.trim() !== "" && fotoItem !== "null" && fotoItem !== "string") {
+      return `data:image/jpeg;base64,${fotoItem}`;
+    } else {
+      return iconFallback;
+    }
+  };
 
 const ListaItems = () => {
   const [items, setItems] = useState([]);
@@ -147,9 +155,8 @@ const ListaItems = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("Itens pendentes recebidos:", response.data);
         setItems(response.data);
-  
+
         response.data.forEach(async (item) => {
           try {
             const fotoResponse = await api.get(`/ItensEmprestimo/${item.itemId}/foto-emprestador`, {
@@ -157,7 +164,7 @@ const ListaItems = () => {
                 Authorization: `Bearer ${token}`,
               },
             });
-            const urlFoto = `${fotoResponse.data}`;
+            const urlFoto = fotoResponse.data;
             setFotosEmprestadores(prev => ({
               ...prev,
               [item.itemId]: urlFoto
@@ -166,16 +173,14 @@ const ListaItems = () => {
             console.error(`Erro ao buscar foto do emprestador para item ${item.itemId}:`, error);
           }
         });
-  
+
       } catch (error) {
         console.error('Erro ao buscar os itens pendentes:', error);
       }
     };
-  
-    console.log(localStorage.getItem('token'));
+
     fetchItems();
   }, []);
-  
 
   return (
     <div className="cards">
@@ -184,10 +189,10 @@ const ListaItems = () => {
           <div className="userTitleOE">
             <img
               className="imgUsers"
-              src={person7 || fotosEmprestadores}
+              src={fotosEmprestadores[item.itemId] ? getImagemSrc(fotosEmprestadores[item.itemId]) : iconFallback}
               onError={(e) => {
-                e.target.onerror = null; 
-                e.target.src = '../../../../assets/icon.jpg';
+                e.target.onerror = null;
+                e.target.src = iconFallback;
               }}
               alt="User"
               width={70}
@@ -195,22 +200,24 @@ const ListaItems = () => {
             />
             <h2>{item.nomeItem}</h2>
           </div>
-          <img className="imgItemOE" src={item.fotografiaItem} alt={item.nomeItem} /> 
-          <p>
-            {item.descItem || "Sem descrição disponível."}
-          </p>          
+          <img
+            className="imgItemOE"
+            src={getImagemSrc(item.fotografiaItem)}
+            alt={item.nomeItem}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = iconFallback;
+            }}
+          />
+          <p>{item.descItem || "Sem descrição disponível."}</p>
           <div className="infoItemOE">
-            <span><FaCubes /> {item.disponivel}</span> {/* Alterado para 'disponivel' */}
-            <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}(h)</span> {/* Alterado para 'comissaoCares' */}
+            <span><FaCubes /> {item.disponivel}</span>
+            <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}(h)</span>
           </div>
           <div className="moreInfo">
             <button onClick={() => navigate(`/pendentesMaisInformacoes/${item.itemId}`)}>Mais Informações</button>
-            
           </div>
-
         </div>
-        
-        
       ))}
     </div>
   );
@@ -240,7 +247,7 @@ const ListaItemsAquisicao = () => {
                 Authorization: `Bearer ${token}`,
               },
             });
-            const urlFoto = `${fotoResponse.data}`;
+            const urlFoto = fotoResponse.data;
             setFotosEmprestadores(prev => ({
               ...prev,
               [item.itemId]: urlFoto
@@ -249,16 +256,14 @@ const ListaItemsAquisicao = () => {
             console.error(`Erro ao buscar foto do emprestador para item ${item.itemId}:`, error);
           }
         });
-  
       } catch (error) {
         console.error('Erro ao buscar os itens pendentes:', error);
       }
     };
-  
+
     console.log(localStorage.getItem('token'));
     fetchItems();
   }, []);
-  
 
   return (
     <div className="cards">
@@ -267,10 +272,10 @@ const ListaItemsAquisicao = () => {
           <div className="userTitleOE">
             <img
               className="imgUsers"
-              src={person7 || fotosEmprestadores}
+              src={fotosEmprestadores[item.itemId] ? getImagemSrc(fotosEmprestadores[item.itemId]) : iconFallback}
               onError={(e) => {
-                e.target.onerror = null; 
-                e.target.src = '../../../../assets/icon.jpg';
+                e.target.onerror = null;
+                e.target.src = iconFallback;
               }}
               alt="User"
               width={70}
@@ -278,22 +283,24 @@ const ListaItemsAquisicao = () => {
             />
             <h2>{item.nomeItem}</h2>
           </div>
-          <img className="imgItemOE" src={item.fotografiaItem} alt={item.nomeItem} /> 
-          <p>
-            {item.descItem || "Sem descrição disponível."}
-          </p>          
+          <img
+            className="imgItemOE"
+            src={getImagemSrc(item.fotografiaItem)}
+            alt={item.nomeItem}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = iconFallback;
+            }}
+          />
+          <p>{item.descItem || "Sem descrição disponível."}</p>
           <div className="infoItemOE">
-            <span><FaCubes /> {item.disponivel}</span> {/* Alterado para 'disponivel' */}
-            <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}(h)</span> {/* Alterado para 'comissaoCares' */}
+            <span><FaCubes /> {item.disponivel}</span>
+            <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}(h)</span>
           </div>
           <div className="moreInfo">
             <button onClick={() => navigate(`/pendentesMaisInformacoes/${item.itemId}`)}>Mais Informações</button>
-            
           </div>
-
         </div>
-        
-        
       ))}
     </div>
   );
@@ -323,7 +330,7 @@ const ListaItemsDevolucao = () => {
                 Authorization: `Bearer ${token}`,
               },
             });
-            const urlFoto = `${fotoResponse.data}`;
+            const urlFoto = fotoResponse.data;
             setFotosEmprestadores(prev => ({
               ...prev,
               [item.itemId]: urlFoto
@@ -332,16 +339,13 @@ const ListaItemsDevolucao = () => {
             console.error(`Erro ao buscar foto do emprestador para item ${item.itemId}:`, error);
           }
         });
-  
       } catch (error) {
         console.error('Erro ao buscar os itens pendentes:', error);
       }
     };
-  
-    console.log(localStorage.getItem('token'));
+
     fetchItems();
   }, []);
-  
 
   return (
     <div className="cards">
@@ -350,10 +354,10 @@ const ListaItemsDevolucao = () => {
           <div className="userTitleOE">
             <img
               className="imgUsers"
-              src={person7 || fotosEmprestadores}
+              src={fotosEmprestadores[item.itemId] ? getImagemSrc(fotosEmprestadores[item.itemId]) : iconFallback}
               onError={(e) => {
-                e.target.onerror = null; 
-                e.target.src = '../../../../assets/icon.jpg';
+                e.target.onerror = null;
+                e.target.src = iconFallback;
               }}
               alt="User"
               width={70}
@@ -361,22 +365,24 @@ const ListaItemsDevolucao = () => {
             />
             <h2>{item.nomeItem}</h2>
           </div>
-          <img className="imgItemOE" src={item.fotografiaItem} alt={item.nomeItem} /> 
-          <p>
-            {item.descItem || "Sem descrição disponível."}
-          </p>          
+          <img
+            className="imgItemOE"
+            src={getImagemSrc(item.fotografiaItem)}
+            alt={item.nomeItem}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = iconFallback;
+            }}
+          />
+          <p>{item.descItem || "Sem descrição disponível."}</p>
           <div className="infoItemOE">
-            <span><FaCubes /> {item.disponivel}</span> {/* Alterado para 'disponivel' */}
-            <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}(h)</span> {/* Alterado para 'comissaoCares' */}
+            <span><FaCubes /> {item.disponivel}</span>
+            <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}(h)</span>
           </div>
           <div className="moreInfo">
             <button onClick={() => navigate(`/pendentesMaisInformacoes/${item.itemId}`)}>Mais Informações</button>
-            
           </div>
-
         </div>
-        
-        
       ))}
     </div>
   );
