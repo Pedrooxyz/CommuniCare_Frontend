@@ -167,11 +167,14 @@
   }
   
   .infoItemOE {
-    display: flex;
-    justify-content: space-between;
-    margin: 30px 20px 5px;
-    font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 20px 5px;
+  font-weight: bold;
+  font-size: 14px; /* Texto mais fino */
   }
+
   
   .infoItemOE span {
     background-color: #FAEEE7;
@@ -242,10 +245,31 @@
   }
   
   .estado-circle.disponivel {
-    background-color: #28a745;
+    background-color: #28a745; /* verde */
+  }
+
+  .estado-circle.indisponivel {
+    background-color: #ffc107; /* amarelo */
+  }
+
+  .estado-circle.permanentemente-indisponivel {
+    background-color: #dc3545; /* vermelho */
   }
   
-  .estado-circle.emprestado {
-    background-color: #dc3545;
-  }
-  
+  .controlesAcao {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* espaço entre os botões */
+}
+
+.EditDeleteButtons {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: #333;
+}
+
+.EditDeleteButtons:hover {
+  color: #007bff;
+}
