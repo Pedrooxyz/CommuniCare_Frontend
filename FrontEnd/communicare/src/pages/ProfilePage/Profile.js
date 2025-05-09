@@ -253,7 +253,7 @@ const DadosUserPI = () => {
                     key={item.itemId} 
                     className="item" 
                     style={{ cursor: 'pointer' }} 
-                    onClick={() => navigate(`/pendentesMaisInformacoes/${item.itemId}`)}
+                    onClick={() => navigate(`/maisInfo/${item.itemId}`)}
                   >
                     {item.nomeItem}
                   </div>
