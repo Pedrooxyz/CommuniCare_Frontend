@@ -96,13 +96,19 @@ const ListaPedidos = () => {
     fetchPedidos();
   }, []);
 
-  const getImagemSrc = (fotoPedido) => {
-    if (fotoPedido && fotoPedido.trim() !== "" && fotoPedido !== "null") {
-      return `http://localhost:5182/${fotoPedido}`;
-    } else {
-      return iconFallback;
-    }
-  };
+const getImagemSrc = (fotoPedido) => {
+  if (
+    fotoPedido &&
+    fotoPedido.trim() !== "" &&
+    fotoPedido !== "null" &&
+    fotoPedido !== "string"
+  ) {
+    return `data:image/jpeg;base64,${fotoPedido}`;
+  } else {
+    return iconFallback;
+  }
+};
+
 
   const handleEdit = (pedidoId) => {
     navigate(`/editarPedido/${pedidoId}`);

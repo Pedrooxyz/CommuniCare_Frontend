@@ -18,6 +18,7 @@ import compressor from '../../../assets/compressor.jpg';
 const HeaderProfileCares = () => {
   const [userInfo, setUserInfo] = useState(null);
 
+
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
@@ -181,57 +182,13 @@ const Search = () => {
   );
 };
 
-
-/*export const items = [
-  {
-    id: 1,
-    user: person7,
-    title: "Corta Relvas",
-    image: cortaRelva,
-    description: "Precisa aparar o jardim? Emprestamos um corta-relvas! Interessado? Fale connosco!",
-    units: 1,
-    caresHour: "35/h",
-    details: `Corta-relvas Elétrico GreenTech 3000
-    * Elétrico com fio
-    * Potência: 1800W
-    * Largura de corte: 40 cm
-    * Altura de corte: Ajustável (25-75 mm)
-    * Capacidade do saco de recolha: 50L
-    * Peso: 12 kg`
-  },
-  {
-    id: 2,
-    user: person8,
-    title: "Compressor",
-    image: compressor,
-    description: "Precisa encher pneus ou usar ferramentas pneumáticas? Entre em contato!",
-    units: 2,
-    caresHour: "40/h",
-    details: `Martelo Clássico GreenTech Standard 500
-    * Manual, cabo ergonómico em madeira
-    * Peso da cabeça: 500 g
-    * Comprimento do cabo: 30 cm
-    * Material da cabeça: Aço forjado
-    * Aplicação: Cravar pregos, pequenos trabalhos de demolição
-    * Peso total: 0,6 kg`
-  },
-  {
-    id: 3,
-    user: person9,
-    title: "Martelo",
-    image: martelo,
-    description: "Precisa de um martelo? Temos disponíveis, comunique connosco!!",
-    units: 3,
-    caresHour: "20/h",
-    details: `Martelo Clássico GreenTech Standard 500
-    * Manual, cabo ergonómico em madeira
-    * Peso da cabeça: 500 g
-    * Comprimento do cabo: 30 cm
-    * Material da cabeça: Aço forjado
-    * Aplicação: Cravar pregos, pequenos trabalhos de demolição
-    * Peso total: 0,6 kg`
+const getImagemSrc = (fotoItem) => {
+  if (fotoItem && fotoItem.trim() !== "" && fotoItem !== "null" && fotoItem !== "string") {
+    return `data:image/jpeg;base64,${fotoItem}`;
+  } else {
+    return "../../../../assets/icon.jpg";  // Fallback em caso de erro
   }
-];*/
+};
 
 const ListaItems = () => {
   const [items, setItems] = useState([]);
@@ -250,7 +207,7 @@ const ListaItems = () => {
         console.log("Itens recebidos:", response.data);
         setItems(response.data);
 
-        // Agora, buscar fotos dos emprestadores para cada item
+        // Buscar fotos dos emprestadores para cada item
         response.data.forEach(async (item) => {
           try {
             const fotoResponse = await api.get(`/ItensEmprestimo/${item.itemId}/foto-emprestador`, {
@@ -273,7 +230,6 @@ const ListaItems = () => {
       }
     };
 
-    console.log(localStorage.getItem('token'));
     fetchItems();
   }, []);
 
@@ -284,10 +240,10 @@ const ListaItems = () => {
           <div className="userTitleOE">
             <img
               className="imgUsers"
-              src={fotosEmprestadores}
+              src={fotosEmprestadores[item.itemId] || '../../../../assets/icon.jpg'}  // Fallback aqui também
               onError={(e) => {
                 e.target.onerror = null; 
-                e.target.src = '../../../../assets/icon.jpg';
+                e.target.src = '../../../../assets/icon.jpg';  // Fallback caso não encontre a foto
               }}
               alt="User"
               width={70}
@@ -295,22 +251,22 @@ const ListaItems = () => {
             />
             <h2>{item.nomeItem}</h2>
           </div>
-          <img className="imgItemOE" src={item.fotografiaItem} alt={item.nomeItem} /> 
+          <img 
+            className="imgItemOE"
+            src={getImagemSrc(item.fotografiaItem)}  // Usando a função getImagemSrc para a foto do item
+            alt={item.nomeItem} 
+          /> 
           <p>
             {item.descItem || "Sem descrição disponível."}
           </p>          
           <div className="infoItemOE">
-            <span><FaCubes /> {item.disponivel}</span> {/* Alterado para 'disponivel' */}
-            <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}(h)</span> {/* Alterado para 'comissaoCares' */}
+            <span><FaCubes /> {item.disponivel}</span>
+            <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}(h)</span>
           </div>
           <div className="moreInfo">
             <button onClick={() => navigate(`/maisInfo/${item.itemId}`)}>Mais Informações</button>
-            
           </div>
-
         </div>
-        
-        
       ))}
     </div>
   );
