@@ -181,6 +181,26 @@ const ListaItems = () => {
   const [fotosEmprestadores, setFotosEmprestadores] = useState({});
   const navigate = useNavigate();
 
+    // Função para requisitar o item
+  const requisitarItem = async (itemId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await api.post(`/ItensEmprestimo/AdquirirItem/${itemId}`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // Verifica se a requisição foi bem-sucedida
+      if (response.status === 200) {
+        alert("Pedido de empréstimo efetuado. Aguarde validação do administrador.");
+      } else {
+        alert(`Erro: ${response.data}`);
+      }
+    } catch (error) {
+      console.error("Erro ao requisitar item:", error);
+      alert("Houve um erro ao realizar a requisição. Tente novamente.");
+    }
+  };
   useEffect(() => {
     const fetchItems = async () => {
       try {
@@ -244,11 +264,13 @@ const ListaItems = () => {
             {item.descItem || "Sem descrição disponível."}
           </p>
           <div className="infoItemOE">
-            <span><FaCubes /> {item.disponivel}</span>
             <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}(h)</span>
           </div>
           <div className="moreInfo">
             <button onClick={() => navigate(`/maisInfo/${item.itemId}`)}>Mais Informações</button>
+            <button onClick={() => requisitarItem(item.itemId)} className="requisitar-btn">
+              Requisitar
+            </button>
           </div>
         </div>
       ))}
