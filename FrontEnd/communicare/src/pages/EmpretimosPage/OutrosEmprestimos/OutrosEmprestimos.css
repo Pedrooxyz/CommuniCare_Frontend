@@ -1,225 +1,232 @@
 * {
-    box-sizing: border-box;
-  }
-  
-  
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #E9DEDE;
-  }
-  
-  header {
-    display: flex;
-    column-gap: 10px;
-    align-items: center;
-    position: absolute; 
-    top: 0; 
-    right: 0; 
-    padding: 10px 20px 10px; 
-  }
-  
-  header p{
-    font-weight: bold;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #E9DEDE;
+}
+
+header {
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px 20px 10px;
+}
+
+header p {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.imgHeaderVol {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.mainName {
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  margin: 20px 520px 0px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+}
+
+.mainName h1 {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: 40px;
+}
+
+.app {
+  padding: 20px;
+}
+
+.choose {
+  display: flex;
+  width: 100%;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tab {
+  flex: 1;
+  background-color: #FFAEAE;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 60px;
+  text-align: center;
+}
+
+.tab.active {
+  background-color: #FF7C7C;
+}
+
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search {
+  background-color: #E8F1FF;
+  flex: 1;
+  padding: 10px 20px 10px 40px;
+  padding-right: 500px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-right: 50px;
+  margin-left: 20px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 35px;
+  color: #888;
+}
+
+input.placeholder {
+  margin-left: 3px;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 20px;
+}
+
+.card {
+  background-color: white;
+  border-radius: 20px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 480px;
+  height: 650px;
+  margin-bottom: 10px;
+}
+
+.userTitleOE {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 50px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.imgItemOE {
+  width: 370px;
+  height: 230px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin: 15px auto 25px auto;
+  display: block;
+}
+
+.imgUsers {
+  object-fit: cover;
+  border-radius: 50%;
+  margin-left: 20px;
+  width: 70px;
+  height: 70px;
+}
+
+.card h2 {
+  background-color: #ffeef0;
+  text-align: center;
+  font-size: 26px;
+  border-radius: 10px;
+  padding: 10px 20px;
+  margin-right: 50px;
+  margin-bottom: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.card p {
+  background-color: #f9f3f0;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  width: 400px;
+  height: 100px;
+  margin-left: 15px;
+  margin-right: 15px;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.infoItemOE {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  font-weight: bold;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.infoItemOE span {
+  background-color: #FAEEE7;
+  padding: 10px 20px;
+  border-radius: 15px;
+  font-size: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Estrutura dos botões "Mais Informações" e "Requisitar" */
+.moreInfo {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px; /* Espaçamento entre os botões */
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px; /* Adicionando margem inferior */
+}
+
+.moreInfo button {
+  background-color: #4CAF50; /* Verde agora para ambos os botões */
+  display: inline-block;
+  border-radius: 10px;
+  padding: 10px 20px;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  width: 48%; /* Garante que os botões não ocupem toda a linha */
+}
+
+/* O botão de requisitar é verde fixo, sem alteração */
+.requisitar-btn {
+    background-color: #A6FC96;
     font-size: 20px;
-  }
-  
-  .imgHeaderVol{
-    border-radius: 50%;
-    object-fit: cover; /* garante que a imagem preencha o espaço sem distorcer */
-    
-    
-  }
-  
-  .mainName{
-    background-color: #ffffff;
-    display: flex;
-    justify-content: center;
-    margin: 20px 520px 0px;
-    border-radius: 15px;
-    margin-bottom: 30px;
-  }
-  
-  .mainName h1{
-    margin-top: 15px;
-    margin-bottom: 15px;
+    color: rgb(0, 0, 0);
     font-weight: bold;
-    font-size: 40px;
-  }
-  
-  .app {
-    padding: 20px;
-  }
-  
-  .choose {
-    display: flex;
-    width: 100%; /* garante que o conteúdo use a largura total */
-  }
-  
-  
-  .tabs {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .tab {
-    flex: 1;
-    background-color: #FFAEAE;
-    color: white;
+    padding: 12px 55px;
+    border-radius: 10px;
     border: none;
-    padding: 10px 20px;
-    border-radius: 999px;
-    font-weight: bold;
     cursor: pointer;
-    margin-left: 60px;
-    text-align: center; /*ver se tiro ou não*/
-  }
-  
-  .tab.active {
-    background-color: #FF7C7C;
-  }
-  
-  .search-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    
-  }
-  
-  .search {
-    background-color: #E8F1FF;
-    flex: 1;
-    padding: 10px 20px 10px 40px; /* <-- espaço para a lupa à esquerda */
-    padding-right: 500px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    margin-right: 50px;
-    margin-left: 20px;
-  }
-  
-  .search-icon {
-    position: absolute;
-    left: 35px;
-    color: #888;
-  }
-  
-  input.placeholder{
-    margin-left: 3px;
-  }
-  
-  .cards {
-    display: flex;
-    flex-wrap: wrap; /* permite que os itens se movam para a linha seguinte quando necessário */
-    column-gap: 10px;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-bottom: 20px;
-  }
-  
-  .card {
-    background-color: white;
-    border-radius: 20px;
-    padding: 15px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    width: 480px;
-    height: 650px;
-    margin-bottom: 10px;
-  }
-  
-  .userTitleOE{
-    display: flex;
-    justify-content: space-between;
-    column-gap: 50px;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-  
-  .imgItemOE {
-    width: 370px;
-    height: 230px;
-    object-fit: cover;
-    border-radius: 12px;
-    margin: 15px auto 25px auto; /* topo, horizontal, baixo, horizontal */
-    display: block; /* necessário para margin: auto funcionar em imagens */
-    
-  }
-  
-  .imgUsers {
-    object-fit: cover; /* Garante que a imagem preenche o espaço sem distorcer */
-    border-radius: 50%; /* Para formato circular */
-    margin-left: 20px;
-    width: 70px; /* Tamanho fixo para garantir visibilidade */
-    height: 70px; /* Tamanho fixo */
-  }
-  
-  
-  
-  
-  .card h2 {
-    background-color: #ffeef0;
-    text-align: center;
-    font-size: 26px;
-    border-radius: 10px;
-    padding: 10px 20px;
-    margin-right: 50px;
-    margin-bottom: 10px;
-    width: 100%;
-    box-sizing: border-box; /* garante que o padding conta dentro da largura */
-  }
-  
-  
-  .card p {
-    background-color: #f9f3f0;
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-size: 0.95rem;
-    width: 400px;
-    height: 100px;
-    margin-left: 15px;
-    margin-right: 15px;
-    overflow-y: scroll;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-  }
-  
-  .infoItemOE {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-    font-weight: bold;
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-bottom: 5px;
-  }
-  
-  
-  
-  .infoItemOE span {
-    background-color: #FAEEE7;
-    padding: 10px 20px;
-    border-radius: 15px;
-    font-size: 20px;
-    display: inline-flex;             /* permite usar alinhamento interno */
-    align-items: center;             /* alinha ícone/texto verticalmente */
-    justify-content: center;         /* alinha conteúdo horizontalmente */
-    gap: 8px;                         /* espaço entre ícone e texto */
-  }
-  
-  
-  .moreInfo {
-    text-align: center;
-  }
-  
-  .moreInfo button{
-    background-color: #FAEEE7;
-    display: inline-block;
-    border-radius: 10px;
-    padding: 10px 20px;
-    border: none;
-    font-size: 20px;
-    margin-top: 15px;
-    cursor: pointer;
+    margin: 25px 0px 10px;
   }
