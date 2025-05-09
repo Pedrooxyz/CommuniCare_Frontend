@@ -9,13 +9,15 @@ import cares from '../../../assets/Cares.png';
 import iconFallback from '../../../assets/icon.jpg';
 
 const HeaderProfileCares = () => {
+  const navigate = useNavigate();
+  const [isHovered, setIsHovered] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const response = await api.get("Utilizadores/InfoUtilizador", {
+        const token = localStorage.getItem('token');
+        const response = await api.get('/Utilizadores/InfoUtilizador', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -31,10 +33,13 @@ const HeaderProfileCares = () => {
 
   return (
     <header>
-      <p className="ptext">{userInfo ? userInfo.numCares : "..."}</p>
+      <p style={{ textAlign: "center" }}>
+        {userInfo ? userInfo.numCares : "..."}
+      </p>
       <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
-      <img
+            <img
         className="imgHeaderVol"
+        onClick={() => navigate(`/profile`)}
         src={
           userInfo && userInfo.fotoUtil
             ? `http://localhost:5182/${userInfo.fotoUtil}`
@@ -47,11 +52,20 @@ const HeaderProfileCares = () => {
           e.target.onerror = null;
           e.target.src = iconFallback;
         }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        style={{
+          margin: "5px",
+          cursor: "pointer",
+          borderRadius: "50%",
+          transition: "transform 0.3s ease, box-shadow 0.3s ease",
+          transform: isHovered ? "scale(1.1)" : "scale(1)",
+          boxShadow: isHovered ? "0 0 10px rgba(0,0,0,0.3)" : "none",
+        }}
       />
     </header>
   );
 };
-
 const Search = () => {
   const navigate = useNavigate();
 
@@ -65,6 +79,7 @@ const Search = () => {
         <div className="choose">
           <button className="tab" onClick={() => navigate("/meusPedidos")}>Meus Pedidos</button>
           <button className="tab active" onClick={() => navigate("/outrosPedidos")}>Outros Pedidos</button>
+          <button className="tab" onClick={() => navigate("/pendentesPedidos")}>Pedidos Pendentes</button>
         </div>
 
         <div className="search-wrapper">

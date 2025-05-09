@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import { api } from "../../../utils/axios.js";
-import "./MeusPedidos.css";
+import "./PendentesPedido.css";
 
 import cares from "../../../assets/Cares.png";
 import iconFallback from "../../../assets/icon.jpg";
