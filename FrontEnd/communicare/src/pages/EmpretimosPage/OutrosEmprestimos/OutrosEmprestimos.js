@@ -2,22 +2,12 @@ import React, { useState, useEffect } from "react";
 import { FaSearch, FaCubes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { api } from '../../../utils/axios.js';
-import "./OutrosEmprestimos.css";
-
-
-// Importação das imagens
-import person1 from '../../../assets/person1.jpg';
 import cares from '../../../assets/Cares.png';
-import person7 from '../../../assets/person7.png';
-import person8 from '../../../assets/person8.png';
-import person9 from '../../../assets/person9.png';
-import martelo from '../../../assets/martelo.jpg';
-import cortaRelva from '../../../assets/cortaRelva.jpg';
-import compressor from '../../../assets/compressor.jpg';
+import iconFallback from '../../../assets/icon.jpg';
+import "./OutrosEmprestimos.css";
 
 const HeaderProfileCares = () => {
   const [userInfo, setUserInfo] = useState(null);
-
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -28,7 +18,6 @@ const HeaderProfileCares = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("User info recebida:", response.data);
         setUserInfo(response.data);
       } catch (error) {
         console.error("Erro ao buscar info do utilizador:", error);
@@ -42,18 +31,21 @@ const HeaderProfileCares = () => {
     <header>
       <p style={{ textAlign: "center" }}>
         {userInfo ? userInfo.numCares : "..."}
-      </p>      
-
+      </p>
       <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
       <img
         className="imgHeaderVol"
-        src={userInfo ? `http://localhost:5000/${userInfo.fotoUtil}` : '../../../../assets/icon.jpg'}
+        src={
+          userInfo && userInfo.fotoUtil
+            ? `http://localhost:5182/${userInfo.fotoUtil}`
+            : iconFallback
+        }
         width={60}
         height={60}
         alt="User"
         onError={(e) => {
           e.target.onerror = null;
-          e.target.src = '../../../../assets/icon.jpg'; // Fallback caso a imagem não exista
+          e.target.src = iconFallback;
         }}
       />
     </header>
@@ -63,9 +55,9 @@ const HeaderProfileCares = () => {
 const Search = () => {
   const navigate = useNavigate();
   const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
-  const [searchTerm, setSearchTerm] = useState(""); // Estado para armazenar o termo de pesquisa
-  const [searchResults, setSearchResults] = useState([]); // Estado para armazenar os resultados da pesquisa
-  
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
   const verificarTipoUtilizador = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -78,17 +70,16 @@ const Search = () => {
       setUserTipoUtilizadorId(response.data);
     } catch (error) {
       console.error("Erro ao verificar o tipo de utilizador", error);
-      setUserTipoUtilizadorId(false); // Caso ocorra erro, tratamos como não admin
+      setUserTipoUtilizadorId(false);
     }
   };
 
   const handleSearch = async (term) => {
     try {
       const token = localStorage.getItem("token");
-  
-      // Enviar o termo dentro do objeto esperado pelo endpoint
+
       const response = await api.post(
-        "/ItensEmprestimo/PesquisarItemPorNome", 
+        "/ItensEmprestimo/PesquisarItemPorNome",
         {
           nomeItem: term,
           descItem: "string",
@@ -102,34 +93,31 @@ const Search = () => {
           },
         }
       );
-      
-      setSearchResults(response.data); // Armazenar os resultados da pesquisa
+
+      setSearchResults(response.data);
     } catch (error) {
       console.error("Erro ao buscar itens", error);
-      setSearchResults([]); // Se ocorrer erro, limpar resultados
+      setSearchResults([]);
     }
   };
 
-  // Carregar o tipo de utilizador ao montar o componente
   useEffect(() => {
-    verificarTipoUtilizador(); // Verifica o tipo de utilizador assim que o componente for montado
+    verificarTipoUtilizador();
   }, []);
 
-  // Função chamada sempre que o usuário digitar algo
   const handleInputChange = (e) => {
-    const term = e.target.value.toLowerCase(); // Faz a pesquisa ser case-insensitive
-    setSearchTerm(term); // Atualiza o estado com o termo de pesquisa
+    const term = e.target.value.toLowerCase();
+    setSearchTerm(term);
     if (term.trim() !== "") {
-      handleSearch(term); // Chama a função de pesquisa
+      handleSearch(term);
     } else {
-      setSearchResults([]); // Limpa resultados se a pesquisa estiver vazia
+      setSearchResults([]);
     }
   };
 
-  // Função para navegar para a página de "Empréstimos Pendentes"
   const handleClickPendentes = () => {
     if (userTipoUtilizadorId === true) {
-      navigate("/PendentesEmprestimos"); // Navega para a página desejada
+      navigate("/PendentesEmprestimos");
     } else {
       alert("Apenas administradores podem aceder a esta página!");
     }
@@ -160,20 +148,18 @@ const Search = () => {
             placeholder="Pesquisar..."
             className="search"
             value={searchTerm}
-            onChange={handleInputChange} // Chama a função sempre que o input mudar
+            onChange={handleInputChange}
           />
           <FaSearch className="search-icon" />
         </div>
       </div>
 
-      {/* Exibição dos resultados da pesquisa */}
       {searchResults.length > 0 && (
         <div className="search-results">
           {searchResults.map((item, index) => (
             <div key={index} className="search-item">
               <h3>{item.NomeItem}</h3>
               <p>{item.DescItem}</p>
-              {/* Adicionar mais informações conforme necessário */}
             </div>
           ))}
         </div>
@@ -186,7 +172,7 @@ const getImagemSrc = (fotoItem) => {
   if (fotoItem && fotoItem.trim() !== "" && fotoItem !== "null" && fotoItem !== "string") {
     return `data:image/jpeg;base64,${fotoItem}`;
   } else {
-    return "../../../../assets/icon.jpg";  // Fallback em caso de erro
+    return iconFallback;
   }
 };
 
@@ -204,10 +190,8 @@ const ListaItems = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("Itens recebidos:", response.data);
         setItems(response.data);
 
-        // Buscar fotos dos emprestadores para cada item
         response.data.forEach(async (item) => {
           try {
             const fotoResponse = await api.get(`/ItensEmprestimo/${item.itemId}/foto-emprestador`, {
@@ -215,7 +199,7 @@ const ListaItems = () => {
                 Authorization: `Bearer ${token}`,
               },
             });
-            const urlFoto = `http://localhost:5000/${fotoResponse.data}`;
+            const urlFoto = `http://localhost:5182/${fotoResponse.data}`;
             setFotosEmprestadores(prev => ({
               ...prev,
               [item.itemId]: urlFoto
@@ -240,10 +224,10 @@ const ListaItems = () => {
           <div className="userTitleOE">
             <img
               className="imgUsers"
-              src={fotosEmprestadores[item.itemId] || '../../../../assets/icon.jpg'}  // Fallback aqui também
+              src={fotosEmprestadores[item.itemId] || iconFallback}
               onError={(e) => {
-                e.target.onerror = null; 
-                e.target.src = '../../../../assets/icon.jpg';  // Fallback caso não encontre a foto
+                e.target.onerror = null;
+                e.target.src = iconFallback;
               }}
               alt="User"
               width={70}
@@ -253,12 +237,12 @@ const ListaItems = () => {
           </div>
           <img 
             className="imgItemOE"
-            src={getImagemSrc(item.fotografiaItem)}  // Usando a função getImagemSrc para a foto do item
-            alt={item.nomeItem} 
-          /> 
+            src={getImagemSrc(item.fotografiaItem)}
+            alt={item.nomeItem}
+          />
           <p>
             {item.descItem || "Sem descrição disponível."}
-          </p>          
+          </p>
           <div className="infoItemOE">
             <span><FaCubes /> {item.disponivel}</span>
             <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}(h)</span>
@@ -272,7 +256,6 @@ const ListaItems = () => {
   );
 };
 
-// Função descomentada para renderizar a página
 function OutrosEmprestimos() {
   return (
     <>
