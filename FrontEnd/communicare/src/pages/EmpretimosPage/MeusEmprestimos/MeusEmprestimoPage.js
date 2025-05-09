@@ -203,7 +203,13 @@ const ListaItems = () => {
                 Estado:{" "}
                 <span
                   className={`estado-circle ${
-                    item.estado === "Disponível" ? "disponivel" : "emprestado"
+                    item.disponivel === 1
+                      ? "disponivel"
+                      : item.disponivel === 0
+                      ? "indisponivel"
+                      : item.disponivel === 2
+                      ? "permanentemente-indisponivel"
+                      : ""
                   }`}
                 ></span>
               </span>

@@ -242,10 +242,14 @@
   }
   
   .estado-circle.disponivel {
-    background-color: #28a745;
+    background-color: #28a745; /* verde */
   }
-  
-  .estado-circle.emprestado {
-    background-color: #dc3545;
+
+  .estado-circle.indisponivel {
+    background-color: #ffc107; /* amarelo */
+  }
+
+  .estado-circle.permanentemente-indisponivel {
+    background-color: #dc3545; /* vermelho */
   }
   
