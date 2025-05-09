@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { FaCubes, FaSearch } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-
+import { FaSearch } from "react-icons/fa";
+import { useNavigate, useParams } from "react-router-dom";
 
 import "./MaisInformacoes.css";
 
-import person1 from '../../../../assets/person1.jpg';
 import cares from '../../../../assets/Cares.png';
-import { useParams } from "react-router-dom";
 import { api } from '../../../../utils/axios.js';
 
 const HeaderProfileCares = () => {
@@ -47,7 +44,7 @@ const HeaderProfileCares = () => {
         alt="User"
         onError={(e) => {
           e.target.onerror = null;
-          e.target.src = '../../../../assets/icon.jpg'; // Fallback caso a imagem não exista
+          e.target.src = '../../../../assets/icon.jpg';
         }}
       />
     </header>
@@ -70,18 +67,17 @@ const Search = () => {
       setUserTipoUtilizadorId(response.data); 
     } catch (error) {
       console.error("Erro ao verificar o tipo de utilizador", error);
-      setUserTipoUtilizadorId(false); // Caso ocorra erro, tratamos como não admin
+      setUserTipoUtilizadorId(false);
     }
   };
 
-  // Carregar o tipo de utilizador ao montar o componente
   useEffect(() => {
-    verificarTipoUtilizador(); // Verifica o tipo de utilizador assim que o componente for montado
+    verificarTipoUtilizador();
   }, []);
 
   const handleClickPendentes = () => {
     if (userTipoUtilizadorId === true) {
-      navigate("/PendentesEmprestimos"); // Navega para a página desejada
+      navigate("/PendentesEmprestimos");
     } else {
       alert("Apenas administradores podem aceder a esta página!");
     }
@@ -97,8 +93,9 @@ const Search = () => {
           <button className="tab" onClick={() => navigate("/meusEmprestimos")}>
             Meus Empréstimos
           </button>
-          <button className="tab active" onClick={() => navigate("/outrosEmprestimos")}>Outros Emprestimos</button>
-          {/* Condição para mostrar o botão "Empréstimos Pendentes" apenas se o TipoUtilizadorId for admin */}
+          <button className="tab active" onClick={() => navigate("/outrosEmprestimos")}>
+            Outros Emprestimos
+          </button>
           {userTipoUtilizadorId === true && (
             <button className="tab" onClick={handleClickPendentes}>
               Empréstimos Pendentes
@@ -116,9 +113,13 @@ const Search = () => {
 
 const DetalhesItem = () => {
   const { id } = useParams();
-  const [item, setItem] = useState(null);
+  const [item, setItem] = useState({
+    nomeItem: "",
+    descItem: "",
+    comissaoCares: 0,
+    fotografiaItem: "",
+  });
   const [fotoEmprestador, setFotoEmprestador] = useState(null);
-
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -129,10 +130,19 @@ const DetalhesItem = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("Item recebido:", response.data);
-        setItem(response.data);
+        const data = response.data[0];  
+
+        console.log("Item carregado da API:", data);  
+
+        setItem({
+          nomeItem: data.nomeItem ?? "",
+          descItem: data.descItem ?? "",
+          comissaoCares: data.comissaoCares ?? 0,
+          fotografiaItem: data.fotografiaItem ?? "",
+        });
       } catch (error) {
         console.error('Erro ao buscar detalhes do item:', error);
+        alert('Erro ao carregar os detalhes do item.');
       }
     };
 
@@ -144,9 +154,7 @@ const DetalhesItem = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("Foto do emprestador recebida:", response.data);
 
-        // Montar a URL completa da foto
         const urlFoto = `http://localhost:5000/${response.data}`;
         setFotoEmprestador(urlFoto);
       } catch (error) {
@@ -159,20 +167,16 @@ const DetalhesItem = () => {
     fetchFotoEmprestador();
   }, [id]);
 
-  if (!item) {
-    return <p>A carregar detalhes do item...</p>;
-  }
-
   return (
     <div className="detalhesContainer">
       {/* LADO ESQUERDO */}
       <div className="colunaEsquerda">
-      <div className="userTitle">
+        <div className="userTitle">
           <img
             className="imgUsers"
             src={fotoEmprestador}
             onError={(e) => {
-              e.target.onerror = null; // Evita loop infinito se a suplente falhar
+              e.target.onerror = null;
               e.target.src = '../../../../assets/icon.jpg';
             }}
             alt="User"
@@ -181,24 +185,22 @@ const DetalhesItem = () => {
           />
           <h2 className="tituloItem">{item.nomeItem}</h2>
         </div>
+
         <img className="imgItemDetalhes" src={item.fotografiaItem} alt={item.nomeItem} />
 
         <div className="infoItem detalhes">
-          <span> <FaCubes /> {item.disponivel}</span>
           <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}/h</span>
         </div>
 
         <button className="botaoAceitar">Aceitar</button>
       </div>
 
-      {/* LADO DIREITO */}
       <div className="colunaDireita">
-        <h2 className="tituloItem">{item.nomeItem}</h2>
-
-        <div className="descricaoDetalhe">
-          <p className="decriptionText">{item.descItem || "Sem descrição disponível."}</p>
-        </div>
-      </div>
+  <h2 className="tituloItem">Detalhes do Item</h2>
+  <div className="caixaDescricao">
+    {item.descItem}
+  </div>
+</div>
     </div>
   );
 };
