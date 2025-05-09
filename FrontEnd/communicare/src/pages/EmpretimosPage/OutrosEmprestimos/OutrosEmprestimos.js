@@ -6,7 +6,10 @@ import cares from '../../../assets/Cares.png';
 import iconFallback from '../../../assets/icon.jpg';
 import "./OutrosEmprestimos.css";
 
+
 const HeaderProfileCares = () => {
+  const navigate = useNavigate();
+  const [isHovered, setIsHovered] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
@@ -33,8 +36,9 @@ const HeaderProfileCares = () => {
         {userInfo ? userInfo.numCares : "..."}
       </p>
       <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
-      <img
+            <img
         className="imgHeaderVol"
+        onClick={() => navigate(`/profile`)}
         src={
           userInfo && userInfo.fotoUtil
             ? `http://localhost:5182/${userInfo.fotoUtil}`
@@ -47,10 +51,21 @@ const HeaderProfileCares = () => {
           e.target.onerror = null;
           e.target.src = iconFallback;
         }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        style={{
+          margin: "5px",
+          cursor: "pointer",
+          borderRadius: "50%",
+          transition: "transform 0.3s ease, box-shadow 0.3s ease",
+          transform: isHovered ? "scale(1.1)" : "scale(1)",
+          boxShadow: isHovered ? "0 0 10px rgba(0,0,0,0.3)" : "none",
+        }}
       />
     </header>
   );
 };
+
 
 const Search = () => {
   const navigate = useNavigate();
