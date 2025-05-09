@@ -168,11 +168,11 @@ const ListaItems = () => {
   return (
     <div className="cards">
       
-    <div className="card adicionar-card" onClick={() => navigate("/pedirEmprestimo")} style={{ cursor: "pointer" }}>
+    <div className="card adicionar-card" onClick={() => navigate("/pedirEmprestimo")}>
       <div className="TitleOE">
         <h2>Adicionar Item</h2>
       </div>
-      <div className="adicionarIcon" style={{ fontSize: "100px", textAlign: "center", marginTop: "190px" }}>+</div>
+      <div className="adicionarIcon">+</div>
     </div>
       {items.map((item) => (
         <div className="card" key={item.itemId}>
