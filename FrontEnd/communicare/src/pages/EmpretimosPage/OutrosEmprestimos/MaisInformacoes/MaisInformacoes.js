@@ -32,7 +32,7 @@ const HeaderProfileCares = () => {
   return (
     <header>
       <p style={{ textAlign: "center" }}>
-        {userInfo ? userInfo.numCares : "..."}
+        {userInfo ? userInfo.numCares : "..." }
       </p>      
 
       <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
@@ -44,7 +44,7 @@ const HeaderProfileCares = () => {
         alt="User"
         onError={(e) => {
           e.target.onerror = null;
-          e.target.src = '../../../../assets/icon.jpg';
+          //e.target.src = '../../../../assets/icon.jpg';
         }}
       />
     </header>
@@ -54,7 +54,7 @@ const HeaderProfileCares = () => {
 const Search = () => {
   const navigate = useNavigate();
   const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null); 
-  
+
   const verificarTipoUtilizador = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -120,6 +120,7 @@ const DetalhesItem = () => {
     fotografiaItem: "",
   });
   const [fotoEmprestador, setFotoEmprestador] = useState(null);
+  const [fotosEmprestadores, setFotosEmprestadores] = useState({});
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -165,7 +166,60 @@ const DetalhesItem = () => {
 
     fetchItem();
     fetchFotoEmprestador();
+
+    const fetchItensEmprestimo = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await api.get('/ItensEmprestimo/Disponiveis', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        response.data.forEach(async (item) => {
+          try {
+            const fotoResponse = await api.get(`/ItensEmprestimo/${item.itemId}/foto-emprestador`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+            const urlFoto = `http://localhost:5000/${fotoResponse.data}`;
+            setFotosEmprestadores(prev => ({
+              ...prev,
+              [item.itemId]: urlFoto
+            }));
+          } catch (error) {
+            console.error(`Erro ao buscar foto do emprestador para item ${item.itemId}:`, error);
+          }
+        });
+
+      } catch (error) {
+        console.error('Erro ao buscar os itens disponíveis:', error);
+      }
+    };
+
+    fetchItensEmprestimo();
+
   }, [id]);
+
+  const requisitarItem = async (itemId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await api.post(`/ItensEmprestimo/AdquirirItem/${itemId}`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status === 200) {
+        alert("Pedido de empréstimo efetuado. Aguarde validação do administrador.");
+      } else {
+        alert(`Erro: ${response.data}`);
+      }
+    } catch (error) {
+      console.error("Erro ao requisitar item:", error);
+      alert("Houve um erro ao realizar a requisição. Tente novamente.");
+    }
+  };
 
   return (
     <div className="detalhesContainer">
@@ -192,15 +246,17 @@ const DetalhesItem = () => {
           <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}/h</span>
         </div>
 
-        <button className="botaoAceitar">Aceitar</button>
+        <button className="botaoAdquirir" onClick={() => requisitarItem(id)}>
+          Adquirir
+        </button>
       </div>
 
       <div className="colunaDireita">
-  <h2 className="tituloItem">Detalhes do Item</h2>
-  <div className="caixaDescricao">
-    {item.descItem}
-  </div>
-</div>
+        <h2 className="tituloItem">Detalhes do Item</h2>
+        <div className="caixaDescricao">
+          {item.descItem}
+        </div>
+      </div>
     </div>
   );
 };
