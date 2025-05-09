@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import "./DetalhesArtigo.css";
+import cares from "../../../assets/Cares.png";
+import { api } from "../../../utils/axios.js";
 
-import cares from '../../../assets/Cares.png';
-import { api } from '../../../utils/axios.js';
 
 const HeaderProfileCares = () => {
   const [userInfo, setUserInfo] = useState(null);
@@ -12,128 +12,203 @@ const HeaderProfileCares = () => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const response = await api.get('/Utilizadores/InfoUtilizador', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log("User info recebida:", response.data);
+        const response = await api.get("/Utilizadores/InfoUtilizador");
         setUserInfo(response.data);
       } catch (error) {
         console.error("Erro ao buscar info do utilizador:", error);
       }
     };
-
     fetchUserInfo();
   }, []);
 
   return (
     <header>
       <p style={{ textAlign: "center" }}>
-        {userInfo ? userInfo.numCares : "..." }
-      </p>      
-
+        {userInfo ? userInfo.numCares : "..."}
+      </p>
       <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
       <img
         className="imgHeaderVol"
-        src={userInfo ? `http://localhost:5000/${userInfo.fotoUtil}` : '../../../../assets/icon.jpg'}
+        src={
+          userInfo
+            ? `http://localhost:5000/${userInfo.fotoUtil}`
+            : "../../../../assets/icon.jpg"
+        }
         width={60}
         height={60}
         alt="User"
-        onError={(e) => {
-          e.target.onerror = null;
-        }}
       />
     </header>
   );
 };
 
+
 const DetalhesItem = () => {
-  const { artigoId } = useParams(); // Pegando o ID do artigo diretamente da URL
+  const { artigoId } = useParams();
+
   const [item, setItem] = useState({
     nomeArtigo: "",
     descArtigo: "",
     custoCares: 0,
     fotografiaArt: "",
   });
+
   const [mostrarPopup, setMostrarPopup] = useState(false);
-  const [artigoSelecionado, setArtigoSelecionado] = useState(null);
+  const [mostrarEscolhaComprovativo, setMostrarEscolhaComprovativo] = useState(false);
+  const [transacaoId, setTransacaoId] = useState(null);
+
 
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const response = await api.get(`/Artigos/${artigoId}`, { // Utilizando o artigoId da URL para buscar os detalhes do artigo
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        const resp = await api.get(`/Artigos/${artigoId}`);
+        const data = resp.data;
+        setItem({
+          nomeArtigo: data.nomeArtigo ?? "",
+          descArtigo: data.descArtigo ?? "",
+          custoCares: data.custoCares ?? 0,
+          fotografiaArt:
+            data.fotografiaArt && data.fotografiaArt !== "string"
+              ? `data:image/jpeg;base64,${data.fotografiaArt}`
+              : "",
         });
-
-        if (response.data) {  // A resposta é um objeto, não um array
-          const data = response.data;  // Não é mais necessário pegar [0], pois a resposta já é um objeto
-
-          console.log("Item carregado da API:", data);
-
-          setItem({
-            nomeArtigo: data.nomeArtigo ?? "",
-            descArtigo: data.descArtigo ?? "",
-            custoCares: data.custoCares ?? 0,
-            fotografiaArt: data.fotografiaArt ?? "",
-          });
-        } else {
-          throw new Error("Item não encontrado.");
-        }
-      } catch (error) {
-        console.error('Erro ao buscar detalhes do item:', error);
-        alert('Erro ao carregar os detalhes do item.');
+      } catch (err) {
+        console.error("Erro ao buscar detalhes do item:", err);
+        alert("Erro ao carregar os detalhes do item.");
       }
     };
-
     fetchItem();
-  }, [artigoId]);  // A dependência é o artigoId para fazer a busca sempre que o ID mudar
+  }, [artigoId]);
 
-  const handleComprar = (artigoId) => {
-    setArtigoSelecionado(artigoId);
-    setMostrarPopup(true);
+
+  const handleComprar = () => setMostrarPopup(true);
+  const cancelarCompra = () => setMostrarPopup(false);
+
+  const confirmarCompra = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const resp = await api.post(
+        "Vendas/Comprar",
+        { artigosIds: [artigoId] },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (resp.data.sucesso) {
+        const id = resp.data.transacaoId;
+        setTransacaoId(id);
+        setMostrarPopup(false);
+        setMostrarEscolhaComprovativo(true);
+      } else {
+        alert("Erro na compra: " + resp.data.erro);
+        setMostrarPopup(false);
+      }
+    } catch (err) {
+      console.error("Erro ao realizar a compra:", err);
+      alert("Erro ao realizar a compra.");
+      setMostrarPopup(false);
+    }
   };
+
+  const enviarComprovativoEmail = async () => {
+    if (!transacaoId) return alert("Transação não encontrada.");
+    try {
+      const r = await api.get(`Vendas/Comprovativo/Email/${transacaoId}`);
+      alert(r.data.mensagem ?? "Comprovativo enviado!");
+    } catch {
+      alert("Erro ao enviar comprovativo por email.");
+    }
+    setMostrarEscolhaComprovativo(false);
+  };
+
+  const downloadComprovativoPDF = async () => {
+    if (!transacaoId) return alert("Transação não encontrada.");
+    try {
+      const r = await api.get(
+        `Vendas/Comprovativo/Download/${transacaoId}`,
+        { responseType: "blob" }
+      );
+      const url = URL.createObjectURL(new Blob([r.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "ComprovativoCompra.pdf");
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch {
+      alert("Erro ao baixar comprovativo em PDF.");
+    }
+    setMostrarEscolhaComprovativo(false);
+  };
+
 
   return (
     <div className="detalhesContainer">
-      {/* LADO ESQUERDO */}
+
       <div className="colunaEsquerda">
         <h2 className="tituloItem">{item.nomeArtigo}</h2>
-
-        <img className="imgItemDetalhes" src={item.fotografiaArt} alt={item.nomeArtigo} />
-
+        {item.fotografiaArt ? (
+          <img
+            className="imgItemDetalhes"
+            src={item.fotografiaArt}
+            alt={item.nomeArtigo}
+          />
+        ) : (
+          <span className="no-img">Sem imagem</span>
+        )}
         <div className="infoItem detalhes">
-          <span><img src={cares} width={30} height={30} alt="Cares" /> {item.custoCares}/h</span>
+          <span>
+            <img src={cares} width={30} height={30} alt="Cares" /> {item.custoCares}
+          </span>
         </div>
-
-        <button className="botaoComprar" onClick={() => handleComprar(item.artigoId)}>
+        <button className="botaoComprar" onClick={handleComprar}>
           Comprar
         </button>
       </div>
 
+
       <div className="colunaDireita">
         <h2 className="tituloItem">Detalhes do Artigo</h2>
-        <div className="caixaDescricao">
-          {item.descArtigo}
-        </div>
+        <div className="caixaDescricao">{item.descArtigo}</div>
       </div>
 
-      {/* Exibir o popup de compra */}
+
       {mostrarPopup && (
-        <div className="popup">
-          {/* Adicionar conteúdo do popup aqui */}
-          <p>Compra do artigo {artigoSelecionado} em andamento...</p>
+        <div className="popup-overlay">
+          <div className="popup-box">
+            <p>Tem a certeza de que deseja comprar este artigo?</p>
+            <div className="popup-buttons">
+              <button onClick={confirmarCompra} className="botao-confirmar">
+                Sim
+              </button>
+              <button onClick={cancelarCompra} className="botao-cancelar">
+                Não
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {mostrarEscolhaComprovativo && (
+        <div className="popup-overlay">
+          <div className="popup-box">
+            <p>Como deseja receber o comprovativo?</p>
+            <div className="popup-buttons">
+              <button onClick={enviarComprovativoEmail} className="botao-confirmar">
+                Por E-mail
+              </button>
+              <button onClick={downloadComprovativoPDF} className="botao-confirmar">
+                Baixar PDF
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
   );
 };
 
-function DetalhesArtigo() {
+
+export default function DetalhesArtigo() {
   return (
     <>
       <HeaderProfileCares />
@@ -141,5 +216,3 @@ function DetalhesArtigo() {
     </>
   );
 }
-
-export default DetalhesArtigo;
