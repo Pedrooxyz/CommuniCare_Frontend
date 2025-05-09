@@ -18,6 +18,7 @@ import MeusEmprestimos from "./pages/EmpretimosPage/MeusEmprestimos/MeusEmpresti
 import PedirEmprestimo from "./pages/EmpretimosPage/PedirEmprestimo/PedirEmprestimo";
 import EditarItem from "./pages/EmpretimosPage/EditarItem/EditarItem";
 
+import MeusPedidos from "./pages/VoluntariadosPage/MeusPedidos/MeusPedidos"
 
 import Notificacoes from "./pages/NotificacoesPage/Notificacoes";
 import NotificacoesArq from "./pages/NotificacoesPage/NotificacoesArq/NotificacoesArq";
@@ -51,6 +52,8 @@ function App() {
         < Route path="/meusEmprestimos" element={<MeusEmprestimos />} />
         < Route path="/editarItem/:itemId" element={<EditarItem />} />
         <Route path="/pedirEmprestimo" element={<PedirEmprestimo />} />
+
+        < Route path="/meusPedidos" element={<MeusPedidos />} />
 
         <Route path="/resetpassword" element={<ResetPassword />} />
 

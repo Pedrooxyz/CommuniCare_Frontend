@@ -1,198 +1,182 @@
 * {
-    box-sizing: border-box;
-  }
-  
-  
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #E9DEDE;
-  }
-  
-  header {
-    display: flex;
-    column-gap: 10px;
-    align-items: center;
-    position: absolute; 
-    top: 0; 
-    right: 0; 
-    padding: 10px 20px 10px; 
-  }
-  
-  header .ptext{
-    
-    font-weight: bold;
-    font-size: 20px;
-  }
-  
-  .imgHeaderVol{
-    border-radius: 50%;
-  }
-  
-  .mainName{
-    background-color: #ffffff;
-    display: flex;
-    justify-content: center;
-    margin: 20px 520px 0px;
-    border-radius: 15px;
-    margin-bottom: 30px;
-  }
-  
-  .mainName h1{
-    margin-top: 15px;
-    margin-bottom: 15px;
-    font-weight: bold;
-    font-size: 40px;
-  }
-  
-  .app {
-    padding: 20px;
-  }
-  
-  
-  
-  .tabs {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .tab {
-    background-color: #FFAEAE;
-    color: white;
-    border: none;
-    padding: 10px 75px;
-    border-radius: 999px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-left: 90px;
-  }
-  
-  .tab.active {
-    background-color: #FF7C7C;
-  }
-  
-  .search-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    
-  }
-  
-  .search {
-    background-color: #E8F1FF;
-    flex: 1;
-    padding: 10px 20px 10px 40px; /* <-- espaço para a lupa à esquerda */
-    padding-right: 500px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    margin-right: 50px;
-    margin-left: 20px;
-  }
-  
-  .search-icon {
-    position: absolute;
-    left: 35px;
-    color: #888;
-  }
-  
-  input.placeholder{
-    margin-left: 3px;
-  }
-  
-  .cards {
-    display: flex;
-    column-gap: 30px;
-    padding-left: 50px;
-    padding-right: 50px;
-    padding-bottom: 20px;
-  }
-  
-  .card {
-    background-color: white;
-    border-radius: 20px;
-    padding: 15px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    width: 500px;
-    height: 650px;
-    
-  }
-  
-  .userTitle{
-    display: flex;
-    justify-content: space-between;
-    column-gap: 50px;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-  
-  .imgPedidos {
-    width: 370px;
-    height: 230px;
-    object-fit: cover;
-    border-radius: 12px;
-    margin: 0 auto 25px auto; /* topo, horizontal, baixo, horizontal */
-    display: block; /* necessário para margin: auto funcionar em imagens */
-    
-  }
-  
-  .imgUsers{
-    border-radius: 100px;
-    margin-left: 20px;
-  }
-  
-  
-  
-  .card h2 {
-    background-color: #ffeef0;
-    text-align: center;
-    font-size: 26px;
-    border-radius: 10px;
-    padding: 10px 20px;
-    margin-right: 50px;
-    margin-bottom: 10px;
-    width: 100%;
-    box-sizing: border-box; /* garante que o padding conta dentro da largura */
-  }
-  
-  
-  .card .ptext {
-    
-    background-color: #f9f3f0;
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-size: 0.95rem;
-    width: 400px;
-    height: 100px;
-    margin-left: 15px;
-    margin-right: 15px;
-    overflow-y: scroll;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-  }
-  
-  .infoPedido, .datetime {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-    font-weight: bold;
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-bottom: 5px;
-  }
-  
-  
-  
-  .infoPedido span,
-  .datetime span {
-    background-color: #FAEEE7;
-    padding: 10px 20px;
-    border-radius: 15px;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #E9DEDE;
+}
+
+header {
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px 20px;
+}
+
+header .ptext {
+  font-weight: bold;
   font-size: 20px;
-    display: inline-flex;             /* permite usar alinhamento interno */
-    align-items: center;             /* alinha ícone/texto verticalmente */
-    justify-content: center;         /* alinha conteúdo horizontalmente */
-    gap: 8px;                         /* espaço entre ícone e texto */
-  }
+}
+
+.imgHeaderVol {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.mainName {
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  margin: 20px 520px 0px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+}
+
+.mainName h1 {
+  margin: 15px 0;
+  font-weight: bold;
+  font-size: 40px;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.choose {
+  display: flex;
+  width: 100%;
+}
+
+.tab {
+  flex: 1;
+  background-color: #FFAEAE;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 60px;
+  text-align: center;
+}
+
+.tab.active {
+  background-color: #FF7C7C;
+}
+
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search {
+  background-color: #E8F1FF;
+  flex: 1;
+  padding: 10px 20px 10px 40px;
+  padding-right: 500px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-right: 50px;
+  margin-left: 20px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 35px;
+  color: #888;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 10px;
+  padding: 30px;
+}
+
+.card {
+  background-color: white;
+  border-radius: 20px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  width: 480px;
+  height: 650px;
+  margin-bottom: 10px;
+}
+
+.userTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 20px;
+  margin-bottom: 15px;
+}
+
+.imgUsers {
+  object-fit: cover;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  margin-left: 20px;
+}
+
+.card h2 {
+  background-color: #ffeef0;
+  text-align: center;
+  font-size: 26px;
+  border-radius: 10px;
+  padding: 10px 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ptext {
+  background-color: #f9f3f0;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  width: 400px;
+  height: 100px;
+  margin: 0 auto 10px;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.imgPedidos {
+  width: 370px;
+  height: 230px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin: 15px auto 25px auto;
+  display: block;
+}
+
+.infoPedido,
+.datetime {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  margin: 0 20px 10px 20px;
+}
+
+.infoPedido span,
+.datetime span {
+  background-color: #FAEEE7;
+  padding: 10px 20px;
+  border-radius: 15px;
+  font-size: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
