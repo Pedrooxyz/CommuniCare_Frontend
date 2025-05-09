@@ -46,6 +46,7 @@ const HeaderProfileCares = () => {
 const DetalhesItem = () => {
   const { artigoId } = useParams();
 
+
   const [item, setItem] = useState({
     nomeArtigo: "",
     descArtigo: "",
@@ -53,11 +54,14 @@ const DetalhesItem = () => {
     fotografiaArt: "",
   });
 
+  
   const [mostrarPopup, setMostrarPopup] = useState(false);
   const [mostrarEscolhaComprovativo, setMostrarEscolhaComprovativo] = useState(false);
+  const [mensagemErro, setMensagemErro] = useState("");        // texto vindo do back-end
+  const [mostrarErroPopup, setMostrarErroPopup] = useState(false);
   const [transacaoId, setTransacaoId] = useState(null);
 
-
+  
   useEffect(() => {
     const fetchItem = async () => {
       try {
@@ -80,7 +84,7 @@ const DetalhesItem = () => {
     fetchItem();
   }, [artigoId]);
 
-
+  
   const handleComprar = () => setMostrarPopup(true);
   const cancelarCompra = () => setMostrarPopup(false);
 
@@ -94,18 +98,21 @@ const DetalhesItem = () => {
       );
 
       if (resp.data.sucesso) {
-        const id = resp.data.transacaoId;
-        setTransacaoId(id);
+        setTransacaoId(resp.data.transacaoId);
         setMostrarPopup(false);
         setMostrarEscolhaComprovativo(true);
       } else {
-        alert("Erro na compra: " + resp.data.erro);
+        
+        setMensagemErro(resp.data.erro || "Erro na compra.");
         setMostrarPopup(false);
+        setMostrarErroPopup(true);
       }
     } catch (err) {
-      console.error("Erro ao realizar a compra:", err);
-      alert("Erro ao realizar a compra.");
+      
+      const erroBackend = err.response?.data?.erro || "Erro ao realizar a compra.";
+      setMensagemErro(erroBackend);
       setMostrarPopup(false);
+      setMostrarErroPopup(true);
     }
   };
 
@@ -143,7 +150,7 @@ const DetalhesItem = () => {
 
   return (
     <div className="detalhesContainer">
-
+      
       <div className="colunaEsquerda">
         <h2 className="tituloItem">{item.nomeArtigo}</h2>
         {item.fotografiaArt ? (
@@ -165,13 +172,13 @@ const DetalhesItem = () => {
         </button>
       </div>
 
-
+     
       <div className="colunaDireita">
         <h2 className="tituloItem">Detalhes do Artigo</h2>
         <div className="caixaDescricao">{item.descArtigo}</div>
       </div>
 
-
+     
       {mostrarPopup && (
         <div className="popup-overlay">
           <div className="popup-box">
@@ -198,6 +205,22 @@ const DetalhesItem = () => {
               </button>
               <button onClick={downloadComprovativoPDF} className="botao-confirmar">
                 Baixar PDF
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {mostrarErroPopup && (
+        <div className="popup-overlay">
+          <div className="popup-box">
+            <p>{mensagemErro}</p>
+            <div className="popup-buttons">
+              <button
+                onClick={() => setMostrarErroPopup(false)}
+                className="botao-confirmar"
+              >
+                Fechar
               </button>
             </div>
           </div>
