@@ -6,6 +6,7 @@ import "./OutrosPedidos.css";
 
 // Imagens
 import cares from '../../../assets/Cares.png';
+import iconFallback from '../../../assets/icon.jpg';
 
 const HeaderProfileCares = () => {
   const [userInfo, setUserInfo] = useState(null);
@@ -13,7 +14,12 @@ const HeaderProfileCares = () => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const response = await api.get("Utilizadores/InfoUtilizador");
+        const token = localStorage.getItem("token");
+        const response = await api.get("Utilizadores/InfoUtilizador", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setUserInfo(response.data);
       } catch (error) {
         console.error("Erro ao buscar info do utilizador:", error);
@@ -29,13 +35,17 @@ const HeaderProfileCares = () => {
       <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
       <img
         className="imgHeaderVol"
-        src={userInfo ? `http://localhost:5000/${userInfo.fotoUtil}` : '../../../../assets/icon.jpg'}
+        src={
+          userInfo && userInfo.fotoUtil
+            ? `http://localhost:5182/${userInfo.fotoUtil}`
+            : iconFallback
+        }
         width={60}
         height={60}
         alt="User"
         onError={(e) => {
           e.target.onerror = null;
-          e.target.src = '../../../../assets/icon.jpg';
+          e.target.src = iconFallback;
         }}
       />
     </header>
@@ -76,11 +86,10 @@ const ListaPedidos = () => {
         const response = await api.get("PedidosAjuda/PedidosDisponiveis");
         setPedidos(response.data);
 
-        // Carrega fotos dos utilizadores
         for (const pedido of response.data) {
           try {
             const fotoResponse = await api.get(`PedidosAjuda/${pedido.pedidoId}/foto-requerente`);
-            const urlFoto = `http://localhost:5000/${fotoResponse.data}`;
+            const urlFoto = `http://localhost:5182/${fotoResponse.data}`;
             setFotosUtilizadores(prev => ({
               ...prev,
               [pedido.pedidoId]: urlFoto
@@ -104,18 +113,30 @@ const ListaPedidos = () => {
           <div className="userTitle">
             <img
               className="imgUsers"
-              src={fotosUtilizadores[pedido.pedidoId] || '../../../../assets/icon.jpg'}
+              src={fotosUtilizadores[pedido.pedidoId] || iconFallback}
               width={70}
               height={70}
               alt="User"
               onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = '../../../../assets/icon.jpg';
+                e.target.src = iconFallback;
               }}
             />
             <h2>{pedido.tituloPedido}</h2>
           </div>
-          <img className="imgPedidos" src={pedido.fotografiaPedido} alt={pedido.tituloPedido} />
+          <img
+            className="imgPedidos"
+            src={
+              pedido.fotografiaPedido && pedido.fotografiaPedido.trim() !== ""
+                ? `http://localhost:5182/${pedido.fotografiaPedido}`
+                : iconFallback
+            }
+            alt={pedido.tituloPedido}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = iconFallback;
+            }}
+          />
 
           <p className="ptext">{pedido.descPedido || "Sem descrição disponível."}</p>
 
