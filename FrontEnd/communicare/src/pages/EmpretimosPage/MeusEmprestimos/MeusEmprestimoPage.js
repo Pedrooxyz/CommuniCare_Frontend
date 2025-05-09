@@ -7,8 +7,11 @@ import "./MeusEmprestimosPage.css";
 import person1 from "../../../assets/person1.jpg";
 import cares from "../../../assets/Cares.png";
 import cortaRelva from "../../../assets/cortaRelva.jpg";
+import iconFallback from '../../../assets/icon.jpg';
 
 const HeaderProfileCares = () => {
+  const navigate = useNavigate();
+  const [isHovered, setIsHovered] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
@@ -20,7 +23,6 @@ const HeaderProfileCares = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("User info recebida:", response.data);
         setUserInfo(response.data);
       } catch (error) {
         console.error("Erro ao buscar info do utilizador:", error);
@@ -34,18 +36,32 @@ const HeaderProfileCares = () => {
     <header>
       <p style={{ textAlign: "center" }}>
         {userInfo ? userInfo.numCares : "..."}
-      </p>      
-
+      </p>
       <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
-      <img
+            <img
         className="imgHeaderVol"
-        src={userInfo ? `http://localhost:5000/${userInfo.fotoUtil}` : '../../../../assets/icon.jpg'}
+        onClick={() => navigate(`/profile`)}
+        src={
+          userInfo && userInfo.fotoUtil
+            ? `http://localhost:5182/${userInfo.fotoUtil}`
+            : iconFallback
+        }
         width={60}
         height={60}
         alt="User"
         onError={(e) => {
           e.target.onerror = null;
-          e.target.src = '../../../../assets/icon.jpg'; // Fallback caso a imagem não exista
+          e.target.src = iconFallback;
+        }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        style={{
+          margin: "5px",
+          cursor: "pointer",
+          borderRadius: "50%",
+          transition: "transform 0.3s ease, box-shadow 0.3s ease",
+          transform: isHovered ? "scale(1.1)" : "scale(1)",
+          boxShadow: isHovered ? "0 0 10px rgba(0,0,0,0.3)" : "none",
         }}
       />
     </header>
