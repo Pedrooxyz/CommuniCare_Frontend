@@ -197,8 +197,8 @@ function PedirEmprestimo() {
             </button>
           </div>
 
-          <textarea placeholder="Detalhes" maxLength={300} value={detalhes} onChange={(e) => setDetalhes(e.target.value)} className="textarea-detalhes"></textarea>
-          <span className="contador-detalhes">{detalhes.length}/300</span>
+          <textarea placeholder="Detalhes" maxLength={255} value={detalhes} onChange={(e) => setDetalhes(e.target.value)} className="textarea-detalhes"></textarea>
+          <span className="contador-detalhes">{detalhes.length}/255</span>
         </div>
       </div>
     </div>
