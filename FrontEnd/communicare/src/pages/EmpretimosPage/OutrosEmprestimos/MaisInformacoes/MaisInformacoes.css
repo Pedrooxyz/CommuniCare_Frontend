@@ -28,6 +28,18 @@ header p {
   object-fit: cover; /* garante que a imagem preencha o espaço sem distorcer */
 }
 
+.imgHeaderUser {
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.imgHeaderUser.hovered {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
 .detalhesContainer {
   display: flex;
   gap: 40px;

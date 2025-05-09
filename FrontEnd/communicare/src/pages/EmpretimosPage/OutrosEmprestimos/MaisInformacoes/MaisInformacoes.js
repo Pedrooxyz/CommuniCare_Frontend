@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
+import { getUserImageUrl } from '../../../../utils/url';
+import iconFallback from '../../../../assets/icon.jpg';
 
 import "./MaisInformacoes.css";
 
@@ -9,6 +11,7 @@ import { api } from '../../../../utils/axios.js';
 
 const HeaderProfileCares = () => {
   const [userInfo, setUserInfo] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -19,7 +22,6 @@ const HeaderProfileCares = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("User info recebida:", response.data);
         setUserInfo(response.data);
       } catch (error) {
         console.error("Erro ao buscar info do utilizador:", error);
@@ -32,46 +34,58 @@ const HeaderProfileCares = () => {
   return (
     <header>
       <p style={{ textAlign: "center" }}>
-        {userInfo ? userInfo.numCares : "..." }
-      </p>      
+        {userInfo ? userInfo.numCares : "..."}
+      </p>
 
       <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
       <img
-        className="imgHeaderVol"
-        src={userInfo ? `http://localhost:5000/${userInfo.fotoUtil}` : '../../../../assets/icon.jpg'}
+        className="imgHeaderUser"
+        onClick={() => navigate(`/profile`)}
+        src={
+          userInfo && userInfo.fotoUtil
+            ? getUserImageUrl(userInfo.fotoUtil)
+            : iconFallback
+        }
         width={60}
         height={60}
         alt="User"
         onError={(e) => {
           e.target.onerror = null;
-          //e.target.src = '../../../../assets/icon.jpg';
+          e.target.src = iconFallback;
         }}
       />
     </header>
   );
 };
 
+const getImagemSrc = (fotoItem) => {
+  if (fotoItem && fotoItem.trim() !== "" && fotoItem !== "null") {
+    return `data:image/jpeg;base64,${fotoItem}`;
+  } else {
+    return iconFallback; // Certifique-se de ter uma imagem de fallback para erro
+  }
+};
+
 const Search = () => {
   const navigate = useNavigate();
-  const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null); 
-
-  const verificarTipoUtilizador = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await api.get("/Utilizadores/VerificarAdmin", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setUserTipoUtilizadorId(response.data); 
-    } catch (error) {
-      console.error("Erro ao verificar o tipo de utilizador", error);
-      setUserTipoUtilizadorId(false);
-    }
-  };
+  const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
 
   useEffect(() => {
+    const verificarTipoUtilizador = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await api.get("/Utilizadores/VerificarAdmin", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUserTipoUtilizadorId(response.data);
+      } catch (error) {
+        console.error("Erro ao verificar o tipo de utilizador", error);
+        setUserTipoUtilizadorId(false);
+      }
+    };
+
     verificarTipoUtilizador();
   }, []);
 
@@ -94,7 +108,7 @@ const Search = () => {
             Meus Empréstimos
           </button>
           <button className="tab active" onClick={() => navigate("/outrosEmprestimos")}>
-            Outros Emprestimos
+            Outros Empréstimos
           </button>
           {userTipoUtilizadorId === true && (
             <button className="tab" onClick={handleClickPendentes}>
@@ -111,6 +125,7 @@ const Search = () => {
   );
 };
 
+
 const DetalhesItem = () => {
   const { id } = useParams();
   const [item, setItem] = useState({
@@ -120,7 +135,6 @@ const DetalhesItem = () => {
     fotografiaItem: "",
   });
   const [fotoEmprestador, setFotoEmprestador] = useState(null);
-  const [fotosEmprestadores, setFotosEmprestadores] = useState({});
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -131,10 +145,8 @@ const DetalhesItem = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        const data = response.data[0];  
 
-        console.log("Item carregado da API:", data);  
-
+        const data = response.data[0];
         setItem({
           nomeItem: data.nomeItem ?? "",
           descItem: data.descItem ?? "",
@@ -155,8 +167,7 @@ const DetalhesItem = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-
-        const urlFoto = `http://localhost:5000/${response.data}`;
+        const urlFoto = `http://localhost:5182/${response.data}`;
         setFotoEmprestador(urlFoto);
       } catch (error) {
         console.error('Erro ao buscar foto do emprestador:', error);
@@ -166,40 +177,6 @@ const DetalhesItem = () => {
 
     fetchItem();
     fetchFotoEmprestador();
-
-    const fetchItensEmprestimo = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await api.get('/ItensEmprestimo/Disponiveis', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        response.data.forEach(async (item) => {
-          try {
-            const fotoResponse = await api.get(`/ItensEmprestimo/${item.itemId}/foto-emprestador`, {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            });
-            const urlFoto = `http://localhost:5000/${fotoResponse.data}`;
-            setFotosEmprestadores(prev => ({
-              ...prev,
-              [item.itemId]: urlFoto
-            }));
-          } catch (error) {
-            console.error(`Erro ao buscar foto do emprestador para item ${item.itemId}:`, error);
-          }
-        });
-
-      } catch (error) {
-        console.error('Erro ao buscar os itens disponíveis:', error);
-      }
-    };
-
-    fetchItensEmprestimo();
-
   }, [id]);
 
   const requisitarItem = async (itemId) => {
@@ -223,15 +200,14 @@ const DetalhesItem = () => {
 
   return (
     <div className="detalhesContainer">
-      {/* LADO ESQUERDO */}
       <div className="colunaEsquerda">
         <div className="userTitle">
           <img
             className="imgUsers"
-            src={fotoEmprestador}
+            src={fotoEmprestador || iconFallback}
             onError={(e) => {
               e.target.onerror = null;
-              e.target.src = '../../../../assets/icon.jpg';
+              e.target.src = iconFallback;
             }}
             alt="User"
             width={70}
@@ -240,7 +216,15 @@ const DetalhesItem = () => {
           <h2 className="tituloItem">{item.nomeItem}</h2>
         </div>
 
-        <img className="imgItemDetalhes" src={item.fotografiaItem} alt={item.nomeItem} />
+        <img
+          className="imgItemDetalhes"
+          src={getImagemSrc(item.fotografiaItem)}
+          alt={item.nomeItem}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = iconFallback;
+          }}
+        />
 
         <div className="infoItem detalhes">
           <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}/h</span>
