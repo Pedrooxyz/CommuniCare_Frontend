@@ -1,144 +1,286 @@
-.detalhes-container {
-    font-family: Arial, sans-serif;
-    background-color: #f5f0e9;
-    padding: 20px;
-    min-height: 100vh;
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #E9DEDE;
+}
+
+header {
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px 20px 10px;
+}
+
+header p {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.imgHeaderVol {
+  border-radius: 50%;
+  object-fit: cover; /* garante que a imagem preencha o espaço sem distorcer */
+}
+
+.detalhesContainer {
+  display: flex;
+  gap: 40px;
+  padding: 20px;
+  width: 80%;
+  justify-content: center;
+  margin: 0px auto;
+}
+
+.colunaEsquerda, .colunaDireita {
+  background: white;
+  border-radius: 20px;
+  padding: 10px 20px 50px;
+}
+
+.colunaEsquerda {
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.userTitle {
+  display: flex;
+  margin-bottom: 0px;
+}
+
+.imgUsers {
+  object-fit: cover; /* garante que a imagem preencha o espaço sem distorcer */
+  border-radius: 50%; /* 100px funciona, mas 50% é mais semântico pra círculos */
+  margin-left: 0px;
+}
+
+.imgItemDetalhes {
+  width: 90%;
+  height: auto;
+  border-radius: 15px;
+  object-fit: cover;
+  margin-top: 0px;
+}
+
+.infoItem {
+  width: 90%;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.infoItem span {
+  background-color: #FAEEE7;
+  padding: 10px 20px;
+  border-radius: 15px;
+  font-size: 20px;
+  display: inline-flex; /* permite usar alinhamento interno */
+  align-items: center; /* alinha ícone/texto verticalmente */
+  justify-content: center; /* alinha conteúdo horizontalmente */
+  gap: 8px; /* espaço entre ícone e texto */
+}
+
+.botaoComprar {
+  background-color: #4CAF50; /* Cor verde */
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+  padding: 12px 55px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  margin: 25px 0px 10px;
+}
+
+.botaoAdquirir:hover {
+  background-color: #45a049; /* Sombra mais escura ao passar o mouse */
+}
+
+.colunaDireita {
+  flex: 1;
+}
+
+.tituloItem {
+  font-size: 27px;
+  background-color: #FFEEF5;
+  padding: 10px 20px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.colunaDireita .tituloItem {
+  width: 30%;
+}
+
+.descricaoDetalhe {
+  background-color: #FAEEE7;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.boxDetalhes {
+  background-color: #FAEEE7;
+  padding: 15px 20px;
+  border-radius: 15px;
+  margin-top: 20px;
+  height: 50%;
+}
+
+.h3Detalhes {
+  background-color: #FFEEF5;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 20px;
+  text-align: center;
+  width: 30%;
+  font-size: 20px;
+}
+
+.detallesText {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.decriptionText {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.caixaDescricao {
+  background-color: #FAEEE7;
+  padding: 15px 20px;
+  border-radius: 10px;
+  text-align: left;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-top: 15px;
+  width: 100%;
+  height: 300px;
+  overflow-y: auto;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.caixaDescricao::-webkit-scrollbar {
+  display: none;
+}
+
+
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 14px;
   }
-  
-  /* Header */
-  .detalhes-header-vol {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 15px;
-    background-color: white;
-    border-radius: 12px;
-    /* Removido o box-shadow */
-    margin-bottom: 20px;
-    border: none;
+
+  header p {
+    font-size: 16px;
   }
-  
-  .detalhes-botao-voltar {
-    background: none;
-    border: none;
-    font-size: 0.95em;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    color: #333;
-    font-weight: bold;
+
+  .infoItem span {
+    font-size: 16px;
+    padding: 8px 16px;
   }
-  
-  .detalhes-header-right {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+
+  .botaoAdquirir {
+    font-size: 16px;
+    padding: 10px 40px;
   }
-  
-  .detalhes-ptext {
-    margin: 0;
-    font-weight: bold;
-    font-size: 0.95em;
+
+  .tituloItem {
+    font-size: 20px;
   }
-  
-  .detalhes-imgHeaderVol {
-    border-radius: 50%;
+
+  .h3Detalhes {
+    font-size: 16px;
   }
-  
-  /* Título principal */
-  .detalhes-titulo-principal {
-    text-align: center;
-    font-size: 1.6em;
-    margin: 0 0 20px;
-    color: #333;
+
+  .caixaDescricao {
+    font-size: 0.9rem;
+    padding: 12px 16px;
+    height: 250px;
   }
-  
-  /* Cartão do artigo */
-  .detalhes-card {
-    background-color: white;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
-    max-width: 450px;
-    margin: 0 auto;
-    text-align: center;
-    display: flex;
+
+  .imgUsers,
+  .imgHeaderVol {
+    width: 80px;
+    height: 80px;
+  }
+
+  .imgItemDetalhes {
+    width: 80%;
+  }
+
+  .detalhesContainer {
+    gap: 20px;
+    padding: 15px;
+    width: 90%;
+  }
+
+  .colunaEsquerda, .colunaDireita {
+    padding: 10px 15px 30px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  body {
+    font-size: 12px;
+  }
+
+  header p {
+    font-size: 14px;
+  }
+
+  .infoItem span {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+
+  .botaoAdquirir {
+    font-size: 14px;
+    padding: 8px 30px;
+  }
+
+  .tituloItem {
+    font-size: 18px;
+  }
+
+  .h3Detalhes {
+    font-size: 14px;
+  }
+
+  .caixaDescricao {
+    font-size: 0.8rem;
+    padding: 10px 14px;
+    height: 200px;
+  }
+
+  .imgUsers,
+  .imgHeaderVol {
+    width: 60px;
+    height: 60px;
+  }
+
+  .imgItemDetalhes {
+    width: 70%;
+  }
+
+  .detalhesContainer {
     flex-direction: column;
     gap: 15px;
+    padding: 10px;
+    width: 95%;
   }
-  
-  .detalhes-titulo-artigo {
-    background-color: #f5e1e1;
-    border-radius: 8px;
-    padding: 8px;
-    font-size: 1.2em;
-    margin: 0;
-  }
-  
-  /* Imagem do artigo */
-  .detalhes-img-artigo img {
+
+  .colunaEsquerda, .colunaDireita {
     width: 100%;
-    max-height: 250px;
-    object-fit: cover;
-    border-radius: 8px;
+    padding: 8px 12px 20px;
   }
-  
-  .detalhes-no-img {
-    display: inline-block;
-    padding: 10px;
-    background-color: #fff5f5;
-    border-radius: 8px;
-    font-size: 0.9em;
-    color: #888;
-  }
-  
-  /* Descrição */
-  .detalhes-descricao-artigo {
-    background-color: #fff5f5;
-    border-radius: 8px;
-    padding: 10px;
-    font-size: 0.95em;
-    line-height: 1.4;
-  }
-  
-  /* Custo */
-  .detalhes-custo-artigo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    font-size: 1em;
-  }
-  
-  .detalhes-custo-artigo .detalhes-icon {
-    width: 24px;
-    height: 24px;
-  }
-  
-  /* Botão de comprar */
-  .detalhes-botao-comprar {
-    background-color: #ff6f61;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 10px;
-    font-size: 1em;
-    font-weight: bold;
-    cursor: pointer;
-    width: 100%;
-    transition: background-color 0.3s ease;
-  }
-  
-  .detalhes-botao-comprar:hover {
-    background-color: #e65a50;
-  }
-  
-  /* Loading e Erro */
-  .detalhes-loading,
-  .detalhes-error {
-    text-align: center;
-    font-size: 1em;
-    color: #666;
-    margin-top: 40px;
-  }
-  
+}
