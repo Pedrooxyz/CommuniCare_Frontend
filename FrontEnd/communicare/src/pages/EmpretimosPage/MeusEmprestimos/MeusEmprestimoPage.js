@@ -190,30 +190,23 @@ const ListaItems = () => {
 
           <div className="infoItemOE">
             <span>
-              <FaCubes /> {item.disponivel ? "Disponível" : "Emprestado"}
+                  Estado:{" "}
+                  <span
+                    className={`estado-circle ${
+                      item.disponivel === 1
+                        ? "disponivel"
+                        : item.disponivel === 0
+                        ? "indisponivel"
+                        : item.disponivel === 2
+                        ? "permanentemente-indisponivel"
+                        : ""
+                    }`}
+                  ></span>
             </span>
             <span>
               <img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}/h
             </span>
           </div>
-
-          <div className="estadoItem">
-            <div>
-              <span className="estado">
-                Estado:{" "}
-                <span
-                  className={`estado-circle ${
-                    item.disponivel === 1
-                      ? "disponivel"
-                      : item.disponivel === 0
-                      ? "indisponivel"
-                      : item.disponivel === 2
-                      ? "permanentemente-indisponivel"
-                      : ""
-                  }`}
-                ></span>
-              </span>
-            </div>
             <div className="controlesAcao">
               <button className="EditDeleteButtons" onClick={() => handleEdit(item.itemId)}>
                 <FaEdit />
@@ -222,7 +215,6 @@ const ListaItems = () => {
                 <FaTrash />
               </button>
             </div>
-          </div>
         </div>
       ))}
     </div>
