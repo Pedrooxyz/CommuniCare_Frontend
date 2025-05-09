@@ -60,7 +60,7 @@ const DadosUserPI = () => {
           api.get('/Utilizadores/InfoUtilizador', {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          api.get('/Utilizadores/ContactosUtilizador', {
+          api.get('/Contactos/ContactosUtilizador', {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
@@ -76,36 +76,45 @@ const DadosUserPI = () => {
     fetchUserInfo();
   }, []);
 
-  // Função para lidar com o envio da nova foto
-  const handlePhotoChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setNewPhoto(URL.createObjectURL(file));  // Definir a imagem localmente
+const handlePhotoChange = (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    // Criar uma URL local para visualização imediata
+    const fotoUrl = URL.createObjectURL(file);
+    setNewPhoto(fotoUrl); // Atualiza o estado para mostrar a nova imagem
 
-      const formData = new FormData();
-      formData.append('foto', file);  // Adicionar a imagem ao FormData
+    // Enviar a URL da imagem para o backend (não o arquivo)
+    const token = localStorage.getItem('token');
+    
+    // Aqui, estamos apenas enviando a URL da foto
+    api.put('/Utilizadores/EditarFoto', { fotoUrl: fotoUrl }, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',  // Definir o tipo de conteúdo para JSON
+      },
+    })
+    .then(response => {
+      console.log("Foto atualizada com sucesso", response);
 
-      // Enviar para o backend
-      const token = localStorage.getItem('token');
-      api.post('/Utilizadores/EditarFoto', formData, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then(response => {
-        console.log("Foto atualizada com sucesso", response);
-        // Atualizar a foto no estado com a resposta da API, caso necessário
-        setUserInfo(prevState => ({
-          ...prevState,
-          fotoUtil: response.data.fotoUrl,  // Assumindo que o backend retorna a URL da foto
+      // Atualizar a imagem do perfil com a nova URL da imagem, caso o backend a retorne
+      if (response.data && response.data.fotoUtil) {
+        setUserInfo(prev => ({
+          ...prev,
+          fotoUtil: response.data.fotoUtil
         }));
-      })
-      .catch(error => {
-        console.error("Erro ao atualizar foto", error);
-      });
-    }
-  };
+      } else {
+        // Caso o backend não retorne a URL, use a visualização local
+        setUserInfo(prev => ({
+          ...prev,
+          fotoUtil: fotoUrl
+        }));
+      }
+    })
+    .catch(error => {
+      console.error("Erro ao atualizar foto", error);
+    });
+  }
+};
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -117,7 +126,7 @@ const DadosUserPI = () => {
           api.get('/Utilizadores/InfoUtilizador', {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          api.get('/Utilizadores/ContactosUtilizador', {
+          api.get('/Contactos/ContactosUtilizador', {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
