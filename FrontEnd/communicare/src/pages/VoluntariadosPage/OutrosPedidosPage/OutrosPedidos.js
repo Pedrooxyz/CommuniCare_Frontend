@@ -1,141 +1,146 @@
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { api } from '../../../utils/axios.js';
 import "./OutrosPedidos.css";
 
-
-
-import person1 from '../../../assets/person1.jpg'
-import cares from '../../../assets/Cares.png'
-
-import person2 from '../../../assets/person2.png'
-import person3 from '../../../assets/person3.png'
-import person4 from '../../../assets/person4.png'
-
-
-import cano from '../../../assets/cano.jpg'
-import cortarRelva from '../../../assets/cortarRelva.webp'
-import moverMovel from '../../../assets/moverMovel.jpg'
-
-
+// Imagens
+import cares from '../../../assets/Cares.png';
 
 const HeaderProfileCares = () => {
-  return(
-    <header>
-     <p className="ptext">100</p><img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
-     <img className="imgHeaderVol" src={person1} width={60} height={60} alt="Person" />
-    </header>
-  )
-  
-}
+  const [userInfo, setUserInfo] = useState(null);
 
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const response = await api.get("Utilizadores/InfoUtilizador");
+        setUserInfo(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar info do utilizador:", error);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
+
+  return (
+    <header>
+      <p className="ptext">{userInfo ? userInfo.numCares : "..."}</p>
+      <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
+      <img
+        className="imgHeaderVol"
+        src={userInfo ? `http://localhost:5000/${userInfo.fotoUtil}` : '../../../../assets/icon.jpg'}
+        width={60}
+        height={60}
+        alt="User"
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = '../../../../assets/icon.jpg';
+        }}
+      />
+    </header>
+  );
+};
 
 const Search = () => {
-  return(
+  const navigate = useNavigate();
+
+  return (
     <div>
-      
       <div className="mainName">
-      <h1 >Voluntariados</h1>
+        <h1>Voluntariados</h1>
       </div>
 
       <div className="tabs">
-        
-          <div className="choose">
-            <button className="tab ">Meus Pedidos</button>
-            <button className="tab active">Outros Pedidos</button>
-          </div>
-       
-          <div className="search-wrapper">
-            <input type="text" placeholder="Pesquisar..." className="search" />
-            <FaSearch className="search-icon" />
-          </div>
+        <div className="choose">
+          <button className="tab" onClick={() => navigate("/meusPedidos")}>Meus Pedidos</button>
+          <button className="tab active" onClick={() => navigate("/outrosPedidos")}>Outros Pedidos</button>
+        </div>
 
+        <div className="search-wrapper">
+          <input type="text" placeholder="Pesquisar..." className="search" />
+          <FaSearch className="search-icon" />
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
+const ListaPedidos = () => {
+  const [pedidos, setPedidos] = useState([]);
+  const [fotosUtilizadores, setFotosUtilizadores] = useState({});
 
-const pedidos = [
-  {
-    id: 1,
-    user: person2,
-    title: "Fuga de água",
-    image: cano,
-    description:
-      "Preciso de ajuda com o cano da cozinha. Está sempre a pingar, mesmo quando a torneira está desligada.",
-    volunteers: 1,
-    points: 15,
-    time: "13:00h",
-    date: "15/03/2025"
-  },
-  {
-    id: 2,
-    user: person3,
-    title: "Cortar relva",
-    image: cortarRelva,
-    description:
-      "Preciso de ajuda a relva cortar a relva do meu jardim. Dei um jeito as costas.",
-    volunteers: 1,
-    points: 20,
-    time: "16:00h",
-    date: "16/03/2025"
-  },
-  {
-    id: 3,
-    user: person4,
-    title: "Mover móvel",
-    image: moverMovel,
-    description:
-      "Preciso de ajuda para mover este móvel. É bastante pesado e não consigo movê-lo sozinho.",
-    volunteers: 3,
-    points: 20,
-    time: "9:00h",
-    date: "16/03/2025"
-  }
-];
+  useEffect(() => {
+    const fetchPedidos = async () => {
+      try {
+        const response = await api.get("PedidosAjuda/PedidosDisponiveis");
+        setPedidos(response.data);
 
+        // Carrega fotos dos utilizadores
+        for (const pedido of response.data) {
+          try {
+            const fotoResponse = await api.get(`PedidosAjuda/${pedido.pedidoId}/foto-requerente`);
+            const urlFoto = `http://localhost:5000/${fotoResponse.data}`;
+            setFotosUtilizadores(prev => ({
+              ...prev,
+              [pedido.pedidoId]: urlFoto
+            }));
+          } catch (error) {
+            console.error(`Erro ao carregar foto do utilizador ${pedido.pedidoId}`, error);
+          }
+        }
+      } catch (error) {
+        console.error("Erro ao buscar pedidos disponíveis:", error);
+      }
+    };
 
-const ListaPedidos = () =>{
-  return(
+    fetchPedidos();
+  }, []);
+
+  return (
     <div className="cards">
       {pedidos.map((pedido) => (
-      <div className="card" key={pedido.id}>
-        <div className="userTitle">
-          <img className="imgUsers" src={pedido.user} width={70} height={70} alt={pedido.title} />
-          <h2>{pedido.title}</h2>
-        </div>
-        <img className="imgPedidos" src={pedido.image} alt={pedido.title} />
+        <div className="card" key={pedido.pedidoId}>
+          <div className="userTitle">
+            <img
+              className="imgUsers"
+              src={fotosUtilizadores[pedido.pedidoId] || '../../../../assets/icon.jpg'}
+              width={70}
+              height={70}
+              alt="User"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = '../../../../assets/icon.jpg';
+              }}
+            />
+            <h2>{pedido.tituloPedido}</h2>
+          </div>
+          <img className="imgPedidos" src={pedido.fotografiaPedido} alt={pedido.tituloPedido} />
 
-        <p className="ptext">{pedido.description}</p>
-        <div className="infoPedido">
-          <span>👤 {pedido.volunteers}</span>
-          <span><img  src={cares} width={30} height={30} alt="Cares" /> {pedido.points}</span>
-        </div>
-        <div className="datetime">
-          <span>🕒 {pedido.time}</span>
-          <span>📅 {pedido.date}</span>
-        </div>
+          <p className="ptext">{pedido.descPedido || "Sem descrição disponível."}</p>
 
-      </div>  
-      
-      
+          <div className="infoPedido">
+            <span>👤 {pedido.numVoluntarios}</span>
+            <span><img src={cares} width={30} height={30} alt="Cares" /> {pedido.pontuacao}</span>
+          </div>
+          <div className="datetime">
+            <span>🕒 {pedido.horaPedido}</span>
+            <span>📅 {pedido.dataPedido}</span>
+          </div>
+        </div>
       ))}
-
     </div>
   );
-}
+};
 
-
-function MeusPedidos(){
+function OutrosPedidos() {
   return (
     <>
       <HeaderProfileCares />
       <Search />
       <ListaPedidos />
-      
     </>
   );
 }
 
-export default MeusPedidos;
+export default OutrosPedidos;

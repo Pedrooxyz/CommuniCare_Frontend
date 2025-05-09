@@ -16,6 +16,7 @@ import PendentesMaisInformacoes from "./pages/EmpretimosPage/PendentesEmprestimo
 import MeusEmprestimos from "./pages/EmpretimosPage/MeusEmprestimos/MeusEmprestimoPage"
 import PedirEmprestimo from "./pages/EmpretimosPage/PedirEmprestimo/PedirEmprestimo";
 
+import MeusPedidos from "./pages/VoluntariadosPage/MeusPedidos/MeusPedidos"
 
 import Notificacoes from "./pages/NotificacoesPage/Notificacoes";
 import PedirVoluntariado from "./pages/VoluntariadosPage/PedirVoluntariado/PedirVoluntariado";
@@ -48,6 +49,8 @@ function App() {
         < Route path="/pendentesMaisInformacoes/:id" element={<PendentesMaisInformacoes />} />
         < Route path="/meusEmprestimos" element={<MeusEmprestimos />} />
         <Route path="/pedirEmprestimo" element={<PedirEmprestimo />} />
+
+        < Route path="/meusPedidos" element={<MeusPedidos />} />
 
         <Route path="/resetpassword" element={<ResetPassword />} />
 
