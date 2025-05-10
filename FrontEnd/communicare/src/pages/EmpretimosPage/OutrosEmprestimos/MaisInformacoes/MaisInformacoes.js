@@ -99,26 +99,26 @@ const Search = () => {
 
   return (
     <div>
-      <div className="mainName">
+      <div className="mainNameMI1">
         <h1>Empréstimos</h1>
       </div>
-      <div className="tabs">
-        <div className="choose">
-          <button className="tab" onClick={() => navigate("/meusEmprestimos")}>
+      <div className="tabs1">
+        <div className="choose1">
+          <button className="tab1" onClick={() => navigate("/meusEmprestimos")}>
             Meus Empréstimos
           </button>
-          <button className="tab active" onClick={() => navigate("/outrosEmprestimos")}>
+          <button className="tab1 active" onClick={() => navigate("/outrosEmprestimos")}>
             Outros Empréstimos
           </button>
           {userTipoUtilizadorId === true && (
-            <button className="tab" onClick={handleClickPendentes}>
+            <button className="tab1" onClick={handleClickPendentes}>
               Empréstimos Pendentes
             </button>
           )}
         </div>
-        <div className="search-wrapper">
-          <input type="text" placeholder="Pesquisar..." className="search" />
-          <FaSearch className="search-icon" />
+        <div className="search-wrapper1">
+          <input type="text" placeholder="Pesquisar..." className="search1" />
+          <FaSearch className="search-icon1" />
         </div>
       </div>
     </div>
@@ -200,8 +200,8 @@ const DetalhesItem = () => {
 
   return (
     <div className="detalhesContainer">
-      <div className="colunaEsquerda">
-        <div className="userTitle">
+      <div className="colunaEsquerdaMI">
+        <div className="userTitleMD">
           <img
             className="imgUsers"
             src={fotoEmprestador || iconFallback}
@@ -217,7 +217,7 @@ const DetalhesItem = () => {
         </div>
 
         <img
-          className="imgItemDetalhes"
+          className="imgItemDetalhesMI"
           src={getImagemSrc(item.fotografiaItem)}
           alt={item.nomeItem}
           onError={(e) => {
@@ -228,15 +228,16 @@ const DetalhesItem = () => {
 
         <div className="infoItem detalhes">
           <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}/h</span>
-        </div>
+        
 
         <button className="botaoAdquirir" onClick={() => requisitarItem(id)}>
           Adquirir
         </button>
+        </div>
       </div>
 
-      <div className="colunaDireita">
-        <h2 className="tituloItem">Detalhes do Item</h2>
+      <div className="colunaDireitaMI">
+        <h2 className="tituloItem">Detalhes</h2>
         <div className="caixaDescricao">
           {item.descItem}
         </div>

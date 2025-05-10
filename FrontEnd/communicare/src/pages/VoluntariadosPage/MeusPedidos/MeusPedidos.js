@@ -7,6 +7,7 @@ import "./MeusPedidos.css";
 import cares from "../../../assets/Cares.png";
 import iconFallback from "../../../assets/icon.jpg";
 
+// COMPONENTE: Header com perfil e cares
 const HeaderProfileCares = () => {
   const [userInfo, setUserInfo] = useState(null);
 
@@ -15,16 +16,13 @@ const HeaderProfileCares = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await api.get("/Utilizadores/InfoUtilizador", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         setUserInfo(response.data);
       } catch (error) {
         console.error("Erro ao buscar info do utilizador:", error);
       }
     };
-
     fetchUserInfo();
   }, []);
 
@@ -36,49 +34,44 @@ const HeaderProfileCares = () => {
       <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
       <img
         className="imgHeaderVol"
-        src={
-          userInfo && userInfo.fotoUtil
-            ? `http://localhost:5182/${userInfo.fotoUtil}`
-            : iconFallback
-        }
+        src={userInfo?.fotoUtil ? `http://localhost:5182/${userInfo.fotoUtil}` : iconFallback}
         width={60}
         height={60}
         alt="User"
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = iconFallback;
-        }}
+        onError={(e) => { e.target.src = iconFallback; }}
       />
     </header>
   );
 };
 
+// COMPONENTE: Barra de busca e navegação
 const Search = () => {
   const navigate = useNavigate();
 
   return (
     <div>
       <div className="mainName">
-        <h1>Pedidos de Ajuda</h1>
+        <h1>Voluntariados</h1>
       </div>
-      <div className="tabs">
-        <div className="choose">
-          <button className="tab active" onClick={() => navigate("/meusPedidos")}>
+      <div className="tabs1">
+        <div className="choose1">
+          <button className="tab1 active" onClick={() => navigate("/meusPedidos")}>
             Meus Pedidos
           </button>
-          <button className="tab" onClick={() => navigate("/outrosPedidos")}>
+          <button className="tab1" onClick={() => navigate("/outrosPedidos")}>
             Outros Pedidos
           </button>
         </div>
-        <div className="search-wrapper">
-          <input type="text" placeholder="Pesquisar..." className="search" />
-          <FaSearch className="search-icon" />
+        <div className="search-wrapper1">
+          <input type="text" placeholder="Pesquisar..." className="search1" />
+          <FaSearch className="search-icon1" />
         </div>
       </div>
     </div>
   );
 };
 
+// COMPONENTE: Lista de pedidos com ações
 const ListaPedidos = () => {
   const [pedidos, setPedidos] = useState([]);
   const navigate = useNavigate();
@@ -92,39 +85,30 @@ const ListaPedidos = () => {
         console.error("Erro ao buscar pedidos:", error);
       }
     };
-
     fetchPedidos();
   }, []);
 
-const getImagemSrc = (fotoPedido) => {
-  if (
-    fotoPedido &&
-    fotoPedido.trim() !== "" &&
-    fotoPedido !== "null" &&
-    fotoPedido !== "string"
-  ) {
-    return `data:image/jpeg;base64,${fotoPedido}`;
-  } else {
-    return iconFallback;
-  }
-};
-
-
-  const handleEdit = (pedidoId) => {
-    navigate(`/editarPedido/${pedidoId}`);
+  const getImagemSrc = (foto) => {
+    return foto && foto.trim() && foto !== "null" && foto !== "string"
+      ? `data:image/jpeg;base64,${foto}`
+      : iconFallback;
   };
 
-  const handleDelete = async (pedidoId) => {
+  const handleEdit = (id) => {
+    navigate(`/editarPedido/${id}`);
+  };
+
+  const handleDelete = async (id) => {
     if (window.confirm("Deseja apagar este pedido de ajuda?")) {
       try {
-        const response = await api.delete(`/PedidosAjuda/${pedidoId}`);
+        const response = await api.delete(`/PedidosAjuda/${id}`);
         if (response.status === 204) {
-          setPedidos((prev) => prev.filter((p) => p.idPedido !== pedidoId));
+          setPedidos((prev) => prev.filter((p) => p.idPedido !== id));
         } else {
           alert("Erro ao apagar o pedido.");
         }
       } catch (error) {
-        console.error("Erro ao apagar o pedido:", error.response || error);
+        console.error("Erro ao apagar o pedido:", error);
         alert("Erro ao apagar o pedido.");
       }
     }
@@ -132,24 +116,13 @@ const getImagemSrc = (fotoPedido) => {
 
   return (
     <div className="cards">
-      <div
-        className="card adicionar-card"
-        onClick={() => navigate("/pedirVoluntariado")}
-        style={{ cursor: "pointer" }}
-      >
-        <div className="TitleOE">
-          <h2>Adicionar Pedido</h2>
-        </div>
-        <div
-          className="adicionarIcon"
-          style={{ fontSize: "100px", textAlign: "center", marginTop: "190px" }}
-        >
-          +
-        </div>
+      <div className="card adicionar-card" onClick={() => navigate("/pedirEmprestimo")}>
+        <div className="TitleOE"><h2>Adicionar Pedido</h2></div>
+        <div className="adicionarIcon">+</div>
       </div>
 
-      {pedidos.map((pedido, index) => (
-        <div className="card" key={pedido.idPedido || index}>
+      {pedidos.map((pedido) => (
+        <div className="card" key={pedido.idPedido}>
           <div className="TitleOE">
             <h2>{pedido.titulo}</h2>
           </div>
@@ -158,29 +131,39 @@ const getImagemSrc = (fotoPedido) => {
             src={getImagemSrc(pedido.fotografiaPA)}
             alt={pedido.titulo}
           />
-          <p>{pedido.descPedido || "Sem descrição."}</p>
-          <div className="estadoItem">
-            <div>
-              <span className="estado">
-                Estado:{" "}
-                <span
-                  className={`estado-circle ${
-                    pedido.estado === "Ativo" ? "disponivel" : "emprestado"
-                  }`}
-                ></span>
-              </span>
+          <div className="desc">
+            <h4 className="descP">{pedido.descPedido || "Sem descrição."}</h4>
+          </div>
+          <div className="infoExtraPedido">
+            <div className="infoBox">
+              <span className="icon">&#128100;</span>
+              <span>{pedido.nPessoas}</span>
             </div>
+            <div className="infoBox">
+              <span className="icon">{pedido.recompensaCares}</span>
+              <img src={cares} alt="Cares" className="caresIcon" />
+            </div>
+          </div>
+          <div className="estadoItem">
+            <span>
+              Estado:{" "}
+              <span
+                className={`estado-circle ${
+                  pedido.Aberto === 1
+                    ? "disponivel"
+                    : pedido.Aberto === 0
+                    ? "indisponivel"
+                    : pedido.Aberto === 4
+                    ? "permanentemente-indisponivel"
+                    : ""
+                }`}
+              ></span>
+            </span>
             <div className="controlesAcao">
-              <button
-                className="EditDeleteButtons"
-                onClick={() => handleEdit(pedido.idPedido)}
-              >
+              <button className="EditDeleteButtons" onClick={() => handleEdit(pedido.idPedido)}>
                 <FaEdit />
               </button>
-              <button
-                className="EditDeleteButtons"
-                onClick={() => handleDelete(pedido.idPedido)}
-              >
+              <button className="EditDeleteButtons" onClick={() => handleDelete(pedido.idPedido)}>
                 <FaTrash />
               </button>
             </div>
@@ -191,6 +174,7 @@ const getImagemSrc = (fotoPedido) => {
   );
 };
 
+// COMPONENTE PRINCIPAL
 function MeusPedidos() {
   return (
     <>

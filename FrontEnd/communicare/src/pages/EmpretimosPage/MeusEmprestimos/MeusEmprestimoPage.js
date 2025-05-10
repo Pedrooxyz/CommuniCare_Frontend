@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { FaSearch, FaCubes, FaEdit, FaTrash } from "react-icons/fa";
+import { FaSearch, FaEdit, FaTrash } from "react-icons/fa";
 import { api } from "../../../utils/axios.js";
 import "./MeusEmprestimosPage.css";
 
-import person1 from "../../../assets/person1.jpg";
+
 import cares from "../../../assets/Cares.png";
 import cortaRelva from "../../../assets/cortaRelva.jpg";
 import iconFallback from '../../../assets/icon.jpg';
@@ -38,7 +38,7 @@ const HeaderProfileCares = () => {
         {userInfo ? userInfo.numCares : "..."}
       </p>
       <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
-            <img
+      <img
         className="imgHeaderVol"
         onClick={() => navigate(`/profile`)}
         src={
@@ -68,10 +68,10 @@ const HeaderProfileCares = () => {
   );
 };
 
-const Search = () => {
+const Search = ({ searchTerm, setSearchTerm }) => {
   const navigate = useNavigate();
   const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null); 
-  
+
   const verificarTipoUtilizador = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -84,18 +84,17 @@ const Search = () => {
       setUserTipoUtilizadorId(response.data); 
     } catch (error) {
       console.error("Erro ao verificar o tipo de utilizador", error);
-      setUserTipoUtilizadorId(false); // Caso ocorra erro, tratamos como não admin
+      setUserTipoUtilizadorId(false);
     }
   };
 
-  // Carregar o tipo de utilizador ao montar o componente
   useEffect(() => {
-    verificarTipoUtilizador(); // Verifica o tipo de utilizador assim que o componente for montado
+    verificarTipoUtilizador();
   }, []);
 
   const handleClickPendentes = () => {
     if (userTipoUtilizadorId === true) {
-      navigate("/PendentesEmprestimos"); // Navega para a página desejada
+      navigate("/PendentesEmprestimos");
     } else {
       alert("Apenas administradores podem aceder a esta página!");
     }
@@ -108,11 +107,10 @@ const Search = () => {
       </div>
       <div className="tabs">
         <div className="choose">
-        <button className="tab active" onClick={() => navigate("/meusEmprestimos")}>
+          <button className="tab active" onClick={() => navigate("/meusEmprestimos")}>
             Meus Empréstimos
           </button>
           <button className="tab" onClick={() => navigate("/outrosEmprestimos")}>Outros Emprestimos</button>
-          {/* Condição para mostrar o botão "Empréstimos Pendentes" apenas se o TipoUtilizadorId for admin */}
           {userTipoUtilizadorId === true && (
             <button className="tab" onClick={handleClickPendentes}>
               Empréstimos Pendentes
@@ -120,7 +118,13 @@ const Search = () => {
           )}
         </div>
         <div className="search-wrapper">
-          <input type="text" placeholder="Pesquisar..." className="search" />
+          <input
+            type="text"
+            placeholder="Pesquisar..."
+            className="search"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
+          />
           <FaSearch className="search-icon" />
         </div>
       </div>
@@ -128,7 +132,7 @@ const Search = () => {
   );
 };
 
-const ListaItems = () => {
+const ListaItems = ({ searchTerm }) => {
   const [items, setItems] = useState([]);
   const navigate = useNavigate();
 
@@ -136,7 +140,6 @@ const ListaItems = () => {
     const fetchItems = async () => {
       try {
         const response = await api.get("/ItensEmprestimo/MeusItens");
-        console.log("Itens recebidos:", response.data);
         setItems(response.data);
       } catch (error) {
         console.error("Erro ao buscar itens:", error);
@@ -150,15 +153,11 @@ const ListaItems = () => {
     if (fotografiaItem && fotografiaItem.trim() !== "") {
       return `data:image/jpeg;base64,${fotografiaItem}`;
     } else {
-      return cortaRelva; // fallback se não houver imagem
+      return cortaRelva;
     }
   };
 
-  //Esta malllll-------------------------------
   const handleEdit = (itemId) => {
-    // Aqui você pode navegar para uma página de edição ou abrir um modal de edição
-    console.log("Editar item com ID:", itemId);
-    // Exemplo de navegação para uma página de edição
     navigate(`/editarItem/${itemId}`);
   };
 
@@ -167,70 +166,70 @@ const ListaItems = () => {
       try {
         const response = await api.delete(`/ItensEmprestimo/IndisponibilizarPermanenteItem/${itemId}`);
         if (response.status === 204) {
-          console.log("Item indisponibilizado com sucesso.");
           setItems((prevItems) => prevItems.filter((item) => item.itemId !== itemId));
         } else {
-          console.error("Erro inesperado ao indisponibilizar o item:", response);
           alert("Erro ao indisponibilizar o item. Tente novamente.");
         }
       } catch (error) {
-        console.error("Erro ao indisponibilizar o item:", error.response || error);
+        console.error("Erro ao indisponibilizar o item:", error);
         alert("Erro ao indisponibilizar o item. Tente novamente.");
       }
     }
   };
-  
-  
+
+  const filteredItems = items.filter(item =>
+    item.nomeItem.toLowerCase().includes(searchTerm)
+  );
+
   return (
     <div className="cards">
-      
-    <div className="card adicionar-card" onClick={() => navigate("/pedirEmprestimo")}>
-      <div className="TitleOE">
-        <h2>Adicionar Item</h2>
+      <div className="card adicionar-card" onClick={() => navigate("/pedirEmprestimo")}>
+        <div className="TitleOE">
+          <h2>Adicionar Item</h2>
+        </div>
+        <div className="adicionarIcon">+</div>
       </div>
-      <div className="adicionarIcon">+</div>
-    </div>
-      {items.map((item) => (
+
+      {filteredItems.map((item) => (
         <div className="card" key={item.itemId}>
           <div className="TitleOE">
             <h2>{item.nomeItem}</h2>
           </div>
-
           <img
             className="imgItemOE"
             src={getImagemSrc(item.fotografiaItem)}
             alt={item.nomeItem}
           />
-
-          <p>{item.descItem || "Sem descrição disponível."}</p>
-
+          <div className="desc1">
+            <h>{item.descItem || "Sem descrição disponível."}</h>
+          </div>
           <div className="infoItemOE">
             <span>
-                  Estado:{" "}
-                  <span
-                    className={`estado-circle ${
-                      item.disponivel === 1
-                        ? "disponivel"
-                        : item.disponivel === 0
-                        ? "indisponivel"
-                        : item.disponivel === 2
-                        ? "permanentemente-indisponivel"
-                        : ""
-                    }`}
-                  ></span>
+              Estado:{" "}
+              <span
+                className={`estado-circle ${
+                  item.disponivel === 1
+                    ? "disponivel"
+                    : item.disponivel === 0
+                    ? "indisponivel"
+                    : item.disponivel === 2
+                    ? "permanentemente-indisponivel"
+                    : ""
+                }`}
+              ></span>
             </span>
             <span>
               <img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}/h
             </span>
           </div>
-            <div className="controlesAcao">
-              <button className="EditDeleteButtons" onClick={() => handleEdit(item.itemId)}>
-                <FaEdit />
-              </button>
-              <button className="EditDeleteButtons" onClick={() => handleDelete(item.itemId)}>
-                <FaTrash />
-              </button>
-            </div>
+          <div className="controlesAcao">
+            <button className="EditDeleteButtons" onClick={() => handleEdit(item.itemId)}>
+              <FaEdit />
+            </button>
+            <button className="EditDeleteButtons" onClick={() => handleDelete(item.itemId)}>
+              <FaTrash />
+            </button>
+          </div>
         </div>
       ))}
     </div>
@@ -238,11 +237,13 @@ const ListaItems = () => {
 };
 
 function MeusEmprestimos() {
+  const [searchTerm, setSearchTerm] = useState("");
+
   return (
     <>
       <HeaderProfileCares />
-      <Search />
-      <ListaItems />
+      <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <ListaItems searchTerm={searchTerm} />
     </>
   );
 }
