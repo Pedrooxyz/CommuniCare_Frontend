@@ -7,6 +7,9 @@ import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Profile from "./pages/ProfilePage/Profile";
 import EditarPerfil from './pages/ProfilePage/EditarPerfilPage/EditarPerfil';
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
+import GerirUtilizadores from "./pages/Admin/GerirUtilizadores";
+
+
 
 import OutrosVoluntariados from "./pages/VoluntariadosPage/OutrosPedidosPage/OutrosPedidos"
 
@@ -64,6 +67,8 @@ function App() {
 
         < Route path="/profile" element={<Profile />} />
         < Route path="/editar-perfil" element={<EditarPerfil />} />
+        
+
 
         <Route path="/notificacoes" element={<Notificacoes />} />
         <Route path="/notificacoesarq" element={<NotificacoesArq />} />
@@ -73,9 +78,12 @@ function App() {
         <Route path="/loja" element={<Loja />} />
         <Route path="/detalhesArtigo/:artigoId" element={<DetalhesArtigo />} />
 
+
+
           <Route element={<AdminRouteWrapper />}>
 
           <Route path="/publicarartigo" element={<PublicarArtigo />} /> 
+          <Route path="/GerirUtilizadores" element={<GerirUtilizadores />} />
 
           </Route>
           
