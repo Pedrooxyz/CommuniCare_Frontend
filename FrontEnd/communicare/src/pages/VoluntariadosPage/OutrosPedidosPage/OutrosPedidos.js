@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { api } from '../../../utils/axios.js';
+import { api } from "../../../utils/axios.js";
 import "./OutrosPedidos.css";
 
 // Imagens
-import cares from '../../../assets/Cares.png';
-import iconFallback from '../../../assets/icon.jpg';
+import cares from "../../../assets/Cares.png";
+import iconFallback from "../../../assets/icon.jpg";
 
 const HeaderProfileCares = () => {
   const navigate = useNavigate();
@@ -16,8 +16,8 @@ const HeaderProfileCares = () => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const response = await api.get('/Utilizadores/InfoUtilizador', {
+        const token = localStorage.getItem("token");
+        const response = await api.get("/Utilizadores/InfoUtilizador", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -37,7 +37,7 @@ const HeaderProfileCares = () => {
         {userInfo ? userInfo.numCares : "..."}
       </p>
       <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
-            <img
+      <img
         className="imgHeaderVol"
         onClick={() => navigate(`/profile`)}
         src={
@@ -66,6 +66,7 @@ const HeaderProfileCares = () => {
     </header>
   );
 };
+
 const Search = () => {
   const navigate = useNavigate();
 
@@ -91,6 +92,12 @@ const Search = () => {
   );
 };
 
+const getImagemSrc = (foto) => {
+  return foto && foto.trim() && foto !== "null" && foto !== "string"
+    ? `data:image/jpeg;base64,${foto}`
+    : iconFallback;
+};
+
 const ListaPedidos = () => {
   const [pedidos, setPedidos] = useState([]);
   const [fotosUtilizadores, setFotosUtilizadores] = useState({});
@@ -101,6 +108,7 @@ const ListaPedidos = () => {
         const response = await api.get("PedidosAjuda/PedidosDisponiveis");
         setPedidos(response.data);
 
+        // Carregar as fotos dos utilizadores
         for (const pedido of response.data) {
           try {
             const fotoResponse = await api.get(`PedidosAjuda/${pedido.pedidoId}/foto-requerente`);
@@ -121,53 +129,68 @@ const ListaPedidos = () => {
     fetchPedidos();
   }, []);
 
+  const voluntariar = async (pedidoId) => {
+    if (!pedidoId) {
+      console.error("pedidoId não fornecido");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await api.post(`/PedidosAjuda/${pedidoId}/Voluntariar`, null, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      alert(response.data); // Exibe a mensagem de sucesso
+      // Você pode também atualizar o estado dos pedidos para refletir a mudança.
+    } catch (error) {
+      console.error("Erro ao se voluntariar:", error);
+      alert("Erro ao se voluntariar para o pedido.");
+    }
+  };
+
   return (
     <div className="cards">
       {pedidos.map((pedido) => (
         <div className="card" key={pedido.pedidoId}>
-          <div className="userTitle">
-            <img
-              className="imgUsers"
-              src={fotosUtilizadores[pedido.pedidoId] || iconFallback}
-              width={70}
-              height={70}
-              alt="User"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = iconFallback;
-              }}
-            />
-            <h2>{pedido.tituloPedido}</h2>
+          <div className="TitleOE">
+            <h2>{pedido.titulo}</h2>
           </div>
           <img
-            className="imgPedidos"
-            src={
-              pedido.fotografiaPedido && pedido.fotografiaPedido.trim() !== ""
-                ? `http://localhost:5182/${pedido.fotografiaPedido}`
-                : iconFallback
-            }
-            alt={pedido.tituloPedido}
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = iconFallback;
-            }}
+            className="imgItemOE"
+            src={getImagemSrc(pedido.fotografiaPA)}
+            alt={pedido.titulo}
           />
-
-          <p className="ptext">{pedido.descPedido || "Sem descrição disponível."}</p>
-
-          <div className="infoPedido">
-            <span>👤 {pedido.numVoluntarios}</span>
-            <span><img src={cares} width={30} height={30} alt="Cares" /> {pedido.pontuacao}</span>
+          <div className="desc">
+            <h4 className="descP">{pedido.descPedido || "Sem descrição."}</h4>
           </div>
-          <div className="datetime">
-            <span>🕒 {pedido.horaPedido}</span>
-            <span>📅 {pedido.dataPedido}</span>
+          <div className="infoExtraPedido">
+            <div className="infoBox">
+              <span className="icon">&#128100;</span>
+              <span>{pedido.nPessoas}</span>
+            </div>
+            <div className="infoBox">
+              <span className="icon">{pedido.recompensaCares}</span>
+              <img src={cares} alt="Cares" className="caresIcon" />
+            </div>
+          </div>
+
+          {/* Botão Voluntariar */}
+          <div className="voluntariarButtonWrapper">
+            <button
+              className="voluntariarButton"
+              onClick={() => voluntariar(pedido.pedidoId)} // Certifique-se de que "pedido.pedidoId" seja o ID correto
+            >
+              Voluntariar
+            </button>
           </div>
         </div>
       ))}
     </div>
   );
 };
+
 
 function OutrosPedidos() {
   return (

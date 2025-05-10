@@ -199,23 +199,25 @@ header p {
 }
 
 .estado-circle {
+  display: inline-block;
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  display: inline-block;
+  margin-left: 5px;
 }
 
-  .estado-circle.disponivel {
-    background-color: #28a745; /* verde */
-  }
+.vermelho {
+  background-color: red;
+}
 
-  .estado-circle.indisponivel {
-    background-color: #ffc107; /* amarelo */
-  }
+.amarelo {
+  background-color: yellow;
+}
 
-  .estado-circle.permanentemente-indisponivel {
-    background-color: #dc3545; /* vermelho */
-  }
+.verde {
+  background-color: green;
+}
+
 
 .controlesAcao {
   display: flex;
