@@ -20,11 +20,11 @@
     border: 2px solid #ccc;
   }
   
-  .titulo-principal {
+  .titulo-principal1 {
     background-color: #F7FAFF;
     color: black;
     border: none;
-    padding: 2px 20px;
+    padding: 10px 20px;
     border-radius: 10px;
     font-size: 2.5rem; 
     width: 30%;
@@ -35,18 +35,19 @@
   .conteudo-Emprestimo {
     display: flex;
     margin-top: 30px;
+    
     gap: 30px;
   }
   
-  .form-lado-esquerdo,
-  .form-lado-direito {
+  .form-lado-esquerdo1,
+  .form-lado-direito1 {
     background: #fff;
     border-radius: 16px;
     padding: 30px;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   }
   
-  .form-lado-esquerdo {
+  .form-lado-esquerdo1 {
     width: 35%;
     display: flex;
     flex-direction: column;
@@ -54,7 +55,7 @@
     gap: 25px;
   }
   
-  .form-lado-direito {
+  .form-lado-direito1 {
     width: 65%;
     position: relative;
     display: flex;
@@ -160,8 +161,8 @@
   }
   
   .botao-adicionar {
-    background-color: #80bfff;
-    color: black;
+    background-color: #64b0fc;
+    color: white;
     border: none;
     padding: 12px 20px;
     border-radius: 10px;
@@ -182,17 +183,18 @@
     resize: vertical;
   }
   
-  .contador-detalhes {
+  .contador-detalhes2 {
     position: absolute;
-    bottom: 150px;
+    bottom: 40px;
     right: 40px;
     font-size: 13px;
   }
   
-  .img-perfil {
-    border-radius: 50%;
-    object-fit: cover;
-  }
+.img-perfil {
+  border: 1px solid #ccc; /* cor e espessura da borda */
+  border-radius: 50%;     /* mantém a imagem redonda, se for quadrada */
+  object-fit: cover;
+}
   
   .linha-titulo {
     display: flex;
