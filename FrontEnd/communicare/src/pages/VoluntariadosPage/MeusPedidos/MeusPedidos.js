@@ -148,29 +148,29 @@ const ListaPedidos = () => {
             <span>
               Estado:{" "}
               <span
-                className={`estado-circle ${
-                  pedido.Aberto === 1
-                    ? "disponivel"
-                    : pedido.Aberto === 0
-                    ? "indisponivel"
-                    : pedido.Aberto === 4
-                    ? "permanentemente-indisponivel"
-                    : ""
-                }`}
-              ></span>
-            </span>
-            <div className="controlesAcao">
-              <button className="EditDeleteButtons" onClick={() => handleEdit(pedido.idPedido)}>
-                <FaEdit />
-              </button>
-              <button className="EditDeleteButtons" onClick={() => handleDelete(pedido.idPedido)}>
-                <FaTrash />
-              </button>
-            </div>
+                className={`estado-circle ${pedido.Estado === 0
+                    ? "vermelho"
+                    : pedido.Estado === 1
+                      ? "amarelo"
+                      : pedido.Estado === 2
+                        ? "verde"
+                        : ""
+                  }`}
+              />
+          </span>
+          <div className="controlesAcao">
+            <button className="EditDeleteButtons" onClick={() => handleEdit(pedido.idPedido)}>
+              <FaEdit />
+            </button>
+            <button className="EditDeleteButtons" onClick={() => handleDelete(pedido.idPedido)}>
+              <FaTrash />
+            </button>
           </div>
         </div>
-      ))}
-    </div>
+        </div>
+  ))
+}
+    </div >
   );
 };
 

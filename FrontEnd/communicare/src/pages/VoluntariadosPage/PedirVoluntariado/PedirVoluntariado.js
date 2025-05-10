@@ -93,6 +93,7 @@ function PedirVoluntariado() {
     }
 
     const pedidoData = {
+      Titulo: titulo, // <-- Adiciona isto
       DescPedido: detalhes,
       HorarioAjuda: data,
       NHoras: parseInt(duracao),
