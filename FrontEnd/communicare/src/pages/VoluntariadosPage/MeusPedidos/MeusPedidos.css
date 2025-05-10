@@ -43,61 +43,70 @@ header p {
   font-size: 40px;
 }
 
-.tabs {
+.choose1 {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-  padding: 0 30px;
+  width: 100%;
 }
-
-.choose {
-  display: flex;
-  flex: 1;
-}
-
-.tab {
-  background-color: #FFAEAE;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 999px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-right: 10px;
-}
-
-.tab.active {
-  background-color: #FF7C7C;
-}
-
-.search-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.search {
-  background-color: #E8F1FF;
-  padding: 10px 20px 10px 40px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  width: 300px;
-}
-
-.search-icon {
-  position: absolute;
-  left: 15px;
-  color: #888;
-}
+  
+  .tabs1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .tab1 {
+    flex: 1;
+    background-color: #FFAEAE;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 999px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 60px;
+    text-align: center; /* ver se tiro ou não */
+  }
+  
+  .tab1.active {
+    background-color: #FF7C7C;
+  }
+  
+  .search-wrapper1 {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .search1 {
+    background-color: #E8F1FF;
+    flex: 1;
+    padding: 10px 20px 10px 40px;
+    padding-right: 500px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin: 0 50px 0 20px;
+  }
+  
+  .search-icon1 {
+    position: absolute;
+    left: 35px;
+    color: #888;
+  }
+  
+  .search1::placeholder {
+    margin-left: 3px;
+  }
 
 .cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 0 35px 20px;
-  justify-content: flex-start;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 35px;
+  max-width: 1440px; /* Ajuste conforme o tamanho dos cards e gaps */
+  margin: 0 auto;
+  padding: 20px 60px;
+  justify-content: center;
 }
 
 .card {
@@ -105,11 +114,10 @@ header p {
   border-radius: 20px;
   padding: 15px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 450px;
+  width: 430px;
   height: 650px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .userTitle {
@@ -197,17 +205,21 @@ header p {
   display: inline-block;
 }
 
-.estado-circle.aceite {
-  background-color: #28a745;
-}
+  .estado-circle.disponivel {
+    background-color: #28a745; /* verde */
+  }
 
-.estado-circle.pendente {
-  background-color: #ffc107;
-}
+  .estado-circle.indisponivel {
+    background-color: #ffc107; /* amarelo */
+  }
+
+  .estado-circle.permanentemente-indisponivel {
+    background-color: #dc3545; /* vermelho */
+  }
 
 .controlesAcao {
   display: flex;
-  gap: 10px;
+  gap: 15px;
 }
 
 .EditDeleteButtons {
@@ -215,5 +227,84 @@ header p {
   background: none;
   padding: 5px;
   cursor: pointer;
-  font-size: 22px;
+  font-size: 30px;
+}
+
+
+.adicionarIcon {
+  font-size: 100px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.card.adicionar-card {
+  position: relative;
+  cursor: pointer;
+}
+
+
+.infoExtraPedido {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  padding: 10px;
+  border-radius: 10px;
+  margin: 10px 0;
+}
+
+.infoBox {
+  display: flex;
+  align-items: center;  /* Centraliza verticalmente */
+  justify-content: center;  /* Centraliza horizontalmente */
+  gap: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  background-color: #fef4ef;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+.icon, .caresIcon {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+}
+
+
+.desc {
+  
+  background-color: #FAEEE7;
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  max-height: 100px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  width: 95%;
+  height: 100px;
+  margin: 0 auto 10px auto;
+}
+
+
+.descP {
+  margin-top: 5px;
+  text-align: left;
+}
+
+.caresIcon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
 }

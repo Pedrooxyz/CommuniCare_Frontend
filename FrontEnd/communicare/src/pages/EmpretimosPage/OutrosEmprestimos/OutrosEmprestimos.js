@@ -6,7 +6,6 @@ import cares from '../../../assets/Cares.png';
 import iconFallback from '../../../assets/icon.jpg';
 import "./OutrosEmprestimos.css";
 
-
 const HeaderProfileCares = () => {
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
@@ -36,7 +35,7 @@ const HeaderProfileCares = () => {
         {userInfo ? userInfo.numCares : "..."}
       </p>
       <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
-            <img
+      <img
         className="imgHeaderVol"
         onClick={() => navigate(`/profile`)}
         src={
@@ -66,119 +65,44 @@ const HeaderProfileCares = () => {
   );
 };
 
-
-const Search = () => {
+const Search = ({ searchTerm, setSearchTerm, userTipoUtilizadorId, handleClickPendentes }) => {
   const navigate = useNavigate();
-  const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-
-  const verificarTipoUtilizador = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await api.get("/Utilizadores/VerificarAdmin", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setUserTipoUtilizadorId(response.data);
-    } catch (error) {
-      console.error("Erro ao verificar o tipo de utilizador", error);
-      setUserTipoUtilizadorId(false);
-    }
-  };
-
-  const handleSearch = async (term) => {
-    try {
-      const token = localStorage.getItem("token");
-
-      const response = await api.post(
-        "/ItensEmprestimo/PesquisarItemPorNome",
-        {
-          nomeItem: term,
-          descItem: "string",
-          comissaoCares: 0,
-          fotografiaItem: "string"
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-
-      setSearchResults(response.data);
-    } catch (error) {
-      console.error("Erro ao buscar itens", error);
-      setSearchResults([]);
-    }
-  };
-
-  useEffect(() => {
-    verificarTipoUtilizador();
-  }, []);
 
   const handleInputChange = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
-    if (term.trim() !== "") {
-      handleSearch(term);
-    } else {
-      setSearchResults([]);
-    }
-  };
-
-  const handleClickPendentes = () => {
-    if (userTipoUtilizadorId === true) {
-      navigate("/PendentesEmprestimos");
-    } else {
-      alert("Apenas administradores podem aceder a esta página!");
-    }
   };
 
   return (
     <div>
-      <div className="mainName">
+      <div className="mainNameMI1">
         <h1>Empréstimos</h1>
       </div>
-      <div className="tabs">
-        <div className="choose">
-          <button className="tab" onClick={() => navigate("/meusEmprestimos")}>
+      <div className="tabs1">
+        <div className="choose1">
+          <button className="tab1" onClick={() => navigate("/meusEmprestimos")}>
             Meus Empréstimos
           </button>
-          <button className="tab active" onClick={() => navigate("/outrosEmprestimos")}>
+          <button className="tab1 active" onClick={() => navigate("/outrosEmprestimos")}>
             Outros Empréstimos
           </button>
           {userTipoUtilizadorId === true && (
-            <button className="tab" onClick={handleClickPendentes}>
+            <button className="tab1" onClick={handleClickPendentes}>
               Empréstimos Pendentes
             </button>
           )}
         </div>
-        <div className="search-wrapper">
+        <div className="search-wrapper1">
           <input
             type="text"
             placeholder="Pesquisar..."
-            className="search"
+            className="search1"
             value={searchTerm}
             onChange={handleInputChange}
           />
-          <FaSearch className="search-icon" />
+          <FaSearch className="search-icon1" />
         </div>
       </div>
-
-      {searchResults.length > 0 && (
-        <div className="search-results">
-          {searchResults.map((item, index) => (
-            <div key={index} className="search-item">
-              <h3>{item.NomeItem}</h3>
-              <p>{item.DescItem}</p>
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 };
@@ -191,12 +115,11 @@ const getImagemSrc = (fotoItem) => {
   }
 };
 
-const ListaItems = () => {
+const ListaItems = ({ searchTerm }) => {
   const [items, setItems] = useState([]);
   const [fotosEmprestadores, setFotosEmprestadores] = useState({});
   const navigate = useNavigate();
 
-    // Função para requisitar o item
   const requisitarItem = async (itemId) => {
     try {
       const token = localStorage.getItem('token');
@@ -205,7 +128,6 @@ const ListaItems = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      // Verifica se a requisição foi bem-sucedida
       if (response.status === 200) {
         alert("Pedido de empréstimo efetuado. Aguarde validação do administrador.");
       } else {
@@ -216,6 +138,7 @@ const ListaItems = () => {
       alert("Houve um erro ao realizar a requisição. Tente novamente.");
     }
   };
+
   useEffect(() => {
     const fetchItems = async () => {
       try {
@@ -252,9 +175,13 @@ const ListaItems = () => {
     fetchItems();
   }, []);
 
+  const filteredItems = items.filter(item =>
+    item.nomeItem.toLowerCase().includes(searchTerm)
+  );
+
   return (
     <div className="cards">
-      {items.map((item) => (
+      {filteredItems.map((item) => (
         <div className="card" key={item.itemId}>
           <div className="userTitleOE">
             <img
@@ -270,22 +197,19 @@ const ListaItems = () => {
             />
             <h2>{item.nomeItem}</h2>
           </div>
-          <img 
+          <img
             className="imgItemOE"
             src={getImagemSrc(item.fotografiaItem)}
             alt={item.nomeItem}
           />
-          <p>
-            {item.descItem || "Sem descrição disponível."}
-          </p>
-          <div className="infoItemOE">
-            <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}(h)</span>
-            <button className="BotaoInformacaoOutros" onClick={() => navigate(`/maisInfo/${item.itemId}`)}>Mais Informações</button>
+          <div className="desc">
+            <h className="descP">
+              {item.descItem || "Sem descrição disponível."}
+            </h>
           </div>
-          <div className="moreInformation">
-            <button onClick={() => requisitarItem(item.itemId)} className="requisitara-btn">
-              Adquirir
-            </button>
+          <div className="infoItemOE1">
+            <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}/h</span>
+            <button className="BotaoInformacaoOutros" onClick={() => navigate(`/maisInfo/${item.itemId}`)}>Mais Informações</button>
           </div>
         </div>
       ))}
@@ -294,11 +218,47 @@ const ListaItems = () => {
 };
 
 function OutrosEmprestimos() {
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
+
+  const verificarTipoUtilizador = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await api.get("/Utilizadores/VerificarAdmin", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUserTipoUtilizadorId(response.data);
+    } catch (error) {
+      console.error("Erro ao verificar o tipo de utilizador", error);
+      setUserTipoUtilizadorId(false);
+    }
+  };
+
+  useEffect(() => {
+    verificarTipoUtilizador();
+  }, []);
+
+  const handleClickPendentes = () => {
+    if (userTipoUtilizadorId === true) {
+      navigate("/PendentesEmprestimos");
+    } else {
+      alert("Apenas administradores podem aceder a esta página!");
+    }
+  };
+
   return (
     <>
       <HeaderProfileCares />
-      <Search />
-      <ListaItems />
+      <Search
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        userTipoUtilizadorId={userTipoUtilizadorId}
+        handleClickPendentes={handleClickPendentes}
+      />
+      <ListaItems searchTerm={searchTerm} />
     </>
   );
 }

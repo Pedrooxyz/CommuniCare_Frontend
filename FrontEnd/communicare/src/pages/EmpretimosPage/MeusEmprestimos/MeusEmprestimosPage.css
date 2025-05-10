@@ -261,6 +261,7 @@
   display: flex;
   justify-content: center;
   gap: 10px; /* espaço entre os botões */
+  padding-top: 15px;
 }
 
 .EditDeleteButtons {
@@ -294,4 +295,19 @@
 .card.adicionar-card {
   position: relative;
   cursor: pointer;
+}
+
+
+.desc1 {
+  
+  background-color: #FAEEE7;
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  max-height: 100px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  width: 95%;
+  height: 100px;
+  margin: 0 auto 10px auto;
 }
