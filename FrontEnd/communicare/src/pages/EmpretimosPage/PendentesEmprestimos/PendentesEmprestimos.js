@@ -298,7 +298,7 @@ const ListaItemsAquisicao = () => {
             <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}(h)</span>
           </div>
           <div className="moreInfo">
-            <button onClick={() => navigate(`/pendentesMaisInformacoes/${item.itemId}`)}>Mais Informações</button>
+            <button onClick={() => navigate(`/pendentesMaisInformacoes2/${item.itemId}`)}>Mais Informações</button>
           </div>
         </div>
       ))}
@@ -380,7 +380,7 @@ const ListaItemsDevolucao = () => {
             <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}(h)</span>
           </div>
           <div className="moreInfo">
-            <button onClick={() => navigate(`/pendentesMaisInformacoes/${item.itemId}`)}>Mais Informações</button>
+            <button onClick={() => navigate(`/pendentesMaisInformacoes3/${item.itemId}`)}>Mais Informações</button>
           </div>
         </div>
       ))}
