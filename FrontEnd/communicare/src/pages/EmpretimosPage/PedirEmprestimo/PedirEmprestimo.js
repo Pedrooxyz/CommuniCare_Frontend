@@ -1,48 +1,26 @@
 import React, { useState, useEffect } from "react";
 import "./PedirEmprestimo.css";
-import person1 from '../../../assets/person1.jpg';
 import cares from '../../../assets/Cares.png';
+import iconFallback from '../../../assets/icon.jpg';
 import { api } from '../../../utils/axios.js';
 import { useNavigate } from 'react-router-dom';
 
-const HeaderProfileCares = () => {
-  const [userInfo, setUserInfo] = useState(null);
-
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await api.get('/Utilizadores/InfoUtilizador', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log("User info recebida:", response.data);
-        setUserInfo(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar info do utilizador:", error);
-      }
-    };
-
-    fetchUserInfo();
-  }, []);
-
+const HeaderProfileCares = ({ userInfo }) => {
   return (
     <header>
       <p style={{ textAlign: "center" }}>
         {userInfo ? userInfo.numCares : "..."}
-      </p>      
-
+      </p>
       <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
       <img
         className="imgHeaderVol"
-        src={userInfo ? `http://localhost:5000/${userInfo.fotoUtil}` : '../../../../assets/icon.jpg'}
+        src={userInfo?.fotoUtil ? `http://localhost:5182/${userInfo.fotoUtil}` : iconFallback}
         width={60}
         height={60}
         alt="User"
         onError={(e) => {
           e.target.onerror = null;
-          e.target.src = '../../../../assets/icon.jpg'; // Fallback caso a imagem não exista
+          e.target.src = iconFallback;
         }}
       />
     </header>
@@ -50,6 +28,7 @@ const HeaderProfileCares = () => {
 };
 
 function PedirEmprestimo() {
+  const [userInfo, setUserInfo] = useState(null);
   const [titulo, setTitulo] = useState("");
   const [detalhes, setDetalhes] = useState("");
   const [imagem, setImagem] = useState(null);
@@ -69,9 +48,14 @@ function PedirEmprestimo() {
       }
 
       try {
-        const response = await api.get('/Utilizadores/InfoUtilizador');
+        const response = await api.get('/Utilizadores/InfoUtilizador', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         if (response.status === 200) {
-          setUtilizadorId(response.data.utilizadorId); // Aqui está a correção para pegar o utilizadorId
+          setUserInfo(response.data);
+          setUtilizadorId(response.data.utilizadorId);
         } else {
           alert('Erro ao obter as informações do utilizador.');
         }
@@ -97,8 +81,6 @@ function PedirEmprestimo() {
       reader.readAsDataURL(file);
     }
   };
-
-
 
   const handleSelecionarNumeroCares = (e) => {
     const value = e.target.value;
@@ -131,7 +113,7 @@ function PedirEmprestimo() {
       disponivel: 1,
       fotografiaItem: imagemBase64,
       comissaoCares: parseInt(numCares),
-      idEmprestador: utilizadorId, 
+      idEmprestador: utilizadorId,
     };
 
     try {
@@ -154,7 +136,6 @@ function PedirEmprestimo() {
       } else {
         alert('Erro ao enviar o pedido: ' + response.data.mensagem);
       }
-      console.log('Resposta do servidor:', response.data);
     } catch (error) {
       console.error('Erro ao enviar o pedido:', error);
       alert('Erro ao enviar o pedido.');
@@ -165,12 +146,22 @@ function PedirEmprestimo() {
 
   return (
     <div className="container-Emprestimo">
-      <HeaderProfileCares />
-      <h1 className="titulo-principal">Pedir Empréstimo</h1>
+      <HeaderProfileCares userInfo={userInfo} />
+      <h1 className="titulo-principal1">Pedir Empréstimo</h1>
       <div className="conteudo-Emprestimo">
-        <div className="form-lado-esquerdo">
+        <div className="form-lado-esquerdo1">
           <div className="perfil-user">
-            <img src={person1} className="img-perfil" width={60} height={60} alt="Perfil" />
+            <img
+              src={userInfo?.fotoUtil ? `http://localhost:5182/${userInfo.fotoUtil}` : iconFallback}
+              className="img-perfil"
+              width={60}
+              height={60}
+              alt="Perfil"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = iconFallback;
+              }}
+            />
           </div>
 
           <div className="upload-imagem">
@@ -180,7 +171,6 @@ function PedirEmprestimo() {
             </label>
           </div>
 
-
           <div className="icones-info">
             <span>
               <img src={cares} alt="Cares Icon" style={{ width: '24px', height: '24px' }} />
@@ -189,7 +179,7 @@ function PedirEmprestimo() {
           </div>
         </div>
 
-        <div className="form-lado-direito">
+        <div className="form-lado-direito1">
           <div className="linha-titulo">
             <input type="text" placeholder="Título" value={titulo} onChange={(e) => setTitulo(e.target.value)} className="input-titulo-direito" />
             <button className="botao-adicionar" onClick={handleSubmit} disabled={isSubmitting}>
@@ -198,7 +188,7 @@ function PedirEmprestimo() {
           </div>
 
           <textarea placeholder="Detalhes" maxLength={255} value={detalhes} onChange={(e) => setDetalhes(e.target.value)} className="textarea-detalhes"></textarea>
-          <span className="contador-detalhes">{detalhes.length}/255</span>
+          <span className="contador-detalhes2">{detalhes.length}/255</span>
         </div>
       </div>
     </div>
