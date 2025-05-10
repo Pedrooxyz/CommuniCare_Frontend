@@ -1,0 +1,77 @@
+/* src/pages/GerirUtilizadoresPendentes.css */
+.titulo-principal {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.2rem;
+  color: #333;
+}
+
+.container-gerir-utilizadores {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tabela-utilizadores {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.tabela-utilizadores th {
+  background-color: #f0f0f0;
+  padding: 12px 8px;
+  text-align: center;
+  border-bottom: 2px solid #ccc;
+  color: #333;
+}
+
+.tabela-utilizadores td {
+  background-color: #ffffff;
+  padding: 12px 8px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+.tabela-utilizadores tr td:first-child {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.tabela-utilizadores tr td:last-child {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.btn-aprovar,
+.btn-rejeitar {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-aprovar {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.btn-rejeitar {
+  background-color: #f44336;
+  color: white;
+}
+
+.btn-aprovar:hover {
+  background-color: #45a049;
+  box-shadow: 0 0 6px rgba(0, 128, 0, 0.4);
+}
+
+.btn-rejeitar:hover {
+  background-color: #d32f2f;
+  box-shadow: 0 0 6px rgba(255, 0, 0, 0.4);
+}

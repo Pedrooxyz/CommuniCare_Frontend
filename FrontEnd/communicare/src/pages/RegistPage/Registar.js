@@ -19,6 +19,10 @@ function DadosAuthentication() {
     nomeUtilizador: "",
     email: "",
     password: "",
+    rua: "",
+    numPorta: "",
+    cPostal: "",
+    localidade: ""
   };
 
   const [formValues, setFormValues] = useState(initialValues);
@@ -41,14 +45,26 @@ function DadosAuthentication() {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       const registerUser = async () => {
         try {
-          const response = await api.post("Utilizadores/RegisterUtilizador", formValues);
+          const payload = {
+            nomeUtilizador: formValues.nomeUtilizador,
+            email: formValues.email,
+            password: formValues.password,
+            rua: formValues.rua,
+            numPorta: formValues.numPorta ? parseInt(formValues.numPorta, 10) : null,
+            cPostal: formValues.cPostal,
+            localidade: formValues.localidade
+          };
+
+          const response = await api.post("Utilizadores/RegisterUtilizador", payload);
 
           if (response.status === 200 || response.status === 201) {
             alert("Registo bem-sucedido!");
-            navigate("/"); // Redireciona para login
+            navigate("/");
           }
         } catch (error) {
-          alert(error?.response?.data?.message || "Erro ao registar.");
+          const apiError = error?.response?.data;
+          const message = typeof apiError === "string" ? apiError : "Erro ao registar.";
+          alert(message);
         }
       };
 
@@ -58,26 +74,47 @@ function DadosAuthentication() {
 
   const validate = (values) => {
     const errors = {};
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
     const passwordRegex = /^(?=.*[A-Z])(?=.*[^A-Za-z0-9])/;
 
     if (!values.nomeUtilizador) {
       errors.nomeUtilizador = "Nome é necessário!";
     }
+
     if (!values.email) {
       errors.email = "Email é necessário!";
-    } else if (!regex.test(values.email)) {
-      errors.email = "Não é válido para o formato de email!";
+    } else if (!emailRegex.test(values.email)) {
+      errors.email = "Formato de email inválido!";
     }
+
     if (!values.password) {
-      errors.password = "É necessário password!";
+      errors.password = "Password é necessária!";
     } else if (values.password.length < 10) {
-      errors.password = "Password tem que ter mais de 10 caracteres";
+      errors.password = "Password deve ter no mínimo 10 caracteres";
     } else if (values.password.length > 16) {
       errors.password = "Password não pode ter mais de 16 caracteres";
     } else if (!passwordRegex.test(values.password)) {
       errors.password = "Password deve conter pelo menos uma letra maiúscula e um caracter especial";
     }
+
+    if (!values.rua) {
+      errors.rua = "Rua é necessária!";
+    }
+
+    if (!values.numPorta) {
+      errors.numPorta = "Número da porta é necessário!";
+    } else if (isNaN(values.numPorta)) {
+      errors.numPorta = "Número da porta deve ser um número!";
+    }
+
+    if (!values.cPostal) {
+      errors.cPostal = "Código postal é necessário!";
+    }
+
+    if (!values.localidade) {
+      errors.localidade = "Localidade é necessária!";
+    }
+
     return errors;
   };
 
@@ -133,6 +170,50 @@ function DadosAuthentication() {
               />
             </div>
             <p className="pErros">{formErrors.password}</p>
+
+            <div className="field">
+              <input className="inputDadosReg"
+                type="text"
+                name="rua"
+                placeholder="Rua"
+                value={formValues.rua}
+                onChange={handleChange}
+              />
+            </div>
+            <p className="pErros">{formErrors.rua}</p>
+
+            <div className="field">
+              <input className="inputDadosReg"
+                type="text"
+                name="numPorta"
+                placeholder="Número da Porta"
+                value={formValues.numPorta}
+                onChange={handleChange}
+              />
+            </div>
+            <p className="pErros">{formErrors.numPorta}</p>
+
+            <div className="field">
+              <input className="inputDadosReg"
+                type="text"
+                name="cPostal"
+                placeholder="Código Postal"
+                value={formValues.cPostal}
+                onChange={handleChange}
+              />
+            </div>
+            <p className="pErros">{formErrors.cPostal}</p>
+
+            <div className="field">
+              <input className="inputDadosReg"
+                type="text"
+                name="localidade"
+                placeholder="Localidade"
+                value={formValues.localidade}
+                onChange={handleChange}
+              />
+            </div>
+            <p className="pErros">{formErrors.localidade}</p>
 
             <button className="buttonSubmit" type="submit">Submit</button>
 

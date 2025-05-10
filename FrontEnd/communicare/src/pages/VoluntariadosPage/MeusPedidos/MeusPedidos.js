@@ -116,7 +116,7 @@ const ListaPedidos = () => {
 
   return (
     <div className="cards">
-      <div className="card adicionar-card" onClick={() => navigate("/pedirEmprestimo")}>
+      <div className="card adicionar-card" onClick={() => navigate("/pedirVoluntariado")}>
         <div className="TitleOE"><h2>Adicionar Pedido</h2></div>
         <div className="adicionarIcon">+</div>
       </div>
