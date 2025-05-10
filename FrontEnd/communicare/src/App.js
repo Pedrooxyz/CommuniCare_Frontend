@@ -16,7 +16,12 @@ import OutrosVoluntariados from "./pages/VoluntariadosPage/OutrosPedidosPage/Out
 import OutrosEmprestimos from "./pages/EmpretimosPage/OutrosEmprestimos/OutrosEmprestimos";
 import MaisInformacoes from "./pages/EmpretimosPage/OutrosEmprestimos/MaisInformacoes/MaisInformacoes";
 import PendentesEmprestimos from "./pages/EmpretimosPage/PendentesEmprestimos/PendentesEmprestimos";
+
 import PendentesMaisInformacoes from "./pages/EmpretimosPage/PendentesEmprestimos/MaisInformacoes/PendentesMaisInformacoes";
+import PendentesMaisInformacoes2 from "./pages/EmpretimosPage/PendentesEmprestimos/MaisInformacoes/PendentesMaisInformacoes2";
+import PendentesMaisInformacoes3 from "./pages/EmpretimosPage/PendentesEmprestimos/MaisInformacoes/PendentesMaisInformacoes3";
+
+
 import MeusEmprestimos from "./pages/EmpretimosPage/MeusEmprestimos/MeusEmprestimoPage"
 import PedirEmprestimo from "./pages/EmpretimosPage/PedirEmprestimo/PedirEmprestimo";
 import EditarItem from "./pages/EmpretimosPage/EditarItem/EditarItem";
@@ -57,8 +62,12 @@ function App() {
         < Route path="/outrosEmprestimos" element={<OutrosEmprestimos />} />
         < Route path="/maisInfo/:id" element={<MaisInformacoes />} />
         < Route path="/pendentesEmprestimos" element={<PendentesEmprestimos />} />
+
         < Route path="/pendentesMaisInformacoes/:id" element={<PendentesMaisInformacoes />} />
-        < Route path="/meusEmprestimos" element={<MeusEmprestimos />} />
+        < Route path="/pendentesMaisInformacoes2/:id" element={<PendentesMaisInformacoes2 />} />
+        < Route path="/pendentesMaisInformacoes2/:id" element={<PendentesMaisInformacoes3 />} />
+
+        < Route path="/meusEmprestimos" element={<MeusEmprestimos />} />
         < Route path="/editarItem/:itemId" element={<EditarItem />} />
         <Route path="/pedirEmprestimo" element={<PedirEmprestimo />} />
 
