@@ -27,6 +27,8 @@ import Notificacoes from "./pages/NotificacoesPage/Notificacoes";
 import NotificacoesArq from "./pages/NotificacoesPage/NotificacoesArq/NotificacoesArq";
 import PedirVoluntariado from "./pages/VoluntariadosPage/PedirVoluntariado/PedirVoluntariado";
 import PendentesPedidos from "./pages/VoluntariadosPage/PendentesPedidoPage/PendentesPedido";
+import PendentesPedidosMaisInformacoes1 from "./pages/VoluntariadosPage/PendentesPedidoPage/MaisInformacoes/MaisInformacoes";
+
 
 
 import Loja from "./pages/Loja/Loja";
@@ -49,6 +51,7 @@ function App() {
 
         < Route path="/outrosPedidos" element={<OutrosVoluntariados />} />
         <Route path="/pendentesPedidos" element={<PendentesPedidos />} />
+        <Route path="/pedidos/pendentes/mais-info/:id" element={<PendentesPedidosMaisInformacoes1 />} />
 
 
         < Route path="/outrosEmprestimos" element={<OutrosEmprestimos />} />

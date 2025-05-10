@@ -156,14 +156,14 @@ const ListaPedidos = () => {
             />
             <h2>{pedido.titulo}</h2>
           </div>
-          <img>{pedido.FotograficaPA}</img>
+          <span>IMAGEM</span>
           <p>{pedido.descricao || "Sem descrição disponível."}</p>          
           <div className="infoItemOE">
             <span><FaCubes /> Voluntários: {pedido.numeroVoluntarios}</span>
             <span><FaCubes /> Horas: {pedido.nHoras}</span>
           </div>
           <div className="moreInfo">
-            <button onClick={() => navigate(`/pendentesMaisInformacoes/${pedido.pedidoId}`)}>Mais Informações</button>
+            <button onClick={() => navigate(`pendentesPedidos/pendentesMaisInformacoes/${pedido.pedidoId}`)}>Mais Informações</button>
           </div>
         </div>
       ))}
@@ -213,6 +213,7 @@ const ListaPedidosAquisicao = () => {
             />
             <h2>{pedido.titulo}</h2>
           </div>
+          <span>IMAGEM</span>
           <p>{pedido.descricao || "Sem descrição disponível."}</p>
           <div className="infoItemOE">
             <span><FaCubes /> Voluntários: {pedido.numeroVoluntarios}</span>
@@ -269,6 +270,7 @@ const ListaPedidosDevolucao = () => {
             />
             <h2>{pedido.titulo}</h2>
           </div>
+          <span>IMAGEM</span>
           <p>{pedido.descricao || "Sem descrição disponível."}</p>
           <div className="infoItemOE">
             <span><FaCubes /> Voluntários: {pedido.numeroVoluntarios}</span>
