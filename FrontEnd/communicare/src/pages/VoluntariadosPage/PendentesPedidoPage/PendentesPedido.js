@@ -1,22 +1,26 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { FaSearch } from "react-icons/fa";
 import { api } from "../../../utils/axios.js";
 import "./PendentesPedido.css";
+import { FaSearch, FaCubes } from "react-icons/fa";
+
 
 import cares from "../../../assets/Cares.png";
 import iconFallback from "../../../assets/icon.jpg";
 
-// Header com informações do utilizador
 const HeaderProfileCares = () => {
+  const navigate = useNavigate();
+  const [isHovered, setIsHovered] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const response = await api.get("/Utilizadores/InfoUtilizador", {
-          headers: { Authorization: `Bearer ${token}` },
+        const token = localStorage.getItem('token');
+        const response = await api.get('/Utilizadores/InfoUtilizador', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
         setUserInfo(response.data);
       } catch (error) {
@@ -33,8 +37,9 @@ const HeaderProfileCares = () => {
         {userInfo ? userInfo.numCares : "..."}
       </p>
       <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
-      <img
+            <img
         className="imgHeaderVol"
+        onClick={() => navigate(`/profile`)}
         src={
           userInfo && userInfo.fotoUtil
             ? `http://localhost:5182/${userInfo.fotoUtil}`
@@ -46,6 +51,16 @@ const HeaderProfileCares = () => {
         onError={(e) => {
           e.target.onerror = null;
           e.target.src = iconFallback;
+        }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        style={{
+          margin: "5px",
+          cursor: "pointer",
+          borderRadius: "50%",
+          transition: "transform 0.3s ease, box-shadow 0.3s ease",
+          transform: isHovered ? "scale(1.1)" : "scale(1)",
+          boxShadow: isHovered ? "0 0 10px rgba(0,0,0,0.3)" : "none",
         }}
       />
     </header>
@@ -82,84 +97,220 @@ const Search = () => {
   );
 };
 
-// Lista de Pedidos Pendentes
-const ListaPedidosPendentes = () => {
-  const [pedidos, setPedidos] = useState([]);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchPendentes = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await api.get("/PedidosAjuda/Admin/Pendentes", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setPedidos(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar pedidos pendentes:", error);
-      }
-    };
-
-    fetchPendentes();
-  }, []);
-
-  const getImagemSrc = (fotoPedido) => {
-    return fotoPedido && fotoPedido.trim() !== "" && fotoPedido !== "null"
-      ? `http://localhost:5182/${fotoPedido}`
-      : iconFallback;
-  };
-
+const HeaderSecundario = ({ onValidarRequisicao, onValidarAquisicao, onValidarDevolucao }) => {
   return (
-    <div className="cards">
-      {pedidos.length === 0 ? (
-        <p style={{ textAlign: "center", width: "100%" }}>
-          Nenhum pedido pendente encontrado.
-        </p>
-      ) : (
-        pedidos.map((pedido, index) => (
-          <div className="card" key={pedido.idPedido || index}>
-            <div className="TitleOE">
-              <h2>{pedido.titulo}</h2>
-            </div>
-            <img
-              className="imgItemOE"
-              src={getImagemSrc(pedido.fotografiaPA)}
-              alt={pedido.titulo}
-            />
-            <p>{pedido.descPedido || "Sem descrição."}</p>
-            <div className="estadoItem">
-              <div>
-                <span className="estado">
-                  Estado:{" "}
-                  <span
-                    className={`estado-circle ${
-                      pedido.estado === "Ativo" ? "disponivel" : "emprestado"
-                    }`}
-                  ></span>
-                </span>
-              </div>
-              <div className="moreInfo">
-                <button onClick={() => navigate(`/pendentePedidoInfo/${pedido.idPedido}`)}>
-                  Mais Informações
-                </button>
-              </div>
-            </div>
-          </div>
-        ))
-      )}
+    <div className="header-secundario">
+      <button className="botao-header-secundario" onClick={onValidarRequisicao}>
+        Validar Pedido de Ajuda
+      </button>
+      <button className="botao-header-secundario" onClick={onValidarAquisicao}>
+        Validar Voluntário
+      </button>
+      <button className="botao-header-secundario" onClick={onValidarDevolucao}>
+        Validar Conclusão
+      </button>
     </div>
   );
 };
 
-// Página principal
+
+const ListaPedidos = () => {
+  const [pedidos, setPedidos] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchPedidos = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await api.get('/PedidosAjuda/Admin/Pendentes', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log("Pedidos pendentes recebidos:", response.data);
+        setPedidos(response.data);
+
+      } catch (error) {
+        console.error('Erro ao buscar os pedidos pendentes:', error);
+      }
+    };
+
+    fetchPedidos();
+  }, []);
+
+  return (
+    <div className="cards">
+      {pedidos.map((pedido) => (
+        <div className="card" key={pedido.pedidoId}>
+          <div className="userTitleOE">
+            <img
+              className="imgUsers"
+              src="../../../../assets/icon.jpg"
+              onError={(e) => {
+                e.target.onerror = null; 
+                e.target.src = '../../../../assets/icon.jpg';
+              }}
+              alt="User"
+              width={70}
+              height={70}
+            />
+            <h2>{pedido.titulo}</h2>
+          </div>
+          <img>{pedido.FotograficaPA}</img>
+          <p>{pedido.descricao || "Sem descrição disponível."}</p>          
+          <div className="infoItemOE">
+            <span><FaCubes /> Voluntários: {pedido.numeroVoluntarios}</span>
+            <span><FaCubes /> Horas: {pedido.nHoras}</span>
+          </div>
+          <div className="moreInfo">
+            <button onClick={() => navigate(`/pendentesMaisInformacoes/${pedido.pedidoId}`)}>Mais Informações</button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const ListaPedidosAquisicao = () => {
+  const [pedidos, setPedidos] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchPedidos = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await api.get('/PedidosAjuda/Admin/ObterValidarVoluntariado', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log("Pedidos para validar voluntariado recebidos:", response.data);
+        setPedidos(response.data);
+
+      } catch (error) {
+        console.error('Erro ao buscar os pedidos:', error);
+      }
+    };
+
+    fetchPedidos();
+  }, []);
+
+  return (
+    <div className="cards">
+      {pedidos.map((pedido) => (
+        <div className="card" key={pedido.pedidoId}>
+          <div className="userTitleOE">
+            <img
+              className="imgUsers"
+              src="../../../../assets/icon.jpg" // Foto genérica, porque o DTO não traz fotos
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = '../../../../assets/icon.jpg';
+              }}
+              alt="User"
+              width={70}
+              height={70}
+            />
+            <h2>{pedido.titulo}</h2>
+          </div>
+          <p>{pedido.descricao || "Sem descrição disponível."}</p>
+          <div className="infoItemOE">
+            <span><FaCubes /> Voluntários: {pedido.numeroVoluntarios}</span>
+            <span><FaCubes /> Horas: {pedido.nHoras}</span>
+          </div>
+          <div className="moreInfo">
+            <button onClick={() => navigate(`/pendentesMaisInformacoes/${pedido.pedidoId}`)}>Mais Informações</button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const ListaPedidosDevolucao = () => {
+  const [pedidos, setPedidos] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchPedidos = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await api.get('/PedidosAjuda/Admin/ObterValidarConclusaoPedido', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log("Pedidos para validar conclusão recebidos:", response.data);
+        setPedidos(response.data);
+
+      } catch (error) {
+        console.error('Erro ao buscar os pedidos:', error);
+      }
+    };
+
+    fetchPedidos();
+  }, []);
+
+  return (
+    <div className="cards">
+      {pedidos.map((pedido) => (
+        <div className="card" key={pedido.pedidoId}>
+          <div className="userTitleOE">
+            <img
+              className="imgUsers"
+              src="../../../../assets/icon.jpg" // Genérico, pois DTO não inclui fotos
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = '../../../../assets/icon.jpg';
+              }}
+              alt="User"
+              width={70}
+              height={70}
+            />
+            <h2>{pedido.titulo}</h2>
+          </div>
+          <p>{pedido.descricao || "Sem descrição disponível."}</p>
+          <div className="infoItemOE">
+            <span><FaCubes /> Voluntários: {pedido.numeroVoluntarios}</span>
+            <span><FaCubes /> Horas: {pedido.nHoras}</span>
+          </div>
+          <div className="moreInfo">
+            <button onClick={() => navigate(`/pendentesMaisInformacoes/${pedido.pedidoId}`)}>
+              Mais Informações
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 function PendentesPedidos() {
+  const [secaoAtiva, setSecaoAtiva] = useState(null); 
+  const [reloadKey, setReloadKey] = useState(0);
+
+  const handleClick = (secao) => {
+    setSecaoAtiva(secao);
+    setReloadKey(prev => prev + 1); // Isto força o React a recarregar a lista mesmo que clicas no mesmo
+  };
+
   return (
     <>
       <HeaderProfileCares />
       <Search />
-      <ListaPedidosPendentes />
+      <HeaderSecundario 
+        secaoAtiva={secaoAtiva}
+        onValidarRequisicao={() => handleClick('validarRequisicao')} 
+        onValidarAquisicao={() => handleClick('validarAquisicao')}
+        onValidarDevolucao={() => handleClick('validarConclusao')}
+      />
+
+      {secaoAtiva === 'validarRequisicao' && <ListaPedidos key={`requisicao-${reloadKey}`} />}
+      {secaoAtiva === 'validarAquisicao' && <ListaPedidosAquisicao key={`aquisicao-${reloadKey}`} />}
+      {secaoAtiva === 'validarConclusao' && <ListaPedidosDevolucao key={`conclusao-${reloadKey}`} />}
     </>
   );
 }
+
 
 export default PendentesPedidos;
