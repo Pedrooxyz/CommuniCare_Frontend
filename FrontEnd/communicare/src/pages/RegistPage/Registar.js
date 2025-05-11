@@ -215,7 +215,7 @@ function DadosAuthentication() {
             </div>
             <p className="pErros">{formErrors.localidade}</p>
 
-            <button className="buttonSubmit" type="submit">Submit</button>
+            <button className="buttonSubmit" type="submit">Submeter</button>
 
             <div className="textReg">
               Já possui conta? <Link className="regLinks" to="/">Iniciar sessão</Link>

@@ -61,6 +61,7 @@ const Search = () => {
           <button className="tab1" onClick={() => navigate("/outrosPedidos")}>
             Outros Pedidos
           </button>
+          <button className="tab" onClick={() => navigate("/pendentesPedidos")}>Pedidos Pendentes</button>
         </div>
         <div className="search-wrapper1">
           <input type="text" placeholder="Pesquisar..." className="search1" />
