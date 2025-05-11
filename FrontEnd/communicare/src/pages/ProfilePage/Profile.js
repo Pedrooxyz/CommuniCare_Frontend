@@ -1,6 +1,6 @@
 import "./Profile.css";
 import { useNavigate } from "react-router-dom";
-import { FaPlus, FaChevronRight } from 'react-icons/fa'; 
+import { FaPlus, FaChevronRight } from 'react-icons/fa';
 import React, { useState, useEffect } from "react";
 import { api } from '../../utils/axios.js';
 
@@ -18,17 +18,17 @@ const HeaderNot = () => {
 
   return (
     <header className="headerNot">
-      <button 
-        className="imgButton" 
-        onClick={() => navigate("/notificacoes")} 
+      <button
+        className="imgButton"
+        onClick={() => navigate("/notificacoes")}
         aria-label="Ver notificações"
       >
-        <img 
-          className="imgHeader" 
-          src={notification} 
-          width={45} 
-          height={45} 
-          alt="Notificações" 
+        <img
+          className="imgHeader"
+          src={notification}
+          width={45}
+          height={45}
+          alt="Notificações"
         />
       </button>
     </header>
@@ -46,8 +46,28 @@ const DadosUserPI = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
   const [contactos, setContactos] = useState([]);
-  const [newPhoto, setNewPhoto] = useState(null);  // Estado para a nova foto
-  const [meusItens, setMeusItens] = useState([]); // Novo estado para os itens
+  const [newPhoto, setNewPhoto] = useState(null); 
+  const [meusItens, setMeusItens] = useState([]); 
+  const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
+
+  const verificarTipoUtilizador = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await api.get("/Utilizadores/VerificarAdmin", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUserTipoUtilizadorId(response.data); 
+    } catch (error) {
+      console.error("Erro ao verificar o tipo de utilizador", error);
+      setUserTipoUtilizadorId(false); 
+    }
+  };
+
+  useEffect(() => {
+    verificarTipoUtilizador();
+  }, []);
 
 
   useEffect(() => {
@@ -55,7 +75,6 @@ const DadosUserPI = () => {
       try {
         const token = localStorage.getItem('token');
 
-        // Vai buscar tanto os dados do utilizador como os contactos em simultâneo
         const [userResponse, contactosResponse] = await Promise.all([
           api.get('/Utilizadores/InfoUtilizador', {
             headers: { Authorization: `Bearer ${token}` },
@@ -76,43 +95,33 @@ const DadosUserPI = () => {
     fetchUserInfo();
   }, []);
 
-const handlePhotoChange = (e) => {
+  const handlePhotoChange = async (e) => {
   const file = e.target.files[0];
   if (file) {
-    // Criar uma URL local para visualização imediata
-    const fotoUrl = URL.createObjectURL(file);
-    setNewPhoto(fotoUrl); // Atualiza o estado para mostrar a nova imagem
+    const formData = new FormData();
+    formData.append("foto", file);
 
-    // Enviar a URL da imagem para o backend (não o arquivo)
     const token = localStorage.getItem('token');
-    
-    // Aqui, estamos apenas enviando a URL da foto
-    api.put('/Utilizadores/EditarFoto', { fotoUrl: fotoUrl }, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',  // Definir o tipo de conteúdo para JSON
-      },
-    })
-    .then(response => {
-      console.log("Foto atualizada com sucesso", response);
 
-      // Atualizar a imagem do perfil com a nova URL da imagem, caso o backend a retorne
-      if (response.data && response.data.fotoUtil) {
-        setUserInfo(prev => ({
-          ...prev,
-          fotoUtil: response.data.fotoUtil
-        }));
-      } else {
-        // Caso o backend não retorne a URL, use a visualização local
+    try {
+      const response = await api.put('/Utilizadores/EditarFoto', formData, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      const fotoUrl = response.data?.fotoUtil;
+      if (fotoUrl) {
         setUserInfo(prev => ({
           ...prev,
           fotoUtil: fotoUrl
         }));
       }
-    })
-    .catch(error => {
+
+    } catch (error) {
       console.error("Erro ao atualizar foto", error);
-    });
+    }
   }
 };
 
@@ -153,7 +162,7 @@ const handlePhotoChange = (e) => {
         <div className="IconProfile">
           <img
             className="icPerson"
-            src={userInfo ? `${userInfo.fotoUtil}` : '../../../../assets/icon.jpg'}
+            src={`http://localhost:5182${userInfo?.fotoUtil}`}
             width={190}
             height={190}
             alt="icProfile"
@@ -162,11 +171,11 @@ const handlePhotoChange = (e) => {
           <label htmlFor="file-input" className="iconplus">
             <img src={plusP} width={45} height={45} alt="iconplus" />
           </label>
-          <input 
-            id="file-input" 
-            type="file" 
+          <input
+            id="file-input"
+            type="file"
             style={{ display: 'none' }}  // Esconde o input
-            onChange={handlePhotoChange} 
+            onChange={handlePhotoChange}
           />
         </div>
 
@@ -190,29 +199,40 @@ const handlePhotoChange = (e) => {
       </div>
 
       <div className="gridProfile">
-        {/* Coluna de Perfil */}
-        <div className="cardPofile profile">
-          <h2 className="name">{userInfo ? userInfo.nomeUtilizador : "..."}</h2>
-          <h3>Contactos:</h3>
+  {/* Coluna de Perfil */}
+  <div className="cardPofile profile">
+    <h2 className="name">{userInfo ? userInfo.nomeUtilizador : "..."}</h2>
+    <h3>Contactos:</h3>
 
-          {contactos.length > 0 ? (
-            contactos.map((contacto, index) => (
-              <p key={index} className="contact">
-                {mapTipoContacto(contacto.tipoContactoId)}: {contacto.numContacto}
-              </p>
-            ))
-          ) : (
-            <p className="contact">Nenhum contacto disponível</p>
-          )}
+    {contactos.length > 0 ? (
+      contactos.map((contacto, index) => (
+        <p key={index} className="contact">
+          {mapTipoContacto(contacto.tipoContactoId)}: {contacto.numContacto}
+        </p>
+      ))
+    ) : (
+      <p className="contact">Nenhum contacto disponível</p>
+    )}
 
-          <button 
-            className="add-contact" 
-            onClick={() => navigate('/editar-perfil')}  // Definir a ação diretamente no JSX
-          >
-            Editar Perfil
-          </button>
+    {/* Botões "Editar Perfil" e "Gerir Contas" */}
+    <div className="buttons-container">
+      <button
+        className="add-contact"
+        onClick={() => navigate('/editar-perfil')}  // Navega para "Editar Perfil"
+      >
+        Editar Perfil
+      </button>
+      {userTipoUtilizadorId === true && (
+              <button
+                className="add-contact"
+                onClick={() => navigate('/GerirUtilizadores')}
+              >
+                Gerir Contas
+              </button>
+            )}
+          </div>
           <span className="ellipsis"></span>
-        </div>
+  </div>
 
         {/* Coluna de Voluntariados */}
         <div className="cardPofile">
@@ -258,10 +278,10 @@ const handlePhotoChange = (e) => {
             <div className="recent-items">
               {meusItens.length > 0 ? (
                 meusItens.map((item) => (
-                  <div 
-                    key={item.itemId} 
-                    className="item" 
-                    style={{ cursor: 'pointer' }} 
+                  <div
+                    key={item.itemId}
+                    className="item"
+                    style={{ cursor: 'pointer' }}
                     onClick={() => navigate(`/maisInfo/${item.itemId}`)}
                   >
                     {item.nomeItem}

@@ -7,6 +7,12 @@
     outline: none;
     box-shadow: none;
   }
+
+  .buttons-container {
+  display: flex;
+  justify-content: space-evenly; /* Para colocar os botões lado a lado com espaçamento */
+  gap: 10px; /* Espaço entre os botões */
+}
   
   body {
     background-color: #E9DEDE;

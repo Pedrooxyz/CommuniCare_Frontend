@@ -144,7 +144,7 @@ const DetalhesItem = () => {
         const response = await api.get(`/ItensEmprestimo/${id}/foto-emprestador`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        const urlFoto = `http://localhost:5000/${response.data}`;
+        const urlFoto = `http://localhost:5182/${response.data}`;
         setFotoEmprestador(urlFoto);
       } catch (error) {
         console.error('Erro ao buscar foto do emprestador:', error);
