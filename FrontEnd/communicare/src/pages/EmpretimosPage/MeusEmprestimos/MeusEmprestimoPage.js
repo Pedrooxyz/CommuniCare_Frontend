@@ -134,13 +134,19 @@ const Search = ({ searchTerm, setSearchTerm }) => {
 
 const ListaItems = ({ searchTerm }) => {
   const [items, setItems] = useState([]);
+  const [itensEmUso, setItensEmUso] = useState([]); // Novo estado para itens em uso
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
+        // Buscar todos os itens do utilizador
         const response = await api.get("/ItensEmprestimo/MeusItens");
         setItems(response.data);
+
+        // Buscar os itens que estão em uso
+        const responseEmUso = await api.get("/ItensEmprestimo/MeusItensEmUso");
+        setItensEmUso(responseEmUso.data);
       } catch (error) {
         console.error("Erro ao buscar itens:", error);
       }
@@ -177,6 +183,43 @@ const ListaItems = ({ searchTerm }) => {
     }
   };
 
+  // Função para verificar se o item está em uso
+  const isItemEmUso = (item) => {
+    return itensEmUso.some((itemUso) => itemUso.nomeItem === item.nomeItem);
+  };
+
+  const concluirEmprestimo = async (itemId) => {
+      console.log("Item ID enviado para conclusão:", itemId); // <-- adiciona isto
+    try {
+      const token = localStorage.getItem('token');
+      
+      // Chamar o endpoint de empréstimo correspondente para obter o empréstimo correspondente
+      const emprestimoResponse = await api.get(`/Emprestimos/EmprestimoCorrespondenteItem/${itemId}`, {
+              headers: { Authorization: `Bearer ${token}` },
+      });
+      
+      const emprestimoCorrespondente = emprestimoResponse.data;
+      
+      console.log("Emprestimo ativo encontrado:", emprestimoCorrespondente);
+      if (emprestimoCorrespondente) {
+        const response = await api.post(`/Emprestimos/DevolucaoItem/${emprestimoCorrespondente.emprestimoId}`);
+        if (response.status === 200) {
+          alert("Devolução concluída com sucesso!");
+          // Atualizar lista de itens, caso necessário
+          setItensEmUso((prevItens) => prevItens.filter((item) => item.itemId !== itemId));
+        } else {
+          alert("Erro ao concluir a devolução.");
+        }
+      } else {
+        alert("Nenhum empréstimo encontrado para este item.");
+      }
+    } catch (error) {
+      console.error("Erro ao concluir devolução:", error);
+      alert("Erro ao concluir devolução.");
+    }
+  };
+
+
   const filteredItems = items.filter(item =>
     item.nomeItem.toLowerCase().includes(searchTerm)
   );
@@ -208,7 +251,9 @@ const ListaItems = ({ searchTerm }) => {
               Estado:{" "}
               <span
                 className={`estado-circle ${
-                  item.disponivel === 1
+                  isItemEmUso(item)
+                    ? "em-uso" // Primeiro verifica se o item está em uso
+                    : item.disponivel === 1
                     ? "disponivel"
                     : item.disponivel === 0
                     ? "indisponivel"
@@ -216,13 +261,32 @@ const ListaItems = ({ searchTerm }) => {
                     ? "permanentemente-indisponivel"
                     : ""
                 }`}
-              ></span>
+                data-tooltip={
+                  isItemEmUso(item)
+                    ? "Empréstimo a Decorrer"
+                    : item.disponivel === 1
+                    ? "Disponível"
+                    : item.disponivel === 0
+                    ? "Indisponível (Aguardando alguma validação do administrador)"
+                    : item.disponivel === 2
+                    ? "Permanentemente Indisponível"
+                    : ""
+                }
+              >
+                {isItemEmUso(item) ? "" : ""}
+              </span>
             </span>
             <span>
               <img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}/h
             </span>
           </div>
           <div className="controlesAcao">
+            {/* Só mostra o botão "Concluir" se o item está em uso */}
+            {isItemEmUso(item) && (
+              <button onClick={() => concluirEmprestimo(item.itemId)}>
+                Concluir
+              </button>
+            )}
             <button className="EditDeleteButtons" onClick={() => handleEdit(item.itemId)}>
               <FaEdit />
             </button>
@@ -235,6 +299,7 @@ const ListaItems = ({ searchTerm }) => {
     </div>
   );
 };
+
 
 function MeusEmprestimos() {
   const [searchTerm, setSearchTerm] = useState("");
