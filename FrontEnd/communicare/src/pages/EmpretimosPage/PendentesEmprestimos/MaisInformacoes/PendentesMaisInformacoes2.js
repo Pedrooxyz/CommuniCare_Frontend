@@ -158,21 +158,21 @@ const DetalhesItem = () => {
     fetchFotoEmprestador();
   }, [id]);
 
-  const validarItem = async (itemId) => {
+  const validarEmprestimo = async (emprestimoId) => {
     try {
       const token = localStorage.getItem('token');
-      await api.post(`/ItensEmprestimo/ValidarItem-(admin)/${itemId}`, null, {
+      await api.post(`/Emprestimos/ValidarEmprestimo-(admin)/${emprestimoId}`, null, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      alert("Item validado com sucesso!");
+      alert("Emprestimo validado com sucesso!");
       navigate("/PendentesEmprestimos");
     } catch (error) {
-      console.error("Erro ao validar item:", error);
-      alert("Erro ao validar item.");
+      console.error("Erro ao validar Emprestimo:", error);
+      alert("Erro ao validar emprestimo.");
     }
   };
 
-  const rejeitarItem = async (itemId) => {
+  const rejeitarEmprestimo = async (itemId) => {
     try {
       const token = localStorage.getItem('token');
       await api.delete(`/ItensEmprestimo/RejeitarItem-(admin)/${itemId}`, {
@@ -223,8 +223,8 @@ const DetalhesItem = () => {
         </div>
 
         <div className="BotAcao">
-          <button className="botaoAceitar" onClick={() => validarItem(item.itemId)}>Aceitar</button>
-          <button className="botaoRejeitar" onClick={() => rejeitarItem(item.itemId)}>Rejeitar</button>
+          <button className="botaoAceitar" onClick={() => validarEmprestimo(item.emprestimos.id)}>Aceitar</button>
+          <button className="botaoRejeitar" onClick={() => rejeitarEmprestimo(item.emprestimos.id)}>Rejeitar</button>
         </div>
       </div>
 
