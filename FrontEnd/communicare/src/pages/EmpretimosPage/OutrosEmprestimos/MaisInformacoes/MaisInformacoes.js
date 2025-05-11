@@ -62,7 +62,7 @@ const getImagemSrc = (fotoItem) => {
   if (fotoItem && fotoItem.trim() !== "" && fotoItem !== "null") {
     return `data:image/jpeg;base64,${fotoItem}`;
   } else {
-    return iconFallback; // Certifique-se de ter uma imagem de fallback para erro
+    return iconFallback;
   }
 };
 

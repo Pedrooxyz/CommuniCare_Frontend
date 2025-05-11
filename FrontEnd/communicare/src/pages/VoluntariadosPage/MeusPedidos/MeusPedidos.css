@@ -67,7 +67,7 @@ header p {
     font-weight: bold;
     cursor: pointer;
     margin-left: 60px;
-    text-align: center; /* ver se tiro ou não */
+    text-align: center;
   }
   
   .tab1.active {
@@ -104,7 +104,7 @@ header p {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 35px;
-  max-width: 1440px; /* Ajuste conforme o tamanho dos cards e gaps */
+  max-width: 1440px;
   margin: 0 auto;
   padding: 20px 60px;
   justify-content: center;
@@ -271,8 +271,8 @@ header p {
 
 .infoBox {
   display: flex;
-  align-items: center;  /* Centraliza verticalmente */
-  justify-content: center;  /* Centraliza horizontalmente */
+  align-items: center;  
+  justify-content: center; 
   gap: 8px;
   font-size: 18px;
   font-weight: bold;
@@ -316,15 +316,15 @@ header p {
 }
 
 .concluir-button {
-  background-color: #5bd35f; /* Cor verde */
-  font-size: 16px;           /* Tamanho de fonte reduzido */
+  background-color: #5bd35f;
+  font-size: 16px;           
   color: white;
   font-weight: bold;
-  padding: 8px 16px;         /* Menos preenchimento */
-  border-radius: 8px;        /* Arredondamento mais discreto */
+  padding: 8px 16px;        
+  border-radius: 8px;        
   border: none;
   cursor: pointer;
-  margin: 0;                 /* Remove margem extra */
+  margin: 0;                 
 }
 
 .concluir-button:hover {

@@ -62,7 +62,7 @@ const getImagemSrc = (fotoItem) => {
   if (fotoItem && fotoItem.trim() !== "" && fotoItem !== "null") {
     return `data:image/jpeg;base64,${fotoItem}`;
   } else {
-    return iconFallback; // Certifique-se de ter uma imagem de fallback para erro
+    return iconFallback; 
   }
 };
 
@@ -128,7 +128,7 @@ const Search = () => {
 
 const DetalhesItem = () => {
   const navigate = useNavigate();
-  const { id } = useParams();  // Certifique-se de que o parâmetro na URL é 'id'
+  const { id } = useParams(); 
   const [item, setItem] = useState({
     titulo: "",
     descPedido: "",
@@ -148,7 +148,7 @@ const DetalhesItem = () => {
           },
         });
 
-        console.log("Resposta da API:", response.data); // Verifique o formato dos dados
+        console.log("Resposta da API:", response.data); 
 
         const data = response.data;
         setItem({
@@ -182,7 +182,7 @@ const DetalhesItem = () => {
 
     fetchItem();
     fetchFotoEmprestador();
-  }, [id]);  // Adicionando 'id' como dependência
+  }, [id]); 
 
   const validarPedido = async (pedidoId) => {
     try {
@@ -192,8 +192,7 @@ const DetalhesItem = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      alert(response.data); // Exibe a mensagem de sucesso
-      // Navega para a página 'outrosPedidos' após a validação
+      alert(response.data); 
       navigate("/outrosPedidos");
     } catch (error) {
       console.error("Erro ao validar pedido:", error);
@@ -213,8 +212,8 @@ const DetalhesItem = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      alert(response.data); // Exibe a mensagem de sucesso
-      navigate("/outrosPedidos"); // Navega para a página "outrosPedidos"
+      alert(response.data); 
+      navigate("/outrosPedidos");
     } catch (error) {
       console.error("Erro ao rejeitar pedido:", error);
       if (error.response?.data) {

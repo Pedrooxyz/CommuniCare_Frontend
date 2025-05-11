@@ -62,7 +62,7 @@ const getImagemSrc = (fotoItem) => {
   if (fotoItem && fotoItem.trim() !== "" && fotoItem !== "null") {
     return `data:image/jpeg;base64,${fotoItem}`;
   } else {
-    return iconFallback; // Certifique-se de ter uma imagem de fallback para erro
+    return iconFallback;
   }
 };
 
@@ -131,7 +131,7 @@ const DetalhesItem = () => {
   const [voluntarios, setVoluntarios] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
 const [voluntarioSelecionado, setVoluntarioSelecionado] = useState(null);
-  const { id } = useParams();  // Certifique-se de que o parâmetro na URL é 'id'
+  const { id } = useParams();  
   const [item, setItem] = useState({
     titulo: "",
     descPedido: "",
@@ -161,7 +161,7 @@ const validarVoluntario = async () => {
 
     alert("Voluntário validado com sucesso.");
     fecharPopup();
-    fetchVoluntarios(); // Atualiza a lista
+    fetchVoluntarios();
   } catch (error) {
     console.error("Erro ao validar:", error);
     alert("Erro ao validar o voluntário.");
@@ -172,14 +172,14 @@ const rejeitarVoluntario = async () => {
   try {
     const token = localStorage.getItem('token');
     
-    // Alterei o método para 'POST' e a URL conforme o endpoint que você descreveu
+   
     await api.post(`/Voluntariados/pedidos/${id}/voluntarios/${voluntarioSelecionado.utilizadorId}/rejeitar`, {}, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
     alert("Voluntário rejeitado com sucesso.");
     fecharPopup();
-    fetchVoluntarios(); // Atualiza a lista
+    fetchVoluntarios();
   } catch (error) {
     console.error("Erro ao rejeitar:", error);
     alert("Erro ao rejeitar o voluntário.");
@@ -228,7 +228,7 @@ const rejeitarVoluntario = async () => {
 
     fetchItem();
     fetchFotoEmprestador();
-  }, [id]);  // Adicionando 'id' como dependência
+  }, [id]); 
 
   const fetchVoluntarios = async () => {
   try {

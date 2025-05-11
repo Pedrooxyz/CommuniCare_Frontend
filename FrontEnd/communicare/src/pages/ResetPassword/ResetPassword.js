@@ -1,7 +1,7 @@
 import "./ResetPassword.css";
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { api } from '../../utils/axios.js'; // Importa a instância do axios
+import { api } from '../../utils/axios.js'; 
 import iconCC from "../../assets/iconCC.jpg";
 import icon from '../../assets/icon.jpg';
 
@@ -22,7 +22,7 @@ function ResetPasswordForm() {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const token = queryParams.get("token"); // Recupera o token da URL
+  const token = queryParams.get("token"); 
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);

@@ -10,8 +10,8 @@
 
   .buttons-container {
   display: flex;
-  justify-content: space-evenly; /* Para colocar os botões lado a lado com espaçamento */
-  gap: 10px; /* Espaço entre os botões */
+  justify-content: space-evenly; 
+  gap: 10px; 
 }
   
   body {
@@ -51,8 +51,6 @@
   .icPerson {
     border-radius: 100px;
     position: absolute;
-    /*top: 0;
-    left: 0;*/
     z-index: 1;
   }
   
@@ -114,10 +112,6 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
   
-  /*.cardPofile.profile {
-    text-align: center;
-  }*/
-  
   .name {
     background-color: #FFEEF5;
     padding: 10px;
@@ -147,7 +141,7 @@
     font-weight: bold;
     cursor: pointer;
     display: block;
-    margin: 20px auto 5px; /* Combina margin-top e centralização */
+    margin: 20px auto 5px; 
     width: fit-content;
    
     

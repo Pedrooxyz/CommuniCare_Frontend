@@ -70,7 +70,7 @@
     font-weight: bold;
     cursor: pointer;
     margin-left: 60px;
-    text-align: center; /* ver se tiro ou não */
+    text-align: center; 
   }
   
   .tab.active {
@@ -160,11 +160,11 @@
     height: 100px;
     margin: 0 15px;
     overflow-y: scroll;
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none;
   }
   
   .card p::-webkit-scrollbar {
-    display: none; /* Chrome, Safari */
+    display: none;
   }
   
 .infoItemME {
@@ -173,7 +173,7 @@
   align-items: center;
   margin: 20px 20px 5px;
   font-weight: bold;
-  font-size: 14px; /* Texto mais fino */
+  font-size: 14px;
 }
 
   
@@ -186,7 +186,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  width: fit-content; /* Ajusta a largura ao conteúdo */
+  width: fit-content;
 }
   
   .moreInfo {
@@ -265,7 +265,6 @@
   position: relative;
 }
 
-/* Novo estilo para "Em uso" */
 .estado-circle.em-uso {
   background-color: white;
   color: black;
@@ -278,9 +277,8 @@
   position: relative;
 }
 
-/* Estilo para os tooltips que aparecem ao passar o rato */
 .estado-circle::after {
-  content: attr(data-tooltip); /* O conteúdo será extraído do atributo "data-tooltip" */
+  content: attr(data-tooltip); 
   position: absolute;
   top: -30px;
   left: 50%;
@@ -290,7 +288,7 @@
   padding: 5px;
   border-radius: 5px;
   font-size: 12px;
-  visibility: hidden; /* Inicialmente invisível */
+  visibility: hidden; 
   opacity: 0;
   transition: opacity 0.3s;
   white-space: nowrap;
@@ -298,7 +296,7 @@
 
 .estado-circle:hover::after {
   visibility: visible;
-  opacity: 1; /* Torna visível quando o rato passa por cima */
+  opacity: 1; 
 }
 
   
@@ -308,13 +306,6 @@
   margin: 10px;
 }
 
-/*.EditDeleteButtonsME {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 20px;
-  color: #333;
-}*/
 
 .EditDeleteButtonsME:hover {
   color: #007bff;

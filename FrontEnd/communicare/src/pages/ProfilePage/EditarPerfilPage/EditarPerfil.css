@@ -95,7 +95,7 @@
 
 
 .saveBtnEP:hover {
-  background-color: rgb(93, 200, 91); /* tom mais escuro de verde */
+  background-color: rgb(93, 200, 91); 
   transition: background-color 0.3s ease;
 }
 

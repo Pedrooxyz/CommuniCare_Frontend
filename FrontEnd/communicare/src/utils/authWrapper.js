@@ -10,7 +10,7 @@ const AuthWrapper = () => {
       setIsLoading(true);
       const JWT = localStorage.getItem("token");
       if (!JWT) {
-        setAuth(false); // or unauthorized value
+        setAuth(false); 
         return;
       }
 
@@ -29,19 +29,18 @@ const AuthWrapper = () => {
           setAuth(false);
         }
       } catch (error) {
-        // handle any Promise rejections, errors, etc...
-        setAuth(false); // or unauthorized value
+        setAuth(false); 
       } finally {
         setIsLoading(false);
       }
     };
     authCheck();
     return () => {
-      // cancel/clean up any pending/in-flight asynchronous auth checks
+
     };
   }, [location.pathname]);
   if (auth != false && isLoading) {
-    return null; // or loading spinner, etc...
+    return null; 
   }
   return auth ? <Outlet /> : <Navigate to="/" replace />;
 };

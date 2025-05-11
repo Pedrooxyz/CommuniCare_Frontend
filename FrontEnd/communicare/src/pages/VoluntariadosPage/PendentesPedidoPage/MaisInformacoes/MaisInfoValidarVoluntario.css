@@ -25,7 +25,7 @@ header p {
 
 .imgHeaderVol {
   border-radius: 50%;
-  object-fit: cover; /* garante que a imagem preencha o espaço sem distorcer */
+  object-fit: cover;  
 }
 
 .imgHeaderUser {
@@ -63,7 +63,7 @@ header p {
     font-weight: bold;
     cursor: pointer;
     margin-left: 60px;
-    text-align: center; /* ver se tiro ou não */
+    text-align: center; 
   }
   
   .tab1.active {
@@ -143,8 +143,8 @@ header p {
 }
 
 .imgUsers {
-  object-fit: cover; /* garante que a imagem preencha o espaço sem distorcer */
-  border-radius: 50%; /* 100px funciona, mas 50% é mais semântico pra círculos */
+  object-fit: cover; 
+  border-radius: 50%; 
   margin-left: 0px;
 }
 
@@ -160,7 +160,7 @@ header p {
 .infoItem.detalhes {
   display: flex;
   flex-direction: column;
-  align-items: center; /* ou flex-start se quiser à esquerda */
+  align-items: center;
   padding-top: 10px;
   gap: 25px;
 }
@@ -170,15 +170,15 @@ header p {
   padding: 10px 20px;
   border-radius: 15px;
   font-size: 20px;
-  display: inline-flex; /* permite usar alinhamento interno */
-  align-items: center; /* alinha ícone/texto verticalmente */
-  justify-content: center; /* alinha conteúdo horizontalmente */
-  gap: 8px; /* espaço entre ícone e texto */
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 8px; 
   
 }
 
 .botaoAdquirir {
-  background-color: #5bd35f; /* Cor verde */
+  background-color: #5bd35f; 
   font-size: 20px;
   color: white;
   font-weight: bold;
@@ -190,7 +190,7 @@ header p {
 }
 
 .botaoAdquirir:hover {
-  background-color: #45a049; /* Sombra mais escura ao passar o mouse */
+  background-color: #45a049; 
 }
 
 .colunaDireitaMI {
@@ -396,9 +396,9 @@ header p {
 }
 
 .botoesContainer {
-  display: flex; /* Utiliza flexbox para alinhar os botões lado a lado */
-  gap: 10px; /* Espaço entre os botões */
-  width: 100%; /* Garante que a div ocupe toda a largura disponível */
+  display: flex;
+  gap: 10px; 
+  width: 100%; 
 }
 
 .listaVoluntarios {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Loja.css";
 import person1 from "../../assets/person1.jpg";
-import cares from "../../assets/Cares.png"; // Ícone de Cares
+import cares from "../../assets/Cares.png"; 
 import { api } from "../../utils/axios.js";
 import { useNavigate } from "react-router-dom";
 
@@ -21,8 +21,8 @@ function Loja() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [mostrarPopup, setMostrarPopup] = useState(false);
   const [artigoSelecionado, setArtigoSelecionado] = useState(null);
-  const [transacaoId, setTransacaoId] = useState(null); // Estado para armazenar o transacaoId
-  const [mostrarEscolhaComprovativo, setMostrarEscolhaComprovativo] = useState(false); // Novo estado para mostrar a escolha de comprovativo
+  const [transacaoId, setTransacaoId] = useState(null); 
+  const [mostrarEscolhaComprovativo, setMostrarEscolhaComprovativo] = useState(false); 
 
   const navigate = useNavigate();
 
@@ -86,10 +86,10 @@ function Loja() {
 
       if (response.data.sucesso) {
         alert("Compra realizada com sucesso!");
-        const transacaoId = response.data.transacaoId; // Garantir que transacaoId está sendo retornado pelo backend
-        setTransacaoId(transacaoId); // Armazenar o transacaoId
+        const transacaoId = response.data.transacaoId; 
+        setTransacaoId(transacaoId); 
         setMostrarPopup(false);
-        setMostrarEscolhaComprovativo(true); // Mostrar a escolha de comprovativo após a compra ser bem-sucedida
+        setMostrarEscolhaComprovativo(true); 
       } else {
         alert("Erro na compra: " + response.data.erro);
       }
@@ -113,7 +113,6 @@ function Loja() {
     navigate("/publicarartigo");
   };
 
-  // Funções para enviar o comprovativo por email ou PDF
   const enviarComprovativoEmail = async () => {
   if (!transacaoId) {
     alert("Transação não encontrada.");

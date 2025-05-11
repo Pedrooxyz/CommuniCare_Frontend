@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { api } from '../../../utils/axios.js';
 import noImage from '../../../assets/icon.jpg';
 import { Link } from "react-router-dom";
-import { ArrowLeft } from "lucide-react"; // Importando ícone da biblioteca lucide-react
+import { ArrowLeft } from "lucide-react"; 
 
 const EditarPerfil = () => {
   const navigate = useNavigate();

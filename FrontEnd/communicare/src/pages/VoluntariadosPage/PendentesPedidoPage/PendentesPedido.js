@@ -67,7 +67,6 @@ const HeaderProfileCares = () => {
   );
 };
 
-// Tabs e Pesquisa
 const Search = () => {
   const navigate = useNavigate();
 
@@ -211,7 +210,7 @@ const ListaPedidosAquisicao = () => {
           <div className="userTitleOE">
             <img
               className="imgUsers"
-              src="../../../../assets/icon.jpg" // Foto genérica, porque o DTO não traz fotos
+              src="../../../../assets/icon.jpg"
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.src = '../../../../assets/icon.jpg';
@@ -272,7 +271,7 @@ const ListaPedidosDevolucao = () => {
           <div className="userTitleOE">
             <img
               className="imgUsers"
-              src="../../../../assets/icon.jpg" // Foto genérica, porque o DTO não traz fotos
+              src="../../../../assets/icon.jpg" 
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.src = '../../../../assets/icon.jpg';
@@ -308,7 +307,7 @@ function PendentesPedidos() {
 
   const handleClick = (secao) => {
     setSecaoAtiva(secao);
-    setReloadKey(prev => prev + 1); // Isto força o React a recarregar a lista mesmo que clicas no mesmo
+    setReloadKey(prev => prev + 1);
   };
 
   return (

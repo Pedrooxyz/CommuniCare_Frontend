@@ -53,7 +53,7 @@ const ArchivedNotificationsList = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await api.get('Notificacoes'); // Aqui você buscará as notificações arquivadas
+        const response = await api.get('Notificacoes'); 
         console.log('Notificações arquivadas carregadas:', response.data);
         setNotifications(response.data);
       } catch (err) {
@@ -86,7 +86,7 @@ const ArchivedNotificationsList = () => {
             minute: '2-digit'
           }) || 'N/A'}
           description={notification.mensagem || 'Sem mensagem'}
-          lida={notification.lida} // Passando o valor de lida aqui
+          lida={notification.lida} 
         />
       ))}
     </div>

@@ -1,4 +1,3 @@
-// src/pages/GerirUtilizadoresPendentes.js
 import React, { useEffect, useState } from "react";
 import "./GerirUtilizadores.css";
 import { api } from "../../utils/axios";
@@ -36,7 +35,7 @@ function GerirUtilizadoresPendentes() {
         headers: { Authorization: `Bearer ${token}` },
       });
       alert("Utilizador aprovado com sucesso.");
-      fetchPendentes(); // Atualiza a lista
+      fetchPendentes();
     } catch (error) {
       console.error("Erro ao aprovar:", error);
       alert("Erro ao aprovar utilizador.");
@@ -50,7 +49,7 @@ function GerirUtilizadoresPendentes() {
         headers: { Authorization: `Bearer ${token}` },
       });
       alert("Utilizador rejeitado com sucesso.");
-      fetchPendentes(); // Atualiza a lista
+      fetchPendentes();
     } catch (error) {
       console.error("Erro ao rejeitar:", error);
       alert("Erro ao rejeitar utilizador.");

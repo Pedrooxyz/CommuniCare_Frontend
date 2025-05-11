@@ -74,18 +74,17 @@ const Search = () => {
       setUserTipoUtilizadorId(response.data); 
     } catch (error) {
       console.error("Erro ao verificar o tipo de utilizador", error);
-      setUserTipoUtilizadorId(false); // Caso ocorra erro, tratamos como não admin
+      setUserTipoUtilizadorId(false); 
     }
   };
 
-  // Carregar o tipo de utilizador ao montar o componente
   useEffect(() => {
-    verificarTipoUtilizador(); // Verifica o tipo de utilizador assim que o componente for montado
+    verificarTipoUtilizador(); 
   }, []);
 
   const handleClickPendentes = () => {
     if (userTipoUtilizadorId === true) {
-      navigate("/PendentesEmprestimos"); // Navega para a página desejada
+      navigate("/PendentesEmprestimos"); 
     } else {
       alert("Apenas administradores podem aceder a esta página!");
     }
@@ -388,7 +387,6 @@ const ListaItemsDevolucao = () => {
   );
 };
 
-// Função descomentada para renderizar a página
 function PendentesEmprestimos() {
   const [secaoAtiva, setSecaoAtiva] = useState(null); 
 

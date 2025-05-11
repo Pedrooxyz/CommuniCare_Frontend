@@ -25,7 +25,7 @@ header p {
 
 .imgHeaderVol {
   border-radius: 50%;
-  object-fit: cover; /* garante que a imagem preencha o espaço sem distorcer */
+  object-fit: cover; 
 }
 
 .detalhesContainer {
@@ -57,8 +57,8 @@ header p {
 }
 
 .imgUsers {
-  object-fit: cover; /* garante que a imagem preencha o espaço sem distorcer */
-  border-radius: 50%; /* 100px funciona, mas 50% é mais semântico pra círculos */
+  object-fit: cover; 
+  border-radius: 50%;
   margin-left: 0px;
 }
 
@@ -83,14 +83,14 @@ header p {
   padding: 10px 20px;
   border-radius: 15px;
   font-size: 20px;
-  display: inline-flex; /* permite usar alinhamento interno */
-  align-items: center; /* alinha ícone/texto verticalmente */
-  justify-content: center; /* alinha conteúdo horizontalmente */
-  gap: 8px; /* espaço entre ícone e texto */
+  display: inline-flex;
+  align-items: center; 
+  justify-content: center; 
+  gap: 8px; 
 }
 
 .botaoComprar {
-  background-color: #4CAF50; /* Cor verde */
+  background-color: #4CAF50; 
   font-size: 20px;
   color: white;
   font-weight: bold;
@@ -102,7 +102,7 @@ header p {
 }
 
 .botaoAdquirir:hover {
-  background-color: #45a049; /* Sombra mais escura ao passar o mouse */
+  background-color: #45a049; 
 }
 
 .colunaDireita {

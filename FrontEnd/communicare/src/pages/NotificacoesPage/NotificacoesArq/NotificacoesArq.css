@@ -102,7 +102,7 @@
   .notification-card {
     display: flex;
     align-items: flex-start;
-    background-color: #d4edda; /* Cor de fundo verde claro */
+    background-color: #d4edda; 
     padding: 20px;
     border-radius: 10px;
     margin-bottom: 15px;
@@ -117,7 +117,7 @@
   }
   
   .notification-card.read {
-    background-color: #28a745; /* Fundo verde */
+    background-color: #28a745;
     color: white;
   }
   

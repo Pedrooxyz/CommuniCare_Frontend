@@ -6,13 +6,12 @@ export const getUserImageUrl = (path) => {
   }
 
   if (path.startsWith("data:image/")) {
-    return path; // já é base64 válida
+    return path; 
   }
 
   if (path.startsWith("blob:")) {
-    return path; // é uma blob URL gerada localmente, por exemplo após upload
+    return path;
   }
 
-  // se for puro base64 (sem prefixo), assume imagem JPEG
   return `data:image/jpeg;base64,${path}`;
 };

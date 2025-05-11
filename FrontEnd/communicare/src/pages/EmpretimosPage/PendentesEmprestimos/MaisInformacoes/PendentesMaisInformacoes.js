@@ -10,7 +10,6 @@ import person1 from '../../../../assets/person1.jpg';
 
 import "./PendentesMaisInformacoes.css";
 
-// Cabeçalho
 const HeaderProfileCares = () => {
   const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();
@@ -60,7 +59,6 @@ const HeaderProfileCares = () => {
   );
 };
 
-// Função para tratar imagem do item com fallback
 const getImagemSrc = (fotoItem) => {
   if (fotoItem && fotoItem.trim() !== "" && fotoItem !== "null") {
     return `data:image/jpeg;base64,${fotoItem}`;
@@ -69,7 +67,6 @@ const getImagemSrc = (fotoItem) => {
   }
 };
 
-// Barra de pesquisa e navegação entre abas
 const Search = () => {
   const navigate = useNavigate();
   const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
@@ -120,7 +117,6 @@ const Search = () => {
   );
 };
 
-// Componente com os detalhes do item
 const DetalhesItem = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -239,7 +235,6 @@ const DetalhesItem = () => {
   );
 };
 
-// Componente principal
 function MaisInformacoes() {
   return (
     <>

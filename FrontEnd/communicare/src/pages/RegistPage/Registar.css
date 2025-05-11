@@ -127,7 +127,6 @@ body {
   text-decoration: underline;
 }
 
-/* Estilo para mensagem de sucesso */
 .message.success {
   background-color: rgba(44, 208, 132, 0.9);
   color: white;

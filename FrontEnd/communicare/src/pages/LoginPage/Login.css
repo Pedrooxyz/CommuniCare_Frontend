@@ -14,7 +14,7 @@
   .headerlog{
     
     margin-bottom: 0px;
-    position: relative; /* Mantém no fluxo normal */
+    position: relative; 
    
   }
 
@@ -28,7 +28,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* coloca a imagem atrás do conteúdo */
+    z-index: -1; 
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -132,7 +132,7 @@
   }
   
   .password-field input {
-    padding-right: 40px; /* espaço para o ícone ficar dentro do input */
+    padding-right: 40px;
   }
   
   .passwordEye {

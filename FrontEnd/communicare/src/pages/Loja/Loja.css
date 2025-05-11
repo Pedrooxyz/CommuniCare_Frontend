@@ -1,51 +1,50 @@
 .container-loja {
   padding: 1rem;
-  margin-top: 2rem; /* Adicionando margem no topo da página */
+  margin-top: 2rem; 
 }
 
 .titulo-principal {
   text-align: center;
   color: #333;
-  margin-bottom: 4.5rem !important; /* Aumentando ainda mais o espaço entre o título e os artigos */
+  margin-bottom: 4.5rem !important; 
 }
 
 .conteudo-loja {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1.5rem; /* Aumentando o espaçamento entre os cards */
+  gap: 1.5rem; 
 }
 
 .card-artigo {
   background-color: #fff;
   border-radius: 8px;
-  width: 260px; /* Aumentando a largura dos cards */
+  width: 260px; 
   padding: 1rem;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
   text-align: center;
-  margin-top: 1rem; /* Adicionando margem superior para os cards não ficarem colados ao topo */
+  margin-top: 1rem; 
 }
 
-/* Definindo a largura e altura do contêiner da imagem */
 .img-artigo {
-  width: 220px; /* Definindo uma largura fixa para a imagem */
-  height: 220px; /* Definindo uma altura fixa para a imagem, para manter o tamanho igual */
+  width: 220px;
+  height: 220px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1rem; /* Adicionando mais espaço entre a imagem e o custo */
+  margin-bottom: 1rem; 
 }
 
 .img-artigo img {
-  width: 100%; /* A imagem vai ocupar toda a largura do contêiner */
-  height: 100%; /* A imagem vai ocupar toda a altura do contêiner */
-  object-fit: cover; /* Garante que a imagem ocupe o espaço sem distorcer */
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
   border-radius: 4px;
 }
 
 .no-img {
-  width: 100%; /* Ocupa toda a largura do contêiner */
-  height: 100%; /* Ocupa toda a altura do contêiner */
+  width: 100%; 
+  height: 100%; 
   background-color: #eee;
   padding: 1rem;
   border-radius: 4px;
@@ -65,12 +64,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem; /* Espaço entre o ícone e o texto */
+  gap: 0.5rem;
 }
 
 .custo-artigo .icon {
-  width: 20px; /* Ajusta o tamanho do ícone */
-  height: 20px; /* Ajusta o tamanho do ícone */
+  width: 20px; 
+  height: 20px; 
 }
 
 .botoes-artigo {
@@ -83,11 +82,11 @@
   background-color: #f0f0f0;
   color: #333;
   border: 1px solid #ccc;
-  padding: 0.4rem 0.8rem; /* Reduzindo o tamanho do botão */
-  border-radius: 20px; /* Arredondando mais as bordas */
+  padding: 0.4rem 0.8rem; 
+  border-radius: 20px; 
   cursor: pointer;
   flex: 1;
-  font-size: 0.85rem; /* Ajustando o tamanho da fonte */
+  font-size: 0.85rem; 
   font-weight: 500;
   transition: background-color 0.3s ease, transform 0.1s ease;
 }
@@ -102,11 +101,11 @@
   background-color: #0077cc;
   color: white;
   border: none;
-  padding: 0.4rem 0.8rem; /* Reduzindo o tamanho do botão */
-  border-radius: 20px; /* Arredondando mais as bordas para combinar */
+  padding: 0.4rem 0.8rem; 
+  border-radius: 20px; 
   cursor: pointer;
   flex: 1;
-  font-size: 0.85rem; /* Ajustando o tamanho da fonte */
+  font-size: 0.85rem; 
 }
 
 .botao-comprar:hover {
@@ -117,7 +116,7 @@
   background-color: #fff;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Ajustando para dar o mesmo espaçamento entre o título, imagem e botões */
+  justify-content: space-between; 
   align-items: center;
   font-size: 2rem;
   color: #0077cc;
@@ -128,15 +127,14 @@
   width: 260px;
   height: 450px;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transição para o hover */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; 
 }
 
 .novo-artigo:hover {
-  transform: scale(1.05); /* Aumenta o card levemente */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Aumenta a sombra para destacar o card */
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); 
 }
 
-/* Criando o espaço reservado para a imagem */
 .novo-artigo .img-artigo {
   width: 220px;
   height: 220px;
@@ -148,9 +146,8 @@
   border-radius: 4px;
 }
 
-/* Adicionando o ícone ou texto dentro do espaço reservado */
 .novo-artigo .img-artigo .icone-plus {
-  font-size: 4rem; /* Ajustando o tamanho do ícone */
+  font-size: 4rem; 
   color: #0077cc;
   display: flex;
   justify-content: center;
@@ -159,29 +156,28 @@
 }
 
 .novo-artigo .icone-plus {
-  font-size: 4rem; /* Aumentando o tamanho do ícone */
-  color: #0077cc;  /* Definindo a cor azul */
+  font-size: 4rem; 
+  color: #0077cc; 
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
-  width: 100%; /* Ocupa toda a largura e altura do contêiner */
-  text-align: center; /* Alinha o ícone no centro */
+  width: 100%; 
+  text-align: center; 
 }
 
 .novo-artigo .icone-plus h3 {
-  margin: 0; /* Removendo a margem */
-  font-size: 4rem; /* Definindo o tamanho do ícone */
+  margin: 0; 
+  font-size: 4rem; 
 }
 
-/* Título do novo artigo */
 .titulo-novo-artigo {
   font-size: 1.2rem;
   color: #0077cc;
   font-weight: bold;
-  margin-bottom: 1rem; /* Espaçamento entre o título e o espaço da imagem */
+  margin-bottom: 1rem; 
   text-align: center;
-  margin-top: 1rem; /* Ajustando a margem superior para alinhar com o título dos outros cards */
+  margin-top: 1rem; 
 }
 
 .icone-plus h3 {
@@ -238,11 +234,11 @@
 }
 
 .botao-confirmar:hover {
-  background-color: #009900; /* tom mais escuro de verde */
+  background-color: #009900; 
   transform: scale(1.05);
 }
 
 .botao-cancelar:hover {
-  background-color: #cc0000; /* tom mais escuro de vermelho */
+  background-color: #cc0000; 
   transform: scale(1.05);
 }

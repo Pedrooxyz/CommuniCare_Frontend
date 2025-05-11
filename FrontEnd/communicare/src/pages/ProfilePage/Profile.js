@@ -130,7 +130,6 @@ const DadosUserPI = () => {
       try {
         const token = localStorage.getItem('token');
 
-        // Buscar user + contactos
         const [userResponse, contactosResponse] = await Promise.all([
           api.get('/Utilizadores/InfoUtilizador', {
             headers: { Authorization: `Bearer ${token}` },
@@ -143,7 +142,6 @@ const DadosUserPI = () => {
         setUserInfo(userResponse.data);
         setContactos(contactosResponse.data);
 
-        // Buscar os itens emprestados
         const itensResponse = await api.get('/ItensEmprestimo/MeusItens', {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -167,14 +165,13 @@ const DadosUserPI = () => {
             height={190}
             alt="icProfile"
           />
-          {/* Aqui está a alteração para adicionar a lógica de editar a foto */}
           <label htmlFor="file-input" className="iconplus">
             <img src={plusP} width={45} height={45} alt="iconplus" />
           </label>
           <input
             id="file-input"
             type="file"
-            style={{ display: 'none' }}  // Esconde o input
+            style={{ display: 'none' }}
             onChange={handlePhotoChange}
           />
         </div>
@@ -214,11 +211,10 @@ const DadosUserPI = () => {
       <p className="contact">Nenhum contacto disponível</p>
     )}
 
-    {/* Botões "Editar Perfil" e "Gerir Contas" */}
     <div className="buttons-container">
       <button
         className="add-contact"
-        onClick={() => navigate('/editar-perfil')}  // Navega para "Editar Perfil"
+        onClick={() => navigate('/editar-perfil')}  
       >
         Editar Perfil
       </button>

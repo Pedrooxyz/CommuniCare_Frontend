@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
+import { useNavigate } from 'react-router-dom';
 import './Notificacoes.css';
 import { api } from '../../utils/axios';
 
 const Header = () => {
-  const navigate = useNavigate(); // Inicializa o hook navigate
+  const navigate = useNavigate();
 
-  // Função para navegar para a página NotificacoesArq
   const goToArchivedNotifications = () => {
-    navigate('/notificacoesarq'); // Navega para a página de notificações arquivadas
+    navigate('/notificacoesarq');
   };
 
   return (
@@ -20,7 +19,7 @@ const Header = () => {
         <h1 className="header-title">Notificações</h1>
       </div>
       <div className="header-right">
-        <div className="notification-bell" onClick={goToArchivedNotifications}> {/* Ícone de campainha com navegação */}
+        <div className="notification-bell" onClick={goToArchivedNotifications}> 
           <svg className="bell-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12V5a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v7a2 2 0 01-2 2H6a2 2 0 01-2-2v-7m16 0H4m8 4h.01"></path>
           </svg>

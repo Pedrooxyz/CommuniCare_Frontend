@@ -117,7 +117,7 @@ body {
 }
 
 .notification-Card:hover {
-  background-color: #d4edda; /* Suaviza a interação de hover */
+  background-color: #d4edda; 
 }
 
 .notification-read {

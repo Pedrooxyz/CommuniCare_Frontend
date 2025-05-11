@@ -10,24 +10,22 @@ const EditarItem = () => {
     nomeItem: "",
     descItem: "",
     comissaoCares: 0,
-    fotografiaItem: "",  // Para armazenar a imagem existente
+    fotografiaItem: "",  
   });
 
-  // Carregar os dados do item da API quando o componente é montado
   useEffect(() => {
     const fetchItem = async () => {
       try {
         const response = await api.get(`/ItensEmprestimo/${itemId}`);
-        const data = response.data[0];  // Acessa o primeiro item do array
+        const data = response.data[0]; 
 
-        console.log("Item carregado da API:", data);  // Verifica os dados
+        console.log("Item carregado da API:", data); 
 
-        // Preencher os campos com os dados carregados
         setItem({
           nomeItem: data.nomeItem ?? "",
           descItem: data.descItem ?? "",
           comissaoCares: data.comissaoCares ?? 0,
-          fotografiaItem: data.fotografiaItem ?? "",  // Mantém a imagem existente
+          fotografiaItem: data.fotografiaItem ?? "",  
         });
       } catch (error) {
         console.error("Erro ao buscar detalhes do item:", error);
@@ -38,7 +36,6 @@ const EditarItem = () => {
     fetchItem();
   }, [itemId]);
 
-  // Função que trata a mudança dos campos do formulário
 const handleChange = (e) => {
   const { name, value } = e.target;
   setItem((prevItem) => ({
@@ -47,16 +44,14 @@ const handleChange = (e) => {
   }));
 };
 
-  // Função que lida com o envio do formulário
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Não enviamos a imagem, pois ela não foi alterada
       const updatedItem = {
         nomeItem: item.nomeItem,
         descItem: item.descItem,
         comissaoCares: item.comissaoCares,
-        fotografiaItem: item.fotografiaItem,  // A imagem mantém a mesma
+        fotografiaItem: item.fotografiaItem, 
       };
       
       await api.put(`/ItensEmprestimo/AtualizarItem/${itemId}`, updatedItem);

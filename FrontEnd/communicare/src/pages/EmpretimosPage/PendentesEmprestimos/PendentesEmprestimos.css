@@ -49,7 +49,7 @@
   
   .imgHeaderVol{
     border-radius: 50%;
-    object-fit: cover; /* garante que a imagem preencha o espaço sem distorcer */
+    object-fit: cover;
     
     
   }
@@ -76,7 +76,7 @@
   
   .choose {
     display: flex;
-    width: 100%; /* garante que o conteúdo use a largura total */
+    width: 100%; 
   }
   
   
@@ -98,7 +98,7 @@
     font-weight: bold;
     cursor: pointer;
     margin-left: 60px;
-    text-align: center; /*ver se tiro ou não*/
+    text-align: center; 
   }
   
   .tab.active {
@@ -115,7 +115,7 @@
   .search {
     background-color: #E8F1FF;
     flex: 1;
-    padding: 10px 20px 10px 40px; /* <-- espaço para a lupa à esquerda */
+    padding: 10px 20px 10px 40px; 
     padding-right: 500px;
     border-radius: 10px;
     border: 1px solid #ccc;
@@ -135,7 +135,7 @@
   
   .cards {
     display: flex;
-    flex-wrap: wrap; /* permite que os itens se movam para a linha seguinte quando necessário */
+    flex-wrap: wrap; 
     column-gap: 10px;
     padding-left: 30px;
     padding-right: 30px;
@@ -165,17 +165,17 @@
     height: 230px;
     object-fit: cover;
     border-radius: 12px;
-    margin: 15px auto 25px auto; /* topo, horizontal, baixo, horizontal */
-    display: block; /* necessário para margin: auto funcionar em imagens */
+    margin: 15px auto 25px auto; 
+    display: block; 
     
   }
   
   .imgUsers {
-    object-fit: cover; /* Garante que a imagem preenche o espaço sem distorcer */
-    border-radius: 50%; /* Para formato circular */
+    object-fit: cover; 
+    border-radius: 50%;
     margin-left: 20px;
-    width: 70px; /* Tamanho fixo para garantir visibilidade */
-    height: 70px; /* Tamanho fixo */
+    width: 70px; 
+    height: 70px; 
   }
   
   
@@ -188,7 +188,7 @@
     margin-right: 50px;
     margin-bottom: 10px;
     width: 100%;
-    box-sizing: border-box; /* garante que o padding conta dentro da largura */
+    box-sizing: border-box; 
   }
   
   
@@ -223,10 +223,10 @@
     padding: 10px 20px;
     border-radius: 15px;
     font-size: 20px;
-    display: inline-flex;             /* permite usar alinhamento interno */
-    align-items: center;             /* alinha ícone/texto verticalmente */
-    justify-content: center;         /* alinha conteúdo horizontalmente */
-    gap: 8px;                         /* espaço entre ícone e texto */
+    display: inline-flex;           
+    align-items: center;           
+    justify-content: center;        
+    gap: 8px;                        
   }
   
   

@@ -10,7 +10,6 @@ import person1 from '../../../../assets/person1.jpg';
 
 import "./PendentesMaisInformacoes.css";
 
-// Cabeçalho
 const HeaderProfileCares = () => {
   const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();
@@ -162,7 +161,6 @@ const DetalhesItem = () => {
     try {
       const token = localStorage.getItem('token');
 
-      // Chamar o endpoint de empréstimo correspondente para obter o empréstimo correspondente
       const emprestimoResponse = await api.get(`/Emprestimos/EmprestimoCorrespondenteItem/${item.itemId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -171,7 +169,6 @@ const DetalhesItem = () => {
 
       console.log("Emprestimo ativo encontrado:", emprestimoCorrespondente);
 
-      // Agora, validar o empréstimo
       await api.post(`/Emprestimos/ValidarEmprestimo-(admin)/${emprestimoCorrespondente.emprestimoId}`, null, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -188,7 +185,6 @@ const DetalhesItem = () => {
     try {
       const token = localStorage.getItem('token');
 
-      // Chamar o endpoint de empréstimo correspondente para obter o empréstimo correspondente
       const emprestimoResponse = await api.get(`/Emprestimos/EmprestimoCorrespondenteItem/${item.itemId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });

@@ -26,7 +26,7 @@
   
   .imgHeaderVol{
     border-radius: 50%;
-    object-fit: cover; /* garante que a imagem preencha o espaço sem distorcer */
+    object-fit: cover; 
     
     
   }
@@ -62,8 +62,8 @@
  }
 
   .imgUsers{
-    object-fit: cover; /* garante que a imagem preencha o espaço sem distorcer */
-    border-radius: 50%; /* 100px funciona, mas 50% é mais semântico pra círculos */
+    object-fit: cover; 
+    border-radius: 50%; 
     margin-left: 0px;
   }
 
@@ -89,32 +89,18 @@
     padding: 10px 20px;
     border-radius: 15px;
     font-size: 20px;
-    display: inline-flex;             /* permite usar alinhamento interno */
-    align-items: center;             /* alinha ícone/texto verticalmente */
-    justify-content: center;         /* alinha conteúdo horizontalmente */
-    gap: 8px;                         /* espaço entre ícone e texto */
+    display: inline-flex;            
+    align-items: center;             
+    justify-content: center;        
+    gap: 8px;                   
   }
 
- /* .tempoControl {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    font-weight: bold;
-  }
-  
-  .tempoControl button {
-    font-size: 20px;
-    padding: 5px 15px;
-    background-color: #f2dcdc;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-  }*/
+ 
   .BotAcao {
     display: flex;
-    justify-content: center; /* Opcional: centra os botões horizontalmente */
-    gap: 10px; /* Espaço entre os botões */
-    margin-top: 10px; /* Espaço acima da caixa */
+    justify-content: center; 
+    gap: 10px; 
+    margin-top: 10px;
   }
 
   .botaoAceitar {

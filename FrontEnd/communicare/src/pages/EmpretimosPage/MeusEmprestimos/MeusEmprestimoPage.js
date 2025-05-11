@@ -134,17 +134,15 @@ const Search = ({ searchTerm, setSearchTerm }) => {
 
 const ListaItems = ({ searchTerm }) => {
   const [items, setItems] = useState([]);
-  const [itensEmUso, setItensEmUso] = useState([]); // Novo estado para itens em uso
+  const [itensEmUso, setItensEmUso] = useState([]); 
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        // Buscar todos os itens do utilizador
         const response = await api.get("/ItensEmprestimo/MeusItens");
         setItems(response.data);
 
-        // Buscar os itens que estão em uso
         const responseEmUso = await api.get("/ItensEmprestimo/MeusItensEmUso");
         setItensEmUso(responseEmUso.data);
       } catch (error) {
@@ -183,17 +181,15 @@ const ListaItems = ({ searchTerm }) => {
     }
   };
 
-  // Função para verificar se o item está em uso
   const isItemEmUso = (item) => {
     return itensEmUso.some((itemUso) => itemUso.nomeItem === item.nomeItem);
   };
 
   const concluirEmprestimo = async (itemId) => {
-      console.log("Item ID enviado para conclusão:", itemId); // <-- adiciona isto
+      console.log("Item ID enviado para conclusão:", itemId); 
     try {
       const token = localStorage.getItem('token');
       
-      // Chamar o endpoint de empréstimo correspondente para obter o empréstimo correspondente
       const emprestimoResponse = await api.get(`/Emprestimos/EmprestimoCorrespondenteItem/${itemId}`, {
               headers: { Authorization: `Bearer ${token}` },
       });
@@ -205,7 +201,6 @@ const ListaItems = ({ searchTerm }) => {
         const response = await api.post(`/Emprestimos/DevolucaoItem/${emprestimoCorrespondente.emprestimoId}`);
         if (response.status === 200) {
           alert("Devolução concluída com sucesso!");
-          // Atualizar lista de itens, caso necessário
           setItensEmUso((prevItens) => prevItens.filter((item) => item.itemId !== itemId));
         } else {
           alert("Erro ao concluir a devolução.");
@@ -257,7 +252,7 @@ const ListaItems = ({ searchTerm }) => {
               <span
                 className={`estado-circle ${
                   isItemEmUso(item)
-                    ? "em-uso" // Primeiro verifica se o item está em uso
+                    ? "em-uso" 
                     : item.disponivel === 1
                     ? "disponivel"
                     : item.disponivel === 0
@@ -281,7 +276,6 @@ const ListaItems = ({ searchTerm }) => {
                 {isItemEmUso(item) ? "" : ""}
               </span>
             </span>
-            {/* Só mostra o botão "Concluir" se o item está em uso */}
             {isItemEmUso(item) && (
               <button onClick={() => concluirEmprestimo(item.itemId)}>
                 Concluir

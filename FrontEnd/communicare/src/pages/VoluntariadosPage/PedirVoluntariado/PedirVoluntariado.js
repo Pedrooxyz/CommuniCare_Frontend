@@ -5,7 +5,6 @@ import iconFallback from "../../../assets/icon.jpg";
 import { api } from "../../../utils/axios.js";
 import { useNavigate } from "react-router-dom";
 
-// Header atualizado com info dinâmica do utilizador
 const HeaderProfileCares = ({ userInfo }) => {
   return (
     <header>
@@ -93,7 +92,7 @@ function PedirVoluntariado() {
     }
 
     const pedidoData = {
-      Titulo: titulo, // <-- Adiciona isto
+      Titulo: titulo, 
       DescPedido: detalhes,
       HorarioAjuda: data,
       NHoras: parseInt(duracao),

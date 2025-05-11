@@ -191,8 +191,8 @@
   }
   
 .img-perfil {
-  border: 1px solid #ccc; /* cor e espessura da borda */
-  border-radius: 50%;     /* mantém a imagem redonda, se for quadrada */
+  border: 1px solid #ccc; 
+  border-radius: 50%;    
   object-fit: cover;
 }
   

@@ -57,7 +57,7 @@ const DetalhesItem = () => {
   
   const [mostrarPopup, setMostrarPopup] = useState(false);
   const [mostrarEscolhaComprovativo, setMostrarEscolhaComprovativo] = useState(false);
-  const [mensagemErro, setMensagemErro] = useState("");        // texto vindo do back-end
+  const [mensagemErro, setMensagemErro] = useState("");       
   const [mostrarErroPopup, setMostrarErroPopup] = useState(false);
   const [transacaoId, setTransacaoId] = useState(null);
 
