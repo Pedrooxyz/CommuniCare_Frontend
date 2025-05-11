@@ -119,7 +119,6 @@ const Search = () => {
   );
 };
 
-
 const DetalhesItem = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -157,33 +156,56 @@ const DetalhesItem = () => {
     fetchFotoEmprestador();
   }, [id]);
 
-  const validarItem = async (itemId) => {
-    try {
-      const token = localStorage.getItem('token');
-      await api.post(`/ItensEmprestimo/ValidarItem-(admin)/${itemId}`, null, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      alert("Item validado com sucesso!");
-      navigate("/PendentesEmprestimos");
-    } catch (error) {
-      console.error("Erro ao validar item:", error);
-      alert("Erro ao validar item.");
-    }
-  };
+  const validarEmprestimo = async () => {
+  try {
+    console.log("Início da validação do empréstimo...");
 
-  const rejeitarItem = async (itemId) => {
-    try {
-      const token = localStorage.getItem('token');
-      await api.delete(`/ItensEmprestimo/RejeitarItem-(admin)/${itemId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      alert("Item rejeitado com sucesso!");
-      navigate("/PendentesEmprestimos");
-    } catch (error) {
-      console.error("Erro ao rejeitar item:", error);
-      alert("Erro ao rejeitar item.");
+    const token = localStorage.getItem('token');
+    console.log("Token obtido:", token);
+
+    if (!token) {
+      console.error("Token não encontrado no localStorage.");
+      alert("Sessão expirada. Por favor, faça login novamente.");
+      return;
     }
-  };
+
+    console.log("A buscar empréstimo correspondente para o item ID:", item?.itemId);
+
+    const emprestimoResponse = await api.get(`/Emprestimos/EmprestimoCorrespondenteItemParaDevolucao/${item.itemId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    console.log("Resposta do endpoint EmprestimoCorrespondenteItem:", emprestimoResponse);
+
+    const emprestimoCorrespondente = emprestimoResponse.data;
+    console.log("Empréstimo ativo encontrado:", emprestimoCorrespondente);
+
+    if (!emprestimoCorrespondente?.emprestimoId) {
+      console.error("Nenhum empréstimo correspondente encontrado ou emprestimoId inválido.");
+      alert("Erro: Empréstimo não encontrado.");
+      return;
+    }
+
+    console.log("A validar devolução do empréstimo ID:", emprestimoCorrespondente.emprestimoId);
+
+    await api.post(`/Emprestimos/ValidarDevolucao-(admin)/${emprestimoCorrespondente.emprestimoId}`, null, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    console.log("Validação da devolução feita com sucesso.");
+    alert("Empréstimo validado com sucesso!");
+    navigate("/PendentesEmprestimos");
+  } catch (error) {
+    console.error("Erro ao validar empréstimo:", error);
+    if (error.response) {
+      console.error("Resposta do servidor:", error.response);
+      console.error("Dados do erro:", error.response.data);
+      console.error("Status do erro:", error.response.status);
+      console.error("Headers do erro:", error.response.headers);
+    }
+    alert("Erro ao validar empréstimo.");
+  }
+};
 
   if (!item) return <p>A carregar detalhes do item...</p>;
 
@@ -222,8 +244,7 @@ const DetalhesItem = () => {
         </div>
 
         <div className="BotAcao">
-          <button className="botaoAceitar" onClick={() => validarItem(item.itemId)}>Aceitar</button>
-          <button className="botaoRejeitar" onClick={() => rejeitarItem(item.itemId)}>Rejeitar</button>
+          <button className="botaoAceitar" onClick={validarEmprestimo}>Aceitar</button>
         </div>
       </div>
 
@@ -237,6 +258,7 @@ const DetalhesItem = () => {
     </div>
   );
 };
+
 
 // Componente principal
 function MaisInformacoes() {

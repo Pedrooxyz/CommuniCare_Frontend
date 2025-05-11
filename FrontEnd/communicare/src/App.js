@@ -65,7 +65,7 @@ function App() {
 
         < Route path="/pendentesMaisInformacoes/:id" element={<PendentesMaisInformacoes />} />
         < Route path="/pendentesMaisInformacoes2/:id" element={<PendentesMaisInformacoes2 />} />
-        < Route path="/pendentesMaisInformacoes2/:id" element={<PendentesMaisInformacoes3 />} />
+        < Route path="/pendentesMaisInformacoes3/:id" element={<PendentesMaisInformacoes3 />} />
 
         < Route path="/meusEmprestimos" element={<MeusEmprestimos />} />
         < Route path="/editarItem/:itemId" element={<EditarItem />} />
