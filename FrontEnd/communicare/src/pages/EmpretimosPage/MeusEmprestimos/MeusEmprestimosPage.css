@@ -167,26 +167,27 @@
     display: none; /* Chrome, Safari */
   }
   
-  .infoItemOE {
+.infoItemME {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin: 20px 20px 5px;
   font-weight: bold;
   font-size: 14px; /* Texto mais fino */
-  }
+}
 
   
-  .infoItemOE span {
-    background-color: #FAEEE7;
-    padding: 10px 20px;
-    border-radius: 15px;
-    font-size: 20px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
+ .infoItemME span, .estadoEAcao span {
+  background-color: #FAEEE7;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: fit-content; /* Ajusta a largura ao conteúdo */
+}
   
   .moreInfo {
     text-align: center;
@@ -203,13 +204,17 @@
     cursor: pointer;
   }
   
-  .EditDeleteButtons {
+  .EditDeleteButtonsME {
     border: none;
     background: none;
     padding: 10px;
     outline: none;
     cursor: pointer;
-    font-size: 25px;
+    font-size: 30px;
+    background-color: #FAEEE7;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
   }
   
   .estadoItem {
@@ -297,22 +302,21 @@
 }
 
   
-  .controlesAcao {
+.estadoEAcao {
   display: flex;
-  justify-content: center;
-  gap: 10px; /* espaço entre os botões */
-  padding-top: 15px;
+  justify-content: space-between;
+  margin: 10px;
 }
 
-.EditDeleteButtons {
+/*.EditDeleteButtonsME {
   background: none;
   border: none;
   cursor: pointer;
   font-size: 20px;
   color: #333;
-}
+}*/
 
-.EditDeleteButtons:hover {
+.EditDeleteButtonsME:hover {
   color: #007bff;
 }
 
@@ -338,8 +342,7 @@
 }
 
 
-.desc1 {
-  
+.descME {
   background-color: #FAEEE7;
   padding: 10px 15px;
   border-radius: 10px;

@@ -11,7 +11,7 @@
     height: 100%;
   }
   
-  .header{
+  .headerlog{
     
     margin-bottom: 0px;
     position: relative; /* Mantém no fluxo normal */
@@ -35,8 +35,8 @@
   }
   
   
-  .container {
-   
+  .containerlog {
+  
     display: flex !important;
     flex-direction: column;
     justify-content: center;
@@ -44,6 +44,7 @@
     height: 500px; 
     width: 500px;  
     margin: auto;
+    margin-bottom: 0px;
   }
   
   .h1Log {
@@ -52,7 +53,7 @@
   }
   
   
-  .container > form {
+  .containerlog > form {
     background-color: rgba(222, 226, 234, 0.70);
     width: 90%; 
     margin-top: 0px;

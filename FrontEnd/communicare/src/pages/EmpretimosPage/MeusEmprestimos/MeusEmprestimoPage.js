@@ -243,10 +243,15 @@ const ListaItems = ({ searchTerm }) => {
             src={getImagemSrc(item.fotografiaItem)}
             alt={item.nomeItem}
           />
-          <div className="desc1">
+          <div className="descME">
             <h>{item.descItem || "Sem descrição disponível."}</h>
           </div>
-          <div className="infoItemOE">
+          <div className="infoItemME">
+            <span>
+              <img src={cares} width={35} height={35} alt="Cares" /> {item.comissaoCares}/h
+            </span>
+          </div>
+          <div className="estadoEAcao">
             <span>
               Estado:{" "}
               <span
@@ -276,23 +281,20 @@ const ListaItems = ({ searchTerm }) => {
                 {isItemEmUso(item) ? "" : ""}
               </span>
             </span>
-            <span>
-              <img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}/h
-            </span>
-          </div>
-          <div className="controlesAcao">
             {/* Só mostra o botão "Concluir" se o item está em uso */}
             {isItemEmUso(item) && (
               <button onClick={() => concluirEmprestimo(item.itemId)}>
                 Concluir
               </button>
             )}
-            <button className="EditDeleteButtons" onClick={() => handleEdit(item.itemId)}>
-              <FaEdit />
-            </button>
-            <button className="EditDeleteButtons" onClick={() => handleDelete(item.itemId)}>
-              <FaTrash />
-            </button>
+            <div className="controlesAcao">
+              <button className="EditDeleteButtonsME" onClick={() => handleEdit(item.itemId)}>
+                <FaEdit />
+              </button>
+              <button className="EditDeleteButtonsME" onClick={() => handleDelete(item.itemId)}>
+                <FaTrash />
+              </button>
+            </div>
           </div>
         </div>
       ))}
