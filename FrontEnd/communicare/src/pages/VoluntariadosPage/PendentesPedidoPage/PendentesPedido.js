@@ -172,7 +172,7 @@ const ListaPedidos = () => {
             <span><FaCubes /> Horas: {pedido.nHoras}</span>
           </div>
           <div className="moreInfo">
-            <button onClick={() => navigate(`pendentesPedidos/pendentesMaisInformacoes/${pedido.pedidoId}`)}>Mais Informações</button>
+            <button onClick={() => navigate(`/pedidos/pendentes/mais-info/${pedido.pedidoId}`)}>Mais Informações</button>
           </div>
         </div>
       ))}
@@ -222,14 +222,18 @@ const ListaPedidosAquisicao = () => {
             />
             <h2>{pedido.titulo}</h2>
           </div>
-          <span>IMAGEM</span>
+          <img
+            className="imgItemOE"
+            src={getImagemSrc(pedido.fotografiaPA)}
+            alt={pedido.titulo}
+          />
           <p>{pedido.descricao || "Sem descrição disponível."}</p>
           <div className="infoItemOE">
             <span><FaCubes /> Voluntários: {pedido.numeroVoluntarios}</span>
             <span><FaCubes /> Horas: {pedido.nHoras}</span>
           </div>
           <div className="moreInfo">
-            <button onClick={() => navigate(`/pendentesMaisInformacoes/${pedido.pedidoId}`)}>Mais Informações</button>
+            <button onClick={() => navigate(`/pedidos/pendentes/mais-info2/${pedido.pedidoId}`)}>Mais Informações</button>
           </div>
         </div>
       ))}
@@ -268,7 +272,7 @@ const ListaPedidosDevolucao = () => {
           <div className="userTitleOE">
             <img
               className="imgUsers"
-              src="../../../../assets/icon.jpg" // Genérico, pois DTO não inclui fotos
+              src="../../../../assets/icon.jpg" // Foto genérica, porque o DTO não traz fotos
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.src = '../../../../assets/icon.jpg';
@@ -279,16 +283,18 @@ const ListaPedidosDevolucao = () => {
             />
             <h2>{pedido.titulo}</h2>
           </div>
-          <span>IMAGEM</span>
+          <img
+            className="imgItemOE"
+            src={getImagemSrc(pedido.fotografiaPA)}
+            alt={pedido.titulo}
+          />
           <p>{pedido.descricao || "Sem descrição disponível."}</p>
           <div className="infoItemOE">
             <span><FaCubes /> Voluntários: {pedido.numeroVoluntarios}</span>
             <span><FaCubes /> Horas: {pedido.nHoras}</span>
           </div>
           <div className="moreInfo">
-            <button onClick={() => navigate(`/pendentesMaisInformacoes/${pedido.pedidoId}`)}>
-              Mais Informações
-            </button>
+            <button onClick={() => navigate(`/pedidos/pendentes/mais-info3/${pedido.pedidoId}`)}>Mais Informações</button>
           </div>
         </div>
       ))}

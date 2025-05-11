@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getUserImageUrl } from '../../../../utils/url';
 import iconFallback from '../../../../assets/icon.jpg';
 
-import "./MaisInfoPedidosPendentes.css";
+import "./MaisInfoValidarVoluntario.css"
 
 import cares from '../../../../assets/Cares.png';
 import { api } from '../../../../utils/axios.js';
@@ -128,6 +128,9 @@ const Search = () => {
 
 const DetalhesItem = () => {
   const navigate = useNavigate();
+  const [voluntarios, setVoluntarios] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
+const [voluntarioSelecionado, setVoluntarioSelecionado] = useState(null);
   const { id } = useParams();  // Certifique-se de que o parâmetro na URL é 'id'
   const [item, setItem] = useState({
     titulo: "",
@@ -138,6 +141,51 @@ const DetalhesItem = () => {
   });
   const [fotoEmprestador, setFotoEmprestador] = useState(null);
 
+  const abrirPopup = (voluntario) => {
+  setVoluntarioSelecionado(voluntario);
+  setShowPopup(true);
+};
+
+const fecharPopup = () => {
+  setVoluntarioSelecionado(null);
+  setShowPopup(false);
+};
+
+const validarVoluntario = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    
+    await api.post(`/Voluntariados/pedidos/${id}/voluntarios/${voluntarioSelecionado.utilizadorId}/aceitar`, {}, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    alert("Voluntário validado com sucesso.");
+    fecharPopup();
+    fetchVoluntarios(); // Atualiza a lista
+  } catch (error) {
+    console.error("Erro ao validar:", error);
+    alert("Erro ao validar o voluntário.");
+  }
+};
+
+const rejeitarVoluntario = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    
+    // Alterei o método para 'POST' e a URL conforme o endpoint que você descreveu
+    await api.post(`/Voluntariados/pedidos/${id}/voluntarios/${voluntarioSelecionado.utilizadorId}/rejeitar`, {}, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    alert("Voluntário rejeitado com sucesso.");
+    fecharPopup();
+    fetchVoluntarios(); // Atualiza a lista
+  } catch (error) {
+    console.error("Erro ao rejeitar:", error);
+    alert("Erro ao rejeitar o voluntário.");
+  }
+};
+
   useEffect(() => {
     const fetchItem = async () => {
       try {
@@ -147,8 +195,6 @@ const DetalhesItem = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-
-        console.log("Resposta da API:", response.data); // Verifique o formato dos dados
 
         const data = response.data;
         setItem({
@@ -184,105 +230,105 @@ const DetalhesItem = () => {
     fetchFotoEmprestador();
   }, [id]);  // Adicionando 'id' como dependência
 
-  const validarPedido = async (pedidoId) => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await api.post(`/PedidosAjuda/${pedidoId}/ValidarPedido-(admin)`, null, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      alert(response.data); // Exibe a mensagem de sucesso
-      // Navega para a página 'outrosPedidos' após a validação
-      navigate("/outrosPedidos");
-    } catch (error) {
-      console.error("Erro ao validar pedido:", error);
-      if (error.response?.data) {
-        alert("Erro: " + error.response.data);
-      } else {
-        alert("Erro ao validar o pedido.");
-      }
-    }
-  };
+  const fetchVoluntarios = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await api.get(`/PedidosAjuda/pedido/${id}/voluntarios`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setVoluntarios(response.data);
+  } catch (error) {
+    console.error('Erro ao buscar voluntários:', error);
+  }
+};
 
-  const rejeitarPedido = async (pedidoId) => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await api.post(`/PedidosAjuda/${pedidoId}/RejeitarPedido-(admin)`, null, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      alert(response.data); // Exibe a mensagem de sucesso
-      navigate("/outrosPedidos"); // Navega para a página "outrosPedidos"
-    } catch (error) {
-      console.error("Erro ao rejeitar pedido:", error);
-      if (error.response?.data) {
-        alert("Erro: " + error.response.data);
-      } else {
-        alert("Erro ao rejeitar o pedido.");
-      }
-    }
-  };
+fetchVoluntarios();
+
 
   return (
-    <div className="detalhesContainer">
-      <div className="colunaEsquerdaMI">
-        <div className="userTitleMD">
-          <img
-            className="imgUsers"
-            src={fotoEmprestador || iconFallback}
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = iconFallback;
-            }}
-            alt="User"
-            width={70}
-            height={70}
-          />
-          <h2 className="tituloItem">{item.titulo}</h2>
-        </div>
-
+  <div className="detalhesContainer">
+    <div className="colunaEsquerdaMI">
+      <div className="userTitleMD">
         <img
-          className="imgItemDetalhesMI"
-          src={getImagemSrc(item.fotografiaPA)}
-          alt={item.titulo}
+          className="imgUsers"
+          src={fotoEmprestador || iconFallback}
           onError={(e) => {
             e.target.onerror = null;
             e.target.src = iconFallback;
           }}
+          alt="User"
+          width={70}
+          height={70}
         />
-
-        <div className="infoItem detalhes">
-          <div className="infoExtraPedido">
-            <div className="infoBox">
-              <span className="icon">&#128100;</span>
-              <span>{item.nPessoas}</span>
-            </div>
-            <div className="infoBox">
-              <span className="icon">{item.recompensaCares}</span>
-              <img src={cares} width={30} height={30} alt="Cares" className="caresIcon" />
-            </div>
-          </div>
-          <div className="buttonGroup">
-            <button className="botaoValidar" onClick={() => validarPedido(id)}>
-              Validar
-            </button>
-            <button className="botaoRejeitar" onClick={() => rejeitarPedido(id)}>
-              Rejeitar
-            </button>
-          </div>
-        </div>
+        <h2 className="tituloItem">{item.titulo}</h2>
       </div>
 
-      <div className="colunaDireitaMI">
-        <h2 className="tituloItem">Detalhes</h2>
-        <div className="caixaDescricao">
-          {item.descPedido}
+      <img
+        className="imgItemDetalhesMI"
+        src={getImagemSrc(item.fotografiaPA)}
+        alt={item.titulo}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = iconFallback;
+        }}
+      />
+
+      <div className="infoItem detalhes">
+        <div className="infoExtraPedido">
+          <div className="infoBox">
+            <span className="icon">&#128100;</span>
+            <span>{item.nPessoas}</span>
+          </div>
+          <div className="infoBox">
+            <span className="icon">{item.recompensaCares}</span>
+            <img src={cares} width={30} height={30} alt="Cares" className="caresIcon" />
+          </div>
         </div>
       </div>
     </div>
-  );
+
+    <div className="colunaDireitaMI">
+      <h2 className="tituloItem">Voluntários</h2>
+      <div className="listaVoluntarios">
+        {voluntarios.length > 0 ? (
+          voluntarios.map((vol, index) => (
+            <div key={index} className="voluntarioBox">
+              <span>{vol.nome}</span>
+              <button
+                className="avaliarBtn"
+                onClick={() => {
+                  setVoluntarioSelecionado(vol);
+                  setShowPopup(true);
+                }}
+              >
+                Avaliar
+              </button>
+            </div>
+          ))
+        ) : (
+          <p>Nenhum voluntário encontrado.</p>
+        )}
+      </div>
+    </div>
+
+    {showPopup && voluntarioSelecionado && (
+  <div className="popup-overlay">
+    <div className="popup-content">
+      <button className="close-btn" onClick={fecharPopup}>×</button>
+      <h3>Avaliar {voluntarioSelecionado.nome}</h3>
+      <p>Deseja validar ou rejeitar este voluntário?</p>
+      <div className="popup-buttons">
+        <button className="validarBtn" onClick={validarVoluntario}>Validar</button>
+        <button className="rejeitarBtn" onClick={rejeitarVoluntario}>Rejeitar</button>
+      </div>
+    </div>
+  </div>
+)}
+  </div>
+);
+
 };
 
 
