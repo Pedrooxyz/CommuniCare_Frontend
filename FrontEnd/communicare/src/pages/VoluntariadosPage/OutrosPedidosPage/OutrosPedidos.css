@@ -188,17 +188,17 @@ header .ptext {
 }
 
 .voluntariarButton {
-  padding: 10px 20px;
-  background-color: #4CAF50;
-  color: white;
+  background-color: #FFEEF5;
+  font-size: 20px;  
+  color: black;
+  font-weight: bold;
+  padding: 12px 30px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: none;
-  border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
-
-.voluntariarButton:hover {
-  background-color: #45a049;
+  margin: 0;
 }
 

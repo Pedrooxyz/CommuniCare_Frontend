@@ -12,6 +12,8 @@ import GerirUtilizadores from "./pages/Admin/GerirUtilizadores";
 
 
 import OutrosVoluntariados from "./pages/VoluntariadosPage/OutrosPedidosPage/OutrosPedidos"
+import MeusPedidos from "./pages/VoluntariadosPage/MeusPedidos/MeusPedidos"
+import MaisInfoPedidos from "./pages/VoluntariadosPage/OutrosPedidosPage/MaisInfoPedidos/MaisInfoPedidos"
 
 import OutrosEmprestimos from "./pages/EmpretimosPage/OutrosEmprestimos/OutrosEmprestimos";
 import MaisInformacoes from "./pages/EmpretimosPage/OutrosEmprestimos/MaisInformacoes/MaisInformacoes";
@@ -25,8 +27,6 @@ import PendentesMaisInformacoes3 from "./pages/EmpretimosPage/PendentesEmprestim
 import MeusEmprestimos from "./pages/EmpretimosPage/MeusEmprestimos/MeusEmprestimoPage"
 import PedirEmprestimo from "./pages/EmpretimosPage/PedirEmprestimo/PedirEmprestimo";
 import EditarItem from "./pages/EmpretimosPage/EditarItem/EditarItem";
-
-import MeusPedidos from "./pages/VoluntariadosPage/MeusPedidos/MeusPedidos"
 
 import Notificacoes from "./pages/NotificacoesPage/Notificacoes";
 import NotificacoesArq from "./pages/NotificacoesPage/NotificacoesArq/NotificacoesArq";
@@ -72,6 +72,7 @@ function App() {
         <Route path="/pedirEmprestimo" element={<PedirEmprestimo />} />
 
         < Route path="/meusPedidos" element={<MeusPedidos />} />
+        <Route path="/maisInfoPedidos/:id" element={<MaisInfoPedidos />} />
 
         <Route path="/resetpassword" element={<ResetPassword />} />
 
@@ -96,7 +97,6 @@ function App() {
 
           <Route path="/publicarartigo" element={<PublicarArtigo />} /> 
           <Route path="/GerirUtilizadores" element={<GerirUtilizadores />} />
-
           </Route>
           
         </Route>

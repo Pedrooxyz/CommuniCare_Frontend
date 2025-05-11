@@ -9,6 +9,7 @@ import iconFallback from "../../../assets/icon.jpg";
 
 // COMPONENTE: Header com perfil e cares
 const HeaderProfileCares = () => {
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
@@ -34,6 +35,7 @@ const HeaderProfileCares = () => {
       <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
       <img
         className="imgHeaderVol"
+        onClick={() => navigate(`/profile`)}
         src={userInfo?.fotoUtil ? `http://localhost:5182/${userInfo.fotoUtil}` : iconFallback}
         width={60}
         height={60}

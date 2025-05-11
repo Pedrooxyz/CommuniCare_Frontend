@@ -101,6 +101,7 @@ const getImagemSrc = (foto) => {
 const ListaPedidos = () => {
   const [pedidos, setPedidos] = useState([]);
   const [fotosUtilizadores, setFotosUtilizadores] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPedidos = async () => {
@@ -108,7 +109,6 @@ const ListaPedidos = () => {
         const response = await api.get("PedidosAjuda/PedidosDisponiveis");
         setPedidos(response.data);
 
-        // Carregar as fotos dos utilizadores
         for (const pedido of response.data) {
           try {
             const fotoResponse = await api.get(`PedidosAjuda/${pedido.pedidoId}/foto-requerente`);
@@ -128,27 +128,6 @@ const ListaPedidos = () => {
 
     fetchPedidos();
   }, []);
-
-  const voluntariar = async (pedidoId) => {
-    if (!pedidoId) {
-      console.error("pedidoId não fornecido");
-      return;
-    }
-
-    try {
-      const token = localStorage.getItem("token");
-      const response = await api.post(`/PedidosAjuda/${pedidoId}/Voluntariar`, null, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      alert(response.data); // Exibe a mensagem de sucesso
-      // Você pode também atualizar o estado dos pedidos para refletir a mudança.
-    } catch (error) {
-      console.error("Erro ao se voluntariar:", error);
-      alert("Erro ao se voluntariar para o pedido.");
-    }
-  };
 
   return (
     <div className="cards">
@@ -176,13 +155,13 @@ const ListaPedidos = () => {
             </div>
           </div>
 
-          {/* Botão Voluntariar */}
+          {/* Botão Mais detalhes */}
           <div className="voluntariarButtonWrapper">
             <button
               className="voluntariarButton"
-              onClick={() => voluntariar(pedido.pedidoId)} // Certifique-se de que "pedido.pedidoId" seja o ID correto
+              onClick={() => navigate(`/maisInfoPedidos/${pedido.pedidoId}`)}
             >
-              Voluntariar
+              Mais Informações
             </button>
           </div>
         </div>
