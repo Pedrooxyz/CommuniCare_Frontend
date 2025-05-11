@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   return (
-    <header className="header log">
+    <header className="headerlog">
       <img className="iconCC" src={iconCC} width={60} height={60} alt="IconCare" />
     </header>
   );
@@ -94,7 +94,7 @@ function DadosAuthentication() {
   return (
     <>
       <div className="bgImg" style={{ backgroundImage: `url(${backImage})` }}></div>
-      <div className="container">
+      <div className="containerlog">
 
 
         <form onSubmit={handleSubmit}>

@@ -1,0 +1,115 @@
+.centerPageEP {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.infoEP {
+  margin-bottom: 0px;
+  display: flex;
+  justify-content: center;
+}
+
+.IconProfileEP {
+  display: flex;
+  justify-content: center;
+}
+
+.icPersonEP {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid #ccc;
+  transition: transform 0.2s ease;
+  margin: 30px;
+}
+
+.icPersonEP:hover {
+  transform: scale(1.05);
+}
+
+.gridProfileEP {
+  margin: 0 auto;
+  width: 30%;
+}
+
+.cardProfileEP {
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nameEP {
+  background-color: #FFEEF5;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  margin-top: 0px;
+  width: 70%;
+}
+
+.formFieldEP {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.formFieldEP label {
+  margin-bottom: 5px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.inputChangesEP {
+  background-color: rgb(225, 224, 224);
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  width: 200%;
+  text-align: center;
+}
+
+.saveBtnEP {
+  background-color: rgb(129, 255, 127);
+  border-radius: 10px;
+  padding: 10px 5px;
+  width: 150%;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 15px;
+  font-weight: bold;
+  
+}
+
+
+.saveBtnEP:hover {
+  background-color: rgb(93, 200, 91); /* tom mais escuro de verde */
+  transition: background-color 0.3s ease;
+}
+
+.backArrowEP {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: black;
+  text-decoration: none;
+  z-index: 10;
+  transition: transform 0.2s ease;
+}
+
+.backArrowEP:hover {
+  transform: scale(1.1);
+  color: #555;
+}
