@@ -200,23 +200,26 @@ header p {
 }
 
 .estado-circle {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  margin-left: 5px;
-}
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+  }
 
-.vermelho {
+.estado-circle.vermelho {
   background-color: red;
 }
 
-.amarelo {
-  background-color: yellow;
+.estado-circle.amarelo {
+  background-color: #ffc107;
 }
 
-.verde {
+.estado-circle.verde {
   background-color: green;
+}
+
+.estado-circle.azul {
+  background-color: blue;
 }
 
 
@@ -311,3 +314,20 @@ header p {
   height: 30px;
   object-fit: contain;
 }
+
+.concluir-button {
+  background-color: #5bd35f; /* Cor verde */
+  font-size: 16px;           /* Tamanho de fonte reduzido */
+  color: white;
+  font-weight: bold;
+  padding: 8px 16px;         /* Menos preenchimento */
+  border-radius: 8px;        /* Arredondamento mais discreto */
+  border: none;
+  cursor: pointer;
+  margin: 0;                 /* Remove margem extra */
+}
+
+.concluir-button:hover {
+  background-color: #45a049;
+}
+

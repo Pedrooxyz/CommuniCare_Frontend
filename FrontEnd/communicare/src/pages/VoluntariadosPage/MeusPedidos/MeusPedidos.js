@@ -117,6 +117,27 @@ const ListaPedidos = () => {
     }
   };
 
+  const handleConcluir = async (id) => {
+    if (window.confirm("Deseja concluir este pedido?")) {
+      try {
+        const response = await api.post(`/PedidosAjuda/ConcluirPedido/${id}`);
+        if (response.status === 200) {
+          // Atualiza a lista após a conclusão
+          setPedidos((prev) =>
+            prev.map((p) =>
+              p.idPedido === id ? { ...p, estado: 4 } : p
+            )
+          );
+        } else {
+          alert("Erro ao concluir o pedido.");
+        }
+      } catch (error) {
+        console.error("Erro ao concluir o pedido:", error);
+        alert("Erro ao concluir o pedido.");
+      }
+    }
+  };
+
   return (
     <div className="cards">
       <div className="card adicionar-card" onClick={() => navigate("/pedirVoluntariado")}>
@@ -151,28 +172,39 @@ const ListaPedidos = () => {
             <span>
               Estado:{" "}
               <span
-                className={`estado-circle ${pedido.Estado === 0
-                    ? "vermelho"
-                    : pedido.Estado === 1
-                      ? "amarelo"
-                      : pedido.Estado === 2
-                        ? "verde"
+                className={`estado-circle ${pedido.estado === 0
+                  ? "amarelo"
+                  : pedido.estado === 1
+                    ? "verde"
+                    : pedido.estado === 2
+                      ? "azul"
+                      : pedido.estado === 3
+                        ? "vermelho"
                         : ""
                   }`}
               />
-          </span>
-          <div className="controlesAcao">
-            <button className="EditDeleteButtons" onClick={() => handleEdit(pedido.idPedido)}>
-              <FaEdit />
-            </button>
-            <button className="EditDeleteButtons" onClick={() => handleDelete(pedido.idPedido)}>
-              <FaTrash />
-            </button>
+            </span>
+            <div className="controlesAcao">
+              {(pedido.estado === 0 || pedido.estado === 1) && (
+                <>
+                  <button className="EditDeleteButtons" onClick={() => handleEdit(pedido.idPedido)}>
+                    <FaEdit />
+                  </button>
+                  <button className="EditDeleteButtons" onClick={() => handleDelete(pedido.idPedido)}>
+                    <FaTrash />
+                  </button>
+                </>
+              )}
+              {pedido.estado === 2 && (
+                <button onClick={() => handleConcluir(pedido.pedidoId)} className="concluir-button">
+                  Concluir
+                </button>
+              )}
+            </div>
           </div>
         </div>
-        </div>
-  ))
-}
+      ))
+      }
     </div >
   );
 };

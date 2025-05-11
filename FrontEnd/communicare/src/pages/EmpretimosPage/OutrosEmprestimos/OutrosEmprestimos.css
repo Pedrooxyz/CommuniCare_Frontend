@@ -112,7 +112,7 @@ header p {
   }
 
 .cards {
-  ddisplay: grid;
+  display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 35px;
   max-width: 1440px; /* Ajuste conforme o tamanho dos cards e gaps */

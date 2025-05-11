@@ -113,6 +113,11 @@ const HeaderSecundario = ({ onValidarRequisicao, onValidarAquisicao, onValidarDe
   );
 };
 
+const getImagemSrc = (foto) => {
+  return foto && foto.trim() && foto !== "null" && foto !== "string"
+    ? `data:image/jpeg;base64,${foto}`
+    : iconFallback;
+};
 
 const ListaPedidos = () => {
   const [pedidos, setPedidos] = useState([]);
@@ -145,7 +150,7 @@ const ListaPedidos = () => {
           <div className="userTitleOE">
             <img
               className="imgUsers"
-              src="../../../../assets/icon.jpg"
+              src="../../../assets/icon.jpg"
               onError={(e) => {
                 e.target.onerror = null; 
                 e.target.src = '../../../../assets/icon.jpg';
@@ -156,7 +161,11 @@ const ListaPedidos = () => {
             />
             <h2>{pedido.titulo}</h2>
           </div>
-          <span>IMAGEM</span>
+          <img
+            className="imgItemOE"
+            src={getImagemSrc(pedido.fotografiaPA)}
+            alt={pedido.titulo}
+          />
           <p>{pedido.descricao || "Sem descrição disponível."}</p>          
           <div className="infoItemOE">
             <span><FaCubes /> Voluntários: {pedido.numeroVoluntarios}</span>
