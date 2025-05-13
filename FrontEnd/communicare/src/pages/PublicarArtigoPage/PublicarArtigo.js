@@ -1,21 +1,72 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./PublicarArtigo.css";
 import person1 from "../../assets/person1.jpg";
 import cares from "../../assets/Cares.png";
 import { api } from "../../utils/axios";
 import { useNavigate } from "react-router-dom";
+import iconFallback from '../../assets/icon.jpg';
 
 const HeaderProfileCares = () => {
+  const navigate = useNavigate();
+  const [isHovered, setIsHovered] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await api.get('/Utilizadores/InfoUtilizador', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUserInfo(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar info do utilizador:", error);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
+
   return (
-    <header className="header-artigo">
-      <p>100</p>
-      <img className="imgHeaderArtigo" src={cares} width={45} height={45} alt="Cares" />
-      <img className="imgHeaderArtigo profile-pic" src={person1} width={60} height={60} alt="Person" />
+    <header>
+      <p style={{ textAlign: "center" }}>
+        {userInfo ? userInfo.numCares : "..."}
+      </p>
+      <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
+      <img
+        className="imgHeaderVol"
+        onClick={() => navigate(`/profile`)}
+        src={
+          userInfo && userInfo.fotoUtil
+            ? `http://localhost:5182/${userInfo.fotoUtil}`
+            : iconFallback
+        }
+        width={60}
+        height={60}
+        alt="User"
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = iconFallback;
+        }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        style={{
+          margin: "5px",
+          cursor: "pointer",
+          borderRadius: "50%",
+          transition: "transform 0.3s ease, box-shadow 0.3s ease",
+          transform: isHovered ? "scale(1.1)" : "scale(1)",
+          boxShadow: isHovered ? "0 0 10px rgba(0,0,0,0.3)" : "none",
+        }}
+      />
     </header>
   );
 };
 
 function PublicarArtigo() {
+  const [userInfo, setUserInfo] = useState(null);
   const [titulo, setTitulo] = useState("");
   const [conteudo, setConteudo] = useState("");
   const [imagem, setImagem] = useState(null);
@@ -24,6 +75,24 @@ function PublicarArtigo() {
   const [quantidade, setQuantidade] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await api.get('/Utilizadores/InfoUtilizador', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUserInfo(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar info do utilizador:", error);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
 
   const handleImagemChange = (e) => {
     const file = e.target.files?.[0];
@@ -93,7 +162,7 @@ function PublicarArtigo() {
       <div className="conteudo-artigo">
         <div className="form-lado-esquerdo">
           <div className="perfil-user">
-            <img src={person1} className="img-perfil" width={60} height={60} alt="Perfil" />
+            <img src={userInfo?.fotoUtil ? `http://localhost:5182/${userInfo.fotoUtil}` : iconFallback} className="img-perfil" width={60} height={60} alt="Perfil" />
           </div>
 
           <label className="upload-label">
