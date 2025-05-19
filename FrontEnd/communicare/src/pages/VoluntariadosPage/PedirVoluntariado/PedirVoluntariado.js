@@ -4,25 +4,7 @@ import cares from "../../../assets/Cares.png";
 import iconFallback from "../../../assets/icon.jpg";
 import { api } from "../../../utils/axios.js";
 import { useNavigate } from "react-router-dom";
-
-const HeaderProfileCares = ({ userInfo }) => {
-  return (
-    <header>
-      <p style={{ textAlign: "center" }}>
-        {userInfo ? userInfo.numCares : "..."}
-      </p>
-      <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
-      <img
-        className="imgHeaderVol"
-        src={userInfo?.fotoUtil ? `http://localhost:5182/${userInfo.fotoUtil}` : iconFallback}
-        width={60}
-        height={60}
-        alt="User"
-        onError={(e) => { e.target.src = iconFallback; }}
-      />
-    </header>
-  );
-};
+import HeaderProfileCares from "../../../utils/headerProfile.js"; // ajusta o caminho
 
 function PedirVoluntariado() {
   const [userInfo, setUserInfo] = useState(null);

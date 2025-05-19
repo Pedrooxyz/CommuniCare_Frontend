@@ -5,6 +5,7 @@ import cares from "../../assets/Cares.png";
 import { api } from "../../utils/axios";
 import { useNavigate } from "react-router-dom";
 import iconFallback from '../../assets/icon.jpg';
+import HeaderProfileCares from "../../utils/headerProfile.js"; // ajusta o caminho
 
 const HeaderProfileCares = () => {
   const navigate = useNavigate();
