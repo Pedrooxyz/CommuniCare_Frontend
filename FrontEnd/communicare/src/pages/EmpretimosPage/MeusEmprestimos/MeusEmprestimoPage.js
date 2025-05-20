@@ -134,7 +134,7 @@ const Search = ({ searchTerm, setSearchTerm }) => {
 
 const ListaItems = ({ searchTerm }) => {
   const [items, setItems] = useState([]);
-  const [itensEmUso, setItensEmUso] = useState([]); 
+  const [itensEmUso, setItensEmUso] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -186,17 +186,14 @@ const ListaItems = ({ searchTerm }) => {
   };
 
   const concluirEmprestimo = async (itemId) => {
-      console.log("Item ID enviado para conclusão:", itemId); 
     try {
       const token = localStorage.getItem('token');
-      
       const emprestimoResponse = await api.get(`/Emprestimos/EmprestimoCorrespondenteItem/${itemId}`, {
-              headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
-      
+
       const emprestimoCorrespondente = emprestimoResponse.data;
-      
-      console.log("Emprestimo ativo encontrado:", emprestimoCorrespondente);
+
       if (emprestimoCorrespondente) {
         const response = await api.post(`/Emprestimos/DevolucaoItem/${emprestimoCorrespondente.emprestimoId}`);
         if (response.status === 200) {
@@ -213,7 +210,6 @@ const ListaItems = ({ searchTerm }) => {
       alert("Erro ao concluir devolução.");
     }
   };
-
 
   const filteredItems = items.filter(item =>
     item.nomeItem.toLowerCase().includes(searchTerm)
@@ -248,11 +244,11 @@ const ListaItems = ({ searchTerm }) => {
           </div>
           <div className="estadoEAcao">
             <span>
-              Estado:{" "}
+              Estado:
               <span
                 className={`estado-circle ${
                   isItemEmUso(item)
-                    ? "em-uso" 
+                    ? "em-uso"
                     : item.disponivel === 1
                     ? "disponivel"
                     : item.disponivel === 0
@@ -261,19 +257,16 @@ const ListaItems = ({ searchTerm }) => {
                     ? "permanentemente-indisponivel"
                     : ""
                 }`}
-                data-tooltip={
-                  isItemEmUso(item)
-                    ? "Empréstimo a Decorrer"
-                    : item.disponivel === 1
-                    ? "Disponível"
-                    : item.disponivel === 0
-                    ? "Indisponível (Aguardando alguma validação do administrador)"
-                    : item.disponivel === 2
-                    ? "Permanentemente Indisponível"
-                    : ""
-                }
               >
-                {isItemEmUso(item) ? "" : ""}
+                {isItemEmUso(item)
+                  ? "Em Uso"
+                  : item.disponivel === 1
+                  ? "Disponível"
+                  : item.disponivel === 0
+                  ? "Indisponível"
+                  : item.disponivel === 2
+                  ? "Ind. Permanente"
+                  : ""}
               </span>
             </span>
             {isItemEmUso(item) && (
