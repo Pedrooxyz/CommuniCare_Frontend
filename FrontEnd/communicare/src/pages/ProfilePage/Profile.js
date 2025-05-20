@@ -13,27 +13,68 @@ import plusP from '../../assets/plusProfile.png';
 import cares from '../../assets/Cares.png';
 import loja from '../../assets/loja.png';
 
+import HeaderProfileCares from "../../utils/headerProfile.js"; 
+
 const HeaderNot = () => {
   const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useState(null);
+  const [contactos, setContactos] = useState([]);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        const [userResponse, contactosResponse] = await Promise.all([
+          api.get("/Utilizadores/InfoUtilizador", {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+          api.get("/Contactos/ContactosUtilizador", {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+        ]);
+
+        setUserInfo(userResponse.data);
+        setContactos(contactosResponse.data);
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
 
   return (
     <header className="headerNot">
-      <button
-        className="imgButton"
-        onClick={() => navigate("/notificacoes")}
-        aria-label="Ver notificações"
-      >
-        <img
-          className="imgHeader"
-          src={notification}
-          width={45}
-          height={45}
-          alt="Notificações"
-        />
-      </button>
+      <div className="headerNot-container">
+        <div className="cares-section">
+          <img className="cares" src={cares} width={40} height={40} alt="Cares" />
+          <span>{userInfo ? userInfo.numCares : "..."}</span>
+        </div>
+
+        <div className="loja-section" onClick={() => navigate("/Loja")} style={{ cursor: "pointer" }}>
+          <img className="loja" src={loja} width={40} height={40} alt="Loja" />
+          <span><strong></strong></span>
+        </div>
+
+        <button
+          className="imgButton"
+          onClick={() => navigate("/notificacoes")}
+          aria-label="Ver notificações"
+        >
+          <img
+            className="imgHeader"
+            src={notification}
+            width={40}
+            height={40}
+            alt="Notificações"
+          />
+        </button>
+      </div>
     </header>
   );
 };
+
 
 const mapTipoContacto = (tipoId) => {
   switch (tipoId) {
@@ -175,7 +216,7 @@ const DadosUserPI = () => {
     fetchUserInfo();
   }, []);
 
-  return (
+return (
   <div>
     <div className="info">
       <div className="IconProfile">
@@ -195,25 +236,6 @@ const DadosUserPI = () => {
           style={{ display: 'none' }}
           onChange={handlePhotoChange}
         />
-      </div>
-
-      <div className="cares-box">
-        <span>
-          <img className="cares" src={cares} width={50} height={50} alt="cares" />
-          {userInfo ? userInfo.numCares : "..."}
-        </span>
-        <span>
-          <strong>Loja:</strong>
-          <img
-            className="loja"
-            src={loja}
-            width={50}
-            height={50}
-            alt="loja"
-            style={{ cursor: 'pointer' }}
-            onClick={() => navigate('/Loja')}
-          />
-        </span>
       </div>
     </div>
 
@@ -323,6 +345,7 @@ const DadosUserPI = () => {
     </div>
   </div>
 );
+
 
 };
 
