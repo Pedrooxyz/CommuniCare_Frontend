@@ -7,7 +7,7 @@ import "./MeusPedidos.css";
 import cares from "../../../assets/Cares.png";
 import iconFallback from "../../../assets/icon.jpg";
 
-// COMPONENTE: Header com perfil e cares
+
 const HeaderProfileCares = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
@@ -46,8 +46,8 @@ const HeaderProfileCares = () => {
   );
 };
 
-// COMPONENTE: Barra de busca e navegação
-const Search = () => {
+
+const Search = ({ setSearchTerm }) => {
   const navigate = useNavigate();
 
   return (
@@ -66,7 +66,12 @@ const Search = () => {
           <button className="tab" onClick={() => navigate("/pendentesPedidos")}>Pedidos Pendentes</button>
         </div>
         <div className="search-wrapper1">
-          <input type="text" placeholder="Pesquisar..." className="search1" />
+          <input
+            type="text"
+            placeholder="Pesquisar..."
+            className="search1"
+            onChange={(e) => setSearchTerm(e.target.value)} 
+          />
           <FaSearch className="search-icon1" />
         </div>
       </div>
@@ -74,22 +79,15 @@ const Search = () => {
   );
 };
 
-// COMPONENTE: Lista de pedidos com ações
-const ListaPedidos = () => {
-  const [pedidos, setPedidos] = useState([]);
+
+const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchPedidos = async () => {
-      try {
-        const response = await api.get("/PedidosAjuda/MeusPedidos");
-        setPedidos(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar pedidos:", error);
-      }
-    };
-    fetchPedidos();
-  }, []);
+  // Filtra apenas pelos títulos dos pedidos
+  const filteredPedidos = pedidos.filter((pedido) => {
+    const titulo = pedido.titulo ? pedido.titulo.toLowerCase() : '';
+    return titulo.includes(searchTerm.toLowerCase());
+  });
 
   const getImagemSrc = (foto) => {
     return foto && foto.trim() && foto !== "null" && foto !== "string"
@@ -122,7 +120,7 @@ const ListaPedidos = () => {
       try {
         const response = await api.post(`/PedidosAjuda/ConcluirPedido/${id}`);
         if (response.status === 200) {
-          // Atualiza a lista após a conclusão
+          
           setPedidos((prev) =>
             prev.map((p) =>
               p.idPedido === id ? { ...p, estado: 4 } : p
@@ -145,7 +143,7 @@ const ListaPedidos = () => {
         <div className="adicionarIcon">+</div>
       </div>
 
-      {pedidos.map((pedido) => (
+      {filteredPedidos.map((pedido) => (
         <div className="card" key={pedido.idPedido}>
           <div className="TitleOE">
             <h2>{pedido.titulo}</h2>
@@ -196,26 +194,40 @@ const ListaPedidos = () => {
                 </>
               )}
               {pedido.estado === 2 && (
-                <button onClick={() => handleConcluir(pedido.pedidoId)} className="concluir-button">
+                <button onClick={() => handleConcluir(pedido.idPedido)} className="concluir-button">
                   Concluir
                 </button>
               )}
             </div>
           </div>
         </div>
-      ))
-      }
-    </div >
+      ))}
+    </div>
   );
 };
 
 // COMPONENTE PRINCIPAL
 function MeusPedidos() {
+  const [pedidos, setPedidos] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    const fetchPedidos = async () => {
+      try {
+        const response = await api.get("/PedidosAjuda/MeusPedidos");
+        setPedidos(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar pedidos:", error);
+      }
+    };
+    fetchPedidos();
+  }, []);
+
   return (
     <>
       <HeaderProfileCares />
-      <Search />
-      <ListaPedidos />
+      <Search setSearchTerm={setSearchTerm} />
+      <ListaPedidos pedidos={pedidos} searchTerm={searchTerm} setPedidos={setPedidos} />
     </>
   );
 }
