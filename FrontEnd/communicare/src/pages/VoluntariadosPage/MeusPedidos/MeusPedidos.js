@@ -170,17 +170,22 @@ const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
             <span>
               Estado:{" "}
               <span
-                className={`estado-circle ${pedido.estado === 0
-                  ? "amarelo"
-                  : pedido.estado === 1
-                    ? "verde"
-                    : pedido.estado === 2
-                      ? "azul"
-                      : pedido.estado === 3
-                        ? "vermelho"
-                        : ""
-                  }`}
-              />
+              className={`estado-circle ${pedido.estado === 0
+                ? "amarelo"
+                : pedido.estado === 1
+                  ? "verde"
+                  : pedido.estado === 2
+                    ? "azul"
+                    : pedido.estado === 3
+                      ? "vermelho"
+                      : ""
+                }`}
+            >
+              {pedido.estado === 0 && "Pendente"}
+              {pedido.estado === 1 && "Disponível"}
+              {pedido.estado === 2 && "Em Progresso"}
+            </span>
+
             </span>
             <div className="controlesAcao">
               {(pedido.estado === 0 || pedido.estado === 1) && (
