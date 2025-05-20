@@ -115,19 +115,9 @@ function PedirVoluntariado() {
   return (
     <div className="container-voluntariado">
       <HeaderProfileCares userInfo={userInfo} />
-      <h1 className="titulo-principal1">Pedir Voluntariado</h1>
+      <h1 className="titulo-principal1">Pedir Ajuda</h1>
       <div className="conteudo-voluntariado">
         <div className="form-lado-esquerdo">
-          <div className="perfil-user">
-            <img
-              src={userInfo?.fotoUtil ? `http://localhost:5182/${userInfo.fotoUtil}` : iconFallback}
-              className="img-perfil"
-              width={60}
-              height={60}
-              alt="Perfil"
-              onError={(e) => { e.target.src = iconFallback; }}
-            />
-          </div>
 
           <div className="upload-imagem">
             <label className="upload-label">
