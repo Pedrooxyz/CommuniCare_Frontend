@@ -5,9 +5,9 @@ import cares from "../../assets/Cares.png";
 import { api } from "../../utils/axios";
 import { useNavigate } from "react-router-dom";
 import iconFallback from '../../assets/icon.jpg';
-import HeaderProfileCares from "../../utils/headerProfile.js"; // ajusta o caminho
+import HeaderProfileCares from "../../utils/headerProfile.js"; // este continua a ser usado noutros contextos, se necessário
 
-const HeaderProfileCares = () => {
+const HeaderProfileCaresComponent = () => {
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
@@ -158,7 +158,7 @@ function PublicarArtigo() {
 
   return (
     <div className="container-artigo">
-      <HeaderProfileCares />
+      <HeaderProfileCaresComponent />
       <h1 className="titulo-principal">Publicar Artigo</h1>
       <div className="conteudo-artigo">
         <div className="form-lado-esquerdo">
@@ -177,14 +177,14 @@ function PublicarArtigo() {
 
           <div className="icones-info">
             <span>
-                <img src={cares} alt="Cares" width={25} height={25} />
-                <input
-                 type="number"
-                 placeholder="Custo (cares)"
-                 value={custoCares}
-                 onChange={(e) => setCustoCares(e.target.value)}
-                />
-            </span> 
+              <img src={cares} alt="Cares" width={25} height={25} />
+              <input
+                type="number"
+                placeholder="Custo (cares)"
+                value={custoCares}
+                onChange={(e) => setCustoCares(e.target.value)}
+              />
+            </span>
             <span>
               📦
               <input
