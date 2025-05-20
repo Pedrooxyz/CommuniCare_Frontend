@@ -49,6 +49,7 @@ const DadosUserPI = () => {
   const [newPhoto, setNewPhoto] = useState(null); 
   const [meusItens, setMeusItens] = useState([]); 
   const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
+  const [pedidosDisponiveis, setPedidosDisponiveis] = useState([]);
 
   const verificarTipoUtilizador = async () => {
     try {
@@ -142,7 +143,7 @@ const DadosUserPI = () => {
         setUserInfo(userResponse.data);
         setContactos(contactosResponse.data);
 
-        const itensResponse = await api.get('/ItensEmprestimo/MeusItens', {
+        const itensResponse = await api.get('/ItensEmprestimo/Disponiveis', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMeusItens(itensResponse.data);
@@ -154,144 +155,175 @@ const DadosUserPI = () => {
     fetchUserInfo();
   }, []);
 
+  useEffect(() => {
+  const fetchUserInfo = async () => {
+    try {
+      const token = localStorage.getItem('token');
+
+      const [pedidosResponse] = await Promise.all([
+        api.get('/PedidosAjuda/PedidosDisponiveis', {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+      ]);
+      setPedidosDisponiveis(pedidosResponse.data);
+
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
+
   return (
-    <div>
-      <div className="info">
-        <div className="IconProfile">
+  <div>
+    <div className="info">
+      <div className="IconProfile">
+        <img
+          className="icPerson"
+          src={`http://localhost:5182${userInfo?.fotoUtil}`}
+          width={190}
+          height={190}
+          alt="icProfile"
+        />
+        <label htmlFor="file-input" className="iconplus">
+          <img src={plusP} width={45} height={45} alt="iconplus" />
+        </label>
+        <input
+          id="file-input"
+          type="file"
+          style={{ display: 'none' }}
+          onChange={handlePhotoChange}
+        />
+      </div>
+
+      <div className="cares-box">
+        <span>
+          <img className="cares" src={cares} width={50} height={50} alt="cares" />
+          {userInfo ? userInfo.numCares : "..."}
+        </span>
+        <span>
+          <strong>Loja:</strong>
           <img
-            className="icPerson"
-            src={`http://localhost:5182${userInfo?.fotoUtil}`}
-            width={190}
-            height={190}
-            alt="icProfile"
+            className="loja"
+            src={loja}
+            width={50}
+            height={50}
+            alt="loja"
+            style={{ cursor: 'pointer' }}
+            onClick={() => navigate('/Loja')}
           />
-          <label htmlFor="file-input" className="iconplus">
-            <img src={plusP} width={45} height={45} alt="iconplus" />
-          </label>
-          <input
-            id="file-input"
-            type="file"
-            style={{ display: 'none' }}
-            onChange={handlePhotoChange}
-          />
+        </span>
+      </div>
+    </div>
+
+    <div className="gridProfile">
+      {/* Coluna de Perfil */}
+      <div className="cardPofile profile">
+        <h2 className="name">{userInfo ? userInfo.nomeUtilizador : "..."}</h2>
+        <h3>Contactos:</h3>
+
+        {contactos.length > 0 ? (
+          contactos.map((contacto, index) => (
+            <p key={index} className="contact">
+              {mapTipoContacto(contacto.tipoContactoId)}: {contacto.numContacto}
+            </p>
+          ))
+        ) : (
+          <p className="contact">Nenhum contacto disponível</p>
+        )}
+
+        <div className={`buttons-container ${userTipoUtilizadorId === true ? 'duplo' : 'simples'}`}>
+          <button
+            className="add-contact"
+            onClick={() => navigate('/editar-perfil')}
+          >
+            Editar Perfil
+          </button>
+          {userTipoUtilizadorId === true && (
+            <button
+              className="add-contact"
+              onClick={() => navigate('/GerirUtilizadores')}
+            >
+              Gerir Contas
+            </button>
+          )}
+        </div>
+        <span className="ellipsis"></span>
+      </div>
+
+      {/* Coluna de Voluntariados */}
+      <div className="cardPofile">
+        <h2 className="section">Pedidos de Ajuda</h2>
+
+        <div className="botoes">
+          <button className="action-btn" onClick={() => navigate('/PedirVoluntariado')}>
+            Pedir Ajuda <FaPlus style={{ marginLeft: '6px' }} />
+          </button>
+
+          <button className="sub-action" onClick={() => navigate('/outrosPedidos')}>
+            Gerir Pedidos <FaChevronRight style={{ marginLeft: '6px' }} />
+          </button>
         </div>
 
-        <div className="cares-box">
-          <span>
-            <img className="cares" src={cares} width={50} height={50} alt="cares" />
-            {userInfo ? userInfo.numCares : "..."}</span>
-          <span>
-            <strong>Loja:</strong>
-            <img
-              className="loja"
-              src={loja}
-              width={50}
-              height={50}
-              alt="loja"
-              style={{ cursor: 'pointer' }}
-              onClick={() => navigate('/Loja')}
-            />
-          </span>
+        <div className="recent">
+          <h4 className="recent-name">Recentes:</h4>
+          <div className="recent-items">
+            {pedidosDisponiveis.length > 0 ? (
+              pedidosDisponiveis.map((pedido) => (
+                <div
+                  key={pedido.pedidoAjudaId}
+                  className="item"
+                  style={{ cursor: 'pointer' }}
+                >
+                  {pedido.titulo}
+                </div>
+              ))
+            ) : (
+              <p className="contact">Nenhum pedido disponível.</p>
+            )}
+          </div>
         </div>
       </div>
 
-      <div className="gridProfile">
-  {/* Coluna de Perfil */}
-  <div className="cardPofile profile">
-    <h2 className="name">{userInfo ? userInfo.nomeUtilizador : "..."}</h2>
-    <h3>Contactos:</h3>
+      {/* Coluna de Empréstimos */}
+      <div className="cardPofile">
+        <h2 className="section">Empréstimos</h2>
 
-    {contactos.length > 0 ? (
-      contactos.map((contacto, index) => (
-        <p key={index} className="contact">
-          {mapTipoContacto(contacto.tipoContactoId)}: {contacto.numContacto}
-        </p>
-      ))
-    ) : (
-      <p className="contact">Nenhum contacto disponível</p>
-    )}
+        <div className="botoes">
+          <button className="action-btn" onClick={() => navigate('/PedirEmprestimo')}>
+            Adicionar Item <FaPlus style={{ marginLeft: '6px' }} />
+          </button>
 
-    <div className="buttons-container">
-      <button
-        className="add-contact"
-        onClick={() => navigate('/editar-perfil')}  
-      >
-        Editar Perfil
-      </button>
-      {userTipoUtilizadorId === true && (
-              <button
-                className="add-contact"
-                onClick={() => navigate('/GerirUtilizadores')}
-              >
-                Gerir Contas
-              </button>
-            )}
-          </div>
-          <span className="ellipsis"></span>
-  </div>
-
-        {/* Coluna de Voluntariados */}
-        <div className="cardPofile">
-          <h2 className="section">Voluntariados</h2>
-
-          <div className="botoes">
-            <button className="action-btn" onClick={() => navigate('/PedirVoluntariado')}>
-              Pedir Voluntariado <FaPlus style={{ marginLeft: '6px' }} />
-            </button>
-
-            <button className="sub-action" onClick={() => navigate('/outrosPedidos')}>
-              Pedidos <FaChevronRight style={{ marginLeft: '6px' }} />
-            </button>
-          </div>
-
-          <div className="recent">
-            <h4 className="recent-name">Recentes:</h4>
-            <div className="recent-items">
-              <div className="item">Fuga de água</div>
-              <div className="item">Cortar relva</div>
-              <div className="item">Mudar a Lâmpada</div>
-              <div className="item">Mover Movel</div>
-            </div>
-          </div>
+          <button className="sub-action" onClick={() => navigate('/MeusEmprestimos')}>
+            Gerir Empréstimos <FaChevronRight style={{ marginLeft: '6px' }} />
+          </button>
         </div>
 
-        {/* Coluna de Empréstimos */}
-        <div className="cardPofile">
-          <h2 className="section">Empréstimos</h2>
-
-          <div className="botoes">
-            <button className="action-btn" onClick={() => navigate('/PedirEmprestimo')}>
-              Adicionar Empréstimos <FaPlus style={{ marginLeft: '6px' }} />
-            </button>
-
-            <button className="sub-action" onClick={() => navigate('/MeusEmprestimos')}>
-              Empréstimos <FaChevronRight style={{ marginLeft: '6px' }} />
-            </button>
-          </div>
-
-          <div className="recent">
-            <h4 className="recent-name">Recentes:</h4>
-            <div className="recent-items">
-              {meusItens.length > 0 ? (
-                meusItens.map((item) => (
-                  <div
-                    key={item.itemId}
-                    className="item"
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => navigate(`/maisInfo/${item.itemId}`)}
-                  >
-                    {item.nomeItem}
-                  </div>
-                ))
-              ) : (
-                <p className="contact">Nenhum item encontrado.</p>
-              )}
-            </div>
+        <div className="recent">
+          <h4 className="recent-name">Recentes:</h4>
+          <div className="recent-items">
+            {meusItens.length > 0 ? (
+              meusItens.map((item) => (
+                <div
+                  key={item.itemId}
+                  className="item"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => navigate(`/maisInfo/${item.itemId}`)}
+                >
+                  {item.nomeItem}
+                </div>
+              ))
+            ) : (
+              <p className="contact">Nenhum item encontrado.</p>
+            )}
           </div>
         </div>
       </div>
     </div>
-  );
+  </div>
+);
+
 };
 
 function Profile() {

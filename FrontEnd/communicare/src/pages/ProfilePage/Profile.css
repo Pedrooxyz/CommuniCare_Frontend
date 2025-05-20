@@ -133,21 +133,41 @@
     color: rgb(0, 0, 0);
   }
   
-  .add-contact {
-    background-color: #fde6ea;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    display: block;
-    margin: 20px auto 5px; 
-    width: fit-content;
-   
-    
-  }
+.add-contact {
+  background-color: #fde6ea;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
 
- 
+/* Apenas um botão */
+.buttons-container.simples {
+  display: block;
+  text-align: center;
+}
+
+.buttons-container.simples .add-contact {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin: 20px auto 5px;
+  width: fit-content;
+}
+
+/* Dois botões lado a lado */
+.buttons-container.duplo {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.buttons-container.duplo .add-contact {
+  flex: 1;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  margin: 20px 10px 5px;
+}
   
   .ellipsis {
     
