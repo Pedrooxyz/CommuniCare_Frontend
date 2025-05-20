@@ -200,11 +200,13 @@ header p {
 }
 
 .estado-circle {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    display: inline-block;
-  }
+  display: inline-block;
+  width: 100px;       /* Largura aumentada */
+  height: 20px;      /* Altura para manter forma oval */
+  border-radius: 10px;
+  margin-left: 5px;
+}
+
 
 .estado-circle.vermelho {
   background-color: red;
