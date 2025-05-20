@@ -126,21 +126,11 @@ function PedirEmprestimo() {
   return (
     <div className="container-Emprestimo">
       <HeaderProfileCares userInfo={userInfo} />
-      <h1 className="titulo-principal1">Pedir Empréstimo</h1>
+      <h1 className="titulo-principal1">Adicionar Item </h1>
       <div className="conteudo-Emprestimo">
         <div className="form-lado-esquerdo1">
           <div className="perfil-user">
-            <img
-              src={userInfo?.fotoUtil ? `http://localhost:5182/${userInfo.fotoUtil}` : iconFallback}
-              className="img-perfil"
-              width={60}
-              height={60}
-              alt="Perfil"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = iconFallback;
-              }}
-            />
+
           </div>
 
           <div className="upload-imagem">
