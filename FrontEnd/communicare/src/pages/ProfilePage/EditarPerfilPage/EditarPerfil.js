@@ -10,113 +10,111 @@ const EditarPerfil = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
   const [contactos, setContactos] = useState([]);
+  const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
+
   const [formData, setFormData] = useState({
-    nomeUtilizador: "",
-    numCares: "",
-    contacto: "",
+    nome: "",
+    email: "",
+    telemovel: "",
   });
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [imageFile, setImageFile] = useState(null);
+
+  const verificarTipoUtilizador = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await api.get("/Utilizadores/VerificarAdmin", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setUserTipoUtilizadorId(response.data);
+    } catch (error) {
+      console.error("Erro ao verificar o tipo de utilizador", error);
+      setUserTipoUtilizadorId(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
+    verificarTipoUtilizador();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
 
-        const [userResponse, contactosResponse] = await Promise.all([
-          api.get('/Utilizadores/InfoUtilizador', {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-          api.get('/Utilizadores/ContactosUtilizador', {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-        ]);
-
-        setUserInfo(userResponse.data);
-        setContactos(contactosResponse.data);
-        setFormData({
-          nomeUtilizador: userResponse.data.nomeUtilizador,
-          numCares: userResponse.data.numCares,
-          contacto: contactosResponse.data[0]?.numContacto || ''
+        const userResponse = await api.get("/Utilizadores/InfoUtilizador", {
+          headers: { Authorization: `Bearer ${token}` },
         });
 
+        const user = userResponse.data;
+
+        setUserInfo(user);
+
+        setFormData({
+          nome: user.nomeUtilizador || "",
+          email: user.email || "",
+          telemovel: user.telemovel || "",
+          rua: user.rua || "",
+          numPorta: user.numPorta || "",
+          cPostal: user.cPostal || "",
+          localidade: user.localidade || "",
+        });
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
       }
     };
 
-    fetchUserInfo();
+    fetchData();
   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
     }));
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const imageURL = URL.createObjectURL(file);
-      setSelectedImage(imageURL);
-      setImageFile(file);
-    }
-  };
-
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const token = localStorage.getItem('token');
+  e.preventDefault();
+  console.log("Submit disparado");
+  try {
+    const token = localStorage.getItem("token");
 
-    try {
-      await api.put('/Utilizadores/InfoUtilizador', formData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+    const dadosAlterados = {};
+    Object.keys(formData).forEach((key) => {
+      const valorAtual = formData[key]?.trim();
+      const valorOriginal = userInfo ? (userInfo[key] || "") : "";
 
-      if (imageFile) {
-        const imageData = new FormData();
-        imageData.append('fotoUtil', imageFile);
-
-        await api.post('/Utilizadores/UploadFoto', imageData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
-          }
-        });
+      // Só adicionar se:
+      // 1. Está diferente do original
+      // 2. NÃO está vazio
+      if (valorAtual && valorAtual !== valorOriginal) {
+        dadosAlterados[key] = valorAtual;
       }
+    });
 
-      navigate('/perfil');
-    } catch (error) {
-      console.error('Erro ao atualizar perfil:', error);
+    console.log("Dados alterados:", dadosAlterados);
+
+    if (Object.keys(dadosAlterados).length === 0) {
+      alert("Não houve alterações para guardar.");
+      return;
     }
+
+    const response = await api.put("/Utilizadores/EditarPerfil", dadosAlterados, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    console.log("Resposta da API:", response.data);
+    navigate("/profile");
+  } catch (error) {
+    console.error("Erro ao atualizar perfil:", error);
+  }
   };
 
   return (
     <div className="centerPageEP">
-      {/* Adiciona a seta de voltar */}
       <Link to="/profile" className="backArrowEP">
         <ArrowLeft size={28} />
       </Link>
-
-      <div className="infoEP">
-        <div className="IconProfileEP">
-          <label htmlFor="imageUploadEP">
-            <img
-              className="icPersonEP"
-              src={selectedImage || userInfo?.fotoUtil || noImage}
-              alt="icProfile"
-            />
-          </label>
-          <input
-            id="imageUploadEP"
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            style={{ display: 'none' }}
-          />
-        </div>
-      </div>
 
       <div className="gridProfileEP">
         <div className="cardProfileEP">
@@ -124,12 +122,12 @@ const EditarPerfil = () => {
 
           <form onSubmit={handleSubmit}>
             <div className="formFieldEP">
-              <label htmlFor="nomeUtilizador">Nome</label>
+              <label htmlFor="nome">Nome</label>
               <input
                 className="inputChangesEP"
                 type="text"
-                id="nomeUtilizador"
-                name="nomeUtilizador"
+                id="nome"
+                name="nome"
                 value={formData.nomeUtilizador}
                 onChange={handleChange}
                 required
@@ -137,20 +135,35 @@ const EditarPerfil = () => {
             </div>
 
             <div className="formFieldEP">
-              <label htmlFor="contacto">Contacto Telefónico</label>
+              <label htmlFor="email">Email</label>
               <input
                 className="inputChangesEP"
-                type="text"
-                id="contacto"
-                name="contacto"
-                value={formData.contacto}
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
                 onChange={handleChange}
-                required
+                // removido required para permitir vazio
               />
             </div>
 
             <div className="formFieldEP">
-              <button type="submit" className="saveBtnEP">Guardar Alterações</button>
+              <label htmlFor="telemovel">Contacto Telefónico</label>
+              <input
+                className="inputChangesEP"
+                type="text"
+                id="telemovel"
+                name="telemovel"
+                value={formData.telemovel}
+                onChange={handleChange}
+                // removido required para permitir vazio
+              />
+            </div>
+
+            <div className="formFieldEP">
+              <button type="submit" className="saveBtnEP">
+                Guardar Alterações
+              </button>
             </div>
           </form>
         </div>
@@ -159,8 +172,10 @@ const EditarPerfil = () => {
   );
 };
 
+
 function EditarPerfilPage() {
   return <EditarPerfil />;
 }
 
 export default EditarPerfilPage;
+
