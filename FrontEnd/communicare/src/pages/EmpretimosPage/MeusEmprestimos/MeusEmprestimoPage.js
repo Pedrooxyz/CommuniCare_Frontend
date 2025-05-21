@@ -263,7 +263,7 @@ const ListaItems = ({ searchTerm }) => {
                   : item.disponivel === 1
                   ? "Disponível"
                   : item.disponivel === 0
-                  ? "Indisponível"
+                  ? "Pendente"
                   : item.disponivel === 2
                   ? "Ind. Permanente"
                   : ""}
