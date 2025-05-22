@@ -3,6 +3,7 @@ import { FaSearch } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import { getUserImageUrl } from '../../../../utils/url';
 import iconFallback from '../../../../assets/icon.jpg';
+import PopUp from "../../../PopUpPage/PopUp.js";
 
 import "./MaisInformacoes.css";
 
@@ -269,13 +270,10 @@ function MaisInformacoes() {
         setShowPopup={setShowPopup}
       />
       {showPopup && (
-        <>
-          <div className="popupFundo" onClick={() => setShowPopup(false)}></div>
-          <div className="popupAviso">
-            <p>{popupMessage}</p>
-            <button onClick={() => setShowPopup(false)}>OK</button>
-          </div>
-        </>
+        <PopUp
+          message={popupMessage}
+          onClose={() => setShowPopup(false)}
+        />
       )}
     </>
   );

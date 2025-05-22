@@ -2,52 +2,6 @@
   box-sizing: border-box;
 }
 
-.popupAviso {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  
-  background-color: white;
-  border-radius: 10px;
-  padding: 30px 40px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.35);
-  
-  z-index: 10000;
-  width: 620px;       /* Aumentei de 320px para 420px */
-  max-width: 95%;
-  text-align: center;
-  font-family: Arial, sans-serif;
-  font-size: 22px;    /* Aumentei de 16px para 18px */
-  color: #333;
-}
-
-.popupAviso button {
-  margin-top: 20px;
-  padding: 10px 25px;
-  font-weight: 600;
-  background-color: #1dba30;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.25s ease;
-  font-size: 20px;   /* Botão também maior */
-}
-
-.popupAviso button:hover {
-  background-color: #0056b3;
-}
-
-.popupFundo {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.3);
-  z-index: 9999;
-}
 
 body {
   margin: 0;

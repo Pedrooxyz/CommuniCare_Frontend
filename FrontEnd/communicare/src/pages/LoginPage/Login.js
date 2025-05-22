@@ -7,6 +7,7 @@ import icon from '../../assets/icon.jpg';
 import { api } from '../../utils/axios.js';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import PopUp from '../PopUpPage/PopUp';
 
 
 const Header = () => {
@@ -93,19 +94,13 @@ function DadosAuthentication() {
       <div className="bgImg" style={{ backgroundImage: `url(${backImage})` }}></div>
       <div className="containerlog">
           {showPopup && (
-            <div className="modal-overlay">
-              <div className="modal-box">
-                <p>{popupMessage}</p>
-                <button
-                  onClick={() => {
-                    setShowPopup(false);
-                    navigate("/profile");
-                  }}
-                >
-                  OK
-                </button>
-              </div>
-            </div>
+            <PopUp
+              message={popupMessage}
+              onClose={() => {
+                setShowPopup(false);
+                navigate("/profile");
+              }}
+            />
           )}
         <form onSubmit={handleSubmit}>
           <h1 className="h1Log">Login</h1>
