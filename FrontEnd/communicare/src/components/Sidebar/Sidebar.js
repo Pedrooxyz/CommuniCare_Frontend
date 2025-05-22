@@ -1,24 +1,51 @@
-// src/components/Sidebar/Sidebar.js
-import React from 'react';
-import './Sidebar.module.css'; // vamos criar já a seguir
+import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { FaBars, FaHome, FaHandsHelping, FaStore, FaUser, FaBell } from 'react-icons/fa';
+import './Sidebar.css';
 
-const Sidebar = ({ isOpen, toggleSidebar }) => {
+const Sidebar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const navItems = [
+    { path: '/meusEmprestimos', icon: FaHome, label: 'Meus Empréstimos' },
+    { path: '/meusPedidos', icon: FaHandsHelping, label: 'Meus Pedidos' },
+    { path: '/loja', icon: FaStore, label: 'Loja' },
+    { path: '/profile', icon: FaUser, label: 'Perfil' },
+    { path: '/notificacoes', icon: FaBell, label: 'Notificações' },
+  ];
+
   return (
-    <>
-      <div className={`sidebar ${isOpen ? 'open' : ''}`}>
-        <button className="close-btn" onClick={toggleSidebar}>×</button>
-        <nav className="sidebar-nav">
-          <a href="/profile">Perfil</a>
-          <a href="/meusPedidos">Meus Pedidos</a>
-          <a href="/meusEmprestimos">Meus Empréstimos</a>
-          <a href="/notificacoes">Notificações</a>
-          {/* adiciona mais links conforme precisares */}
-        </nav>
+    <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+      {/* Ícone de Menu para abrir/fechar */}
+      <div className="sidebar-icon" onClick={toggleSidebar}>
+        <FaBars className="icon" />
       </div>
 
-      {/* Overlay escuro para fechar clicando fora */}
-      {isOpen && <div className="overlay" onClick={toggleSidebar}></div>}
-    </>
+      {/* Itens de navegação (apenas visíveis quando aberta) */}
+      {isOpen && (
+        <div className="nav-items">
+          {navItems.map((item) => (
+            <div
+              key={item.path}
+              className={`nav-item ${location.pathname === item.path ? 'active' : ''}`}
+              onClick={() => {
+                navigate(item.path);
+                setIsOpen(false); // Fecha a sidebar ao clicar em um item
+              }}
+            >
+              <item.icon className="icon" />
+              <span className="nav-label">{item.label}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 

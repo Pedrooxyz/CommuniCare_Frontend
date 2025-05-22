@@ -1,13 +1,14 @@
-import Sidebar from './Sidebar';
+import React from 'react';
 import { Outlet } from 'react-router-dom';
+import Sidebar from './Sidebar'; 
 
 const SidebarLayout = () => {
   return (
     <div style={{ display: 'flex' }}>
       <Sidebar />
-      <main style={{ flex: 1, padding: '20px' }}>
-        <Outlet />
-      </main>
+      <div style={{ marginLeft: '64px', width: '100%' }}>
+        <Outlet /> {}
+      </div>
     </div>
   );
 };
