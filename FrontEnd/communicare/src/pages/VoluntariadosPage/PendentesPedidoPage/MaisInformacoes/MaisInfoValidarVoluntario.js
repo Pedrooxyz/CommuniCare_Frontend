@@ -58,12 +58,10 @@ const HeaderProfileCares = () => {
   );
 };
 
-const getImagemSrc = (fotoItem) => {
-  if (fotoItem && fotoItem.trim() !== "" && fotoItem !== "null") {
-    return `data:image/jpeg;base64,${fotoItem}`;
-  } else {
-    return iconFallback;
-  }
+const getImagemSrc = (foto) => {
+  return foto && foto.trim() && foto !== "null" && foto !== "string"
+    ? `data:image/jpeg;base64,${foto}`
+    : iconFallback;
 };
 
 const Search = () => {
