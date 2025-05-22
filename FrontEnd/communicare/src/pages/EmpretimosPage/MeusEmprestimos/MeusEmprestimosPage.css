@@ -244,8 +244,8 @@
   }
   
   .estado-circle {
-    width: 12px;
-    height: 12px;
+    width: 130px;
+    height: 30px;
     border-radius: 80%;
     display: inline-block;
   }

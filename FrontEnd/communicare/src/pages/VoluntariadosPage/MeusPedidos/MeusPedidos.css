@@ -199,28 +199,28 @@ header p {
   font-size: 16px;
 }
 
-.estado-circle {
+.estado-circlo {
   display: inline-block;
-  width: 100px;       /* Largura aumentada */
-  height: 20px;      /* Altura para manter forma oval */
-  border-radius: 10px;
-  margin-left: 5px;
+  width: 130px;      
+  height: 30px;      
+  border-radius: 5px;
+  margin-left: 0px;
 }
 
 
-.estado-circle.vermelho {
+.estado-circlo.vermelho {
   background-color: red;
 }
 
-.estado-circle.amarelo {
+.estado-circlo.amarelo {
   background-color: #ffc107;
 }
 
-.estado-circle.verde {
+.estado-circlo.verde {
   background-color: green;
 }
 
-.estado-circle.azul {
+.estado-circlo.azul {
   background-color: blue;
 }
 

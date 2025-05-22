@@ -133,7 +133,7 @@ const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
             <span>
               Estado:{" "}
               <span
-              className={`estado-circle ${pedido.estado === 0
+              className={`estado-circlo ${pedido.estado === 0
                 ? "amarelo"
                 : pedido.estado === 1
                   ? "verde"
