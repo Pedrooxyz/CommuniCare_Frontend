@@ -4,6 +4,7 @@ import iconFallback from "../../assets/icon.jpg"; // ajusta conforme tua estrutu
 import { api } from './../../utils/axios.js';
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "./headerProfile.css"
 
 
 const HeaderProfileCares = () => {
