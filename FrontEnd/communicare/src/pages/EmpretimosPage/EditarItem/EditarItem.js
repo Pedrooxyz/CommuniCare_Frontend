@@ -64,6 +64,7 @@ const handleChange = (e) => {
   };
 
   return (
+    
     <div className="editar-item">
       <h2>Editar Item</h2>
       <form onSubmit={handleSubmit}>

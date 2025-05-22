@@ -3,48 +3,11 @@ import React, { useState, useEffect } from "react";
 import { FaSearch, FaEdit, FaTrash } from "react-icons/fa";
 import { api } from "../../../utils/axios.js";
 import "./MeusPedidos.css";
+import HeaderProfileCares from "../../../utils/headerProfile.js"; 
 
 import cares from "../../../assets/Cares.png";
 import iconFallback from "../../../assets/icon.jpg";
 
-
-const HeaderProfileCares = () => {
-  const navigate = useNavigate();
-  const [userInfo, setUserInfo] = useState(null);
-
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await api.get("/Utilizadores/InfoUtilizador", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setUserInfo(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar info do utilizador:", error);
-      }
-    };
-    fetchUserInfo();
-  }, []);
-
-  return (
-    <header>
-      <p style={{ textAlign: "center" }}>
-        {userInfo ? userInfo.numCares : "..."}
-      </p>
-      <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
-      <img
-        className="imgHeaderVol"
-        onClick={() => navigate(`/profile`)}
-        src={userInfo?.fotoUtil ? `http://localhost:5182/${userInfo.fotoUtil}` : iconFallback}
-        width={60}
-        height={60}
-        alt="User"
-        onError={(e) => { e.target.src = iconFallback; }}
-      />
-    </header>
-  );
-};
 
 
 const Search = ({ setSearchTerm }) => {

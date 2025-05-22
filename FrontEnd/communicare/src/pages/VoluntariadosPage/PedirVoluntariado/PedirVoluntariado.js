@@ -4,7 +4,7 @@ import cares from "../../../assets/Cares.png";
 import iconFallback from "../../../assets/icon.jpg";
 import { api } from "../../../utils/axios.js";
 import { useNavigate } from "react-router-dom";
-import HeaderProfileCares from "../../../utils/headerProfile.js"; // ajusta o caminho
+import HeaderProfileCares from "../../../utils/headerProfile.js"; 
 
 function PedirVoluntariado() {
   const [userInfo, setUserInfo] = useState(null);

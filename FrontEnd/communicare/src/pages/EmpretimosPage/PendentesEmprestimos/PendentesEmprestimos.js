@@ -5,58 +5,12 @@ import { api } from '../../../utils/axios.js';
 import "./PendentesEmprestimos.css";
 import iconFallback from '../../../assets/icon.jpg';
 
-import person1 from '../../../assets/person1.jpg';
+import HeaderProfileCares from "../../../utils/headerProfile.js"; 
+
 import cares from '../../../assets/Cares.png';
-import person7 from '../../../assets/person7.png';
-import person8 from '../../../assets/person8.png';
-import person9 from '../../../assets/person9.png';
-import martelo from '../../../assets/martelo.jpg';
-import cortaRelva from '../../../assets/cortaRelva.jpg';
-import compressor from '../../../assets/compressor.jpg';
 
-const HeaderProfileCares = () => {
-  const [userInfo, setUserInfo] = useState(null);
 
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await api.get('/Utilizadores/InfoUtilizador', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log("User info recebida:", response.data);
-        setUserInfo(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar info do utilizador:", error);
-      }
-    };
 
-    fetchUserInfo();
-  }, []);
-
-  return (
-    <header>
-      <p style={{ textAlign: "center" }}>
-        {userInfo ? userInfo.numCares : "..."}
-      </p>      
-
-      <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
-      <img
-        className="imgHeaderVol"
-        src={userInfo ? `http://localhost:5182/${userInfo.fotoUtil}` : '../../../../assets/icon.jpg'}
-        width={60}
-        height={60}
-        alt="User"
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = '../../../../assets/icon.jpg'; // Fallback caso a imagem não exista
-        }}
-      />
-    </header>
-  );
-};
 
 const Search = () => {
   const navigate = useNavigate();

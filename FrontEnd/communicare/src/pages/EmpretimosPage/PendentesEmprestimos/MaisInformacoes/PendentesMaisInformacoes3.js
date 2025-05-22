@@ -3,61 +3,13 @@ import { FaCubes, FaSearch } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from '../../../../utils/axios.js';
 import { getUserImageUrl } from '../../../../utils/url';
+import HeaderProfileCares from "../../../../utils/headerProfile.js"; 
 
 import iconFallback from '../../../../assets/icon.jpg';
 import cares from '../../../../assets/Cares.png';
 
 
 import "./PendentesMaisInformacoes.css";
-
-const HeaderProfileCares = () => {
-  const [userInfo, setUserInfo] = useState(null);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await api.get('/Utilizadores/InfoUtilizador', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setUserInfo(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar info do utilizador:", error);
-      }
-    };
-
-    fetchUserInfo();
-  }, []);
-
-  return (
-    <header>
-      <p style={{ textAlign: "center" }}>
-        {userInfo ? userInfo.numCares : "..."}
-      </p>
-
-      <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
-      <img
-        className="imgHeaderUser"
-        onClick={() => navigate(`/profile`)}
-        src={
-          userInfo && userInfo.fotoUtil
-            ? getUserImageUrl(userInfo.fotoUtil)
-            : iconFallback
-        }
-        width={60}
-        height={60}
-        alt="User"
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = iconFallback;
-        }}
-      />
-    </header>
-  );
-};
 
 // Função para tratar imagem do item com fallback
 const getImagemSrc = (fotoItem) => {

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import iconFallback from '../../assets/icon.jpg';
 import HeaderProfileCares from "../../utils/headerProfile.js"; 
 
+/*
 const HeaderProfileCaresComponent = () => {
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
@@ -65,6 +66,7 @@ const HeaderProfileCaresComponent = () => {
     </header>
   );
 };
+*/
 
 function PublicarArtigo() {
   const [userInfo, setUserInfo] = useState(null);
@@ -158,7 +160,7 @@ function PublicarArtigo() {
 
   return (
     <div className="container-artigo">
-      <HeaderProfileCaresComponent />
+      <HeaderProfileCares />
       <h1 className="titulo-principal">Publicar Artigo</h1>
       <div className="conteudo-artigo">
         <div className="form-lado-esquerdo">

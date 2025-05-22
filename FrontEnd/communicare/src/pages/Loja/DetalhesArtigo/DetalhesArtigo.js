@@ -4,43 +4,8 @@ import { useParams } from "react-router-dom";
 import "./DetalhesArtigo.css";
 import cares from "../../../assets/Cares.png";
 import { api } from "../../../utils/axios.js";
+import HeaderProfileCares from "../../../utils/headerProfile.js"; 
 
-
-const HeaderProfileCares = () => {
-  const [userInfo, setUserInfo] = useState(null);
-
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const response = await api.get("/Utilizadores/InfoUtilizador");
-        setUserInfo(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar info do utilizador:", error);
-      }
-    };
-    fetchUserInfo();
-  }, []);
-
-  return (
-    <header>
-      <p style={{ textAlign: "center" }}>
-        {userInfo ? userInfo.numCares : "..."}
-      </p>
-      <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
-      <img
-        className="imgHeaderVol"
-        src={
-          userInfo
-            ? `http://localhost:5000/${userInfo.fotoUtil}`
-            : "../../../../assets/icon.jpg"
-        }
-        width={60}
-        height={60}
-        alt="User"
-      />
-    </header>
-  );
-};
 
 
 const DetalhesItem = () => {

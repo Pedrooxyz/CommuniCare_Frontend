@@ -3,70 +3,13 @@ import React, { useState, useEffect } from "react";
 import { FaSearch, FaEdit, FaTrash } from "react-icons/fa";
 import { api } from "../../../utils/axios.js";
 import "./MeusEmprestimosPage.css";
+import HeaderProfileCares from "../../../utils/headerProfile.js"; 
 
 
 import cares from "../../../assets/Cares.png";
 import cortaRelva from "../../../assets/cortaRelva.jpg";
 import iconFallback from '../../../assets/icon.jpg';
 
-const HeaderProfileCares = () => {
-  const navigate = useNavigate();
-  const [isHovered, setIsHovered] = useState(false);
-  const [userInfo, setUserInfo] = useState(null);
-
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await api.get('/Utilizadores/InfoUtilizador', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setUserInfo(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar info do utilizador:", error);
-      }
-    };
-
-    fetchUserInfo();
-  }, []);
-
-  return (
-    <header>
-      <p style={{ textAlign: "center" }}>
-        {userInfo ? userInfo.numCares : "..."}
-      </p>
-      <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
-      <img
-        className="imgHeaderVol"
-        onClick={() => navigate(`/profile`)}
-        src={
-          userInfo && userInfo.fotoUtil
-            ? `http://localhost:5182/${userInfo.fotoUtil}`
-            : iconFallback
-        }
-        width={60}
-        height={60}
-        alt="User"
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = iconFallback;
-        }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        style={{
-          margin: "5px",
-          cursor: "pointer",
-          borderRadius: "50%",
-          transition: "transform 0.3s ease, box-shadow 0.3s ease",
-          transform: isHovered ? "scale(1.1)" : "scale(1)",
-          boxShadow: isHovered ? "0 0 10px rgba(0,0,0,0.3)" : "none",
-        }}
-      />
-    </header>
-  );
-};
 
 const Search = ({ searchTerm, setSearchTerm }) => {
   const navigate = useNavigate();
