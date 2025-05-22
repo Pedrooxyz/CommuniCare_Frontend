@@ -19,16 +19,56 @@
 .card-artigo {
   background-color: #fff;
   border-radius: 8px;
-  width: 260px; 
+  width: 320px;
   padding: 1rem;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
   text-align: center;
-  margin-top: 1rem; 
+  margin-top: 1rem;
+  position: relative; /* Para posicionar o ícone de favorito */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 450px; /* Altura mínima para consistência */
+}
+
+.card-artigo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem; /* Espaçamento após a imagem */
+  margin-bottom: 0.5rem; /* Espaçamento antes dos botões */
+  width: 100%;
+}
+
+.favorito-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.heart-icon {
+  width: 24px;
+  height: 24px;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.heart-icon.favorited {
+  opacity: 1;
+}
+
+.heart-icon.not-favorited {
+  opacity: 0.5; /* Opacidade reduzida para não favoritado */
+}
+
+.heart-icon:hover {
+  transform: scale(1.2);
 }
 
 .img-artigo {
-  width: 220px;
-  height: 220px;
+  width: 280px;
+  height: 280px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,18 +99,11 @@
   font-size: 1.2rem;
   color: #0077cc;
   font-weight: bold;
-  margin: 1rem 0;
+  margin: 0;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-}
-
-.custo-artigo.center {
-  justify-content: center;
-}
-
-.custo-artigo:not(.center) {
-  justify-content: space-between;
+  justify-content: flex-start; /* Alinha o custo à esquerda */
 }
 
 .custo-container {
@@ -87,7 +120,8 @@
 .botoes-artigo {
   display: flex;
   gap: 0.5rem;
-  margin-top: 1.5rem; /* Aumentado para afastar os botões */
+  margin-top: 0; /* Removido para ajustar o espaçamento */
+  width: 100%; /* Garante que os botões ocupem a largura total */
 }
 
 .botao-mais-detalhes {
