@@ -60,9 +60,21 @@
   color: #0077cc;
   font-weight: bold;
   margin: 1rem 0;
-  text-align: center;
   display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.custo-artigo.center {
   justify-content: center;
+}
+
+.custo-artigo:not(.center) {
+  justify-content: space-between;
+}
+
+.custo-container {
+  display: flex;
   align-items: center;
   gap: 0.5rem;
 }
@@ -75,7 +87,7 @@
 .botoes-artigo {
   display: flex;
   gap: 0.5rem;
-  margin-top: 0.5rem;
+  margin-top: 1.5rem; /* Aumentado para afastar os botões */
 }
 
 .botao-mais-detalhes {
@@ -110,6 +122,22 @@
 
 .botao-comprar:hover {
   background-color: #005fa3;
+}
+
+.botao-editar {
+  background-color: #ff9900;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.botao-editar:hover {
+  background-color: #e68a00;
+  transform: scale(1.02);
 }
 
 .novo-artigo {
@@ -241,4 +269,13 @@
 .botao-cancelar:hover {
   background-color: #cc0000; 
   transform: scale(1.05);
+}
+
+.input-stock {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
 }

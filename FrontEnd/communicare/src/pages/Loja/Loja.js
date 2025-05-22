@@ -15,6 +15,8 @@ function Loja() {
   const [artigoSelecionado, setArtigoSelecionado] = useState(null);
   const [transacaoId, setTransacaoId] = useState(null); 
   const [mostrarEscolhaComprovativo, setMostrarEscolhaComprovativo] = useState(false); 
+  const [mostrarPopupStock, setMostrarPopupStock] = useState(false);
+  const [quantidadeStock, setQuantidadeStock] = useState("");
 
   const navigate = useNavigate();
 
@@ -105,23 +107,71 @@ function Loja() {
     navigate("/publicarartigo");
   };
 
-  const enviarComprovativoEmail = async () => {
-  if (!transacaoId) {
-    alert("Transação não encontrada.");
-    return;
-  }
+  const handleEditarStock = (artigoId) => {
+    setArtigoSelecionado(artigoId);
+    setQuantidadeStock("");
+    setMostrarPopupStock(true);
+  };
 
-  try {
-    const response = await api.get(`Vendas/Comprovativo/Email/${transacaoId}`);
-    if (response.data.mensagem) {
-      alert(response.data.mensagem); 
-    } else {
+  const confirmarReporStock = async () => {
+    if (!quantidadeStock || parseInt(quantidadeStock) <= 0) {
+      alert("Por favor, insira uma quantidade válida maior que zero.");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await api.put(
+        `Artigos/${artigoSelecionado}/Repor-stock-(admin)`,
+        { quantidade: parseInt(quantidadeStock) },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      alert("Stock reposto com sucesso!");
+      setArtigos((prevArtigos) =>
+        prevArtigos.map((artigo) =>
+          artigo.artigoId === artigoSelecionado
+            ? { ...artigo, quantidadeDisponivel: response.data.quantidadeDisponivel }
+            : artigo
+        )
+      );
+      setMostrarPopupStock(false);
+      setArtigoSelecionado(null);
+      setQuantidadeStock("");
+    } catch (error) {
+      console.error("Erro ao repor stock:", error);
+      alert("Erro ao repor stock: " + (error.response?.data || "Erro desconhecido"));
+      setMostrarPopupStock(false);
+    }
+  };
+
+  const cancelarReporStock = () => {
+    setMostrarPopupStock(false);
+    setArtigoSelecionado(null);
+    setQuantidadeStock("");
+  };
+
+  const enviarComprovativoEmail = async () => {
+    if (!transacaoId) {
+      alert("Transação não encontrada.");
+      return;
+    }
+
+    try {
+      const response = await api.get(`Vendas/Comprovativo/Email/${transacaoId}`);
+      if (response.data.mensagem) {
+        alert(response.data.mensagem); 
+      } else {
+        alert("Erro ao enviar comprovativo por email.");
+      }
+    } catch (error) {
       alert("Erro ao enviar comprovativo por email.");
     }
-  } catch (error) {
-    alert("Erro ao enviar comprovativo por email.");
-  }
-  setMostrarEscolhaComprovativo(false);
+    setMostrarEscolhaComprovativo(false);
   };
 
   const downloadComprovativoPDF = async () => {
@@ -172,9 +222,23 @@ function Loja() {
                   <span className="no-img">Sem imagem</span>
                 )}
               </div>
-              <div className="custo-artigo">
-                <img src={cares} alt="Cares" className="icon" />
-                <strong>{artigo.custoCares}</strong>
+              <div className={`custo-artigo ${isAdmin ? '' : 'center'}`}>
+                {isAdmin ? (
+                  <>
+                    <div className="custo-container">
+                      <img src={cares} alt="Cares" className="icon" />
+                      <strong>{artigo.custoCares}</strong>
+                    </div>
+                    <button className="botao-editar" onClick={() => handleEditarStock(artigo.artigoId)}>
+                      Repor Stock
+                    </button>
+                  </>
+                ) : (
+                  <div className="custo-container">
+                    <img src={cares} alt="Cares" className="icon" />
+                    <strong>{artigo.custoCares}</strong>
+                  </div>
+                )}
               </div>
 
               <div className="botoes-artigo">
@@ -209,6 +273,26 @@ function Loja() {
             <div className="popup-buttons">
               <button onClick={enviarComprovativoEmail} className="botao-confirmar">Por E-mail</button>
               <button onClick={downloadComprovativoPDF} className="botao-confirmar">Baixar PDF</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {mostrarPopupStock && (
+        <div className="popup-overlay">
+          <div className="popup-box">
+            <p>Repor Stock do Artigo</p>
+            <input
+              type="number"
+              value={quantidadeStock}
+              onChange={(e) => setQuantidadeStock(e.target.value)}
+              placeholder="Quantidade a adicionar"
+              className="input-stock"
+              min="1"
+            />
+            <div className="popup-buttons">
+              <button onClick={confirmarReporStock} className="botao-confirmar">Confirmar</button>
+              <button onClick={cancelarReporStock} className="botao-cancelar">Cancelar</button>
             </div>
           </div>
         </div>
