@@ -27,16 +27,16 @@ function DadosAuthentication() {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  
+
   const [popupMessage, setPopupMessage] = useState("");
   const [showPopup, setShowPopup] = useState(false);
 
-  
+
   const errorMessageRef = useRef(null);
 
   const navigate = useNavigate();
 
-  
+
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
@@ -44,7 +44,7 @@ function DadosAuthentication() {
     setPassword(e.target.value);
   };
 
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoggingIn(true);
@@ -56,10 +56,10 @@ function DadosAuthentication() {
         email,
         password,
       });
-      
+
       const { token, message } = response.data;
 
-      
+
       localStorage.setItem("token", token);
 
       /*localStorage.setItem("userId", userId);
@@ -68,19 +68,24 @@ function DadosAuthentication() {
       localStorage.setItem("tokenIssuedAt", Date.now());
       localStorage.setItem("tokenExpiresIn", expiresIn);*/
 
-      setPopupMessage("Bem-vindo à CommuniCare! Esta plataforma foi criada para facilitar a interação entre membros de comunidades locais, promovendo a entreajuda através de um sistema de recompensas sustentável. Para começares a ganhar os teus primeiros Cares (a nossa moeda virtual), basta começares por te voluntariar. Esperamos que aproveites ao máximo as experiências e ligações que a CommuniCare tem para te oferecer!");
-      setShowPopup(true);
+      const esconderPopup = localStorage.getItem("popupLoginEscondido") === "true";
 
-      
+      if (!esconderPopup) {
+        setPopupMessage("Bem-vindo à CommuniCare! Esta plataforma foi criada para facilitar a interação entre membros de comunidades locais, promovendo a entreajuda através de um sistema de recompensas sustentável. Para começares a ganhar os teus primeiros Cares (a nossa moeda virtual), basta começares por te voluntariar. Esperamos que aproveites ao máximo as experiências e ligações que a CommuniCare tem para te oferecer!");
+        setShowPopup(true);
 
-      if (response.status === 200) {
+        // Só espera os 70s se mostrar o popup
         setTimeout(() => {
           setShowPopup(false);
           navigate("/profile");
         }, 70000);
+      } else {
+        // Se não mostrar popup, navega imediatamente
+        navigate("/profile");
       }
+
     } catch (error) {
-      
+
       setErrorMessage(error?.response?.data?.message || error.message);
       if (errorMessageRef.current) {
         errorMessageRef.current.style.display = "block";
@@ -93,22 +98,22 @@ function DadosAuthentication() {
     <>
       <div className="bgImg" style={{ backgroundImage: `url(${backImage})` }}></div>
       <div className="containerlog">
-          {showPopup && (
-            <PopUp
-              message={popupMessage}
-              onClose={() => {
-                setShowPopup(false);
-                navigate("/profile");
-              }}
-            />
-          )}
+        {showPopup && (
+          <PopUp
+            message={popupMessage}
+            onClose={() => {
+              setShowPopup(false);
+              navigate("/profile");
+            }}
+          />
+        )}
         <form onSubmit={handleSubmit}>
           <h1 className="h1Log">Login</h1>
           <img className="iconImage" src={icon} width={100} height={100} alt="Icon" />
 
           <div className="divider"></div>
           <div className="form">
-            
+
             <div className="field">
               <input className="inputDadosLog"
                 type="text"
@@ -119,8 +124,8 @@ function DadosAuthentication() {
               />
             </div>
 
-             
-             <div className="field password-field">
+
+            <div className="field password-field">
               <input className="inputDadosLog"
                 type={showPassword ? "text" : "password"}
                 name="password"
@@ -137,14 +142,14 @@ function DadosAuthentication() {
               </span>
             </div>
 
-            
+
             {errorMessage && (
               <p ref={errorMessageRef} style={{ color: "red" }}>
                 {errorMessage}
               </p>
             )}
 
-            
+
             <button className="buttonEntrar" type="submit" disabled={isLoggingIn}>
               {isLoggingIn ? "A entrar..." : "Entrar"}
             </button>
@@ -156,9 +161,9 @@ function DadosAuthentication() {
               </Link>
             </div>
             <div className="textLog">
-            <Link className="logLinks" to="/fgpassword">
+              <Link className="logLinks" to="/fgpassword">
                 Esqueceu-se da password?
-            </Link>
+              </Link>
             </div>
           </div>
         </form>
