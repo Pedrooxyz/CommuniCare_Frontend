@@ -19,16 +19,43 @@
 .card-artigo {
   background-color: #fff;
   border-radius: 8px;
-  width: 260px; 
+  width: 320px;
   padding: 1rem;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
   text-align: center;
-  margin-top: 1rem; 
+  margin-top: 1rem;
+  position: relative; /* Para posicionar o ícone de favorito */
+}
+
+.favorito-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.heart-icon {
+  width: 24px;
+  height: 24px;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.heart-icon.favorited {
+  opacity: 1;
+}
+
+.heart-icon.not-favorited {
+  opacity: 0.5; /* Opacidade reduzida para não favoritado */
+}
+
+.heart-icon:hover {
+  transform: scale(1.2);
 }
 
 .img-artigo {
-  width: 220px;
-  height: 220px;
+  width: 280px;
+  height: 280px;
   display: flex;
   align-items: center;
   justify-content: center;
