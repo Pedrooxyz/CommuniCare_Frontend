@@ -3,7 +3,7 @@ import { FaSearch } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import { getUserImageUrl } from '../../../../utils/url';
 import iconFallback from '../../../../assets/icon.jpg';
-import PopUp from "../../../../components/PopUpPage/PopUp.js";
+import {PopUp} from "../../../../components/PopUpPage/PopUp.js";
 import HeaderProfileCares from "../../../../components/HeaderProfile/headerProfile.js";
 
 import "./MaisInformacoes.css";

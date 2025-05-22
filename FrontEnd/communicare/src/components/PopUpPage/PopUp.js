@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./PopUp.css";
 
-const PopUp = ({ message, onClose }) => {
+
+export const PopUp = ({message, onClose}) => {
   const [naoMostrar, setNaoMostrar] = useState(false);
 
   const handleFechar = () => {
@@ -32,4 +33,37 @@ const PopUp = ({ message, onClose }) => {
   );
 };
 
-export default PopUp;
+
+
+
+
+export const PopUpBarra = ({ maxCares, onClose }) => {
+  const [valor, setValor] = useState(maxCares || 1000); 
+
+  const handleConcluir = () => {
+    localStorage.setItem("valorMaxCares", valor);
+    onClose(valor); 
+  };
+
+  return (
+    <>
+      <div className="popupFundo" onClick={() => onClose()} />
+      <div className="popupAviso">
+        <p>Máximo de Cares:</p>
+        <input
+          type="range"
+          min="0"
+          max="2000"
+          value={valor}
+          onChange={(e) => setValor(e.target.value)}
+        />
+        <p>{valor} cares</p>
+        <div className="popupFooter">
+          <button onClick={handleConcluir}>Concluído</button>
+        </div>
+      </div>
+    </>
+  );
+};
+
+

@@ -1,0 +1,81 @@
+.mainName {
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  margin: 20px 520px 0;
+  border-radius: 15px;
+  margin-bottom: 30px;
+}
+
+.mainName h1 {
+  margin: 15px 0;
+  font-weight: bold;
+  font-size: 40px;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.choose {
+  display: flex;
+  width: 100%;
+}
+
+.tab {
+  flex: 1;
+  background-color: #FFAEAE;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 60px;
+  text-align: center; 
+}
+
+.tab.active {
+  background-color: #FF7C7C;
+}
+
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search {
+  background-color: #E8F1FF;
+  flex: 1;
+  padding: 10px 20px 10px 40px;
+  padding-right: 500px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin: 0 50px 0 20px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 35px;
+  color: #888;
+}
+
+.search::placeholder {
+  margin-left: 3px;
+}
+
+.filtros-icon {
+  width: 35px;
+  height: 35px;
+  margin-right: 30px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  background: none;
+}
