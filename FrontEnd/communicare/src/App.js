@@ -36,6 +36,7 @@ import PendentesPedidosMaisInformacoes3 from "./pages/VoluntariadosPage/Pendente
 import Loja from "./pages/Loja/Loja";
 import PublicarArtigo from "./pages/PublicarArtigoPage/PublicarArtigo";
 import DetalhesArtigo from "./pages/Loja/DetalhesArtigo/DetalhesArtigo";
+import Favoritos from "./pages/Loja/FavoritosPage/Favoritos";
 
 import AdminRouteWrapper from "./utils/authWrapperAdmin";
 import AuthWrapper from "./utils/authWrapper";
@@ -51,10 +52,10 @@ function App() {
         <Route path="/fgpassword" element={<ForgotPassword />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
 
-        {/* Rotas autenticadas com Sidebar */}
         <Route element={<AuthWrapper />}>
           <Route element={<SidebarLayout />}>
             <Route path="/meusPedidos" element={<MeusPedidos />} />
+            <Route path="/favoritos" element={<Favoritos />} />
             <Route path="/meusEmprestimos" element={<MeusEmprestimos />} />
             <Route path="/editar-perfil" element={<EditarPerfil />} />
             <Route path="/notificacoes" element={<Notificacoes />} />
