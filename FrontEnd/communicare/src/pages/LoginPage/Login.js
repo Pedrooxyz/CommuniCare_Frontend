@@ -67,19 +67,16 @@ function DadosAuthentication() {
       localStorage.setItem("tokenIssuedAt", Date.now());
       localStorage.setItem("tokenExpiresIn", expiresIn);*/
 
-      setPopupMessage(message);
+      setPopupMessage("Bem-vindo à CommuniCare! Esta plataforma foi criada para facilitar a interação entre membros de comunidades locais, promovendo a entreajuda através de um sistema de recompensas sustentável. Para começares a ganhar os teus primeiros Cares (a nossa moeda virtual), basta começares por te voluntariar. Esperamos que aproveites ao máximo as experiências e ligações que a CommuniCare tem para te oferecer!");
       setShowPopup(true);
 
       
-      setTimeout(() => {
-        setShowPopup(false);
-        setIsLoggingIn(false);
-      }, 1000);
 
       if (response.status === 200) {
         setTimeout(() => {
+          setShowPopup(false);
           navigate("/profile");
-        }, 1200);
+        }, 70000);
       }
     } catch (error) {
       
@@ -95,8 +92,21 @@ function DadosAuthentication() {
     <>
       <div className="bgImg" style={{ backgroundImage: `url(${backImage})` }}></div>
       <div className="containerlog">
-
-
+          {showPopup && (
+            <div className="modal-overlay">
+              <div className="modal-box">
+                <p>{popupMessage}</p>
+                <button
+                  onClick={() => {
+                    setShowPopup(false);
+                    navigate("/profile");
+                  }}
+                >
+                  OK
+                </button>
+              </div>
+            </div>
+          )}
         <form onSubmit={handleSubmit}>
           <h1 className="h1Log">Login</h1>
           <img className="iconImage" src={icon} width={100} height={100} alt="Icon" />

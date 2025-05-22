@@ -130,7 +130,6 @@ const EditarPerfil = () => {
                 name="nome"
                 value={formData.nomeUtilizador}
                 onChange={handleChange}
-                required
               />
             </div>
 
@@ -143,7 +142,6 @@ const EditarPerfil = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                // removido required para permitir vazio
               />
             </div>
 
@@ -156,7 +154,6 @@ const EditarPerfil = () => {
                 name="telemovel"
                 value={formData.telemovel}
                 onChange={handleChange}
-                // removido required para permitir vazio
               />
             </div>
 

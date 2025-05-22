@@ -126,7 +126,7 @@ const Search = () => {
 };
 
 
-const DetalhesItem = () => {
+const DetalhesItem = ({ setPopupMessage, setShowPopup }) => {
   const { id } = useParams();
   const [item, setItem] = useState({
     nomeItem: "",
@@ -187,14 +187,25 @@ const DetalhesItem = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+
       if (response.status === 200) {
         alert("Pedido de empréstimo efetuado. Aguarde validação do administrador.");
       } else {
         alert(`Erro: ${response.data}`);
       }
+
     } catch (error) {
       console.error("Erro ao requisitar item:", error);
-      alert("Houve um erro ao realizar a requisição. Tente novamente.");
+
+      const mensagemErro = error?.response?.data;
+
+      if (mensagemErro === "Saldo de Cares insuficiente para adquirir este item.") {
+        setPopupMessage("Não tens Cares suficientes para adquirir este item. Participa como voluntário para ganhar mais Cares!");
+        setShowPopup(true);
+        setTimeout(() => setShowPopup(false), 15000);
+      } else {
+        alert("Houve um erro ao realizar a requisição. Tente novamente.");
+      }
     }
   };
 
@@ -228,11 +239,10 @@ const DetalhesItem = () => {
 
         <div className="infoItem detalhes">
           <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}/h</span>
-        
 
-        <button className="botaoAdquirir" onClick={() => requisitarItem(id)}>
-          Adquirir
-        </button>
+          <button className="botaoAdquirir" onClick={() => requisitarItem(id)}>
+            Adquirir
+          </button>
         </div>
       </div>
 
@@ -247,11 +257,26 @@ const DetalhesItem = () => {
 };
 
 function MaisInformacoes() {
+  const [popupMessage, setPopupMessage] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
+
   return (
     <>
       <HeaderProfileCares />
       <Search />
-      <DetalhesItem />
+      <DetalhesItem
+        setPopupMessage={setPopupMessage}
+        setShowPopup={setShowPopup}
+      />
+      {showPopup && (
+        <>
+          <div className="popupFundo" onClick={() => setShowPopup(false)}></div>
+          <div className="popupAviso">
+            <p>{popupMessage}</p>
+            <button onClick={() => setShowPopup(false)}>OK</button>
+          </div>
+        </>
+      )}
     </>
   );
 }

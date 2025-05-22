@@ -1,8 +1,48 @@
 * {
     box-sizing: border-box;
   }
-  
-  
+
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  .modal-box {
+    background-color: white;
+    padding: 30px 40px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    max-width: 90%;
+  }
+
+  .modal-box p {
+    margin-bottom: 20px;
+    font-size: 18px;
+  }
+
+  .modal-box button {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .modal-box button:hover {
+    background-color: #45a049;
+  }
+
   body {
     
     background-repeat: no-repeat;
