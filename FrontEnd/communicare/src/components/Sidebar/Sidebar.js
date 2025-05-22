@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { FaBars, FaHome, FaHandsHelping, FaStore, FaUser, FaBell } from 'react-icons/fa';
+import { FaBars, FaBox, FaHandHoldingHeart, FaStore, FaUser, FaBell } from 'react-icons/fa';
 import './Sidebar.css';
 
 const Sidebar = () => {
@@ -13,8 +13,8 @@ const Sidebar = () => {
   };
 
   const navItems = [
-    { path: '/meusEmprestimos', icon: FaHome, label: 'Meus Empréstimos' },
-    { path: '/meusPedidos', icon: FaHandsHelping, label: 'Meus Pedidos' },
+    { path: '/meusEmprestimos', icon: FaBox, label: 'Empréstimos' },
+    { path: '/meusPedidos', icon: FaHandHoldingHeart, label: 'Voluntariado' },
     { path: '/loja', icon: FaStore, label: 'Loja' },
     { path: '/profile', icon: FaUser, label: 'Perfil' },
     { path: '/notificacoes', icon: FaBell, label: 'Notificações' },

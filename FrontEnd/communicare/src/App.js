@@ -5,13 +5,13 @@ import Registar from "./pages/RegistPage/Registar";
 import Login from "./pages/LoginPage/Login";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Profile from "./pages/ProfilePage/Profile";
-import EditarPerfil from './pages/ProfilePage/EditarPerfilPage/EditarPerfil';
+import EditarPerfil from "./pages/ProfilePage/EditarPerfilPage/EditarPerfil";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import GerirUtilizadores from "./pages/Admin/GerirUtilizadores";
 
-import OutrosVoluntariados from "./pages/VoluntariadosPage/OutrosPedidosPage/OutrosPedidos"
-import MeusPedidos from "./pages/VoluntariadosPage/MeusPedidos/MeusPedidos"
-import MaisInfoPedidos from "./pages/VoluntariadosPage/OutrosPedidosPage/MaisInfoPedidos/MaisInfoPedidos"
+import OutrosVoluntariados from "./pages/VoluntariadosPage/OutrosPedidosPage/OutrosPedidos";
+import MeusPedidos from "./pages/VoluntariadosPage/MeusPedidos/MeusPedidos";
+import MaisInfoPedidos from "./pages/VoluntariadosPage/OutrosPedidosPage/MaisInfoPedidos/MaisInfoPedidos";
 
 import OutrosEmprestimos from "./pages/EmpretimosPage/OutrosEmprestimos/OutrosEmprestimos";
 import MaisInformacoes from "./pages/EmpretimosPage/OutrosEmprestimos/MaisInformacoes/MaisInformacoes";
@@ -62,28 +62,51 @@ function App() {
           <Route element={<SidebarLayout />}>
             <Route path="/meusPedidos" element={<MeusPedidos />} />
             <Route path="/meusEmprestimos" element={<MeusEmprestimos />} />
-            <Route path="/profile" element={<Profile />} />
             <Route path="/editar-perfil" element={<EditarPerfil />} />
             <Route path="/notificacoes" element={<Notificacoes />} />
             <Route path="/notificacoesarq" element={<NotificacoesArq />} />
             <Route path="/loja" element={<Loja />} />
+            <Route path="/pendentesPedidos" element={<PendentesPedidos />} />
+            <Route
+              path="/pedidos/pendentes/mais-info/:id"
+              element={<PendentesPedidosMaisInformacoes1 />}
+            />
+            <Route
+              path="/pedidos/pendentes/mais-info2/:id"
+              element={<PendentesPedidosMaisInformacoes2 />}
+            />
+            <Route
+              path="/pedidos/pendentes/mais-info3/:id"
+              element={<PendentesPedidosMaisInformacoes3 />}
+            />
+
+            <Route
+              path="/pendentesEmprestimos"
+              element={<PendentesEmprestimos />}
+            />
+            <Route
+              path="/pendentesMaisInformacoes/:id"
+              element={<PendentesMaisInformacoes />}
+            />
+            <Route
+              path="/pendentesMaisInformacoes2/:id"
+              element={<PendentesMaisInformacoes2 />}
+            />
+            <Route
+              path="/pendentesMaisInformacoes3/:id"
+              element={<PendentesMaisInformacoes3 />}
+            />
+
+            <Route path="/editarItem/:itemId" element={<EditarItem />} />
+            <Route path="/pedirEmprestimo" element={<PedirEmprestimo />} />
+            <Route path="/pedirVoluntariado" element={<PedirVoluntariado />} />
+            <Route
+              path="/detalhesArtigo/:artigoId"
+              element={<DetalhesArtigo />}
+            />
           </Route>
 
-          {/* Outras rotas protegidas (fora do layout com Sidebar) */}
-          <Route path="/pendentesPedidos" element={<PendentesPedidos />} />
-          <Route path="/pedidos/pendentes/mais-info/:id" element={<PendentesPedidosMaisInformacoes1 />} />
-          <Route path="/pedidos/pendentes/mais-info2/:id" element={<PendentesPedidosMaisInformacoes2 />} />
-          <Route path="/pedidos/pendentes/mais-info3/:id" element={<PendentesPedidosMaisInformacoes3 />} />
-
-          <Route path="/pendentesEmprestimos" element={<PendentesEmprestimos />} />
-          <Route path="/pendentesMaisInformacoes/:id" element={<PendentesMaisInformacoes />} />
-          <Route path="/pendentesMaisInformacoes2/:id" element={<PendentesMaisInformacoes2 />} />
-          <Route path="/pendentesMaisInformacoes3/:id" element={<PendentesMaisInformacoes3 />} />
-
-          <Route path="/editarItem/:itemId" element={<EditarItem />} />
-          <Route path="/pedirEmprestimo" element={<PedirEmprestimo />} />
-          <Route path="/pedirVoluntariado" element={<PedirVoluntariado />} />
-          <Route path="/detalhesArtigo/:artigoId" element={<DetalhesArtigo />} />
+          <Route path="/profile" element={<Profile />} />
 
           <Route element={<AdminRouteWrapper />}>
             <Route path="/publicarartigo" element={<PublicarArtigo />} />

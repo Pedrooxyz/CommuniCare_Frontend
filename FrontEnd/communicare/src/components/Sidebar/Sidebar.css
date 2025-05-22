@@ -11,7 +11,7 @@
   padding-top: 16px;
   gap: 24px;
   transition: width 0.3s ease;
-  z-index: 1000; /* Garante que a sidebar fique sobreposta a tudo */
+  z-index: 1000; 
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
