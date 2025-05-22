@@ -13,7 +13,7 @@ import plusP from '../../assets/plusProfile.png';
 import cares from '../../assets/Cares.png';
 import loja from '../../assets/loja.png';
 
-import HeaderProfileCares from "../../utils/headerProfile.js"; 
+import HeaderProfileCares from "../../components/HeaderProfile/headerProfile.js";
 
 const HeaderNot = () => {
   const navigate = useNavigate();

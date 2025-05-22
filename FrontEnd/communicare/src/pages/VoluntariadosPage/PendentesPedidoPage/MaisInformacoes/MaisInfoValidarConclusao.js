@@ -3,7 +3,7 @@ import { FaSearch } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import { getUserImageUrl } from '../../../../utils/url';
 import iconFallback from '../../../../assets/icon.jpg';
-import HeaderProfileCares from "../../../../utils/headerProfile.js"; 
+import HeaderProfileCares from "../../../../components/HeaderProfile/headerProfile.js";
 
 import "./MaisInfoValidarConclusao.css";
 

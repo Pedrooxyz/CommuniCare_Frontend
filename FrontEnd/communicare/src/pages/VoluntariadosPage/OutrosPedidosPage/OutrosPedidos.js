@@ -3,7 +3,7 @@ import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../../utils/axios.js";
 import "./OutrosPedidos.css";
-import HeaderProfileCares from "../../../utils/headerProfile.js"; 
+import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
 
 // Imagens
 import cares from "../../../assets/Cares.png";

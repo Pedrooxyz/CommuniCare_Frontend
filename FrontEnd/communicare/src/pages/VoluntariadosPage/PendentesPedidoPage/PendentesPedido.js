@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { api } from "../../../utils/axios.js";
 import "./PendentesPedido.css";
 import { FaSearch, FaCubes } from "react-icons/fa";
-import HeaderProfileCares from "../../../utils/headerProfile.js"; 
+import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
 
 import iconFallback from "../../../assets/icon.jpg";
 

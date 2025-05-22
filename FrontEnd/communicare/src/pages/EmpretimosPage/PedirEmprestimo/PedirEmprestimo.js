@@ -4,7 +4,7 @@ import cares from '../../../assets/Cares.png';
 import iconFallback from '../../../assets/icon.jpg';
 import { api } from '../../../utils/axios.js';
 import { useNavigate } from 'react-router-dom';
-import HeaderProfileCares from "../../../utils/headerProfile.js"; 
+import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
 
 function PedirEmprestimo() {
   const [userInfo, setUserInfo] = useState(null);

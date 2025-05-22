@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { FaSearch, FaEdit, FaTrash } from "react-icons/fa";
 import { api } from "../../../utils/axios.js";
 import "./MeusEmprestimosPage.css";
-import HeaderProfileCares from "../../../utils/headerProfile.js"; 
+import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
 
 
 import cares from "../../../assets/Cares.png";

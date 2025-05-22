@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import "./DetalhesArtigo.css";
 import cares from "../../../assets/Cares.png";
 import { api } from "../../../utils/axios.js";
-import HeaderProfileCares from "../../../utils/headerProfile.js"; 
+import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
 
 
 

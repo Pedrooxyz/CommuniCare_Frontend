@@ -3,7 +3,7 @@ import { FaCubes, FaSearch } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from '../../../../utils/axios.js';
 import { getUserImageUrl } from '../../../../utils/url';
-import HeaderProfileCares from "../../../../utils/headerProfile.js"; 
+import HeaderProfileCares from "../../../../components/HeaderProfile/headerProfile.js";
 
 import iconFallback from '../../../../assets/icon.jpg';
 import cares from '../../../../assets/Cares.png';

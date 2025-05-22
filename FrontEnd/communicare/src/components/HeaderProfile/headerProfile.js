@@ -1,7 +1,7 @@
 import React from "react";
-import cares from "../assets/Cares.png"; // ajusta conforme tua estrutura
-import iconFallback from "../assets/icon.jpg"; // ajusta conforme tua estrutura
-import { api } from './axios.js';
+import cares from "../../assets/Cares.png"; // ajusta conforme tua estrutura
+import iconFallback from "../../assets/icon.jpg"; // ajusta conforme tua estrutura
+import { api } from './../../utils/axios.js';
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 

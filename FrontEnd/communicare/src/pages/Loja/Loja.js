@@ -5,7 +5,7 @@ import cares from "../../assets/Cares.png";
 import { api } from "../../utils/axios.js";
 import { useNavigate } from "react-router-dom";
 import iconFallback from '../../assets/icon.jpg';
-import HeaderProfileCares from "../../utils/headerProfile.js"; 
+import HeaderProfileCares from "../../components/HeaderProfile/headerProfile.js";
 
 function Loja() {
   const [artigos, setArtigos] = useState([]);

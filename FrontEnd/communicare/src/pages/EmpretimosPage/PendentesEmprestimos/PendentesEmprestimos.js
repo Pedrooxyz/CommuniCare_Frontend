@@ -5,7 +5,7 @@ import { api } from '../../../utils/axios.js';
 import "./PendentesEmprestimos.css";
 import iconFallback from '../../../assets/icon.jpg';
 
-import HeaderProfileCares from "../../../utils/headerProfile.js"; 
+import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
 
 import cares from '../../../assets/Cares.png';
 

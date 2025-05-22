@@ -5,7 +5,7 @@ import { api } from '../../../utils/axios.js';
 import cares from '../../../assets/Cares.png';
 import iconFallback from '../../../assets/icon.jpg';
 import "./OutrosEmprestimos.css";
-import HeaderProfileCares from "../../../utils/headerProfile.js"; 
+import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
 
 
 const Search = ({ searchTerm, setSearchTerm, userTipoUtilizadorId, handleClickPendentes }) => {
