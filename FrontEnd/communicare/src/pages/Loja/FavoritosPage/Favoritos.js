@@ -144,13 +144,13 @@ function Favoritos() {
                     <span className="no-img">Sem imagem</span>
                   )}
                 </div>
-                <div className="custo-artigo2">
+                <div className="custo-artigo">
                   <img src={cares} alt="Cares" className="icon" />
                   <strong>{artigo.custoCares}</strong>
                 </div>
-                <div className="botoes-artigo2">
+                <div className="botoes-artigo">
                   <button
-                    className="botao-mais-detalhes2"
+                    className="botao-mais-detalhes"
                     onClick={() => handleMaisDetalhes(artigo.artigoId)}
                   >
                     Mais Detalhes

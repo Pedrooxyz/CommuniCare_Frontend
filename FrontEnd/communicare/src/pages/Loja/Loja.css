@@ -25,19 +25,6 @@
   text-align: center;
   margin-top: 1rem;
   position: relative; /* Para posicionar o ícone de favorito */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 450px; /* Altura mínima para consistência */
-}
-
-.card-artigo-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 0.5rem; /* Espaçamento após a imagem */
-  margin-bottom: 0.5rem; /* Espaçamento antes dos botões */
-  width: 100%;
 }
 
 .favorito-icon {
@@ -99,11 +86,18 @@
   font-size: 1.2rem;
   color: #0077cc;
   font-weight: bold;
-  margin: 0;
+  margin: 1rem 0;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  justify-content: flex-start; /* Alinha o custo à esquerda */
+}
+
+.custo-artigo.center {
+  justify-content: center;
+}
+
+.custo-artigo:not(.center) {
+  justify-content: space-between;
 }
 
 .custo-container {
@@ -120,8 +114,7 @@
 .botoes-artigo {
   display: flex;
   gap: 0.5rem;
-  margin-top: 0; /* Removido para ajustar o espaçamento */
-  width: 100%; /* Garante que os botões ocupem a largura total */
+  margin-top: 1.5rem; /* Aumentado para afastar os botões */
 }
 
 .botao-mais-detalhes {

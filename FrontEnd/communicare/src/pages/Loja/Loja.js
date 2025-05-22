@@ -291,22 +291,28 @@ function Loja() {
                   <img src={iconFallback} alt="Imagem padrão" />
                 )}
               </div>
-              <div className="card-artigo-header">
-                <div className="custo-artigo">
+              <div className={`custo-artigo ${isAdmin ? "" : "center"}`}>
+                {isAdmin ? (
+                  <>
+                    <div className="custo-container">
+                      <img src={cares} alt="Cares" className="icon" />
+                      <strong>{artigo.custoCares}</strong>
+                    </div>
+                    <button
+                      className="botao-editar"
+                      onClick={() => handleEditarStock(artigo.artigoId)}
+                    >
+                      Repor Stock
+                    </button>
+                  </>
+                ) : (
                   <div className="custo-container">
                     <img src={cares} alt="Cares" className="icon" />
                     <strong>{artigo.custoCares}</strong>
                   </div>
-                </div>
-                {isAdmin && (
-                  <button
-                    className="botao-editar"
-                    onClick={() => handleEditarStock(artigo.artigoId)}
-                  >
-                    Repor Stock
-                  </button>
                 )}
               </div>
+
               <div className="botoes-artigo">
                 <button
                   className="botao-mais-detalhes"

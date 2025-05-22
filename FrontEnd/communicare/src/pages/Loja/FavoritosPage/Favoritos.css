@@ -1,3 +1,4 @@
+/* Favoritos.css */
 .container-favoritos {
   padding: 1rem;
   margin-top: 2rem;
@@ -24,11 +25,6 @@
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
   text-align: center;
   margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center; 
-  justify-content: space-between; 
-  min-height: 400px; 
 }
 
 .img-artigo {
@@ -60,31 +56,30 @@
   font-size: 0.9rem;
 }
 
-.custo-artigo2 {
+.custo-artigo {
   font-size: 1.2rem;
   color: #0077cc;
   font-weight: bold;
   margin: 1rem 0;
+  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  flex-grow: 1; 
 }
 
-.custo-artigo2 .icon {
+.custo-artigo .icon {
   width: 20px;
   height: 20px;
 }
 
-.botoes-artigo2 {
+.botoes-artigo {
   display: flex;
   gap: 0.5rem;
   margin-top: 0.5rem;
-  width: 100%; 
 }
 
-.botao-mais-detalhes2 {
+.botao-mais-detalhes {
   background-color: #f0f0f0;
   color: #333;
   border: 1px solid #ccc;
@@ -97,7 +92,7 @@
   transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
-.botao-mais-detalhes2:hover {
+.botao-mais-detalhes:hover {
   background-color: #e0e0e0;
   transform: scale(1.02);
 }
@@ -180,4 +175,4 @@
   color: #777;
   font-size: 1.2rem;
   margin-top: 2rem;
-} 
+}
