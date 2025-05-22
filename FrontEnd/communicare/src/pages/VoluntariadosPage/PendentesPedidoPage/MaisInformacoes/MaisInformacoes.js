@@ -10,13 +10,11 @@ import "./MaisInfoPedidosPendentes.css";
 import cares from '../../../../assets/Cares.png';
 import { api } from '../../../../utils/axios.js';
 
-
 const getImagemSrc = (fotoItem) => {
   if (fotoItem && fotoItem.trim() !== "" && fotoItem !== "null") {
     return `data:image/jpeg;base64,${fotoItem}`;
-  } else {
-    return iconFallback; 
   }
+  return iconFallback;
 };
 
 const Search = () => {
@@ -78,10 +76,9 @@ const Search = () => {
   );
 };
 
-
 const DetalhesItem = () => {
   const navigate = useNavigate();
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [item, setItem] = useState({
     titulo: "",
     descPedido: "",
@@ -89,7 +86,8 @@ const DetalhesItem = () => {
     fotografiaPA: "",
     nPessoas: 0,
   });
-  const [fotoEmprestador, setFotoEmprestador] = useState(null);
+  const [fotoDono, setFotoDono] = useState(iconFallback); // Inicializa com fallback
+  const [isLoadingFoto, setIsLoadingFoto] = useState(true); // Controla estado de carregamento
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -101,7 +99,7 @@ const DetalhesItem = () => {
           },
         });
 
-        console.log("Resposta da API:", response.data); 
+        console.log("Resposta da API (detalhes):", response.data);
 
         const data = response.data;
         setItem({
@@ -117,25 +115,36 @@ const DetalhesItem = () => {
       }
     };
 
-    const fetchFotoEmprestador = async () => {
+    const fetchFotoDono = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await api.get(`/ItensEmprestimo/${id}/foto-emprestador`, {
+        const response = await api.get(`/PedidosAjuda/${id}/foto-dono`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        const urlFoto = `http://localhost:5182/${response.data}`;
-        setFotoEmprestador(urlFoto);
+
+        console.log("Resposta da API (foto-dono):", response.data);
+
+        // Verifica se a resposta é válida
+        if (response.data && response.data.trim() !== "" && response.data !== "null") {
+          // Assumindo que o endpoint retorna um caminho relativo
+          const urlFoto = `http://localhost:5182/${response.data}`;
+          setFotoDono(urlFoto);
+        } else {
+          setFotoDono(iconFallback);
+        }
       } catch (error) {
-        console.error('Erro ao buscar foto do emprestador:', error);
-        setFotoEmprestador(null);
+        console.error('Erro ao buscar foto do dono:', error);
+        setFotoDono(iconFallback);
+      } finally {
+        setIsLoadingFoto(false); // Finaliza o carregamento
       }
     };
 
     fetchItem();
-    fetchFotoEmprestador();
-  }, [id]); 
+    fetchFotoDono();
+  }, [id]);
 
   const validarPedido = async (pedidoId) => {
     try {
@@ -145,7 +154,7 @@ const DetalhesItem = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      alert(response.data); 
+      alert(response.data);
       navigate("/outrosPedidos");
     } catch (error) {
       console.error("Erro ao validar pedido:", error);
@@ -165,7 +174,7 @@ const DetalhesItem = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      alert(response.data); 
+      alert(response.data);
       navigate("/outrosPedidos");
     } catch (error) {
       console.error("Erro ao rejeitar pedido:", error);
@@ -183,12 +192,12 @@ const DetalhesItem = () => {
         <div className="userTitleMD">
           <img
             className="imgUsers"
-            src={fotoEmprestador || iconFallback}
+            src={isLoadingFoto ? iconFallback : fotoDono}
             onError={(e) => {
-              e.target.onerror = null;
+              e.target.onerror = null; // Evita loop infinito
               e.target.src = iconFallback;
             }}
-            alt="User"
+            alt="Foto do dono"
             width={70}
             height={70}
           />
@@ -208,7 +217,7 @@ const DetalhesItem = () => {
         <div className="infoItem detalhes">
           <div className="infoExtraPedido">
             <div className="infoBox">
-              <span className="icon">&#128100;</span>
+              <span className="icon">👤</span>
               <span>{item.nPessoas}</span>
             </div>
             <div className="infoBox">
@@ -236,8 +245,6 @@ const DetalhesItem = () => {
     </div>
   );
 };
-
-
 
 function MaisInformacoes() {
   return (
