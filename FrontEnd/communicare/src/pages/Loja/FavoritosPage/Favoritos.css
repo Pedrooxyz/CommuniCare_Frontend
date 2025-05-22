@@ -1,0 +1,178 @@
+/* Favoritos.css */
+.container-favoritos {
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+.titulo-principal {
+  text-align: center;
+  color: #2a2a2a;
+  margin-bottom: 4.5rem !important;
+}
+
+.conteudo-favoritos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.card-artigo {
+  background-color: #fff;
+  border-radius: 8px;
+  width: 260px;
+  padding: 1rem;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.img-artigo {
+  width: 220px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.img-artigo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.no-img {
+  width: 100%;
+  height: 100%;
+  background-color: #eee;
+  padding: 1rem;
+  border-radius: 4px;
+  color: #777;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+.custo-artigo {
+  font-size: 1.2rem;
+  color: #0077cc;
+  font-weight: bold;
+  margin: 1rem 0;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.custo-artigo .icon {
+  width: 20px;
+  height: 20px;
+}
+
+.botoes-artigo {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.botao-mais-detalhes {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  cursor: pointer;
+  flex: 1;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.botao-mais-detalhes:hover {
+  background-color: #e0e0e0;
+  transform: scale(1.02);
+}
+
+.botao-comprar {
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  cursor: pointer;
+  flex: 1;
+  font-size: 0.85rem;
+}
+
+.botao-comprar:hover {
+  background-color: #005fa3;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-box {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 300px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.popup-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.botao-confirmar {
+  background-color: green;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.botao-cancelar {
+  background-color: red;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.botao-confirmar:hover {
+  background-color: #009900;
+  transform: scale(1.05);
+}
+
+.botao-cancelar:hover {
+  background-color: #cc0000;
+  transform: scale(1.05);
+}
+
+.sem-favoritos {
+  text-align: center;
+  color: #777;
+  font-size: 1.2rem;
+  margin-top: 2rem;
+}
