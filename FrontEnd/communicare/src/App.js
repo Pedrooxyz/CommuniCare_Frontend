@@ -51,12 +51,6 @@ function App() {
         <Route path="/fgpassword" element={<ForgotPassword />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
 
-        {/* Rotas públicas */}
-        <Route path="/outrosPedidos" element={<OutrosVoluntariados />} />
-        <Route path="/maisInfoPedidos/:id" element={<MaisInfoPedidos />} />
-        <Route path="/outrosEmprestimos" element={<OutrosEmprestimos />} />
-        <Route path="/maisInfo/:id" element={<MaisInformacoes />} />
-
         {/* Rotas autenticadas com Sidebar */}
         <Route element={<AuthWrapper />}>
           <Route element={<SidebarLayout />}>
@@ -104,6 +98,10 @@ function App() {
               path="/detalhesArtigo/:artigoId"
               element={<DetalhesArtigo />}
             />
+            <Route path="/outrosPedidos" element={<OutrosVoluntariados />} />
+            <Route path="/maisInfoPedidos/:id" element={<MaisInfoPedidos />} />
+            <Route path="/outrosEmprestimos" element={<OutrosEmprestimos />} />
+            <Route path="/maisInfo/:id" element={<MaisInformacoes />} />
           </Route>
 
           <Route path="/profile" element={<Profile />} />
