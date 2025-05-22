@@ -125,12 +125,3 @@
   margin-top: 20px;
 }
 
-.popupAviso input[type="range"] {
-  width: 590px; /* largura fixa */
-  margin: 10px auto 20px auto; /* centra horizontalmente */
-  height: 6px;
-  border-radius: 5px;
-  background: #FFAEAE;
-  outline: none;
-  cursor: pointer;
-}

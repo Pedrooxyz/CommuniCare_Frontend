@@ -4,14 +4,78 @@ import { FaSearch, FaEdit, FaTrash } from "react-icons/fa";
 import { api } from "../../../utils/axios.js";
 import "./MeusEmprestimosPage.css";
 import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
-import Search from "../../../components/EmprestimosFiltros/EmprestimosFiltros.js";
+
 
 import cares from "../../../assets/Cares.png";
 import cortaRelva from "../../../assets/cortaRelva.jpg";
 import iconFallback from '../../../assets/icon.jpg';
 
 
-const ListaItems = ({ searchTerm, maxCares }) => {
+const Search = ({ searchTerm, setSearchTerm }) => {
+  const navigate = useNavigate();
+  const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null); 
+
+  const verificarTipoUtilizador = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await api.get("/Utilizadores/VerificarAdmin", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setUserTipoUtilizadorId(response.data); 
+    } catch (error) {
+      console.error("Erro ao verificar o tipo de utilizador", error);
+      setUserTipoUtilizadorId(false);
+    }
+  };
+
+  useEffect(() => {
+    verificarTipoUtilizador();
+  }, []);
+
+  const handleClickPendentes = () => {
+    if (userTipoUtilizadorId === true) {
+      navigate("/PendentesEmprestimos");
+    } else {
+      alert("Apenas administradores podem aceder a esta página!");
+    }
+  };
+
+  return (
+    <div>
+      <div className="mainName">
+        <h1>Empréstimos</h1>
+      </div>
+      <div className="tabs">
+        <div className="choose">
+          <button className="tab active" onClick={() => navigate("/meusEmprestimos")}>
+            Meus Empréstimos
+          </button>
+          <button className="tab" onClick={() => navigate("/outrosEmprestimos")}>Outros Emprestimos</button>
+          {userTipoUtilizadorId === true && (
+            <button className="tab" onClick={handleClickPendentes}>
+              Empréstimos Pendentes
+            </button>
+          )}
+        </div>
+        <div className="search-wrapper">
+          <input
+            type="text"
+            placeholder="Pesquisar..."
+            className="search"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
+          />
+          <FaSearch className="search-icon" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ListaItems = ({ searchTerm }) => {
   const [items, setItems] = useState([]);
   const [itensEmUso, setItensEmUso] = useState([]);
   const navigate = useNavigate();
@@ -63,7 +127,7 @@ const ListaItems = ({ searchTerm, maxCares }) => {
   const isItemEmUso = (item) => {
     return itensEmUso.some((itemUso) => itemUso.nomeItem === item.nomeItem);
   };
-    
+
   const concluirEmprestimo = async (itemId) => {
     try {
       const token = localStorage.getItem('token');
@@ -90,13 +154,9 @@ const ListaItems = ({ searchTerm, maxCares }) => {
     }
   };
 
-  const filteredItems = items.filter(item => {
-    const matchesSearch = item.nomeItem.toLowerCase().includes(searchTerm);
-
-    const matchesCares = !maxCares || item.comissaoCares <= maxCares;
-
-    return matchesSearch && matchesCares;
-  });
+  const filteredItems = items.filter(item =>
+    item.nomeItem.toLowerCase().includes(searchTerm)
+  );
 
   return (
     <div className="cards">
@@ -107,11 +167,6 @@ const ListaItems = ({ searchTerm, maxCares }) => {
         <div className="adicionarIcon">+</div>
       </div>
 
-      <Search 
-        maxCares={maxCares} 
-      />
-
-      <ListaItems searchTerm={searchTerm} maxCares={maxCares} />
       {filteredItems.map((item) => (
         <div className="card" key={item.itemId}>
           <div className="TitleOE">

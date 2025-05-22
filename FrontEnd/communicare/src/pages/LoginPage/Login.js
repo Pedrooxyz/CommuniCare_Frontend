@@ -7,7 +7,7 @@ import icon from '../../assets/icon.jpg';
 import { api } from '../../utils/axios.js';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
-import {PopUp} from '../../components/PopUpPage/PopUp.js';
+import PopUp from '../../components/PopUpPage/PopUp.js';
 
 
 const Header = () => {
