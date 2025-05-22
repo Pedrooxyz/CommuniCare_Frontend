@@ -53,11 +53,11 @@ const HeaderSecundario = ({ onValidarRequisicao, onValidarAquisicao, onValidarDe
 };
 
 const getImagemSrc = (foto) => {
-  return foto && foto.trim() && foto !== "null" && foto !== "string"
-    ? `data:image/jpeg;base64,${foto}`
-    : iconFallback;
-};
-
+    return foto && foto.trim() && foto !== "null" && foto !== "string"
+      ? `data:image/jpeg;base64,${foto}`
+      : iconFallback;
+  };
+  
 const ListaPedidos = () => {
   const [pedidos, setPedidos] = useState([]);
   const navigate = useNavigate();
@@ -149,7 +149,7 @@ const ListaPedidos = () => {
 };
 
 const ListaPedidosAquisicao = () => {
-  const [pedidos, setPedidos] = useState([]);
+  const [pedidosWithPhotos, setPedidos] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -197,7 +197,7 @@ const ListaPedidosAquisicao = () => {
 
   return (
     <div className="cards">
-      {pedidos.map((pedido) => (
+      {pedidosWithPhotos.map((pedido) => (
         <div className="card" key={pedido.pedidoId}>
           <div className="userTitleOE">
             <img
