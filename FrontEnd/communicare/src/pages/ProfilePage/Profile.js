@@ -44,9 +44,12 @@ const HeaderNot = () => {
   }, []);
 
   const handleLogout = () => {
+  const confirmLogout = window.confirm("Tem a certeza que deseja terminar sessão?");
+  if (confirmLogout) {
     localStorage.removeItem("token");
     navigate("/");
-  };
+  }
+};
 
   return (
     <header className="headerNot">

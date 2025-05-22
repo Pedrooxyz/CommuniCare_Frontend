@@ -72,8 +72,31 @@ const ListaPedidos = () => {
           },
         });
         console.log("Pedidos pendentes recebidos:", response.data);
-        setPedidos(response.data);
 
+        // Fetch photos for each pedido
+        const pedidosWithPhotos = await Promise.all(
+          response.data.map(async (pedido) => {
+            try {
+              const photoResponse = await api.get(`/PedidosAjuda/${pedido.pedidoId}/foto-dono`, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              });
+              console.log(`Foto do dono para pedido ${pedido.pedidoId}:`, photoResponse.data);
+              return {
+                ...pedido,
+                fotoDono: photoResponse.data && photoResponse.data.trim() && photoResponse.data !== "null"
+                  ? `http://localhost:5182/${photoResponse.data}`
+                  : iconFallback,
+              };
+            } catch (error) {
+              console.error(`Erro ao buscar foto do dono para pedido ${pedido.pedidoId}:`, error);
+              return { ...pedido, fotoDono: iconFallback };
+            }
+          })
+        );
+
+        setPedidos(pedidosWithPhotos);
       } catch (error) {
         console.error('Erro ao buscar os pedidos pendentes:', error);
       }
@@ -89,12 +112,12 @@ const ListaPedidos = () => {
           <div className="userTitleOE">
             <img
               className="imgUsers"
-              src="../../../assets/icon.jpg"
+              src={pedido.fotoDono}
               onError={(e) => {
-                e.target.onerror = null; 
-                e.target.src = '../../../../assets/icon.jpg';
+                e.target.onerror = null;
+                e.target.src = iconFallback;
               }}
-              alt="User"
+              alt="Foto do dono"
               width={70}
               height={70}
             />
@@ -104,14 +127,20 @@ const ListaPedidos = () => {
             className="imgItemOE"
             src={getImagemSrc(pedido.fotografiaPA)}
             alt={pedido.titulo}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = iconFallback;
+            }}
           />
-          <p>{pedido.descricao || "Sem descrição disponível."}</p>          
+          <p>{pedido.descricao || "Sem descrição disponível."}</p>
           <div className="infoItemOE">
             <span><FaCubes /> Voluntários: {pedido.numeroVoluntarios}</span>
             <span><FaCubes /> Horas: {pedido.nHoras}</span>
           </div>
           <div className="moreInfo">
-            <button onClick={() => navigate(`/pedidos/pendentes/mais-info/${pedido.pedidoId}`)}>Mais Informações</button>
+            <button onClick={() => navigate(`/pedidos/pendentes/mais-info/${pedido.pedidoId}`)}>
+              Mais Informações
+            </button>
           </div>
         </div>
       ))}
@@ -133,8 +162,31 @@ const ListaPedidosAquisicao = () => {
           },
         });
         console.log("Pedidos para validar voluntariado recebidos:", response.data);
-        setPedidos(response.data);
 
+        // Fetch photos for each pedido
+        const pedidosWithPhotos = await Promise.all(
+          response.data.map(async (pedido) => {
+            try {
+              const photoResponse = await api.get(`/PedidosAjuda/${pedido.pedidoId}/foto-dono`, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              });
+              console.log(`Foto do dono para pedido ${pedido.pedidoId}:`, photoResponse.data);
+              return {
+                ...pedido,
+                fotoDono: photoResponse.data && photoResponse.data.trim() && photoResponse.data !== "null"
+                  ? `http://localhost:5182/${photoResponse.data}`
+                  : iconFallback,
+              };
+            } catch (error) {
+              console.error(`Erro ao buscar foto do dono para pedido ${pedido.pedidoId}:`, error);
+              return { ...pedido, fotoDono: iconFallback };
+            }
+          })
+        );
+
+        setPedidos(pedidosWithPhotos);
       } catch (error) {
         console.error('Erro ao buscar os pedidos:', error);
       }
@@ -150,12 +202,12 @@ const ListaPedidosAquisicao = () => {
           <div className="userTitleOE">
             <img
               className="imgUsers"
-              src="../../../../assets/icon.jpg"
+              src={pedido.fotoDono}
               onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = '../../../../assets/icon.jpg';
+                e.target.src = iconFallback;
               }}
-              alt="User"
+              alt="Foto do dono"
               width={70}
               height={70}
             />
@@ -165,6 +217,10 @@ const ListaPedidosAquisicao = () => {
             className="imgItemOE"
             src={getImagemSrc(pedido.fotografiaPA)}
             alt={pedido.titulo}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = iconFallback;
+            }}
           />
           <p>{pedido.descricao || "Sem descrição disponível."}</p>
           <div className="infoItemOE">
@@ -172,7 +228,9 @@ const ListaPedidosAquisicao = () => {
             <span><FaCubes /> Horas: {pedido.nHoras}</span>
           </div>
           <div className="moreInfo">
-            <button onClick={() => navigate(`/pedidos/pendentes/mais-info2/${pedido.pedidoId}`)}>Mais Informações</button>
+            <button onClick={() => navigate(`/pedidos/pendentes/mais-info2/${pedido.pedidoId}`)}>
+              Mais Informações
+            </button>
           </div>
         </div>
       ))}
@@ -194,8 +252,31 @@ const ListaPedidosDevolucao = () => {
           },
         });
         console.log("Pedidos para validar conclusão recebidos:", response.data);
-        setPedidos(response.data);
 
+        // Fetch photos for each pedido
+        const pedidosWithPhotos = await Promise.all(
+          response.data.map(async (pedido) => {
+            try {
+              const photoResponse = await api.get(`/PedidosAjuda/${pedido.pedidoId}/foto-dono`, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              });
+              console.log(`Foto do dono para pedido ${pedido.pedidoId}:`, photoResponse.data);
+              return {
+                ...pedido,
+                fotoDono: photoResponse.data && photoResponse.data.trim() && photoResponse.data !== "null"
+                  ? `http://localhost:5182/${photoResponse.data}`
+                  : iconFallback,
+              };
+            } catch (error) {
+              console.error(`Erro ao buscar foto do dono para pedido ${pedido.pedidoId}:`, error);
+              return { ...pedido, fotoDono: iconFallback };
+            }
+          })
+        );
+
+        setPedidos(pedidosWithPhotos);
       } catch (error) {
         console.error('Erro ao buscar os pedidos:', error);
       }
@@ -211,12 +292,12 @@ const ListaPedidosDevolucao = () => {
           <div className="userTitleOE">
             <img
               className="imgUsers"
-              src="../../../../assets/icon.jpg" 
+              src={pedido.fotoDono}
               onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = '../../../../assets/icon.jpg';
+                e.target.src = iconFallback;
               }}
-              alt="User"
+              alt="Foto do dono"
               width={70}
               height={70}
             />
@@ -226,6 +307,10 @@ const ListaPedidosDevolucao = () => {
             className="imgItemOE"
             src={getImagemSrc(pedido.fotografiaPA)}
             alt={pedido.titulo}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = iconFallback;
+            }}
           />
           <p>{pedido.descricao || "Sem descrição disponível."}</p>
           <div className="infoItemOE">
@@ -233,7 +318,9 @@ const ListaPedidosDevolucao = () => {
             <span><FaCubes /> Horas: {pedido.nHoras}</span>
           </div>
           <div className="moreInfo">
-            <button onClick={() => navigate(`/pedidos/pendentes/mais-info3/${pedido.pedidoId}`)}>Mais Informações</button>
+            <button onClick={() => navigate(`/pedidos/pendentes/mais-info3/${pedido.pedidoId}`)}>
+              Mais Informações
+            </button>
           </div>
         </div>
       ))}
@@ -242,7 +329,7 @@ const ListaPedidosDevolucao = () => {
 };
 
 function PendentesPedidos() {
-  const [secaoAtiva, setSecaoAtiva] = useState(null); 
+  const [secaoAtiva, setSecaoAtiva] = useState(null);
   const [reloadKey, setReloadKey] = useState(0);
 
   const handleClick = (secao) => {
@@ -254,9 +341,9 @@ function PendentesPedidos() {
     <>
       <HeaderProfileCares />
       <Search />
-      <HeaderSecundario 
+      <HeaderSecundario
         secaoAtiva={secaoAtiva}
-        onValidarRequisicao={() => handleClick('validarRequisicao')} 
+        onValidarRequisicao={() => handleClick('validarRequisicao')}
         onValidarAquisicao={() => handleClick('validarAquisicao')}
         onValidarDevolucao={() => handleClick('validarConclusao')}
       />
@@ -267,6 +354,5 @@ function PendentesPedidos() {
     </>
   );
 }
-
 
 export default PendentesPedidos;
