@@ -67,7 +67,7 @@ const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
       try {
         const response = await api.delete(`/PedidosAjuda/${id}`);
         if (response.status === 204) {
-          setPedidos((prev) => prev.filter((p) => p.idPedido !== id));
+          setPedidos((prev) => prev.filter((p) => p.pedidoId !== id));
         } else {
           alert("Erro ao apagar o pedido.");
         }
@@ -86,7 +86,7 @@ const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
           
           setPedidos((prev) =>
             prev.map((p) =>
-              p.idPedido === id ? { ...p, estado: 4 } : p
+              p.pedidoId === id ? { ...p, estado: 4 } : p
             )
           );
         } else {
@@ -107,7 +107,7 @@ const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
       </div>
 
       {filteredPedidos.map((pedido) => (
-        <div className="card" key={pedido.idPedido}>
+        <div className="card" key={pedido.pedidoId}>
           <div className="TitleOE">
             <h2>{pedido.titulo}</h2>
           </div>
@@ -153,16 +153,16 @@ const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
             <div className="controlesAcao">
               {(pedido.estado === 0 || pedido.estado === 1) && (
                 <>
-                  <button className="EditDeleteButtons" onClick={() => handleEdit(pedido.idPedido)}>
+                  <button className="EditDeleteButtons" onClick={() => handleEdit(pedido.pedidoId)}>
                     <FaEdit />
                   </button>
-                  <button className="EditDeleteButtons" onClick={() => handleDelete(pedido.idPedido)}>
+                  <button className="EditDeleteButtons" onClick={() => handleDelete(pedido.pedidoId)}>
                     <FaTrash />
                   </button>
                 </>
               )}
               {pedido.estado === 2 && (
-                <button onClick={() => handleConcluir(pedido.idPedido)} className="concluir-button">
+                <button onClick={() => handleConcluir(pedido.pedidoId)} className="concluir-button">
                   Concluir
                 </button>
               )}
