@@ -13,7 +13,7 @@ import iconFallback from '../../../assets/icon.jpg';
 
 const Search = ({ searchTerm, setSearchTerm }) => {
   const navigate = useNavigate();
-  const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null); 
+  const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
 
   const verificarTipoUtilizador = async () => {
     try {
@@ -24,7 +24,7 @@ const Search = ({ searchTerm, setSearchTerm }) => {
         },
       });
 
-      setUserTipoUtilizadorId(response.data); 
+      setUserTipoUtilizadorId(response.data);
     } catch (error) {
       console.error("Erro ao verificar o tipo de utilizador", error);
       setUserTipoUtilizadorId(false);
@@ -189,42 +189,43 @@ const ListaItems = ({ searchTerm }) => {
             <span>
               Estado:
               <span
-                className={`estado-circle ${
-                  isItemEmUso(item)
-                    ? "em-uso"
-                    : item.disponivel === 1
+                className={`estado-circle ${isItemEmUso(item)
+                  ? "em-uso"
+                  : item.disponivel === 1
                     ? "disponivel"
                     : item.disponivel === 0
-                    ? "indisponivel"
-                    : item.disponivel === 2
-                    ? "permanentemente-indisponivel"
-                    : ""
-                }`}
+                      ? "indisponivel"
+                      : item.disponivel === 2
+                        ? "permanentemente-indisponivel"
+                        : ""
+                  }`}
               >
                 {isItemEmUso(item)
                   ? "Em Uso"
                   : item.disponivel === 1
-                  ? "Disponível"
-                  : item.disponivel === 0
-                  ? "Pendente"
-                  : item.disponivel === 2
-                  ? "Ind. Permanente"
-                  : ""}
+                    ? "Disponível"
+                    : item.disponivel === 0
+                      ? "Pendente"
+                      : item.disponivel === 2
+                        ? "Ind. Permanente"
+                        : ""}
               </span>
             </span>
             {isItemEmUso(item) && (
-              <button onClick={() => concluirEmprestimo(item.itemId)}>
+              <button onClick={() => concluirEmprestimo(item.itemId)} className="concluir-button">
                 Concluir
               </button>
             )}
-            <div className="controlesAcao">
-              <button className="EditDeleteButtonsME" onClick={() => handleEdit(item.itemId)}>
-                <FaEdit />
-              </button>
-              <button className="EditDeleteButtonsME" onClick={() => handleDelete(item.itemId)}>
-                <FaTrash />
-              </button>
-            </div>
+            {!isItemEmUso(item) && (item.disponivel === 1 || item.disponivel === 0) && (
+              <div className="controlesAcao">
+                <button className="EditDeleteButtonsME" onClick={() => handleEdit(item.itemId)} >
+                  <FaEdit />
+                </button>
+                <button className="EditDeleteButtonsME" onClick={() => handleDelete(item.itemId)}>
+                  <FaTrash />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       ))}
