@@ -32,6 +32,7 @@ import PendentesPedidos from "./pages/VoluntariadosPage/PendentesPedidoPage/Pend
 import PendentesPedidosMaisInformacoes1 from "./pages/VoluntariadosPage/PendentesPedidoPage/MaisInformacoes/MaisInformacoes";
 import PendentesPedidosMaisInformacoes2 from "./pages/VoluntariadosPage/PendentesPedidoPage/MaisInformacoes/MaisInfoValidarVoluntario";
 import PendentesPedidosMaisInformacoes3 from "./pages/VoluntariadosPage/PendentesPedidoPage/MaisInformacoes/MaisInfoValidarConclusao";
+import HistoricoTransacoes from "./pages/HistoricoTransacoes/HistoricoTransacoes";
 
 import Loja from "./pages/Loja/Loja";
 import PublicarArtigo from "./pages/PublicarArtigoPage/PublicarArtigo";
@@ -103,6 +104,7 @@ function App() {
             <Route path="/maisInfoPedidos/:id" element={<MaisInfoPedidos />} />
             <Route path="/outrosEmprestimos" element={<OutrosEmprestimos />} />
             <Route path="/maisInfo/:id" element={<MaisInformacoes />} />
+            <Route path="/HistoricoTransacoes" element={<HistoricoTransacoes />} />
           </Route>
 
           <Route path="/profile" element={<Profile />} />
