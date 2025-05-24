@@ -13,10 +13,8 @@ const Header = () => {
   return (
     <header className="notification-header">
       <div className="header-left">
-        <svg className="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-        <h1 className="header-title">Notificações</h1>
+        
+        <h1 className="header-title">Notificações não lidas</h1>
       </div>
       <div className="header-right">
         <div className="notification-bell" onClick={goToArchivedNotifications}> 
@@ -43,11 +41,11 @@ const Notification = ({ id, time, description, onMarkAsRead, isRead }) => {
       className={`notification-Card ${isRead ? 'notification-read' : ''}`}
       onClick={handleClick}
     >
-      <svg className="notification-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <svg className="notification-iconN" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3-7 3V5z"></path>
       </svg>
-      <div className="notification-content">
-        <p className="notification-time">{time || 'N/A'}</p>
+      <div className="notification-contentN">
+        <p className="notification-timeN">{time || 'N/A'}</p>
         <p className="notification-description">{description || 'Sem mensagem'}</p>
       </div>
     </div>

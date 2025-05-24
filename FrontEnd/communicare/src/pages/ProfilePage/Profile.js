@@ -4,9 +4,8 @@ import { FaPlus, FaChevronRight } from 'react-icons/fa';
 import React, { useState, useEffect } from "react";
 import { api } from '../../utils/axios.js';
 
-import msgNot from '../../assets/messageNotification.png';
+import defaultProfile from '../../assets/icon.jpg';
 import notification from '../../assets/notification.jpg';
-import person1 from '../../assets/person1.jpg';
 import plusP from '../../assets/plusProfile.png';
 import cares from '../../assets/Cares.png';
 import loja from '../../assets/loja.png';
@@ -53,40 +52,45 @@ const HeaderNot = () => {
 
   return (
     <header className="headerNot">
-      <div className="headerNot-container">
-        <div className="cares-section">
-          <img className="cares" src={cares} width={40} height={40} alt="Cares" />
-          <span>{userInfo ? userInfo.numCares : "..."}</span>
-        </div>
+  <div className="headerNot-container">
+    <div className="cares-section">
+      <img className="cares" src={cares} width={40} height={40} alt="Cares" />
+      <span>{userInfo ? userInfo.numCares : "..."}</span>
+    </div>
 
-        <div className="loja-section" onClick={() => navigate("/Loja")} style={{ cursor: "pointer" }}>
-          <img className="loja" src={loja} width={40} height={40} alt="Loja" />
-          <span><strong></strong></span>
-        </div>
+    <div className="loja-section" onClick={() => navigate("/Loja")} style={{ cursor: "pointer" }}>
+      <img className="loja icon-hover-effect" src={loja} width={40} height={40} alt="Loja" />
+      <span><strong></strong></span>
+    </div>
 
-        <button
-          className="imgButton"
-          onClick={() => navigate("/notificacoes")}
-          aria-label="Ver notificações"
-        >
-          <img
-            className="imgHeader"
-            src={notification}
-            width={40}
-            height={40}
-            alt="Notificações"
-          />
-        </button>
+    <button
+      className="imgButton"
+      onClick={() => navigate("/notificacoes")}
+      aria-label="Ver notificações"
+    >
+      <img
+        className="imgHeader icon-hover-effect"
+        src={notification}
+        width={40}
+        height={40}
+        alt="Notificações"
+      />
+    </button>
 
-        <button
-          className="logout-button"
-          onClick={handleLogout}
-          aria-label="Terminar sessão"
-        >
-          <img src={logoutIcon} alt="Logout" className="logout-icon" />
-        </button>
-      </div>
-    </header>
+    <button
+      className="logout-button"
+      onClick={handleLogout}
+      aria-label="Terminar sessão"
+      >
+      <img
+        src={logoutIcon}
+        alt="Logout"
+        className="logout-icon icon-hover-effect small-icon"
+      />
+    </button>
+  </div>
+</header>
+
   );
 };
 
@@ -235,12 +239,11 @@ const DadosUserPI = () => {
         <div className="IconProfile">
           <img
             className="icPerson"
-            src={`http://localhost:5182${userInfo?.fotoUtil}`}
-            width={190}
-            height={190}
-            alt="icProfile"
+            src={userInfo?.fotoUtil ? `http://localhost:5182${userInfo.fotoUtil}` : defaultProfile}
+            alt="Imagem de Perfil"
           />
-          <label htmlFor="file-input" className="iconplus">
+
+          <label htmlFor="file-input" className="iconplus1">
             <img src={plusP} width={45} height={45} alt="iconplus" />
           </label>
           <input

@@ -9,6 +9,7 @@ body {
   height: 100%;
   margin: 0;
   font-family: 'Arial', sans-serif;
+  
 }
 
 .bgImg {
@@ -92,16 +93,23 @@ body {
 }
 
 .notifications-container {
+  background-color: #f5f5f5; /* Cor sólida */
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  align-items: flex-start; /* garante alinhamento dos filhos à esquerda */
+  padding: 20px 40px;
   height: calc(100vh - 70px);
   overflow-y: auto;
+  max-width: 700px;         /* define uma largura máxima para não ocupar toda a tela */
+  margin-left: 0px;        /* espaço a partir da esquerda */
+  
 }
+
+
 
 .notification-Card {
   display: flex;
-  align-items: flex-start;
+  align-items: center; /* Centraliza verticalmente o ícone e o texto */
   background-color: rgba(255, 192, 203, 0.3);
   padding: 20px;
   border-radius: 10px;
@@ -114,7 +122,11 @@ body {
   cursor: pointer;
   transition: background-color 0.3s ease;
   position: relative;
+  gap: 8px; /* pequeno espaço entre ícone e descrição */
+  height: 100px;
 }
+
+
 
 .notification-Card:hover {
   background-color: #d4edda; 
@@ -125,28 +137,39 @@ body {
   border-left: 4px solid #28a745;
 }
 
-.notification-icon {
+.notification-iconN {
   width: 24px;
   height: 24px;
   color: #ff0000;
-  margin-right: 20px;
+  margin: 0; /* remove margem */
+  flex-shrink: 0;
+  margin-top: 5px;
 }
 
-.notification-content {
-  flex: 1;
+
+.notification-contentN {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
 }
 
-.notification-time {
+.notification-timeN {
   position: absolute;
   top: 10px;
   right: 20px;
   font-size: 0.9rem;
   color: #666;
+  margin-bottom: 50px; /* pequeno espaço abaixo das horas */
 }
+
 
 .notification-description {
   font-size: 1rem;
   color: #242323;
+  padding-left: 0px;
+  margin: 5px;
+  margin-top: 8px;
 }
 
 .notifications-page {
