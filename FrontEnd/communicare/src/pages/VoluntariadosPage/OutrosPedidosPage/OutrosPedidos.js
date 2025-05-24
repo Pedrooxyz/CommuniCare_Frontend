@@ -98,7 +98,6 @@ const ListaPedidos = () => {
             </div>
           </div>
 
-          {/* Botão Mais detalhes */}
           <div className="voluntariarButtonWrapper">
             <button
               className="voluntariarButton"

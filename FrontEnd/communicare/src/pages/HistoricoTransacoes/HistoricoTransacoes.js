@@ -1,102 +1,101 @@
-import "./HistoricoTransacoes.css";
-import { useState } from "react";
-import iconCC from "../../assets/iconCC.jpg";
-import backImage from '../../assets/back.jpg';
-import icon from '../../assets/icon.jpg';
-import { api } from '../../utils/axios.js';
+import { useEffect, useState } from 'react';
+import { api } from '../../utils/axios';
+import './HistoricoTransacoes.css';
 
-const Header = () => {
-  return (
-    <header className="header ep">
-      <img className="iconCC" src={iconCC} width={60} height={60} alt="IconCare" />
-    </header>
-  );
-};
-
-function HistoricoContent() {
-  const [utilizadorId, setUtilizadorId] = useState("");
+function HistoricoTransacoes() {
+  const [userInfo, setUserInfo] = useState(null);
   const [historico, setHistorico] = useState([]);
-  const [mensagemErro, setMensagemErro] = useState("");
-  const [carregando, setCarregando] = useState(false);
+  const [mensagemErro, setMensagemErro] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
-  const handleCarregar = async () => {
-    setMensagemErro("");
-    setHistorico([]);
-
-    if (!utilizadorId) {
-      setMensagemErro("Por favor insira o ID do utilizador.");
-      return;
-    }
-
-    setCarregando(true);
+  const fetchUserInfo = async () => {
     try {
-      const response = await api.get(`/Historico/${utilizadorId}`);
-      if (response.data.length === 0) {
-        setMensagemErro("Nenhum histórico encontrado.");
-      } else {
-        setHistorico(response.data);
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('Token de autenticação não encontrado.');
       }
+      const response = await api.get('/Utilizadores/InfoUtilizador', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setUserInfo(response.data);
     } catch (error) {
-      setMensagemErro("Erro ao carregar histórico.");
-    } finally {
-      setCarregando(false);
+      console.error('Erro ao buscar info do utilizador:', error);
+      setMensagemErro(error.message || 'Erro ao carregar informações do utilizador.');
+      setIsLoading(false);
     }
   };
 
+  const fetchHistorico = async (utilizadorId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await api.get(`Transacoes/Historico/${utilizadorId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setHistorico(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Erro ao carregar histórico:', error);
+      setMensagemErro(error.message || 'Erro ao carregar histórico de transações.');
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
+
+  useEffect(() => {
+    if (userInfo?.utilizadorId) {
+      fetchHistorico(userInfo.utilizadorId);
+    }
+  }, [userInfo]);
+
+  const handleRetry = () => {
+    setMensagemErro('');
+    setIsLoading(true);
+    fetchUserInfo();
+  };
+
   return (
-    <>
-      <div className="bgImg" style={{ backgroundImage: `url(${backImage})` }}></div>
-      <div className="container">
-        <h1 className="h1FP">Histórico de Transações</h1>
-        <img className="iconImage" src={icon} width={100} height={100} alt="Icon" />
-        <div className="form">
-          <input
-            className="inputDadosFP"
-            type="number"
-            placeholder="ID do Utilizador"
-            value={utilizadorId}
-            onChange={(e) => setUtilizadorId(e.target.value)}
-          />
-          <button className="buttonSubmit" onClick={handleCarregar} disabled={carregando}>
-            {carregando ? "A carregar..." : "Carregar Histórico"}
-          </button>
+    <div className="historico-container">
+      <h2>Histórico de Transações</h2>
 
-          {mensagemErro && <p className="pErros">{mensagemErro}</p>}
-
-          {historico.length > 0 && (
-            <table className="historico-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Tipo</th>
-                  <th>Data</th>
-                  <th>Carências</th>
-                </tr>
-              </thead>
-              <tbody>
-                {historico.map((item) => (
-                  <tr key={item.transacaoId}>
-                    <td>{item.transacaoId}</td>
-                    <td>{item.tipo}</td>
-                    <td>{item.data}</td>
-                    <td>{item.numeroCarenciasTransferido}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+      {mensagemErro && (
+        <div className="erro">
+          <p>{mensagemErro}</p>
+          <button onClick={handleRetry}>Tentar novamente</button>
         </div>
-      </div>
-    </>
-  );
-}
+      )}
 
-function HistoricoTransacoes() {
-  return (
-    <>
-      <Header />
-      <HistoricoContent />
-    </>
+      {isLoading && !mensagemErro && <p className="loading">A carregar histórico...</p>}
+
+      {!isLoading && !mensagemErro && historico.length === 0 && (
+        <p className="no-data">Nenhuma transação encontrada.</p>
+      )}
+
+      {!isLoading && historico.length > 0 && (
+        <table className="tabela-historico">
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Título</th>
+              <th>Data</th>
+              <th>Carências</th>
+            </tr>
+          </thead>
+          <tbody>
+            {historico.map((transacao) => (
+              <tr key={transacao.transacaoId}>
+                <td>{transacao.tipo.charAt(0).toUpperCase() + transacao.tipo.slice(1)}</td>
+                <td>{transacao.titulo || 'Sem título'}</td>
+                <td>{transacao.data}</td>
+                <td>{transacao.numeroCarenciasTransferido ?? 'N/A'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
   );
 }
 
