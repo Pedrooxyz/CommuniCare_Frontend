@@ -21,6 +21,7 @@
   display: flex;
   align-items: center;
   gap: 20px;
+  
 }
 
 .cares-section,
@@ -32,34 +33,40 @@
 
 .imgButton {
   border: none;
-  background: none;
+  background: none !important; /* <- força o fundo a ser transparente */
   cursor: pointer;
+  outline: none;
+  box-shadow: none;
+  padding: 0; /* <- remove espaço interno que pode dar impressão de fundo */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 
 .imgHeader {
   border-radius: 50%;
   border: none;
   outline: none;
   box-shadow: none;
+  background: none;
+  
 }
 
-.imgbutton {
-  border: none;
-  outline: none;
-  box-shadow: none;
-}
+
 
 .logout-button {
   border: none;
   padding: 8px;
-  border-radius: 12px;
+  border-radius: 100px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 60px;
   height: 60px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  background-color: white;
+  
 }
 
 
@@ -89,21 +96,39 @@ body {
   position: relative;
   width: 190px;
   height: 190px;
+  
 }
 
 .icPerson {
   border-radius: 100px;
   position: absolute;
   z-index: 1;
+  width: 190px;
+  height: 190px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
-.iconplus {
+.iconplus1 {
   border-radius: 100px;
   position: absolute;
   bottom: 0;
   right: 0;
   z-index: 2;
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }
+
+.iconplus1:hover {
+  transform: scale(1.1);
+}
+
+.iconplus1 img {
+  border-radius: 50%; /* Bordas 100% redondas */
+  border: 2px solid #ccc; /* Opcional: uma borda ao redor */
+  
+}
+
 
 .info {
   display: flex;
@@ -281,4 +306,21 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
   }
+}
+
+
+.icon-hover-effect {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 20%;
+}
+
+.icon-hover-effect:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.logout-icon.small-icon {
+  width: 35px;
+  height: 35px;
 }

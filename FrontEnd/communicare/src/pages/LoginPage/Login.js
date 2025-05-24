@@ -85,13 +85,20 @@ function DadosAuthentication() {
       }
 
     } catch (error) {
+  const status = error?.response?.status;
+  const msg = error?.response?.data?.message || error.message;
 
-      setErrorMessage(error?.response?.data?.message || error.message);
-      if (errorMessageRef.current) {
-        errorMessageRef.current.style.display = "block";
-      }
-      setIsLoggingIn(false);
-    }
+  if (status === 401 || status === 403) {
+    setErrorMessage("Password ou email inválidos");
+  } else {
+    setErrorMessage(msg);
+  }
+
+  if (errorMessageRef.current) {
+    errorMessageRef.current.style.display = "block";
+  }
+  setIsLoggingIn(false);
+}
   };
 
   return (
