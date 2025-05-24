@@ -33,7 +33,7 @@ const Search = ({ setSearchTerm }) => {
             type="text"
             placeholder="Pesquisar..."
             className="search1"
-            onChange={(e) => setSearchTerm(e.target.value)} 
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           <FaSearch className="search-icon1" />
         </div>
@@ -65,9 +65,10 @@ const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
   const handleDelete = async (id) => {
     if (window.confirm("Deseja apagar este pedido de ajuda?")) {
       try {
-        const response = await api.delete(`/PedidosAjuda/${id}`);
+        const response = await api.delete(`/PedidosAjuda/ApagarPedido/${id}`);
         if (response.status === 204) {
           setPedidos((prev) => prev.filter((p) => p.pedidoId !== id));
+          alert("Pedido apagado com sucesso!"); 
         } else {
           alert("Erro ao apagar o pedido.");
         }
@@ -78,12 +79,13 @@ const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
     }
   };
 
+
   const handleConcluir = async (id) => {
     if (window.confirm("Deseja concluir este pedido?")) {
       try {
         const response = await api.post(`/PedidosAjuda/ConcluirPedido/${id}`);
         if (response.status === 200) {
-          
+
           setPedidos((prev) =>
             prev.map((p) =>
               p.pedidoId === id ? { ...p, estado: 4 } : p
@@ -133,22 +135,22 @@ const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
             <span>
               Estado:{" "}
               <span
-              className={`estado-circlo ${pedido.estado === 0
-                ? "amarelo"
-                : pedido.estado === 1
-                  ? "verde"
-                  : pedido.estado === 2
-                    ? "azul"
-                    : pedido.estado === 3
-                      ? "vermelho"
-                      : ""
-                }`}
-            >
-              {pedido.estado === 0 && "Pendente"}
-              {pedido.estado === 1 && "Disponível"}
-              {pedido.estado === 2 && "Em Progresso"}
-              {pedido.estado === 3 && "Concluído"}
-            </span>
+                className={`estado-circlo ${pedido.estado === 0
+                  ? "amarelo"
+                  : pedido.estado === 1
+                    ? "verde"
+                    : pedido.estado === 2
+                      ? "azul"
+                      : pedido.estado === 3
+                        ? "vermelho"
+                        : ""
+                  }`}
+              >
+                {pedido.estado === 0 && "Pendente"}
+                {pedido.estado === 1 && "Disponível"}
+                {pedido.estado === 2 && "Em Progresso"}
+                {pedido.estado === 3 && "Concluído"}
+              </span>
 
             </span>
             <div className="controlesAcao">

@@ -12,6 +12,7 @@ import GerirUtilizadores from "./pages/Admin/GerirUtilizadores";
 import OutrosVoluntariados from "./pages/VoluntariadosPage/OutrosPedidosPage/OutrosPedidos";
 import MeusPedidos from "./pages/VoluntariadosPage/MeusPedidos/MeusPedidos";
 import MaisInfoPedidos from "./pages/VoluntariadosPage/OutrosPedidosPage/MaisInfoPedidos/MaisInfoPedidos";
+import EditarPedido from "./pages/VoluntariadosPage/EditarPedido/EditarPedido";
 
 import OutrosEmprestimos from "./pages/EmpretimosPage/OutrosEmprestimos/OutrosEmprestimos";
 import MaisInformacoes from "./pages/EmpretimosPage/OutrosEmprestimos/MaisInformacoes/MaisInformacoes";
@@ -94,6 +95,7 @@ function App() {
             />
 
             <Route path="/editarItem/:itemId" element={<EditarItem />} />
+            <Route path="/editarPedido/:pedidoId" element={<EditarPedido />} />
             <Route path="/pedirEmprestimo" element={<PedirEmprestimo />} />
             <Route path="/pedirVoluntariado" element={<PedirVoluntariado />} />
             <Route
