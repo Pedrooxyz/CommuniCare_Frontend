@@ -1,30 +1,81 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importar useNavigate
-import './NotificacoesArq.css';
-import { api } from '../../../utils/axios';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { api } from "../../../utils/axios.js";
+import iconFallback from "../../../assets/icon.jpg"; 
+import "./NotificacoesArq.css"; 
 
 const Header = () => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const [userPhoto, setUserPhoto] = useState(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await api.get('Utilizadores/InfoUtilizador', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const foto = response.data.fotoUtil
+          ? `http://localhost:5182/${response.data.fotoUtil}`
+          : null;
+        setUserPhoto(foto);
+      } catch (error) {
+        console.error('Erro ao carregar perfil do utilizador:', error.response?.data || error.message);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
 
   const goToNotifications = () => {
-    navigate('/notificacoes'); 
+    navigate('/notificacoes');
+  };
+
+  const goToProfile = () => {
+    navigate('/profile');
   };
 
   return (
     <header className="notification-header">
       <div className="header-left">
-        <svg className="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-        <h1 className="header-title">Notificações Arquivadas</h1>
+        <h1 className="header-title">Notificações Lidas</h1>
       </div>
       <div className="header-right">
         <div className="notification-bell" onClick={goToNotifications}>
-        <svg className="bell-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg className="bell-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
           </svg>
         </div>
-        <div className="user-profile"></div>
+        <div
+          className="user-profile"
+          onClick={goToProfile}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <img
+            src={userPhoto || iconFallback}
+            alt="Foto de Perfil"
+            className="user-profile-photo"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = iconFallback;
+            }}
+            style={{
+              width: "60px",
+              height: "60px",
+              borderRadius: "50%",
+              objectFit: "cover",
+              cursor: "pointer",
+              transition: "transform 0.3s ease, box-shadow 0.3s ease",
+              transform: isHovered ? "scale(1.1)" : "scale(1)",
+              boxShadow: isHovered ? "0 0 10px rgba(0,0,0,0.3)" : "none",
+              marginLeft: "10px",
+            }}
+          />
+        </div>
       </div>
     </header>
   );
@@ -53,7 +104,7 @@ const ArchivedNotificationsList = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await api.get('Notificacoes'); 
+        const response = await api.get('Notificacoes/NotificacoesLidas'); 
         console.log('Notificações arquivadas carregadas:', response.data);
         setNotifications(response.data);
       } catch (err) {
