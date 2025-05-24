@@ -112,8 +112,10 @@ function App() {
           <Route path="/profile" element={<Profile />} />
 
           <Route element={<AdminRouteWrapper />}>
-            <Route path="/publicarartigo" element={<PublicarArtigo />} />
-            <Route path="/GerirUtilizadores" element={<GerirUtilizadores />} />
+          <Route element={<SidebarLayout />}>
+          <Route path="/publicarartigo" element={<PublicarArtigo />} />
+          <Route path="/GerirUtilizadores" element={<GerirUtilizadores />} />
+          </Route>
           </Route>
         </Route>
       </Routes>
