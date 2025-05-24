@@ -147,6 +147,7 @@ const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
               {pedido.estado === 0 && "Pendente"}
               {pedido.estado === 1 && "Disponível"}
               {pedido.estado === 2 && "Em Progresso"}
+              {pedido.estado === 3 && "Concluído"}
             </span>
 
             </span>
