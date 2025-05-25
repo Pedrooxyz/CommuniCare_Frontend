@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Favoritos.css";
 import cares from "../../../assets/Cares.png";
+import coracaofv2 from "../../../assets/coracaofv2.jpg";  
 import { api } from "../../../utils/axios.js";
 import { useNavigate } from "react-router-dom";
 import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
@@ -36,6 +37,26 @@ function Favoritos() {
 
     fetchFavoritos();
   }, []);
+
+  const handleRemoverFavorito = async (artigoId) => {
+    try {
+      const token = localStorage.getItem("token");
+      await api.delete(`/Favoritos/${artigoId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setFavoritos(favoritos.filter((artigo) => artigo.artigoId !== artigoId));
+      alert("Artigo removido dos favoritos.");
+    } catch (error) {
+      console.error("Erro ao remover favorito:", error);
+      if (error.response?.status === 404) {
+        alert("Artigo não encontrado nos favoritos.");
+      } else {
+        alert("Erro ao remover artigo dos favoritos.");
+      }
+    }
+  };
 
   const handleComprar = (artigoId) => {
     setArtigoSelecionado(artigoId);
@@ -136,6 +157,14 @@ function Favoritos() {
           ) : (
             favoritos.map((artigo) => (
               <div key={artigo.artigoId} className="card-artigo">
+                <div className="favorito-icon">
+                  <img
+                    src={coracaofv2}
+                    alt="Remover dos favoritos"
+                    className="heart-icon"
+                    onClick={() => handleRemoverFavorito(artigo.artigoId)}
+                  />
+                </div>
                 <h3>{artigo.nomeArtigo}</h3>
                 <div className="img-artigo">
                   {artigo.fotografiaArt && artigo.fotografiaArt !== "string" ? (
