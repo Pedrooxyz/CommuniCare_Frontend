@@ -62,6 +62,7 @@ function Loja() {
         }
       );
       alert("Loja criada com sucesso!");
+      window.location.reload();
       setLojas((prev) => [...prev, response.data]);
       setNomeLoja("");
       setDescLoja("");
@@ -82,6 +83,7 @@ function Loja() {
         }
       );
       alert("Loja ativada com sucesso!");
+      window.location.reload();
       setLojas((prev) =>
         prev.map((loja) =>
           loja.id === id ? { ...loja, estado: "Ativo" } : loja
@@ -93,77 +95,81 @@ function Loja() {
   };
 
   return (
-    <div className="container-loja">
-      <HeaderProfileCares />
-      <h1 className="titulo-principal">Histórico de Lojas</h1>
+  <div className="container-loja">
+    <HeaderProfileCares />
+    <h1 className="titulo-principal">Histórico de Lojas</h1>
 
-      {isAdmin && !mostrarFormulario && (
-        <button
-          onClick={() => setMostrarFormulario(true)}
-          className="btn-criar-loja"
-        >
-          Criar Nova Loja
+    {isAdmin && !mostrarFormulario && (
+      <button
+        onClick={() => setMostrarFormulario(true)}
+        className="btn-criar-loja"
+      >
+        Criar Nova Loja
+      </button>
+    )}
+
+    {mostrarFormulario && (
+      <form onSubmit={handleCriarLoja} className="form-criar-loja">
+        <div>
+          <label htmlFor="nomeLoja">Nome da Loja:</label>
+          <input
+            type="text"
+            id="nomeLoja"
+            value={nomeLoja}
+            onChange={(e) => setNomeLoja(e.target.value)}
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="descLoja">Descrição da Loja:</label>
+          <textarea
+            id="descLoja"
+            value={descLoja}
+            onChange={(e) => setDescLoja(e.target.value)}
+            required
+          />
+        </div>
+
+        <button type="submit" className="btn-salvar">
+          Guardar Loja
         </button>
-      )}
-
-      {mostrarFormulario && (
-        <form onSubmit={handleCriarLoja} className="form-criar-loja">
-          <div>
-            <label htmlFor="nomeLoja">Nome da Loja:</label>
-            <input
-              type="text"
-              id="nomeLoja"
-              value={nomeLoja}
-              onChange={(e) => setNomeLoja(e.target.value)}
-              required
-            />
-          </div>
-
-          <div>
-            <label htmlFor="descLoja">Descrição da Loja:</label>
-            <textarea
-              id="descLoja"
-              value={descLoja}
-              onChange={(e) => setDescLoja(e.target.value)}
-              required
-            />
-          </div>
-
-          <button type="submit" className="btn-salvar">
-            Guardar Loja
-          </button>
-          <button
-            type="button"
-            className="btn-cancelar"
-            onClick={() => setMostrarFormulario(false)}
-          >
-            Cancelar
-          </button>
-        </form>
-      )}
-
-      <div className="lista-lojas">
-  {lojas.map((loja) => (
-    <div key={loja.lojaId} className="loja-item">
-      <span>{`${loja.nomeLoja}`}</span>
-
-      {loja.estado === 0 && isAdmin && (
         <button
-          onClick={() => handleAtivarLoja(loja.lojaId)}
-          className="btn-ativar"
+          type="button"
+          className="btn-cancelar"
+          onClick={() => {
+            setMostrarFormulario(false);
+          }}
         >
-          Ativar Loja
+          Cancelar
         </button>
-      )}
+      </form>
+    )}
 
-      {loja.estado === 1 && (
-        <span className="texto-ativada">Loja Ativada</span>
-      )}
+    <div className="lista-lojas">
+      {lojas.map((loja) => (
+        <div key={loja.lojaId} className="loja-item">
+          <span>{`${loja.nomeLoja}`}</span>
+
+          {loja.estado === 0 && isAdmin && (
+            <button
+              onClick={() => {
+                handleAtivarLoja(loja.lojaId);
+              }}
+              className="btn-ativar"
+            >
+              Ativar Loja
+            </button>
+          )}
+
+          {loja.estado === 1 && (
+            <span className="texto-ativada">Loja Ativada</span>
+          )}
+        </div>
+      ))}
     </div>
-  ))}
-</div>
-    </div>
-  );
+  </div>
+);
 }
 
 export default Loja;
