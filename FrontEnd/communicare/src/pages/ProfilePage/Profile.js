@@ -299,7 +299,7 @@ const DadosUserPI = () => {
               Pedir Ajuda <FaPlus style={{ marginLeft: '6px' }} />
             </button>
 
-            <button className="sub-action" onClick={() => navigate('/outrosPedidos')}>
+            <button className="sub-action" onClick={() => navigate('/MeusPedidos')}>
               Gerir Pedidos <FaChevronRight style={{ marginLeft: '6px' }} />
             </button>
           </div>
