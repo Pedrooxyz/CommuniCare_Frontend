@@ -11,7 +11,7 @@ import cares from '../../../../assets/Cares.png';
 
 import "./PendentesMaisInformacoes.css";
 
-// Função para tratar imagem do item com fallback
+
 const getImagemSrc = (fotoItem) => {
   if (fotoItem && fotoItem.trim() !== "" && fotoItem !== "null") {
     return `data:image/jpeg;base64,${fotoItem}`;
@@ -20,7 +20,7 @@ const getImagemSrc = (fotoItem) => {
   }
 };
 
-// Barra de pesquisa e navegação entre abas
+
 const Search = () => {
   const navigate = useNavigate();
   const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
@@ -163,7 +163,6 @@ const DetalhesItem = () => {
 
   return (
     <div className="detalhesContainer">
-      {/* Lado Esquerdo */}
       <div className="colunaEsquerda">
         <div className="userTitle">
           <img
@@ -200,7 +199,7 @@ const DetalhesItem = () => {
         </div>
       </div>
 
-      {/* Lado Direito */}
+      
       <div className="colunaDireita">
         <h2 className="tituloItem">{item.nomeItem}</h2>
         <div className="descricaoDetalhe">
@@ -212,7 +211,7 @@ const DetalhesItem = () => {
 };
 
 
-// Componente principal
+
 function MaisInformacoes() {
   return (
     <>

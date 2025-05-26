@@ -64,7 +64,30 @@ function App() {
             <Route path="/notificacoesarq" element={<NotificacoesArq />} />
             <Route path="/loja" element={<Loja />} />
             <Route path="/pendentesPedidos" element={<PendentesPedidos />} />
+            
+
+            <Route path="/editarItem/:itemId" element={<EditarItem />} />
+            <Route path="/editarPedido/:pedidoId" element={<EditarPedido />} />
+            <Route path="/pedirEmprestimo" element={<PedirEmprestimo />} />
+            <Route path="/pedirVoluntariado" element={<PedirVoluntariado />} />
             <Route
+              path="/detalhesArtigo/:artigoId"
+              element={<DetalhesArtigo />}
+            />
+            <Route path="/outrosPedidos" element={<OutrosVoluntariados />} />
+            <Route path="/maisInfoPedidos/:id" element={<MaisInfoPedidos />} />
+            <Route path="/outrosEmprestimos" element={<OutrosEmprestimos />} />
+            <Route path="/maisInfo/:id" element={<MaisInformacoes />} />
+            <Route path="/HistoricoTransacoes" element={<HistoricoTransacoes />} />
+          </Route>
+
+          <Route path="/profile" element={<Profile />} />
+
+          <Route element={<AdminRouteWrapper />}>
+          <Route element={<SidebarLayout />}>
+          <Route path="/publicarartigo" element={<PublicarArtigo />} />
+          <Route path="/GerirUtilizadores" element={<GerirUtilizadores />} />
+          <Route
               path="/pedidos/pendentes/mais-info/:id"
               element={<PendentesPedidosMaisInformacoes1 />}
             />
@@ -94,27 +117,6 @@ function App() {
               element={<PendentesMaisInformacoes3 />}
             />
 
-            <Route path="/editarItem/:itemId" element={<EditarItem />} />
-            <Route path="/editarPedido/:pedidoId" element={<EditarPedido />} />
-            <Route path="/pedirEmprestimo" element={<PedirEmprestimo />} />
-            <Route path="/pedirVoluntariado" element={<PedirVoluntariado />} />
-            <Route
-              path="/detalhesArtigo/:artigoId"
-              element={<DetalhesArtigo />}
-            />
-            <Route path="/outrosPedidos" element={<OutrosVoluntariados />} />
-            <Route path="/maisInfoPedidos/:id" element={<MaisInfoPedidos />} />
-            <Route path="/outrosEmprestimos" element={<OutrosEmprestimos />} />
-            <Route path="/maisInfo/:id" element={<MaisInformacoes />} />
-            <Route path="/HistoricoTransacoes" element={<HistoricoTransacoes />} />
-          </Route>
-
-          <Route path="/profile" element={<Profile />} />
-
-          <Route element={<AdminRouteWrapper />}>
-          <Route element={<SidebarLayout />}>
-          <Route path="/publicarartigo" element={<PublicarArtigo />} />
-          <Route path="/GerirUtilizadores" element={<GerirUtilizadores />} />
           </Route>
           </Route>
         </Route>

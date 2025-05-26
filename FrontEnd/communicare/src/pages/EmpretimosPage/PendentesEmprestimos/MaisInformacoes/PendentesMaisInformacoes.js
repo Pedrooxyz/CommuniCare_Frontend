@@ -137,7 +137,7 @@ const DetalhesItem = () => {
 
   return (
     <div className="detalhesContainer">
-      {/* Lado Esquerdo */}
+
       <div className="colunaEsquerda">
         <div className="userTitle">
           <img
@@ -175,7 +175,6 @@ const DetalhesItem = () => {
         </div>
       </div>
 
-      {/* Lado Direito */}
       <div className="colunaDireita">
         <h2 className="tituloItem">{item.nomeItem}</h2>
         <div className="descricaoDetalhe">

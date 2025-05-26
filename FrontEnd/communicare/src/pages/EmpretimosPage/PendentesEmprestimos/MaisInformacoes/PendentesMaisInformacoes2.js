@@ -11,7 +11,7 @@ import person1 from '../../../../assets/person1.jpg';
 
 import "./PendentesMaisInformacoes.css";
 
-// Função para tratar imagem do item com fallback
+
 const getImagemSrc = (fotoItem) => {
   if (fotoItem && fotoItem.trim() !== "" && fotoItem !== "null") {
     return `data:image/jpeg;base64,${fotoItem}`;
@@ -20,7 +20,7 @@ const getImagemSrc = (fotoItem) => {
   }
 };
 
-// Barra de pesquisa e navegação entre abas
+
 const Search = () => {
   const navigate = useNavigate();
   const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
@@ -71,7 +71,7 @@ const Search = () => {
   );
 };
 
-// Componente com os detalhes do item
+
 const DetalhesItem = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -153,7 +153,7 @@ const DetalhesItem = () => {
 
       console.log("Emprestimo ativo encontrado para rejeição:", emprestimoCorrespondente);
 
-      // Agora, rejeitar o empréstimo
+    
       await api.post(`/Emprestimos/RejeitarEmprestimo-(admin)/${emprestimoCorrespondente.emprestimoId}`, null, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -170,7 +170,7 @@ const DetalhesItem = () => {
 
   return (
     <div className="detalhesContainer">
-      {/* Lado Esquerdo */}
+
       <div className="colunaEsquerda">
         <div className="userTitle">
           <img
@@ -208,7 +208,7 @@ const DetalhesItem = () => {
         </div>
       </div>
 
-      {/* Lado Direito */}
+
       <div className="colunaDireita">
         <h2 className="tituloItem">{item.nomeItem}</h2>
         <div className="descricaoDetalhe">
@@ -220,7 +220,7 @@ const DetalhesItem = () => {
 };
 
 
-// Componente principal
+
 function MaisInformacoes() {
   return (
     <>
