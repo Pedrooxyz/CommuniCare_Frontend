@@ -32,7 +32,7 @@ body {
   z-index: 1; /* Garante que o header fique acima do fundo */
 }
 
-.header-left {
+.header-leftN {
   display: flex;
   align-items: center;
   flex: 1;
@@ -58,7 +58,7 @@ body {
   margin-right: 10px;
 }
 
-.header-right {
+.header-rightN {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -110,7 +110,7 @@ body {
   flex-direction: column;
   align-items: flex-start;
   padding: 20px 40px;
-  max-width: 1000px;
+  width: 100%;
   margin-left: 0px;
   height: auto; /* Remove altura fixa */
   overflow-y: visible; /* Remove rolagem própria */
@@ -203,7 +203,7 @@ body {
   margin-top: 20px;
 }
 
-.user-profile-photo {
+.user-profile-photoN {
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -213,7 +213,7 @@ body {
   margin-left: 10px;
 }
 
-.user-profile-photo:hover {
+.user-profile-photoN:hover {
   transform: scale(1.1);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
