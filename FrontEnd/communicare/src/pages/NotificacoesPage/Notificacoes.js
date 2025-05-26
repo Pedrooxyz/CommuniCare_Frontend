@@ -41,10 +41,10 @@ const Header = () => {
 
   return (
     <header className="notification-headerN">
-      <div className="header-left">
+      <div className="header-leftN">
         <h1 className="header-titleN">Notificações não lidas</h1>
       </div>
-      <div className="header-right">
+      <div className="header-rightN">
         <div className="notification-bellN" onClick={goToArchivedNotifications}> 
           <svg className="bell-iconN" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12V5a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v7a2 2 0 01-2 2H6a2 2 0 01-2-2v-7m16 0H4m8 4h.01"></path>
@@ -59,7 +59,7 @@ const Header = () => {
           <img
             src={userPhoto || iconFallback}
             alt="Foto de Perfil"
-            className="user-profile-photo"
+            className="user-profile-photoN"
             onClick={goToProfile}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
@@ -74,7 +74,6 @@ const Header = () => {
     </header>
   );
 };
-
 
 const Notification = ({ id, time, description, onMarkAsRead, isRead }) => {
   const handleClick = () => {

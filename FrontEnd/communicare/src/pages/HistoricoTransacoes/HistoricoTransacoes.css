@@ -1,10 +1,11 @@
 .historico-container {
   padding: 2rem;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   border-radius: 16px;
-  max-width: 800px;
-  margin: 0 auto;
-  font-family: Arial, sans-serif;
+  max-width: 900px;
+  margin: 1rem auto;  /* Reduz a margem para que o header fique mais próximo */
+  font-family: 'Arial', sans-serif;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
 .tabela-historico {
@@ -27,4 +28,9 @@
 .erro {
   color: red;
   font-weight: bold;
+}
+
+.titulo-historico{
+  display: flex;
+  justify-content: center;
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api } from '../../utils/axios';
 import './HistoricoTransacoes.css';
+import HeaderProfileCares from '../../components/HeaderProfile/headerProfile';
 
 function HistoricoTransacoes() {
   const [userInfo, setUserInfo] = useState(null);
@@ -57,9 +58,11 @@ function HistoricoTransacoes() {
   };
 
   return (
+  <div>
+    <HeaderProfileCares />
     <div className="historico-container">
-      <h2>Histórico de Transações</h2>
-
+      <h2 className="titulo-historico">Histórico de Transações</h2>
+      
       {mensagemErro && (
         <div className="erro">
           <p>{mensagemErro}</p>
@@ -80,7 +83,7 @@ function HistoricoTransacoes() {
               <th>Tipo</th>
               <th>Título</th>
               <th>Data</th>
-              <th>Carências</th>
+              <th>Cares</th>
             </tr>
           </thead>
           <tbody>
@@ -96,7 +99,8 @@ function HistoricoTransacoes() {
         </table>
       )}
     </div>
-  );
+  </div>
+);
 }
 
 export default HistoricoTransacoes;
