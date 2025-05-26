@@ -45,6 +45,9 @@ import AuthWrapper from "./utils/authWrapper";
 
 import SidebarLayout from "./components/Sidebar/SidebarLayout";
 
+import HistoricoLoja from "./pages/Loja/HistoricoLoja/HistoricoLoja";
+
+
 function App() {
   return (
     <BrowserRouter>
@@ -82,6 +85,8 @@ function App() {
           </Route>
 
           <Route path="/profile" element={<Profile />} />
+
+          <Route path="/HistoricoLojas" element={<HistoricoLoja />} />
 
           <Route element={<AdminRouteWrapper />}>
           <Route element={<SidebarLayout />}>
