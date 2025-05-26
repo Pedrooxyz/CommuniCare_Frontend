@@ -5,6 +5,7 @@ import { api } from '../../../utils/axios.js';
 import noImage from '../../../assets/icon.jpg';
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react"; 
+import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
 
 const EditarPerfil = () => {
   const navigate = useNavigate();
@@ -74,105 +75,103 @@ const EditarPerfil = () => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  console.log("Submit disparado");
-  try {
-    const token = localStorage.getItem("token");
+    e.preventDefault();
+    console.log("Submit disparado");
+    try {
+      const token = localStorage.getItem("token");
 
-    const dadosAlterados = {};
-    Object.keys(formData).forEach((key) => {
-      const valorAtual = formData[key]?.trim();
-      const valorOriginal = userInfo ? (userInfo[key] || "") : "";
+      const dadosAlterados = {};
+      Object.keys(formData).forEach((key) => {
+        const valorAtual = formData[key]?.trim();
+        const valorOriginal = userInfo ? (userInfo[key] || "") : "";
 
-      // Só adicionar se:
-      // 1. Está diferente do original
-      // 2. NÃO está vazio
-      if (valorAtual && valorAtual !== valorOriginal) {
-        dadosAlterados[key] = valorAtual;
+        if (valorAtual && valorAtual !== valorOriginal) {
+          dadosAlterados[key] = valorAtual;
+        }
+      });
+
+      console.log("Dados alterados:", dadosAlterados);
+
+      if (Object.keys(dadosAlterados).length === 0) {
+        alert("Não houve alterações para guardar.");
+        return;
       }
-    });
 
-    console.log("Dados alterados:", dadosAlterados);
+      const response = await api.put("/Utilizadores/EditarPerfil", dadosAlterados, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-    if (Object.keys(dadosAlterados).length === 0) {
-      alert("Não houve alterações para guardar.");
-      return;
+      console.log("Resposta da API:", response.data);
+      navigate("/profile");
+    } catch (error) {
+      console.error("Erro ao atualizar perfil:", error);
     }
-
-    const response = await api.put("/Utilizadores/EditarPerfil", dadosAlterados, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    console.log("Resposta da API:", response.data);
-    navigate("/profile");
-  } catch (error) {
-    console.error("Erro ao atualizar perfil:", error);
-  }
   };
 
   return (
-    <div className="centerPageEP">
-      <Link to="/profile" className="backArrowEP">
-        <ArrowLeft size={28} />
-      </Link>
+    <>
+      <HeaderProfileCares />
+      <div className="centerPageEP">
+        <Link to="/profile" className="backArrowEP">
+          <ArrowLeft size={28} />
+        </Link>
 
-      <div className="gridProfileEP">
-        <div className="cardProfileEP">
-          <h2 className="nameEP">Editar Perfil</h2>
+        <div className="gridProfileEP">
+          <div className="cardProfileEP">
+            <h2 className="nameEP">Editar Perfil</h2>
 
-          <form onSubmit={handleSubmit}>
-            <div className="formFieldEP">
-              <label htmlFor="nome">Nome</label>
-              <input
-                className="inputChangesEP"
-                type="text"
-                id="nome"
-                name="nome"
-                value={formData.nomeUtilizador}
-                onChange={handleChange}
-              />
-            </div>
+            <form onSubmit={handleSubmit}>
+              <div className="formFieldEP">
+                <label htmlFor="nome">Nome</label>
+                <input
+                  className="inputChangesEP"
+                  type="text"
+                  id="nome"
+                  name="nome"
+                  value={formData.nome}
+                  onChange={handleChange}
+                />
+              </div>
 
-            <div className="formFieldEP">
-              <label htmlFor="email">Email</label>
-              <input
-                className="inputChangesEP"
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-              />
-            </div>
+              <div className="formFieldEP">
+                <label htmlFor="email">Email</label>
+                <input
+                  className="inputChangesEP"
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+              </div>
 
-            <div className="formFieldEP">
-              <label htmlFor="telemovel">Contacto Telefónico</label>
-              <input
-                className="inputChangesEP"
-                type="text"
-                id="telemovel"
-                name="telemovel"
-                value={formData.telemovel}
-                onChange={handleChange}
-              />
-            </div>
+              <div className="formFieldEP">
+                <label htmlFor="telemovel">Contacto Telefónico</label>
+                <input
+                  className="inputChangesEP"
+                  type="text"
+                  id="telemovel"
+                  name="telemovel"
+                  value={formData.telemovel}
+                  onChange={handleChange}
+                />
+              </div>
 
-            <div className="formFieldEP">
-              <button type="submit" className="saveBtnEP">
-                Guardar Alterações
-              </button>
-            </div>
-          </form>
+              <div className="formFieldEP">
+                <button type="submit" className="saveBtnEP">
+                  Guardar Alterações
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
-
 
 function EditarPerfilPage() {
   return <EditarPerfil />;
 }
 
 export default EditarPerfilPage;
-

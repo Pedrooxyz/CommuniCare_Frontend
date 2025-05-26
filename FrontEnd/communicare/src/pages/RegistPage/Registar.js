@@ -1,5 +1,6 @@
 import "./Registar.css";
 import { useState, useEffect } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import iconCC from "../../assets/iconCC.jpg";
 import backImage from '../../assets/back.jpg';
 import icon from '../../assets/icon.jpg';
@@ -8,8 +9,8 @@ import { api } from '../../utils/axios.js';
 
 const Header = () => {
   return (
-    <header className="header reg">
-      <img className="iconCC" src={iconCC} width={60} height={60} alt="IconCare" />
+    <header className="headerR regR">
+      <img className="iconCCR" src={iconCC} width={60} height={60} alt="IconCare" />
     </header>
   );
 };
@@ -28,6 +29,7 @@ function DadosAuthentication() {
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -120,10 +122,10 @@ function DadosAuthentication() {
 
   return (
     <>
-      <div className="bgImg" style={{ backgroundImage: `url(${backImage})` }}></div>
-      <div className="container">
+      <div className="bgImgR" style={{ backgroundImage: `url(${backImage})` }}></div>
+      <div className="containerR">
         {Object.keys(formErrors).length === 0 && isSubmit ? (
-          <div className="message success">
+          <div className="messageR successR">
             Registo foi sucedido
           </div>
         ) : (
@@ -131,96 +133,107 @@ function DadosAuthentication() {
         )}
 
         <form onSubmit={handleSubmit}>
-          <h1 className="h1Reg">Registar</h1>
+          <h1 className="h1RegR">Registar</h1>
 
-          <img className="iconImage" src={icon} width={100} height={100} alt="Icon" />
+          <img className="iconImageR" src={icon} alt="Icon" />
 
-          <div className="divider"></div>
-          <div className="form">
+          <div className="dividerR"></div>
+          <div className="formR">
+            <div className="form-columnsR">
+              <div className="left-columnR">
+                <div className="fieldR">
+                  <input className="inputDadosRegR"
+                    type="text"
+                    name="nomeUtilizador"
+                    placeholder="Nome"
+                    value={formValues.nomeUtilizador}
+                    onChange={handleChange}
+                  />
+                </div>
+                <p className="pErrosR">{formErrors.nomeUtilizador}</p>
 
-            <div className="field">
-              <input className="inputDadosReg"
-                type="text"
-                name="nomeUtilizador"
-                placeholder="Nome"
-                value={formValues.nomeUtilizador}
-                onChange={handleChange}
-              />
+                <div className="fieldR">
+                  <input className="inputDadosRegR"
+                    type="text"
+                    name="email"
+                    placeholder="Email"
+                    value={formValues.email}
+                    onChange={handleChange}
+                  />
+                </div>
+                <p className="pErrosR">{formErrors.email}</p>
+
+                <div className="fieldR password-fieldR">
+                  <input className="inputDadosRegR"
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Password"
+                    value={formValues.password}
+                    onChange={handleChange}
+                    style={{ paddingRight: "40px" }}
+                  />
+                  <span
+                    className="passwordEyeR"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <FaEye /> : <FaEyeSlash />}
+                  </span>
+                </div>
+                <p className="pErrosR">{formErrors.password}</p>
+              </div>
+
+              <div className="right-columnR">
+                <div className="fieldR">
+                  <input className="inputDadosRegR"
+                    type="text"
+                    name="rua"
+                    placeholder="Rua"
+                    value={formValues.rua}
+                    onChange={handleChange}
+                  />
+                </div>
+                <p className="pErrosR">{formErrors.rua}</p>
+
+                <div className="fieldR">
+                  <input className="inputDadosRegR"
+                    type="text"
+                    name="numPorta"
+                    placeholder="Número da Porta"
+                    value={formValues.numPorta}
+                    onChange={handleChange}
+                  />
+                </div>
+                <p className="pErrosR">{formErrors.numPorta}</p>
+
+                <div className="fieldR">
+                  <input className="inputDadosRegR"
+                    type="text"
+                    name="cPostal"
+                    placeholder="Código Postal"
+                    value={formValues.cPostal}
+                    onChange={handleChange}
+                  />
+                </div>
+                <p className="pErrosR">{formErrors.cPostal}</p>
+
+                <div className="fieldR">
+                  <input className="inputDadosRegR"
+                    type="text"
+                    name="localidade"
+                    placeholder="Localidade"
+                    value={formValues.localidade}
+                    onChange={handleChange}
+                  />
+                </div>
+                <p className="pErrosR">{formErrors.localidade}</p>
+              </div>
             </div>
-            <p className="pErros">{formErrors.nomeUtilizador}</p>
 
-            <div className="field">
-              <input className="inputDadosReg"
-                type="text"
-                name="email"
-                placeholder="Email"
-                value={formValues.email}
-                onChange={handleChange}
-              />
+            <button className="buttonSubmitR" type="submit">Submeter</button>
+
+            <div className="textRegR">
+              Já possui conta? <Link className="regLinksR" to="/">Iniciar sessão</Link>
             </div>
-            <p className="pErros">{formErrors.email}</p>
-
-            <div className="field">
-              <input className="inputDadosReg"
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={formValues.password}
-                onChange={handleChange}
-              />
-            </div>
-            <p className="pErros">{formErrors.password}</p>
-
-            <div className="field">
-              <input className="inputDadosReg"
-                type="text"
-                name="rua"
-                placeholder="Rua"
-                value={formValues.rua}
-                onChange={handleChange}
-              />
-            </div>
-            <p className="pErros">{formErrors.rua}</p>
-
-            <div className="field">
-              <input className="inputDadosReg"
-                type="text"
-                name="numPorta"
-                placeholder="Número da Porta"
-                value={formValues.numPorta}
-                onChange={handleChange}
-              />
-            </div>
-            <p className="pErros">{formErrors.numPorta}</p>
-
-            <div className="field">
-              <input className="inputDadosReg"
-                type="text"
-                name="cPostal"
-                placeholder="Código Postal"
-                value={formValues.cPostal}
-                onChange={handleChange}
-              />
-            </div>
-            <p className="pErros">{formErrors.cPostal}</p>
-
-            <div className="field">
-              <input className="inputDadosReg"
-                type="text"
-                name="localidade"
-                placeholder="Localidade"
-                value={formValues.localidade}
-                onChange={handleChange}
-              />
-            </div>
-            <p className="pErros">{formErrors.localidade}</p>
-
-            <button className="buttonSubmit" type="submit">Submeter</button>
-
-            <div className="textReg">
-              Já possui conta? <Link className="regLinks" to="/">Iniciar sessão</Link>
-            </div>
-
           </div>
         </form>
       </div>
