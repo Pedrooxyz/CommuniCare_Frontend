@@ -45,6 +45,9 @@ import AuthWrapper from "./utils/authWrapper";
 
 import SidebarLayout from "./components/Sidebar/SidebarLayout";
 
+import HistoricoLoja from "./pages/Loja/HistoricoLoja/HistoricoLoja";
+
+
 function App() {
   return (
     <BrowserRouter>
@@ -79,9 +82,13 @@ function App() {
             <Route path="/outrosEmprestimos" element={<OutrosEmprestimos />} />
             <Route path="/maisInfo/:id" element={<MaisInformacoes />} />
             <Route path="/HistoricoTransacoes" element={<HistoricoTransacoes />} />
+                      <Route path="/HistoricoLojas" element={<HistoricoLoja />} />
+
           </Route>
 
           <Route path="/profile" element={<Profile />} />
+
+          <Route path="/HistoricoLojas" element={<HistoricoLoja />} />
 
           <Route element={<AdminRouteWrapper />}>
           <Route element={<SidebarLayout />}>
