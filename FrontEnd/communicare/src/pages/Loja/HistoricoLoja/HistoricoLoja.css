@@ -63,3 +63,84 @@
   background-color: #388e3c;
 }
 
+.form-criar-loja {
+  background-color: #f9f9f9; /* fundo claro */
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  max-width: 400px;
+  margin: 40px auto; /* auto nas laterais centra horizontalmente */
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Labels para ficarem em negrito e com espaçamento */
+.form-criar-loja label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  display: block;
+}
+
+/* Inputs e textarea com boa largura e padding */
+.form-criar-loja input[type="text"],
+.form-criar-loja textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  resize: vertical; /* só vertical para textarea */
+  box-sizing: border-box;
+}
+
+/* Botões com cores distintas e cursor pointer */
+.btn-salvar {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-salvar:hover {
+  background-color: #0056b3;
+}
+
+.btn-cancelar {
+  background-color: #6c757d;
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-cancelar:hover {
+  background-color: #5a6268;
+}
+
+/* Contêiner para o botão Criar Nova Loja */
+.btn-criar-loja {
+  display: block;        /* torna botão bloco para aplicar margin */
+  margin: 20px auto;     /* auto nas laterais centra horizontalmente */
+  padding: 10px 20px;
+  font-weight: 600;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  max-width: 200px;
+  text-align: center;
+}
+
+.btn-criar-loja:hover {
+  background-color: #0056b3;
+}
