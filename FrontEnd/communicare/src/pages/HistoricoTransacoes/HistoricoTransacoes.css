@@ -1,36 +1,97 @@
+/* Container principal da página */
+.pagina-historico {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  gap: 50px;
+}
+
+.titulo-historico-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 1rem 2rem;
+  margin: 1rem auto; /* Reduzida a margem externa */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+}
+
+.titulo-historico {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
+/* Container da tabela e mensagens */
 .historico-container {
   padding: 2rem;
   background-color: #ffffff;
   border-radius: 16px;
   max-width: 900px;
-  margin: 1rem auto;  /* Reduz a margem para que o header fique mais próximo */
+  width: 90%;
   font-family: 'Arial', sans-serif;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
+/* Tabela */
 .tabela-historico {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .tabela-historico th,
 .tabela-historico td {
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   padding: 0.75rem;
   text-align: center;
 }
 
 .tabela-historico th {
-  background-color: #eee;
+  background-color: #f0f0f0;
+  font-weight: bold;
+  color: #555;
 }
 
+.tabela-historico tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Mensagens de erro e estado */
 .erro {
   color: red;
   font-weight: bold;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
-.titulo-historico{
-  display: flex;
-  justify-content: center;
+.loading,
+.no-data {
+  text-align: center;
+  font-style: italic;
+  color: #666;
+}
+
+/* Botão para tentar novamente */
+.erro button {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #ff4d4d;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.erro button:hover {
+  background-color: #e60000;
 }
