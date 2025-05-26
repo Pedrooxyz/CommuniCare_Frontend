@@ -12,16 +12,17 @@ body {
   font-family: Arial, sans-serif;
 }
 
-.header {
+.headerR {
   margin-bottom: 0;
   position: relative;
+  
 }
 
-.iconCC {
+.iconCCR {
   border-radius: 50%;
 }
 
-.bgImg {
+.bgImgR {
   position: fixed;
   top: 0;
   left: 0;
@@ -33,30 +34,43 @@ body {
   background-size: cover;
 }
 
-.container {
+.containerR {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  padding-top: 0px; /* Move content closer to the top */
+  min-height: auto; /* Remove 100vh to avoid forcing vertical centering */
 }
 
-.h1Reg {
+.h1RegR {
   margin-top: 0;
   margin-bottom: 20px;
-  text-align: center;
+  
 }
 
-.container > form {
-  background-color: rgba(222, 226, 234, 0.85);
+.containerR > form {
+  background-color: rgba(222, 226, 234, 0.70);
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;
   padding: 30px;
   border-radius: 15px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  margin-top: 0; /* Ensure no extra margin pushes it down */
 }
 
-.inputDadosReg {
+.form-columnsR {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.left-columnR,
+.right-columnR {
+  flex: 1;
+  min-width: 0; /* Prevents overflow */
+}
+
+.inputDadosRegR {
   background-color: rgba(124, 125, 126, 0.7);
   color: #000000;
   padding: 12px;
@@ -67,54 +81,57 @@ body {
   transition: border-color 0.3s ease;
 }
 
-.inputDadosReg:focus {
+.inputDadosRegR:focus {
   border-color: #2cd084;
   outline: none;
 }
 
-.inputDadosReg::placeholder {
+.inputDadosRegR::placeholder {
   color: #000000;
   opacity: 0.8;
 }
 
-.iconImage {
+.iconImageR {
   display: block;
-  margin: 20px auto;
+  margin: 0px auto 30px;
   width: 100px;
   height: 100px;
   border-radius: 50%;
 }
 
-.buttonSubmit {
+.buttonSubmitR {
   background: #2cd084 !important;
   padding: 10px;
   border-radius: 10px;
   width: 100%;
+  max-width: 200px; /* Limit width for centering */
   text-align: center;
   border: 1px solid green;
   cursor: pointer;
-  font-weight: bold;
+ 
   transition: background 0.3s ease;
+  display: block;
+  margin: 20px auto; /* Center the button */
 }
 
-.buttonSubmit:hover {
+.buttonSubmitR:hover {
   background: #26b872 !important;
 }
 
-.pErros {
+.pErrosR {
   color: rgb(255, 0, 0);
   font-size: 0.9em;
   margin-top: -8px;
   margin-bottom: 8px;
 }
 
-.textReg {
+.textRegR {
   text-align: center;
   margin-top: 15px;
   color: #242323;
 }
 
-.regLinks {
+.regLinksR {
   color: #242323;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -122,12 +139,12 @@ body {
   font-weight: bold;
 }
 
-.regLinks:hover {
+.regLinksR:hover {
   color: rgb(0, 95, 236);
   text-decoration: underline;
 }
 
-.message.success {
+.messageR.successR {
   background-color: rgba(44, 208, 132, 0.9);
   color: white;
   padding: 12px;
@@ -135,4 +152,28 @@ body {
   border-radius: 10px;
   text-align: center;
   font-weight: bold;
+}
+
+.password-fieldR {
+  position: relative;
+}
+
+.password-fieldR input {
+  padding-right: 40px;
+}
+
+.passwordEyeR {
+  position: absolute;
+  right: 10px;
+  top: 40%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #333;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+}
+
+.passwordEyeR:hover {
+  color: #000;
 }

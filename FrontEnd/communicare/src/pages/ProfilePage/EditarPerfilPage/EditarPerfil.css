@@ -3,37 +3,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.infoEP {
-  margin-bottom: 0px;
-  display: flex;
-  justify-content: center;
-}
-
-.IconProfileEP {
-  display: flex;
-  justify-content: center;
-}
-
-.icPersonEP {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  object-fit: cover;
-  cursor: pointer;
-  border: 2px solid #ccc;
-  transition: transform 0.2s ease;
-  margin: 30px;
-}
-
-.icPersonEP:hover {
-  transform: scale(1.05);
+  min-height: 100vh; /* Keep to ensure page takes full height */
 }
 
 .gridProfileEP {
   margin: 0 auto;
   width: 30%;
+  margin-top: 10px; /* Move cardProfileEP lower */
 }
 
 .cardProfileEP {
@@ -90,12 +66,10 @@
   margin-top: 20px;
   font-size: 15px;
   font-weight: bold;
-  
 }
 
-
 .saveBtnEP:hover {
-  background-color: rgb(93, 200, 91); 
+  background-color: rgb(93, 200, 91);
   transition: background-color 0.3s ease;
 }
 
@@ -112,4 +86,31 @@
 .backArrowEP:hover {
   transform: scale(1.1);
   color: #555;
+}
+
+/* Unused styles preserved for potential future use */
+.infoEP {
+  margin-bottom: 0px;
+  display: flex;
+  justify-content: center;
+}
+
+.IconProfileEP {
+  display: flex;
+  justify-content: center;
+}
+
+.icPersonEP {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid #ccc;
+  transition: transform 0.2s ease;
+  margin: 30px;
+}
+
+.icPersonEP:hover {
+  transform: scale(1.05);
 }

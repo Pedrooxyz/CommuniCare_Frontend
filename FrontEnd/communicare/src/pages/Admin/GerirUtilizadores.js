@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./GerirUtilizadores.css";
 import { api } from "../../utils/axios";
+import HeaderProfileCares from "../../components/HeaderProfile/headerProfile.js";
 
 function GerirUtilizadoresPendentes() {
   const [pendentes, setPendentes] = useState([]);
@@ -26,7 +27,6 @@ function GerirUtilizadoresPendentes() {
   useEffect(() => {
     fetchPendentes();
   }, []);
-
 
   const aprovarUtilizador = async (id) => {
     if (!window.confirm("Tem certeza que quer aprovar este utilizador?")) return;
@@ -58,38 +58,41 @@ function GerirUtilizadoresPendentes() {
 
   return (
     <div className="container-gerir-utilizadores">
-      <h1 className="titulo-principal">Gerir Utilizadores Pendentes</h1>
+      <HeaderProfileCares />
+      <h1 className="titulo-principalG">Gerir Utilizadores Pendentes</h1>
 
       {isLoading ? (
         <p>A carregar utilizadores...</p>
       ) : pendentes.length === 0 ? (
         <p>Não há utilizadores pendentes de aprovação.</p>
       ) : (
-        <table className="tabela-utilizadores">
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>Rua</th>
-              <th>Nº Porta</th>
-              <th>Código Postal</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pendentes.map((u) => (
-              <tr key={u.utilizadorId}>
-                <td>{u.nomeUtilizador}</td>
-                <td>{u.morada?.rua || "Sem rua"}</td>
-                <td>{u.morada?.numPorta || "Sem nº porta"}</td>
-                <td>{u.morada?.cPostal || "Sem código postal"}</td>
-                <td>
-                  <button className="btn-aprovar" onClick={() => aprovarUtilizador(u.utilizadorId)}>Aprovar</button>
-                  <button className="btn-rejeitar" onClick={() => rejeitarUtilizador(u.utilizadorId)}>Rejeitar</button>
-                </td>
+        <div className="tabela-container">
+          <table className="tabela-utilizadores">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Rua</th>
+                <th>Nº Porta</th>
+                <th>Código Postal</th>
+                <th>Ações</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {pendentes.map((u) => (
+                <tr key={u.utilizadorId}>
+                  <td>{u.nomeUtilizador}</td>
+                  <td>{u.morada?.rua || "Sem rua"}</td>
+                  <td>{u.morada?.numPorta || "Sem nº porta"}</td>
+                  <td>{u.morada?.cPostal || "Sem código postal"}</td>
+                  <td className="AprovarRejeitar">
+                    <button className="btn-aprovar" onClick={() => aprovarUtilizador(u.utilizadorId)}>Aprovar</button>
+                    <button className="btn-rejeitar" onClick={() => rejeitarUtilizador(u.utilizadorId)}>Rejeitar</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

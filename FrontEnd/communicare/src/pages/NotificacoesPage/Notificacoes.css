@@ -3,17 +3,15 @@
 }
 
 body {
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  height: 100%;
+  overflow-y: auto; /* Garante que o body controle a rolagem */
+  height: 100vh; /* Define a altura total da janela */
   margin: 0;
+  position: relative; /* Garante que o conteúdo fique dentro do fluxo */
   font-family: 'Arial', sans-serif;
-  
 }
 
 .bgImg {
-  position: fixed;
+  position: fixed; /* Mantém o fundo fixo, mas não interfere na rolagem */
   top: 0;
   left: 0;
   width: 100%;
@@ -24,14 +22,14 @@ body {
   background-size: cover;
 }
 
-.notification-header {
+.notification-headerN {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
-  background-color: rgba(222, 226, 234, 0.9);
-  margin-bottom: 0;
-  position: relative;
+  padding: 15px 30px;
+  position: relative; /* Necessário para posicionar o título de forma absoluta */
+  margin-bottom: 40px;
+  z-index: 1; /* Garante que o header fique acima do fundo */
 }
 
 .header-left {
@@ -40,11 +38,18 @@ body {
   flex: 1;
 }
 
-.header-title {
-  text-align: center;
-  flex-grow: 1;
-  font-size: 24px;
+.header-titleN {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 50%;
+  transform: translate(-50%, -50%); /* Alinha centro vertical e horizontal */
+  font-size: 35px;
   font-weight: bold;
+  background-color: rgba(222, 226, 234, 0.9);
+  padding: 20px 50px;
+  border-radius: 10px;
+  white-space: nowrap;
 }
 
 .menu-icon {
@@ -59,15 +64,22 @@ body {
   align-items: center;
 }
 
-.notification-bell {
+.notification-bellN {
   position: relative;
   margin-right: 15px;
 }
 
-.bell-icon {
-  width: 24px;
-  height: 24px;
+.bell-iconN {
+  width: 30px;
+  height: 30px;
   cursor: pointer;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bell-iconN:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .bell-badge {
@@ -92,22 +104,31 @@ body {
   background-color: #d3d3d3;
 }
 
-.notifications-container {
-  background-color: #f5f5f5; /* Cor sólida */
+.notifications-containerN {
+  background-color: #f5f5f5;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* garante alinhamento dos filhos à esquerda */
+  align-items: flex-start;
   padding: 20px 40px;
-  height: calc(100vh - 70px);
-  overflow-y: auto;
-  max-width: 700px;         /* define uma largura máxima para não ocupar toda a tela */
-  margin-left: 0px;        /* espaço a partir da esquerda */
-  
+  max-width: 1000px;
+  margin-left: 0px;
+  height: auto; /* Remove altura fixa */
+  overflow-y: visible; /* Remove rolagem própria */
 }
 
+.notifications-pageN {
+  min-height: 100vh;
+  background-color: rgba(245, 245, 245, 0.95);
+  overflow-y: auto; /* Controle de rolagem da página inteira */
+  position: relative;
+  width: 100%; /* Garante que ocupe toda a largura */
+}
 
+.notifications-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari e Opera */
+}
 
-.notification-Card {
+.notification-CardN {
   display: flex;
   align-items: center; /* Centraliza verticalmente o ícone e o texto */
   background-color: rgba(255, 192, 203, 0.3);
@@ -122,14 +143,13 @@ body {
   cursor: pointer;
   transition: background-color 0.3s ease;
   position: relative;
-  gap: 8px; /* pequeno espaço entre ícone e descrição */
+  gap: 20px; /* pequeno espaço entre ícone e descrição */
   height: 100px;
+  
 }
 
-
-
-.notification-Card:hover {
-  background-color: #d4edda; 
+.notification-CardN:hover {
+  background-color: #d4edda;
 }
 
 .notification-read {
@@ -146,12 +166,10 @@ body {
   margin-top: 5px;
 }
 
-
 .notification-contentN {
   display: flex;
   flex-direction: column;
   justify-content: center;
-
 }
 
 .notification-timeN {
@@ -163,18 +181,12 @@ body {
   margin-bottom: 50px; /* pequeno espaço abaixo das horas */
 }
 
-
-.notification-description {
-  font-size: 1rem;
+.notification-descriptionN {
+  font-size: 1.1rem;
   color: #242323;
   padding-left: 0px;
   margin: 5px;
   margin-top: 8px;
-}
-
-.notifications-page {
-  min-height: 100vh;
-  background-color: rgba(245, 245, 245, 0.95);
 }
 
 .error-message {
@@ -189,4 +201,19 @@ body {
   color: #666;
   font-size: 1rem;
   margin-top: 20px;
+}
+
+.user-profile-photo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-left: 10px;
+}
+
+.user-profile-photo:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
