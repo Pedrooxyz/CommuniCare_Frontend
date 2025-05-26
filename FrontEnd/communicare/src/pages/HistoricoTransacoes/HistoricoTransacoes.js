@@ -58,11 +58,14 @@ function HistoricoTransacoes() {
   };
 
   return (
-  <div>
+  <div className="pagina-historico">
     <HeaderProfileCares />
-    <div className="historico-container">
+
+    <div className="titulo-historico-container">
       <h2 className="titulo-historico">Histórico de Transações</h2>
-      
+    </div>
+
+    <div className="historico-container">
       {mensagemErro && (
         <div className="erro">
           <p>{mensagemErro}</p>
