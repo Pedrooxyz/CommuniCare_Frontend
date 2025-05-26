@@ -10,37 +10,74 @@ import iconFallback from "../../../assets/icon.jpg";
 
 
 
-const Search = ({ setSearchTerm }) => {
+const Search = ({ searchTerm, setSearchTerm }) => {
   const navigate = useNavigate();
+  const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
+
+  const verificarTipoUtilizador = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await api.get("/Utilizadores/VerificarAdmin", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setUserTipoUtilizadorId(response.data);
+    } catch (error) {
+      console.error("Erro ao verificar o tipo de utilizador", error);
+      setUserTipoUtilizadorId(false);
+    }
+  };
+
+  useEffect(() => {
+    verificarTipoUtilizador();
+  }, []);
+
+  const handleClickPendentes = () => {
+    if (userTipoUtilizadorId === true) {
+      navigate("/pendentesPedidos");
+    } else {
+      alert("Apenas administradores podem aceder a esta página!");
+    }
+  };
 
   return (
     <div>
       <div className="mainName">
         <h1>Voluntariados</h1>
       </div>
-      <div className="tabs1">
-        <div className="choose1">
-          <button className="tab1 active" onClick={() => navigate("/meusPedidos")}>
+
+      <div className="tabs">
+        <div className="choose">
+          <button className="tab active" onClick={() => navigate("/meusPedidos")}>
             Meus Pedidos
           </button>
-          <button className="tab1" onClick={() => navigate("/outrosPedidos")}>
+          <button className="tab" onClick={() => navigate("/outrosPedidos")}>
             Outros Pedidos
           </button>
-          <button className="tab" onClick={() => navigate("/pendentesPedidos")}>Pedidos Pendentes</button>
+          {userTipoUtilizadorId === true && (
+            <button className="tab" onClick={handleClickPendentes}>
+              Pedidos Pendentes
+            </button>
+          )}
         </div>
-        <div className="search-wrapper1">
+
+        <div className="search-wrapper">
           <input
             type="text"
             placeholder="Pesquisar..."
-            className="search1"
-            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
           />
-          <FaSearch className="search-icon1" />
+          <FaSearch className="search-icon" />
         </div>
       </div>
     </div>
   );
 };
+
 
 
 const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
