@@ -43,27 +43,33 @@ const getImagemSrc = (foto) => {
 
 const ListaPedidos = () => {
   const [pedidos, setPedidos] = useState([]);
-  const [fotosUtilizadores, setFotosUtilizadores] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPedidos = async () => {
       try {
         const response = await api.get("PedidosAjuda/PedidosDisponiveis");
-        setPedidos(response.data);
+        const pedidosData = response.data;
 
-        for (const pedido of response.data) {
-          try {
-            const fotoResponse = await api.get(`PedidosAjuda/${pedido.pedidoId}/foto-requerente`);
-            const urlFoto = `http://localhost:5182/${fotoResponse.data}`;
-            setFotosUtilizadores(prev => ({
-              ...prev,
-              [pedido.pedidoId]: urlFoto
-            }));
-          } catch (error) {
-            console.error(`Erro ao carregar foto do utilizador ${pedido.pedidoId}`, error);
-          }
-        }
+        // Buscar as fotos do dono
+        const pedidosWithPhotos = await Promise.all(
+          pedidosData.map(async (pedido) => {
+            try {
+              const fotoResponse = await api.get(`PedidosAjuda/${pedido.pedidoId}/foto-dono`);
+              return {
+                ...pedido,
+                fotoDono: fotoResponse.data && fotoResponse.data.trim() && fotoResponse.data !== "null"
+                  ? `http://localhost:5182/${fotoResponse.data}`
+                  : iconFallback,
+              };
+            } catch (error) {
+              console.error(`Erro ao buscar foto do dono para pedido ${pedido.pedidoId}:`, error);
+              return { ...pedido, fotoDono: iconFallback };
+            }
+          })
+        );
+
+        setPedidos(pedidosWithPhotos);
       } catch (error) {
         console.error("Erro ao buscar pedidos disponíveis:", error);
       }
@@ -76,13 +82,28 @@ const ListaPedidos = () => {
     <div className="cards">
       {pedidos.map((pedido) => (
         <div className="card" key={pedido.pedidoId}>
-          <div className="TitleOE">
+          <div className="userTitleOE">
+            <img
+              className="imgUsers"
+              src={pedido.fotoDono}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = iconFallback;
+              }}
+              alt="Foto do dono"
+              width={70}
+              height={70}
+            />
             <h2>{pedido.titulo}</h2>
           </div>
           <img
             className="imgItemOE"
             src={getImagemSrc(pedido.fotografiaPA)}
             alt={pedido.titulo}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = iconFallback;
+            }}
           />
           <div className="desc">
             <h4 className="descP">{pedido.descPedido || "Sem descrição."}</h4>
@@ -97,7 +118,6 @@ const ListaPedidos = () => {
               <img src={cares} alt="Cares" className="caresIcon" />
             </div>
           </div>
-
           <div className="voluntariarButtonWrapper">
             <button
               className="voluntariarButton"
@@ -111,6 +131,7 @@ const ListaPedidos = () => {
     </div>
   );
 };
+
 
 
 function OutrosPedidos() {

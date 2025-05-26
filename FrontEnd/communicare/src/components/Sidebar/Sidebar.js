@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { FaBars, FaBox, FaHandHoldingHeart, FaStore, FaUser, FaBell, FaHeart, FaHistory  } from 'react-icons/fa';
+import { FaBars, FaBox, FaHandHoldingHeart, FaStore, FaUser, FaBell, FaHeart, FaHistory } from 'react-icons/fa';
 import './Sidebar.css';
 
 const Sidebar = () => {
@@ -24,27 +24,26 @@ const Sidebar = () => {
 
   return (
     <div className={`sidebar ${isOpen ? 'open' : ''}`}>
-      <div className="sidebar-icon" onClick={toggleSidebar}>
-        <FaBars className="icon" />
-      </div>
-
-      {isOpen && (
-        <div className="nav-items">
-          {navItems.map((item) => (
-            <div
-              key={item.path}
-              className={`nav-item ${location.pathname === item.path ? 'active' : ''}`}
-              onClick={() => {
-                navigate(item.path);
-                setIsOpen(false); 
-              }}
-            >
-              <item.icon className="icon" />
-              <span className="nav-label">{item.label}</span>
-            </div>
-          ))}
+      <div className="nav-items">
+        <div className="nav-item menu-toggle" onClick={toggleSidebar}>
+          <FaBars className="icon" />
+          {isOpen && <span className="nav-label">Menu</span>}
         </div>
-      )}
+
+        {navItems.map((item) => (
+          <div
+            key={item.path}
+            className={`nav-item ${location.pathname === item.path ? 'active' : ''}`}
+            onClick={() => {
+              navigate(item.path);
+              setIsOpen(false);
+            }}
+          >
+            <item.icon className="icon" />
+            {isOpen && <span className="nav-label">{item.label}</span>}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

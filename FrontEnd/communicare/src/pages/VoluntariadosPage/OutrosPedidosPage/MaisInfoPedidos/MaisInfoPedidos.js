@@ -44,7 +44,7 @@ const Search = () => {
 
   const handleClickPendentes = () => {
     if (userTipoUtilizadorId === true) {
-      navigate("/pedidosPendentes");
+      navigate("/pendentesPedidos");
     } else {
       alert("Apenas administradores podem aceder a esta página!");
     }

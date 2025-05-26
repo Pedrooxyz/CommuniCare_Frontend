@@ -313,6 +313,7 @@ const DadosUserPI = () => {
                     key={pedido.pedidoAjudaId}
                     className="item"
                     style={{ cursor: 'pointer' }}
+                    onClick={() => navigate(`/maisInfoPedidos/${pedido.pedidoId}`)}
                   >
                     {pedido.titulo}
                   </div>

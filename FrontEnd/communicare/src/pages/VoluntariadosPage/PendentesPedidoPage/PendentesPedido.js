@@ -2,10 +2,11 @@ import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { api } from "../../../utils/axios.js";
 import "./PendentesPedido.css";
-import { FaSearch, FaCubes } from "react-icons/fa";
+import { FaSearch, FaUser } from "react-icons/fa";
 import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
 
 import iconFallback from "../../../assets/icon.jpg";
+import cares from "../../../assets/Cares.png";
 
 const Search = () => {
   const navigate = useNavigate();
@@ -53,11 +54,11 @@ const HeaderSecundario = ({ onValidarRequisicao, onValidarAquisicao, onValidarDe
 };
 
 const getImagemSrc = (foto) => {
-    return foto && foto.trim() && foto !== "null" && foto !== "string"
-      ? `data:image/jpeg;base64,${foto}`
-      : iconFallback;
-  };
-  
+  return foto && foto.trim() && foto !== "null" && foto !== "string"
+    ? `data:image/jpeg;base64,${foto}`
+    : iconFallback;
+};
+
 const ListaPedidos = () => {
   const [pedidos, setPedidos] = useState([]);
   const navigate = useNavigate();
@@ -133,11 +134,7 @@ const ListaPedidos = () => {
             }}
           />
           <p>{pedido.descricao || "Sem descrição disponível."}</p>
-          <div className="infoItemOE">
-            <span><FaCubes /> Voluntários: {pedido.numeroVoluntarios}</span>
-            <span><FaCubes /> Horas: {pedido.nHoras}</span>
-          </div>
-          <div className="moreInfo">
+          <div className="moreInfo2">
             <button onClick={() => navigate(`/pedidos/pendentes/mais-info/${pedido.pedidoId}`)}>
               Mais Informações
             </button>
@@ -224,8 +221,15 @@ const ListaPedidosAquisicao = () => {
           />
           <p>{pedido.descricao || "Sem descrição disponível."}</p>
           <div className="infoItemOE">
-            <span><FaCubes /> Voluntários: {pedido.numeroVoluntarios}</span>
-            <span><FaCubes /> Horas: {pedido.nHoras}</span>
+            <span><FaUser /> Voluntários: {pedido.numeroVoluntarios}</span>
+            <span style={{ display: "inline-flex", alignItems: "center", minWidth: 60 }}>
+              <img
+                src={cares}
+                alt="Cares"
+                style={{ width: 24, height: 24, marginRight: 6, verticalAlign: "middle" }}
+              />
+              {pedido.recompensaCares}
+            </span>
           </div>
           <div className="moreInfo">
             <button onClick={() => navigate(`/pedidos/pendentes/mais-info2/${pedido.pedidoId}`)}>
@@ -314,8 +318,15 @@ const ListaPedidosDevolucao = () => {
           />
           <p>{pedido.descricao || "Sem descrição disponível."}</p>
           <div className="infoItemOE">
-            <span><FaCubes /> Voluntários: {pedido.numeroVoluntarios}</span>
-            <span><FaCubes /> Horas: {pedido.nHoras}</span>
+            <span><FaUser /> Voluntários: {pedido.numeroVoluntarios}</span>
+            <span style={{ display: "inline-flex", alignItems: "center", minWidth: 60 }}>
+              <img
+                src={cares}
+                alt="Cares"
+                style={{ width: 24, height: 24, marginRight: 6, verticalAlign: "middle" }}
+              />
+              {pedido.recompensaCares}
+            </span>
           </div>
           <div className="moreInfo">
             <button onClick={() => navigate(`/pedidos/pendentes/mais-info3/${pedido.pedidoId}`)}>
