@@ -349,7 +349,7 @@
 
 .header-historico {
   position: absolute;
-  top: 10px;
-  left: 80px;
+  top: 80px;
+  left: 0px;
   z-index: 1;
 }

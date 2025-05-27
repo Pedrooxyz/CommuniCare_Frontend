@@ -158,7 +158,7 @@ function Loja() {
         alert("Artigo não encontrado.");
       } else if (error.response?.status === 409) {
         alert("Artigo já está nos favoritos.");
-        setFavoritos([...favoritos, artigoId]); // Garante que o estado reflete o favorito
+        setFavoritos([...favoritos, artigoId]); 
       } else {
         alert("Erro ao favoritar/desfavoritar artigo.");
       }
@@ -303,8 +303,6 @@ function Loja() {
 
   return (
     <div className="container-loja">
-      <HeaderHistorico></HeaderHistorico>
-      <HeaderProfileCares />
       <h1 className="titulo-principal">Loja de Artigos</h1>
 
       {isLoading ? (
@@ -436,4 +434,14 @@ function Loja() {
   );
 }
 
-export default Loja;
+const LojaPage = () => {
+  return (
+    <div>
+      <HeaderHistorico />
+      <HeaderProfileCares />
+      <Loja />
+    </div>
+  );
+};
+
+export default LojaPage;

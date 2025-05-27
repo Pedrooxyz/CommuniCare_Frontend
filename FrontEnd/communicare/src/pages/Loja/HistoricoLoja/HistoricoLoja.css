@@ -25,9 +25,6 @@
   background-color: #0056b3;
 }
 
-.lista-lojas {
-  /* podes definir max-width ou outras regras se quiseres */
-}
 
 .loja-item {
   display: flex;
@@ -63,25 +60,23 @@
 }
 
 .form-criar-loja {
-  background-color: #f9f9f9; /* fundo claro */
+  background-color: #f9f9f9;
   padding: 20px 30px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   max-width: 400px;
-  margin: 40px auto; /* auto nas laterais centra horizontalmente */
+  margin: 40px auto;
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-/* Labels para ficarem em negrito e com espaçamento */
 .form-criar-loja label {
   font-weight: 600;
   margin-bottom: 5px;
   display: block;
 }
 
-/* Inputs e textarea com boa largura e padding */
 .form-criar-loja input[type="text"],
 .form-criar-loja textarea {
   width: 100%;
@@ -89,11 +84,10 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 1rem;
-  resize: vertical; /* só vertical para textarea */
+  resize: vertical; 
   box-sizing: border-box;
 }
 
-/* Botões com cores distintas e cursor pointer */
 .btn-salvar {
   background-color: #007bff;
   border: none;
@@ -124,10 +118,9 @@
   background-color: #5a6268;
 }
 
-/* Contêiner para o botão Criar Nova Loja */
 .btn-criar-loja {
-  display: block;        /* torna botão bloco para aplicar margin */
-  margin: 20px auto;     /* auto nas laterais centra horizontalmente */
+  display: block;        
+  margin: 20px auto;     
   padding: 10px 20px;
   font-weight: 600;
   background-color: #007bff;
