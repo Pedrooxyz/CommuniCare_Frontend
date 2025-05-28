@@ -14,7 +14,7 @@ const Search = () => {
   return (
     <div>
       <div className="mainName">
-        <h1>Pedidos Pendentes</h1>
+        <h1>Voluntariados</h1>
       </div>
       <div className="tabs">
         <div className="choose">

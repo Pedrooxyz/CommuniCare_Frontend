@@ -86,8 +86,8 @@ const DetalhesItem = () => {
     fotografiaPA: "",
     nPessoas: 0,
   });
-  const [fotoDono, setFotoDono] = useState(iconFallback); // Inicializa com fallback
-  const [isLoadingFoto, setIsLoadingFoto] = useState(true); // Controla estado de carregamento
+  const [fotoDono, setFotoDono] = useState(iconFallback);
+  const [isLoadingFoto, setIsLoadingFoto] = useState(true); 
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -126,9 +126,8 @@ const DetalhesItem = () => {
 
         console.log("Resposta da API (foto-dono):", response.data);
 
-        // Verifica se a resposta é válida
+      
         if (response.data && response.data.trim() !== "" && response.data !== "null") {
-          // Assumindo que o endpoint retorna um caminho relativo
           const urlFoto = `http://localhost:5182/${response.data}`;
           setFotoDono(urlFoto);
         } else {
@@ -138,7 +137,7 @@ const DetalhesItem = () => {
         console.error('Erro ao buscar foto do dono:', error);
         setFotoDono(iconFallback);
       } finally {
-        setIsLoadingFoto(false); // Finaliza o carregamento
+        setIsLoadingFoto(false); 
       }
     };
 
@@ -194,7 +193,7 @@ const DetalhesItem = () => {
             className="imgUsers"
             src={isLoadingFoto ? iconFallback : fotoDono}
             onError={(e) => {
-              e.target.onerror = null; // Evita loop infinito
+              e.target.onerror = null; 
               e.target.src = iconFallback;
             }}
             alt="Foto do dono"
