@@ -295,11 +295,11 @@ const DadosUserPI = () => {
           <h2 className="section">Pedidos de Ajuda</h2>
 
           <div className="botoes">
-            <button className="action-btn" onClick={() => navigate('/PedirVoluntariado')}>
+            <button className="action-btnP" onClick={() => navigate('/PedirVoluntariado')}>
               Pedir Ajuda <FaPlus style={{ marginLeft: '6px' }} />
             </button>
 
-            <button className="sub-action" onClick={() => navigate('/MeusPedidos')}>
+            <button className="sub-actionP" onClick={() => navigate('/MeusPedidos')}>
               Gerir Pedidos <FaChevronRight style={{ marginLeft: '6px' }} />
             </button>
           </div>
@@ -330,11 +330,11 @@ const DadosUserPI = () => {
           <h2 className="section">Empréstimos</h2>
 
           <div className="botoes">
-            <button className="action-btn" onClick={() => navigate('/PedirEmprestimo')}>
+            <button className="action-btnP" onClick={() => navigate('/PedirEmprestimo')}>
               Adicionar Item <FaPlus style={{ marginLeft: '6px' }} />
             </button>
 
-            <button className="sub-action" onClick={() => navigate('/MeusEmprestimos')}>
+            <button className="sub-actionP" onClick={() => navigate('/MeusEmprestimos')}>
               Gerir Empréstimos <FaChevronRight style={{ marginLeft: '6px' }} />
             </button>
           </div>
