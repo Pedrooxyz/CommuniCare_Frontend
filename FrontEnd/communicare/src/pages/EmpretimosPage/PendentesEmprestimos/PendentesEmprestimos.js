@@ -67,16 +67,25 @@ const Search = () => {
   );
 };
 
-const HeaderSecundario = ({ onValidarRequisicao, onValidarAquisicao, onValidarDevolucao }) => {
+const HeaderSecundario = ({ onValidarRequisicao, onValidarAquisicao, onValidarDevolucao, secaoAtiva }) => {
   return (
     <div className="header-secundario">
-      <button className="botao-header-secundario" onClick={onValidarRequisicao}>
+      <button 
+        className={`botao-header-secundario ${secaoAtiva === 'validarRequisicao' ? 'active' : ''}`} 
+        onClick={onValidarRequisicao}
+      >
         Validar Requisição
       </button>
-      <button className="botao-header-secundario" onClick={onValidarAquisicao}>
+      <button 
+        className={`botao-header-secundario ${secaoAtiva === 'validarAquisicao' ? 'active' : ''}`} 
+        onClick={onValidarAquisicao}
+      >
         Validar Aquisição
       </button>
-      <button className="botao-header-secundario" onClick={onValidarDevolucao}>
+      <button 
+        className={`botao-header-secundario ${secaoAtiva === 'validarDevolucao' ? 'active' : ''}`} 
+        onClick={onValidarDevolucao}
+      >
         Validar Devolução
       </button>
     </div>
@@ -161,7 +170,6 @@ const ListaItems = () => {
           />
           <p>{item.descItem || "Sem descrição disponível."}</p>
           <div className="infoItemOE">
-            <span><FaCubes /> {item.disponivel}</span>
             <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}(h)</span>
           </div>
           <div className="moreInfo">
@@ -244,7 +252,6 @@ const ListaItemsAquisicao = () => {
           />
           <p>{item.descItem || "Sem descrição disponível."}</p>
           <div className="infoItemOE">
-            <span><FaCubes /> {item.disponivel}</span>
             <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}(h)</span>
           </div>
           <div className="moreInfo">
@@ -326,7 +333,6 @@ const ListaItemsDevolucao = () => {
           />
           <p>{item.descItem || "Sem descrição disponível."}</p>
           <div className="infoItemOE">
-            <span><FaCubes /> {item.disponivel}</span>
             <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}(h)</span>
           </div>
           <div className="moreInfo">
@@ -353,6 +359,7 @@ function PendentesEmprestimos() {
         onValidarRequisicao={() => setSecaoAtiva('validarRequisicao')} 
         onValidarAquisicao={() => setSecaoAtiva('validarAquisicao')}
         onValidarDevolucao={() => setSecaoAtiva('validarDevolucao')}
+        secaoAtiva={secaoAtiva}
       />
 
       {secaoAtiva === 'validarRequisicao' && <ListaItems />}
