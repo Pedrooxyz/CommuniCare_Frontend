@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
-import { getUserImageUrl } from '../../../../utils/url';
-import iconFallback from '../../../../assets/icon.jpg';
+import iconFallback from "../../../../assets/icon.jpg";
 import PopUp from "../../../../components/PopUpPage/PopUp.js";
 import HeaderProfileCares from "../../../../components/HeaderProfile/headerProfile.js";
-
+import cares from "../../../../assets/Cares.png";
+import { api } from "../../../../utils/axios.js";
 import "./MaisInformacoes.css";
-
-import cares from '../../../../assets/Cares.png';
-import { api } from '../../../../utils/axios.js';
-
-
 
 const getImagemSrc = (fotoItem) => {
   if (fotoItem && fotoItem.trim() !== "" && fotoItem !== "null") {
@@ -80,21 +75,25 @@ const Search = () => {
   );
 };
 
-
 const DetalhesItem = ({ setPopupMessage, setShowPopup }) => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [item, setItem] = useState({
     nomeItem: "",
     descItem: "",
     comissaoCares: 0,
     fotografiaItem: "",
   });
-  const [fotoEmprestador, setFotoEmprestador] = useState(null);
+  const [emprestador, setEmprestador] = useState({
+    id: null,
+    nome: "Desconhecido",
+    foto: iconFallback,
+  });
 
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         const response = await api.get(`/ItensEmprestimo/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -109,34 +108,48 @@ const DetalhesItem = ({ setPopupMessage, setShowPopup }) => {
           fotografiaItem: data.fotografiaItem ?? "",
         });
       } catch (error) {
-        console.error('Erro ao buscar detalhes do item:', error);
-        alert('Erro ao carregar os detalhes do item.');
+        console.error("Erro ao buscar detalhes do item:", error);
+        alert("Erro ao carregar os detalhes do item.");
       }
     };
 
-    const fetchFotoEmprestador = async () => {
+    const fetchEmprestador = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const response = await api.get(`/ItensEmprestimo/${id}/foto-emprestador`, {
+        const token = localStorage.getItem("token");
+        const response = await api.get(`/ItensEmprestimo/${id}/dados-emprestador`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        const urlFoto = `http://localhost:5182/${response.data}`;
-        setFotoEmprestador(urlFoto);
+        const baseUrl = "http://localhost:5182";
+        const fotoEmprestador = response.data.fotoUtil
+          ? response.data.fotoUtil.startsWith("data:image") || response.data.fotoUtil.startsWith("http")
+            ? response.data.fotoUtil
+            : `${baseUrl}${response.data.fotoUtil}`
+          : iconFallback;
+
+        setEmprestador({
+          id: response.data.idEmprestador || null,
+          nome: response.data.nomeEmprestador || "Desconhecido",
+          foto: fotoEmprestador,
+        });
       } catch (error) {
-        console.error('Erro ao buscar foto do emprestador:', error);
-        setFotoEmprestador(null);
+        console.error("Erro ao buscar dados do emprestador:", error);
+        setEmprestador({
+          id: null,
+          nome: "Desconhecido",
+          foto: iconFallback,
+        });
       }
     };
 
     fetchItem();
-    fetchFotoEmprestador();
+    fetchEmprestador();
   }, [id]);
 
   const requisitarItem = async (itemId) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       const response = await api.post(`/ItensEmprestimo/AdquirirItem/${itemId}`, {}, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -148,10 +161,8 @@ const DetalhesItem = ({ setPopupMessage, setShowPopup }) => {
       } else {
         alert(`Erro: ${response.data}`);
       }
-
     } catch (error) {
       console.error("Erro ao requisitar item:", error);
-
       const mensagemErro = error?.response?.data;
 
       if (mensagemErro === "Saldo de Cares insuficiente para adquirir este item.") {
@@ -170,14 +181,17 @@ const DetalhesItem = ({ setPopupMessage, setShowPopup }) => {
         <div className="userTitleMIOE">
           <img
             className="imgUsers"
-            src={fotoEmprestador || iconFallback}
+            src={emprestador.foto}
             onError={(e) => {
+              console.log(`Erro ao carregar imagem do emprestador para item ${id}`);
               e.target.onerror = null;
               e.target.src = iconFallback;
             }}
-            alt="User"
+            alt="Foto do emprestador"
             width={70}
             height={70}
+            style={{ cursor: emprestador.id ? "pointer" : "default" }}
+            onClick={() => emprestador.id && navigate(`/PerfilOutroUtilizador/${emprestador.id}`)}
           />
           <h2 className="tituloItem">{item.nomeItem}</h2>
         </div>
@@ -193,8 +207,9 @@ const DetalhesItem = ({ setPopupMessage, setShowPopup }) => {
         />
 
         <div className="infoItem detalhes">
-          <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}/h</span>
-
+          <span>
+            <img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}/h
+          </span>
           <button className="botaoAdquirir" onClick={() => requisitarItem(id)}>
             Adquirir
           </button>
@@ -203,9 +218,7 @@ const DetalhesItem = ({ setPopupMessage, setShowPopup }) => {
 
       <div className="colunaDireitaMIOE">
         <h2 className="tituloItem">Detalhes</h2>
-        <div className="caixaDescricao">
-          {item.descItem}
-        </div>
+        <div className="caixaDescricao">{item.descItem}</div>
       </div>
     </div>
   );
@@ -219,16 +232,8 @@ function MaisInformacoes() {
     <>
       <HeaderProfileCares />
       <Search />
-      <DetalhesItem
-        setPopupMessage={setPopupMessage}
-        setShowPopup={setShowPopup}
-      />
-      {showPopup && (
-        <PopUp
-          message={popupMessage}
-          onClose={() => setShowPopup(false)}
-        />
-      )}
+      <DetalhesItem setPopupMessage={setPopupMessage} setShowPopup={setShowPopup} />
+      {showPopup && <PopUp message={popupMessage} onClose={() => setShowPopup(false)} />}
     </>
   );
 }

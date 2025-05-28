@@ -47,14 +47,11 @@ const Search = ({ searchTerm, setSearchTerm, userTipoUtilizadorId, handleClickPe
  
 
 const getImagemSrc = (foto) => {
-  // Base URL do backend
   const baseUrl = "http://localhost:5182";
   if (foto && foto.trim() && foto !== "null" && foto !== "string") {
-    // Se for uma URL completa ou base64, retorna diretamente
     if (foto.startsWith("data:image") || foto.startsWith("http")) {
       return foto;
     }
-    // Se for um caminho relativo, adiciona a baseUrl
     return `${baseUrl}${foto}`;
   }
   return iconFallback;
