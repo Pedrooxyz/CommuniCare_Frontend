@@ -226,7 +226,7 @@ fetchVoluntarios();
         }}
       />
 
-      <div className="infoItem detalhes">
+      <div className="infoItemI detalhes">
         <div className="infoExtraPedido">
           <div className="infoBox">
             <span className="icon">&#128100;</span>

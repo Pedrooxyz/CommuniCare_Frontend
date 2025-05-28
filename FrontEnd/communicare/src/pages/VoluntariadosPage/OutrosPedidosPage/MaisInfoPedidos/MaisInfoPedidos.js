@@ -80,7 +80,8 @@ const Search = () => {
 
 
 const DetalhesItem = () => {
-  const { id } = useParams();  
+  const { id } = useParams();
+
   const [item, setItem] = useState({
     titulo: "",
     descPedido: "",
@@ -88,19 +89,15 @@ const DetalhesItem = () => {
     fotografiaPA: "",
     nPessoas: 0,
   });
-  const [fotoEmprestador, setFotoEmprestador] = useState(null);
+  const [fotoDono, setFotoDono] = useState(iconFallback);
 
   useEffect(() => {
     const fetchItem = async () => {
       try {
         const token = localStorage.getItem('token');
         const response = await api.get(`/PedidosAjuda/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
-
-        console.log("Resposta da API:", response.data); 
 
         const data = response.data;
         setItem({
@@ -108,7 +105,7 @@ const DetalhesItem = () => {
           descPedido: data.descPedido ?? "",
           recompensaCares: data.recompensaCares ?? 0,
           fotografiaPA: data.fotografiaPA ?? "",
-          nPessoas: data.nPessoas,
+          nPessoas: data.nPessoas ?? 0,
         });
       } catch (error) {
         console.error('Erro ao buscar detalhes do pedido:', error);
@@ -116,25 +113,26 @@ const DetalhesItem = () => {
       }
     };
 
-    const fetchFotoEmprestador = async () => {
+    const fetchFotoDono = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await api.get(`/ItensEmprestimo/${id}/foto-emprestador`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        const response = await api.get(`PedidosAjuda/${id}/foto-dono`, {
+          headers: { Authorization: `Bearer ${token}` },
         });
-        const urlFoto = `http://localhost:5182/${response.data}`;
-        setFotoEmprestador(urlFoto);
+        if (response.data && response.data.trim() && response.data !== "null") {
+          setFotoDono(`http://localhost:5182/${response.data}`);
+        } else {
+          setFotoDono(iconFallback);
+        }
       } catch (error) {
-        console.error('Erro ao buscar foto do emprestador:', error);
-        setFotoEmprestador(null);
+        console.error(`Erro ao buscar foto do dono para pedido ${id}:`, error);
+        setFotoDono(iconFallback);
       }
     };
 
     fetchItem();
-    fetchFotoEmprestador();
-  }, [id]); 
+    fetchFotoDono();
+  }, [id]);
 
   const voluntariar = async (pedidoId) => {
     if (!pedidoId) {
@@ -145,77 +143,70 @@ const DetalhesItem = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await api.post(`/PedidosAjuda/${pedidoId}/Voluntariar`, null, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
       alert(response.data);
-
     } catch (error) {
-  console.error("Erro ao se voluntariar:", error);
-  if (error.response?.data) {
-    alert("Erro: " + error.response.data);
-  } else {
-    alert("Erro ao se voluntariar para o pedido.");
-  }
-}
-
+      console.error("Erro ao se voluntariar:", error);
+      if (error.response?.data) {
+        alert("Erro: " + error.response.data);
+      } else {
+        alert("Erro ao se voluntariar para o pedido.");
+      }
+    }
   };
 
   return (
-  <div className="detalhesContainer">
-    <div className="colunaEsquerdaMI">
-      <div className="userTitleMD">
+    <div className="detalhesContainer">
+      <div className="colunaEsquerdaMI">
+        <div className="userTitleMD">
+          <img
+            className="imgUsers"
+            src={fotoDono}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = iconFallback;
+            }}
+            alt="Foto do dono"
+            width={70}
+            height={70}
+          />
+          <h2 className="tituloItem">{item.titulo}</h2>
+        </div>
+
         <img
-          className="imgUsers"
-          src={fotoEmprestador || iconFallback}
+          className="imgItemDetalhesMI"
+          src={getImagemSrc(item.fotografiaPA)}
+          alt={item.titulo}
           onError={(e) => {
             e.target.onerror = null;
             e.target.src = iconFallback;
           }}
-          alt="User"
-          width={70}
-          height={70}
         />
-        <h2 className="tituloItem">{item.titulo}</h2>
-      </div>
 
-      <img
-        className="imgItemDetalhesMI"
-        src={getImagemSrc(item.fotografiaPA)}
-        alt={item.titulo}
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = iconFallback;
-        }}
-      />
-
-      <div className="infoItem detalhes">
-        <div className="infoExtraPedido">
-          <div className="infoBox">
-            <span className="icon">&#128100;</span>
-            <span>{item.nPessoas}</span>
+        <div className="infoItemI detalhes">
+          <div className="infoExtraPedido">
+            <div className="infoBox">
+              <span>&#128100;</span>
+              <span>{item.nPessoas}</span>
+            </div>
+            <div className="infoBox">
+              <span>{item.recompensaCares}</span>
+              <img src={cares} width={30} height={30} alt="Cares" />
+            </div>
           </div>
-          <div className="infoBox">
-            <span className="icon">{item.recompensaCares}</span>
-            <img src={cares} width={30} height={30} alt="Cares" className="caresIcon" />
-          </div>
+          <button className="botaoAdquirir" onClick={() => voluntariar(id)}>
+            Voluntariar
+          </button>
         </div>
-        <button className="botaoAdquirir" onClick={() => voluntariar(id)}>
-          Voluntariar
-        </button>
+      </div>
+
+      <div className="colunaDireitaMI">
+        <h2 className="tituloItem">Detalhes</h2>
+        <div className="caixaDescricao">{item.descPedido}</div>
       </div>
     </div>
-
-    <div className="colunaDireitaMI">
-      <h2 className="tituloItem">Detalhes</h2>
-      <div className="caixaDescricao">
-        {item.descPedido}
-      </div>
-    </div>
-  </div>
-);
-
+  );
 };
 
 
