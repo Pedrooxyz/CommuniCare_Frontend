@@ -120,7 +120,7 @@ const DadosUserPI = ({ userId }) => {
                     key={pedido.pedidoAjudaId}
                     className="item"
                     style={{ cursor: "pointer" }}
-                    onClick={() => navigate(`/maisInfo/${pedido.pedidoAjudaId}`)}
+                    onClick={() => navigate(`/maisInfoPedidos/${pedido.pedidoId}`)}
                   >
                     {pedido.titulo}
                   </div>
@@ -143,7 +143,7 @@ const DadosUserPI = ({ userId }) => {
                     key={item.itemId}
                     className="item"
                     style={{ cursor: "pointer" }}
-                    onClick={() => navigate(`/maisInfoPedidos/${item.itemId}`)}
+                    onClick={() => navigate(`/maisInfo/${item.itemId}`)}
                   >
                     {item.nomeItem}
                   </div>
