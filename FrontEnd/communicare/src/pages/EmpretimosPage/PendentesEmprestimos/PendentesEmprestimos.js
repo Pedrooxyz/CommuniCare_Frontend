@@ -9,9 +9,6 @@ import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.
 
 import cares from '../../../assets/Cares.png';
 
-
-
-
 const Search = () => {
   const navigate = useNavigate();
   const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null); 
@@ -342,7 +339,11 @@ const ListaItemsDevolucao = () => {
 };
 
 function PendentesEmprestimos() {
-  const [secaoAtiva, setSecaoAtiva] = useState(null); 
+  const [secaoAtiva, setSecaoAtiva] = useState(null);
+
+  useEffect(() => {
+    setSecaoAtiva('validarRequisicao');
+  }, []);
 
   return (
     <>
