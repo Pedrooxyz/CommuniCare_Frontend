@@ -37,16 +37,25 @@ const Search = () => {
   );
 };
 
-const HeaderSecundario = ({ onValidarRequisicao, onValidarAquisicao, onValidarDevolucao }) => {
+const HeaderSecundario = ({ onValidarRequisicao, onValidarAquisicao, onValidarDevolucao, secaoAtiva }) => {
   return (
     <div className="header-secundario">
-      <button className="botao-header-secundario" onClick={onValidarRequisicao}>
+      <button
+        className={`botao-header-secundario ${secaoAtiva === 'validarRequisicao' ? 'active' : ''}`}
+        onClick={onValidarRequisicao}
+      >
         Validar Pedido de Ajuda
       </button>
-      <button className="botao-header-secundario" onClick={onValidarAquisicao}>
+      <button
+        className={`botao-header-secundario ${secaoAtiva === 'validarAquisicao' ? 'active' : ''}`}
+        onClick={onValidarAquisicao}
+      >
         Validar Voluntário
       </button>
-      <button className="botao-header-secundario" onClick={onValidarDevolucao}>
+      <button
+        className={`botao-header-secundario ${secaoAtiva === 'validarConclusao' ? 'active' : ''}`}
+        onClick={onValidarDevolucao}
+      >
         Validar Conclusão
       </button>
     </div>
@@ -362,7 +371,6 @@ function PendentesPedidos() {
         onValidarAquisicao={() => handleClick('validarAquisicao')}
         onValidarDevolucao={() => handleClick('validarConclusao')}
       />
-
       {secaoAtiva === 'validarRequisicao' && <ListaPedidos key={`requisicao-${reloadKey}`} />}
       {secaoAtiva === 'validarAquisicao' && <ListaPedidosAquisicao key={`aquisicao-${reloadKey}`} />}
       {secaoAtiva === 'validarConclusao' && <ListaPedidosDevolucao key={`conclusao-${reloadKey}`} />}
