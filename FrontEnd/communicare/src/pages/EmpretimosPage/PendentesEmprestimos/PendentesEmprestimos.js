@@ -11,8 +11,8 @@ import cares from '../../../assets/Cares.png';
 
 const Search = () => {
   const navigate = useNavigate();
-  const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null); 
-  
+  const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
+
   const verificarTipoUtilizador = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -22,20 +22,20 @@ const Search = () => {
         },
       });
 
-      setUserTipoUtilizadorId(response.data); 
+      setUserTipoUtilizadorId(response.data);
     } catch (error) {
       console.error("Erro ao verificar o tipo de utilizador", error);
-      setUserTipoUtilizadorId(false); 
+      setUserTipoUtilizadorId(false);
     }
   };
 
   useEffect(() => {
-    verificarTipoUtilizador(); 
+    verificarTipoUtilizador();
   }, []);
 
   const handleClickPendentes = () => {
     if (userTipoUtilizadorId === true) {
-      navigate("/PendentesEmprestimos"); 
+      navigate("/PendentesEmprestimos");
     } else {
       alert("Apenas administradores podem aceder a esta página!");
     }
@@ -56,7 +56,7 @@ const Search = () => {
             <button className="tab active" onClick={handleClickPendentes}>
               Empréstimos Pendentes
             </button>
-          )}          
+          )}
         </div>
         <div className="search-wrapper">
           <input type="text" placeholder="Pesquisar..." className="search" />
@@ -70,35 +70,35 @@ const Search = () => {
 const HeaderSecundario = ({ onValidarRequisicao, onValidarAquisicao, onValidarDevolucao, secaoAtiva }) => {
   return (
     <div className="header-secundario">
-      <button 
-        className={`botao-header-secundario ${secaoAtiva === 'validarRequisicao' ? 'active' : ''}`} 
+      <button
+        className={`botao-header-secundario ${secaoAtiva === 'validarRequisicao' ? 'active' : ''}`}
         onClick={onValidarRequisicao}
       >
-        Validar Requisição
+        Validar Item
       </button>
-      <button 
-        className={`botao-header-secundario ${secaoAtiva === 'validarAquisicao' ? 'active' : ''}`} 
+      <button
+        className={`botao-header-secundario ${secaoAtiva === 'validarAquisicao' ? 'active' : ''}`}
         onClick={onValidarAquisicao}
       >
         Validar Aquisição
       </button>
-      <button 
-        className={`botao-header-secundario ${secaoAtiva === 'validarDevolucao' ? 'active' : ''}`} 
+      <button
+        className={`botao-header-secundario ${secaoAtiva === 'validarDevolucao' ? 'active' : ''}`}
         onClick={onValidarDevolucao}
       >
-        Validar Devolução
+        Validar Devolução Item
       </button>
     </div>
   );
 };
 
 const getImagemSrc = (fotoItem) => {
-    if (fotoItem && fotoItem.trim() !== "" && fotoItem !== "null" && fotoItem !== "string") {
-      return `data:image/jpeg;base64,${fotoItem}`;
-    } else {
-      return iconFallback;
-    }
-  };
+  if (fotoItem && fotoItem.trim() !== "" && fotoItem !== "null" && fotoItem !== "string") {
+    return `data:image/jpeg;base64,${fotoItem}`;
+  } else {
+    return iconFallback;
+  }
+};
 
 const ListaItems = () => {
   const [items, setItems] = useState([]);
@@ -123,7 +123,7 @@ const ListaItems = () => {
                 Authorization: `Bearer ${token}`,
               },
             });
-            const urlFoto = fotoResponse.data;
+            const urlFoto = `http://localhost:5182/${fotoResponse.data}`;
             setFotosEmprestadores(prev => ({
               ...prev,
               [item.itemId]: urlFoto
@@ -134,7 +134,7 @@ const ListaItems = () => {
         });
 
       } catch (error) {
-        console.error('Erro ao buscar os itens pendentes:', error);
+        console.error('Erro ao buscar os itens disponíveis:', error);
       }
     };
 
@@ -148,7 +148,7 @@ const ListaItems = () => {
           <div className="userTitleOE">
             <img
               className="imgUsers"
-              src={fotosEmprestadores[item.itemId] ? getImagemSrc(fotosEmprestadores[item.itemId]) : iconFallback}
+              src={fotosEmprestadores[item.itemId] || iconFallback}
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.src = iconFallback;
@@ -197,7 +197,7 @@ const ListaItemsAquisicao = () => {
         });
         console.log("Itens pendentes recebidos:", response.data);
         setItems(response.data);
-  
+
         response.data.forEach(async (item) => {
           try {
             const fotoResponse = await api.get(`/ItensEmprestimo/${item.itemId}/foto-emprestador`, {
@@ -205,7 +205,7 @@ const ListaItemsAquisicao = () => {
                 Authorization: `Bearer ${token}`,
               },
             });
-            const urlFoto = fotoResponse.data;
+            const urlFoto = `http://localhost:5182/${fotoResponse.data}`;
             setFotosEmprestadores(prev => ({
               ...prev,
               [item.itemId]: urlFoto
@@ -214,8 +214,9 @@ const ListaItemsAquisicao = () => {
             console.error(`Erro ao buscar foto do emprestador para item ${item.itemId}:`, error);
           }
         });
+
       } catch (error) {
-        console.error('Erro ao buscar os itens pendentes:', error);
+        console.error('Erro ao buscar os itens disponíveis:', error);
       }
     };
 
@@ -230,7 +231,7 @@ const ListaItemsAquisicao = () => {
           <div className="userTitleOE">
             <img
               className="imgUsers"
-              src={fotosEmprestadores[item.itemId] ? getImagemSrc(fotosEmprestadores[item.itemId]) : iconFallback}
+              src={fotosEmprestadores[item.itemId] || iconFallback}
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.src = iconFallback;
@@ -279,7 +280,7 @@ const ListaItemsDevolucao = () => {
         });
         console.log("Itens pendentes recebidos:", response.data);
         setItems(response.data);
-  
+
         response.data.forEach(async (item) => {
           try {
             const fotoResponse = await api.get(`/ItensEmprestimo/${item.itemId}/foto-emprestador`, {
@@ -287,7 +288,7 @@ const ListaItemsDevolucao = () => {
                 Authorization: `Bearer ${token}`,
               },
             });
-            const urlFoto = fotoResponse.data;
+            const urlFoto = `http://localhost:5182/${fotoResponse.data}`;
             setFotosEmprestadores(prev => ({
               ...prev,
               [item.itemId]: urlFoto
@@ -296,8 +297,9 @@ const ListaItemsDevolucao = () => {
             console.error(`Erro ao buscar foto do emprestador para item ${item.itemId}:`, error);
           }
         });
+
       } catch (error) {
-        console.error('Erro ao buscar os itens pendentes:', error);
+        console.error('Erro ao buscar os itens disponíveis:', error);
       }
     };
 
@@ -311,7 +313,7 @@ const ListaItemsDevolucao = () => {
           <div className="userTitleOE">
             <img
               className="imgUsers"
-              src={fotosEmprestadores[item.itemId] ? getImagemSrc(fotosEmprestadores[item.itemId]) : iconFallback}
+              src={fotosEmprestadores[item.itemId] || iconFallback}
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.src = iconFallback;
@@ -355,8 +357,8 @@ function PendentesEmprestimos() {
     <>
       <HeaderProfileCares />
       <Search />
-      <HeaderSecundario 
-        onValidarRequisicao={() => setSecaoAtiva('validarRequisicao')} 
+      <HeaderSecundario
+        onValidarRequisicao={() => setSecaoAtiva('validarRequisicao')}
         onValidarAquisicao={() => setSecaoAtiva('validarAquisicao')}
         onValidarDevolucao={() => setSecaoAtiva('validarDevolucao')}
         secaoAtiva={secaoAtiva}
