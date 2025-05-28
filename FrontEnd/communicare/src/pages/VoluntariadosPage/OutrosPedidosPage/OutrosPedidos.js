@@ -77,7 +77,6 @@ const Search = ({ searchTerm, setSearchTerm }) => {
   );
 };
 
-
 const getImagemSrc = (foto) => {
   return foto && foto.trim() && foto !== "null" && foto !== "string"
     ? `data:image/jpeg;base64,${foto}`
@@ -136,6 +135,8 @@ const ListaPedidos = () => {
               alt="Foto do dono"
               width={70}
               height={70}
+              style={{ cursor: "pointer" }}
+              onClick={() => navigate(`/PerfilOutroUtilizador/${pedido.utilizadorId}`)} // Redireciona para o perfil do dono
             />
             <h2>{pedido.titulo}</h2>
           </div>
@@ -175,13 +176,13 @@ const ListaPedidos = () => {
   );
 };
 
-
-
 function OutrosPedidos() {
+  const [searchTerm, setSearchTerm] = useState("");
+
   return (
     <>
       <HeaderProfileCares />
-      <Search />
+      <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <ListaPedidos />
     </>
   );
