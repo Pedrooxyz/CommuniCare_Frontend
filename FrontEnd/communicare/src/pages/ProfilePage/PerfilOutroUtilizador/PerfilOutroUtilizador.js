@@ -59,10 +59,6 @@ const DadosUserPI = ({ userId }) => {
           headers: { Authorization: `Bearer ${token}` },
         }).catch(() => ({ data: [] }));
 
-        console.log("[DadosUserPI] Resposta da API /Utilizadores/InfoUtilizador:", userResponse.data);
-        console.log("[DadosUserPI] Resposta da API /Contactos/ContactosUtilizador:", contactosResponse.data);
-        console.log("[DadosUserPI] Resposta da API /ItensEmprestimo/ItensUtilizador:", itensResponse.data);
-        console.log("[DadosUserPI] Resposta da API /PedidosAjuda/PedidosUtilizador:", pedidosResponse.data);
 
         setUserInfo(userResponse.data);
         setContactos(contactosResponse.data);
@@ -124,7 +120,7 @@ const DadosUserPI = ({ userId }) => {
                     key={pedido.pedidoAjudaId}
                     className="item"
                     style={{ cursor: "pointer" }}
-                    onClick={() => navigate(`/maisInfoPedidos/${pedido.pedidoAjudaId}`)}
+                    onClick={() => navigate(`/maisInfo/${pedido.pedidoAjudaId}`)}
                   >
                     {pedido.titulo}
                   </div>
@@ -147,7 +143,7 @@ const DadosUserPI = ({ userId }) => {
                     key={item.itemId}
                     className="item"
                     style={{ cursor: "pointer" }}
-                    onClick={() => navigate(`/maisInfo/${item.itemId}`)}
+                    onClick={() => navigate(`/maisInfoPedidos/${item.itemId}`)}
                   >
                     {item.nomeItem}
                   </div>
