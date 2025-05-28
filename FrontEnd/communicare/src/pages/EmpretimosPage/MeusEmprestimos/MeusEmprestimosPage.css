@@ -330,28 +330,6 @@
   position: relative;
 }
 
-.estado-circle::after {
-  content: attr(data-tooltip); 
-  position: absolute;
-  top: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: black;
-  color: white;
-  padding: 5px;
-  border-radius: 5px;
-  font-size: 12px;
-  visibility: hidden; 
-  opacity: 0;
-  transition: opacity 0.3s;
-  white-space: nowrap;
-}
-
-.estado-circle:hover::after {
-  visibility: visible;
-  opacity: 1; 
-}
-
   
 .estadoEAcao {
   display: flex;
