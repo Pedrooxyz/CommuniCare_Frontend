@@ -82,13 +82,11 @@ function App() {
             <Route path="/outrosEmprestimos" element={<OutrosEmprestimos />} />
             <Route path="/maisInfo/:id" element={<MaisInformacoes />} />
             <Route path="/HistoricoTransacoes" element={<HistoricoTransacoes />} />
-                      <Route path="/HistoricoLojas" element={<HistoricoLoja />} />
+            <Route path="/HistoricoLojas" element={<HistoricoLoja />} />
 
           </Route>
 
           <Route path="/profile" element={<Profile />} />
-
-          <Route path="/HistoricoLojas" element={<HistoricoLoja />} />
 
           <Route element={<AdminRouteWrapper />}>
           <Route element={<SidebarLayout />}>

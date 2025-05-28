@@ -343,6 +343,10 @@ function PendentesPedidos() {
   const [secaoAtiva, setSecaoAtiva] = useState(null);
   const [reloadKey, setReloadKey] = useState(0);
 
+  useEffect(() => {
+    setSecaoAtiva('validarRequisicao');
+  }, []);
+
   const handleClick = (secao) => {
     setSecaoAtiva(secao);
     setReloadKey(prev => prev + 1);
