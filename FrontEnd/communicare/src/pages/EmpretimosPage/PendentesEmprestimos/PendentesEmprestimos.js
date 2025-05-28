@@ -142,10 +142,10 @@ const ListaItems = () => {
   }, []);
 
   return (
-    <div className="cards">
+    <div className="cardsPE">
       {items.map((item) => (
-        <div className="card" key={item.itemId}>
-          <div className="userTitleOE">
+        <div className="cardPE" key={item.itemId}>
+          <div className="userTitlePE">
             <img
               className="imgUsers"
               src={fotosEmprestadores[item.itemId] || iconFallback}
@@ -160,7 +160,7 @@ const ListaItems = () => {
             <h2>{item.nomeItem}</h2>
           </div>
           <img
-            className="imgItemOE"
+            className="imgItemPE"
             src={getImagemSrc(item.fotografiaItem)}
             alt={item.nomeItem}
             onError={(e) => {
@@ -168,11 +168,13 @@ const ListaItems = () => {
               e.target.src = iconFallback;
             }}
           />
-          <p>{item.descItem || "Sem descrição disponível."}</p>
-          <div className="infoItemOE">
+          <div className="descPE">
+            <p className="descpE">{item.descItem || "Sem descrição disponível."}</p>
+          </div>
+          <div className="infoItemPE">
             <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}(h)</span>
           </div>
-          <div className="moreInfo">
+          <div className="moreInfoPE">
             <button onClick={() => navigate(`/pendentesMaisInformacoes/${item.itemId}`)}>Mais Informações</button>
           </div>
         </div>
@@ -225,10 +227,10 @@ const ListaItemsAquisicao = () => {
   }, []);
 
   return (
-    <div className="cards">
+    <div className="cardsPE">
       {items.map((item) => (
-        <div className="card" key={item.itemId}>
-          <div className="userTitleOE">
+        <div className="cardPE" key={item.itemId}>
+          <div className="userTitlePE">
             <img
               className="imgUsers"
               src={fotosEmprestadores[item.itemId] || iconFallback}
@@ -243,7 +245,7 @@ const ListaItemsAquisicao = () => {
             <h2>{item.nomeItem}</h2>
           </div>
           <img
-            className="imgItemOE"
+            className="imgItemPE"
             src={getImagemSrc(item.fotografiaItem)}
             alt={item.nomeItem}
             onError={(e) => {
@@ -251,8 +253,10 @@ const ListaItemsAquisicao = () => {
               e.target.src = iconFallback;
             }}
           />
-          <p>{item.descItem || "Sem descrição disponível."}</p>
-          <div className="infoItemOE">
+          <div className="descPE">
+            <p className="descpE">{item.descItem || "Sem descrição disponível."}</p>
+          </div>
+          <div className="infoItemPE">
             <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}(h)</span>
           </div>
           <div className="moreInfo">
@@ -307,10 +311,10 @@ const ListaItemsDevolucao = () => {
   }, []);
 
   return (
-    <div className="cards">
+    <div className="cardsPE">
       {items.map((item) => (
-        <div className="card" key={item.itemId}>
-          <div className="userTitleOE">
+        <div className="cardPE" key={item.itemId}>
+          <div className="userTitlePE">
             <img
               className="imgUsers"
               src={fotosEmprestadores[item.itemId] || iconFallback}
@@ -325,7 +329,7 @@ const ListaItemsDevolucao = () => {
             <h2>{item.nomeItem}</h2>
           </div>
           <img
-            className="imgItemOE"
+            className="imgItemPE"
             src={getImagemSrc(item.fotografiaItem)}
             alt={item.nomeItem}
             onError={(e) => {
@@ -333,8 +337,10 @@ const ListaItemsDevolucao = () => {
               e.target.src = iconFallback;
             }}
           />
-          <p>{item.descItem || "Sem descrição disponível."}</p>
-          <div className="infoItemOE">
+          <div className="descPE">
+            <p className="descpE">{item.descItem || "Sem descrição disponível."}</p>
+          </div>
+          <div className="infoItemPE">
             <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}(h)</span>
           </div>
           <div className="moreInfo">

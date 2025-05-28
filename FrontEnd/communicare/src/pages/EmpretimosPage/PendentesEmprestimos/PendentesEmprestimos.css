@@ -138,26 +138,29 @@ input.placeholder {
     margin-left: 3px;
 }
 
-.cards {
-    display: flex;
-    flex-wrap: wrap; 
-    column-gap: 10px;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-bottom: 20px;
+.cardsPE {
+    display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 20px 60px;
+  justify-content: center;
 }
 
-.card {
-    background-color: white;
-    border-radius: 20px;
-    padding: 15px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    width: 480px;
-    height: 650px;
-    margin-bottom: 10px;
+.cardPE {
+   background-color: white;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  height: 550px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.userTitleOE {
+.userTitlePE {
     display: flex;
     justify-content: space-between;
     column-gap: 50px;
@@ -165,13 +168,18 @@ input.placeholder {
     margin-bottom: 15px;
 }
 
-.imgItemOE {
-    width: 370px;
-    height: 230px;
-    object-fit: cover;
-    border-radius: 12px;
-    margin: 15px auto 25px auto; 
-    display: block; 
+.imgItemPE {
+   width: 320px !important;
+  height: 184px !important;
+  min-width: 320px !important;
+  max-width: 320px !important;
+  min-height: 184px !important;
+  max-height: 184px !important;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 12px auto 20px auto;
+  display: block;
+  box-sizing: border-box;
 }
 
 .imgUsers {
@@ -182,64 +190,85 @@ input.placeholder {
     height: 70px; 
 }
 
-.card h2 {
-    background-color: #ffeef0;
-    text-align: center;
-    font-size: 26px;
-    border-radius: 10px;
-    padding: 10px 20px;
-    margin-right: 50px;
-    margin-bottom: 10px;
-    width: 100%;
-    box-sizing: border-box; 
+.cardPE h2 {
+background-color: #ffeef0;
+  text-align: center;
+  font-size: 23px;
+  border-radius: 8px;
+  padding: 8px 17px;
+  margin: 0; /* Remove default margin */
+  display: inline-block; /* Ensure it respects nowrap */
+  white-space: nowrap;
 }
 
-.card p {
-    background-color: #f9f3f0;
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-size: 0.95rem;
-    width: 400px;
-    height: 100px;
-    margin-left: 15px;
-    margin-right: 15px;
-    overflow-y: scroll;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+.cardPE p {
+
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  flex: 1;
+  overflow-y: auto;
+  max-height: 64px;
+  scrollbar-width: none;
 }
 
-.infoItemOE {
+.infoItemPE {
     display: flex;
     justify-content: space-between;
-    margin-top: 30px;
+    margin-top: 10px;
     font-weight: bold;
     margin-left: 20px;
     margin-right: 20px;
     margin-bottom: 5px;
 }
 
-.infoItemOE span {
+.infoItemPE span {
     background-color: #FAEEE7;
     padding: 10px 20px;
     border-radius: 15px;
-    font-size: 20px;
+    font-size: 17px;
     display: inline-flex;           
     align-items: center;           
     justify-content: center;        
     gap: 8px;                        
 }
 
-.moreInfo {
+.moreInfoPE {
     text-align: center;
 }
 
-.moreInfo button {
-    background-color: #FAEEE7;
+.moreInfoPE button {
+    background-color: #FFEEF5;
     display: inline-block;
     border-radius: 10px;
     padding: 10px 20px;
     border: none;
-    font-size: 20px;
+    font-size: 17px;
     margin-top: 15px;
     cursor: pointer;
+}
+
+
+.descPE{
+    background-color: #FAEEE7;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  overflow-y: auto;
+  scrollbar-width: none;
+  width: 340px !important;
+  min-width: 340px !important;
+  max-width: 340px !important;
+  height: 80px !important;
+  min-height: 80px !important;
+  max-height: 10px !important;
+  margin: 0 auto 8px auto;
+  box-sizing: border-box;
+  
+}
+
+.descpE {
+  margin: 0;
+  text-align: left;
+  font-weight: normal;
 }
