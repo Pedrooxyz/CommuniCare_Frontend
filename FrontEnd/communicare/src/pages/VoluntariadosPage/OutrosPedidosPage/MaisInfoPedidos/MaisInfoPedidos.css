@@ -40,12 +40,12 @@ header p {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-  .choose1 {
-    display: flex;
-    width: 100%;
-  }
+.chooseMIOP {
+  display: flex;
+  width: 100%;
+}
   
-  .tabs1 {
+  .tabsMIOP {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -53,30 +53,30 @@ header p {
     margin-bottom: 20px;
   }
   
-  .tab1 {
+  .tabMIOP {
     flex: 1;
     background-color: #FFAEAE;
     color: white;
     border: none;
-    padding: 10px 30px;
+    padding: 10px 20px;
     border-radius: 999px;
     font-weight: bold;
     cursor: pointer;
     margin-left: 60px;
-    text-align: center; 
+    text-align: center;
   }
   
-  .tab1.active {
+  .tabMIOP.active {
     background-color: #FF7C7C;
   }
   
-  .search-wrapper1 {
+  .search-wrapperMIOP {
     position: relative;
     display: flex;
     align-items: center;
   }
   
-  .search1 {
+  .searchMIOP {
     background-color: #E8F1FF;
     flex: 1;
     padding: 10px 20px 10px 40px;
@@ -86,20 +86,20 @@ header p {
     margin: 0 50px 0 20px;
   }
   
-  .search-icon1 {
+  .search-iconMIOP {
     position: absolute;
     left: 35px;
     color: #888;
   }
   
-  .search1::placeholder {
+  .searchMIOP::placeholder {
     margin-left: 3px;
   }
 
-.detalhesContainer {
+.detalhesContainerMIOP {
   display: flex;
   gap: 40px;
-  padding: 20px;
+  padding: 18px;
   width: 80%;
   justify-content: center;
   margin: 0px auto;
@@ -122,14 +122,14 @@ header p {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.colunaEsquerdaMI, .colunaDireitaMI {
+.colunaEsquerdaMIOP, .colunaDireitaMIOP {
   background: white;
   border-radius: 20px;
   padding: 10px 20px 30px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.colunaEsquerdaMI {
+.colunaEsquerdaMIOP {
   width: 35%;
   display: flex;
   flex-direction: column;
@@ -149,16 +149,22 @@ header p {
   margin-left: 0px;
 }
 
-.imgItemDetalhesMI {
-  width: 95%;
-  height: auto;
-  max-height: 230px;
+.imgItemDetalhesMIOP {
+  width: 340px !important;
+  height: 200px !important;
+  min-width: 340px !important;
+  max-width: 340px !important;
+  min-height: 200px !important;
+  max-height: 200px !important;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 10px;
+  margin: 12px auto 0px auto;
+  display: block;
+  box-sizing: border-box;
  
 }
 
-.infoItemI.detalhes {
+.infoItemIMIOP.detalhes {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -166,8 +172,8 @@ header p {
   gap: 25px;
 }
 
-.infoItemI span {
-  padding: 10px 20px;
+.infoItemIMIOP span {
+  padding: 6px 10px;
   border-radius: 15px;
   font-size: 20px;
   display: inline-flex; 
@@ -177,15 +183,16 @@ header p {
   
 }
 
-.botaoAdquirir {
+.botaoAdquirirMIOP {
   background-color: #5bd35f; 
   font-size: 20px;
   color: white;
-  font-weight: bold;
+  
   padding: 12px 55px;
   border-radius: 10px;
   border: none;
   cursor: pointer;
+  margin-top: 10px;
   margin-bottom: 0px;
 }
 
@@ -193,7 +200,7 @@ header p {
   background-color: #45a049; 
 }
 
-.colunaDireitaMI {
+.colunaDireitaMIOP {
   flex: 1;
 }
 
@@ -205,7 +212,7 @@ header p {
   text-align: center;
 }
 
-.colunaDireitaMI .tituloItem {
+.colunaDireitaMIOP .tituloItem {
   width: 30%;
 }
 
@@ -311,7 +318,7 @@ header p {
     width: 90%;
   }
 
-  .colunaEsquerdaMI, .colunaDireitaMI {
+  .colunaEsquerdaMIOP, .colunaDireitaMIOP {
     padding: 10px 15px 30px;
   }
 }
@@ -366,27 +373,34 @@ header p {
     width: 95%;
   }
 
-  .colunaEsquerdaMI, .colunaDireitaMI {
+  .colunaEsquerdaMIOP, .colunaDireitaMIOP {
     width: 100%;
     padding: 8px 12px 20px;
   }
 }
 
-.infoExtraPedido {
+.infoExtraPedidoMIOP {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 30px;
+  gap: 80px;
   margin-top: 10px;
 }
 
-.infoBox {
+.infoBoxMIOP {
   display: flex;
   align-items: center;
-  gap: 5px;
+  justify-content: center;
+  gap: 0px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000000;
+  background-color: #fef4ef;
+  padding: 6px 10px;
+  border-radius: 8px;
 }
 
-.infoBox .icon {
+.infoBoxMIOP .icon {
   font-size: 1.5em;
 }
 

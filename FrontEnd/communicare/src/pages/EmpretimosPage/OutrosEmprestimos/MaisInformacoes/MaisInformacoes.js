@@ -57,23 +57,23 @@ const Search = () => {
       <div className="mainNameMI1">
         <h1>Empréstimos</h1>
       </div>
-      <div className="tabs1">
-        <div className="choose1">
-          <button className="tab1" onClick={() => navigate("/meusEmprestimos")}>
+      <div className="tabsMIOE">
+        <div className="chooseMIOE">
+          <button className="tabMIOE" onClick={() => navigate("/meusEmprestimos")}>
             Meus Empréstimos
           </button>
-          <button className="tab1 active" onClick={() => navigate("/outrosEmprestimos")}>
+          <button className="tabMIOE active" onClick={() => navigate("/outrosEmprestimos")}>
             Outros Empréstimos
           </button>
           {userTipoUtilizadorId === true && (
-            <button className="tab1" onClick={handleClickPendentes}>
+            <button className="tabMIOE" onClick={handleClickPendentes}>
               Empréstimos Pendentes
             </button>
           )}
         </div>
-        <div className="search-wrapper1">
+        <div className="search-wrapperMIOE">
           <input type="text" placeholder="Pesquisar..." className="search1" />
-          <FaSearch className="search-icon1" />
+          <FaSearch className="search-iconMIOE" />
         </div>
       </div>
     </div>
@@ -165,9 +165,9 @@ const DetalhesItem = ({ setPopupMessage, setShowPopup }) => {
   };
 
   return (
-    <div className="detalhesContainer">
-      <div className="colunaEsquerdaMI">
-        <div className="userTitleMD">
+    <div className="detalhesContainerMIOE">
+      <div className="colunaEsquerdaMIOE">
+        <div className="userTitleMIOE">
           <img
             className="imgUsers"
             src={fotoEmprestador || iconFallback}
@@ -201,7 +201,7 @@ const DetalhesItem = ({ setPopupMessage, setShowPopup }) => {
         </div>
       </div>
 
-      <div className="colunaDireitaMI">
+      <div className="colunaDireitaMIOE">
         <h2 className="tituloItem">Detalhes</h2>
         <div className="caixaDescricao">
           {item.descItem}

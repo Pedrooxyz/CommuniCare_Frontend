@@ -55,12 +55,12 @@ header p {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.choose1 {
+.chooseOE {
   display: flex;
   width: 100%;
 }
   
-  .tabs1 {
+  .tabsOE {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -68,30 +68,30 @@ header p {
     margin-bottom: 20px;
   }
   
-  .tab1 {
+  .tabOE {
     flex: 1;
     background-color: #FFAEAE;
     color: white;
     border: none;
-    padding: 10px 30px;
+    padding: 10px 6px;
     border-radius: 999px;
     font-weight: bold;
     cursor: pointer;
-    margin-left: 60px;
+    margin-left: 30px;
     text-align: center; 
   }
   
-  .tab1.active {
+  .tabOE.active {
     background-color: #FF7C7C;
   }
   
-  .search-wrapper1 {
+  .search-wrapperOE {
     position: relative;
     display: flex;
     align-items: center;
   }
   
-  .search1 {
+  .searchOE {
     background-color: #E8F1FF;
     flex: 1;
     padding: 10px 20px 10px 40px;
@@ -101,72 +101,92 @@ header p {
     margin: 0 50px 0 20px;
   }
   
-  .search-icon1 {
+  .search-iconOE {
     position: absolute;
     left: 35px;
     color: #888;
   }
   
-  .search1::placeholder {
+  .searchOE::placeholder {
     margin-left: 3px;
   }
 
-.cards {
+ .cardsOE {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 35px;
-  max-width: 1440px; 
+  gap: 30px;
+  max-width: 1440px;
   margin: 0 auto;
   padding: 20px 60px;
   justify-content: center;
-}
-
-.card {
-  background-color: white;
+  }
+  
+  .cardOE {
+    background-color: white;
   border-radius: 20px;
-  padding: 15px;
+  padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 430px;
-  height: 650px;
+  width: 400px;
+  height: 550px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  }
   
-}
 
-.userTitleOE {
+.userTitleOE1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  gap: 80px;
+  
 }
 
 
+.imgItemOE1{
+  width: 320px !important;
+  height: 184px !important;
+  min-width: 320px !important;
+  max-width: 320px !important;
+  min-height: 184px !important;
+  max-height: 184px !important;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 0px auto 20px auto;
+  display: block;
+  box-sizing: border-box;
+}
 
-.imgUsers {
+.imgUsersOE {
   object-fit: cover;
   border-radius: 50%;
-  width: 70px;
-  height: 70px;
+  width: 65px;
+  height: 65px;
+  margin-left: 0px;
 }
 
-.card h2 {
-  background-color: white;
+.cardOE h2 {
+  background-color: #ffeef0;
   text-align: center;
-  font-size: 26px;
-  border-radius: 10px;
-  padding: 10px 20px;
-  margin-bottom: 10px;
-}
+  font-size: 23px;
+  border-radius: 8px;
+  padding: 8px 17px;
+  margin-top: 10px; /* Remove default margin */
+  display: inline-block; /* Ensure it respects nowrap */
+  white-space: nowrap; 
+  }
 
-.card p {
-  background-color: #FAEEE7;
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  height: 100px;
-  overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+.cardOE p {
+  background-color: #f9f3f0;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    width: 400px;
+    height: 100px;
+    margin: 0 15px;
+    overflow-y: scroll;
+    scrollbar-width: none;
 }
 
 .infoItemOE1 {
@@ -176,14 +196,14 @@ header p {
   padding-bottom: 25px;
   font-weight: bold;
   gap: 20px; 
-  margin-top: 20px;             
+  margin-top: 10px;             
 }
 
 .infoItemOE1 span {
   background-color: #FAEEE7;
   padding: 10px 20px;
   border-radius: 15px;
-  font-size: 20px;
+  font-size: 18px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -192,7 +212,7 @@ header p {
 
 .BotaoInformacaoOutros {
   background-color: #FFEEF5;
-  font-size: 20px;  
+  font-size: 16px;  
   color: black;
   font-weight: bold;
   padding: 12px 30px;
@@ -202,7 +222,7 @@ header p {
   justify-content: center;
   border: none;
   cursor: pointer;
-  margin: 0; 
+  
 }
 
 
@@ -238,22 +258,27 @@ header p {
   display: block;
 }
 
-.desc {
+.descOE {
   
   background-color: #FAEEE7;
-  padding: 10px 15px;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  max-height: 100px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
   overflow-y: auto;
   scrollbar-width: none;
-  width: 95%;
-  height: 100px;
-  margin: 0px auto 0px auto;
+  width: 340px !important;
+  min-width: 340px !important;
+  max-width: 340px !important;
+  height: 80px !important;
+  min-height: 80px !important;
+  max-height: 80px !important;
+  margin: 0 auto 8px auto;
+  box-sizing: border-box;
 }
 
 
-.descP {
-  margin-top: 5px;
+.descOP {
+  margin: 0;
   text-align: left;
+  font-weight: normal;
 }

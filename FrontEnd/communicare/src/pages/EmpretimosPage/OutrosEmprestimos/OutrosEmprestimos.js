@@ -21,29 +21,29 @@ const Search = ({ searchTerm, setSearchTerm, userTipoUtilizadorId, handleClickPe
       <div className="mainNameMI1">
         <h1>Empréstimos</h1>
       </div>
-      <div className="tabs1">
-        <div className="choose1">
-          <button className="tab1" onClick={() => navigate("/meusEmprestimos")}>
+      <div className="tabsOE">
+        <div className="chooseOE">
+          <button className="tabOE" onClick={() => navigate("/meusEmprestimos")}>
             Meus Empréstimos
           </button>
-          <button className="tab1 active" onClick={() => navigate("/outrosEmprestimos")}>
+          <button className="tabOE active" onClick={() => navigate("/outrosEmprestimos")}>
             Outros Empréstimos
           </button>
           {userTipoUtilizadorId === true && (
-            <button className="tab1" onClick={handleClickPendentes}>
+            <button className="tabOE" onClick={handleClickPendentes}>
               Empréstimos Pendentes
             </button>
           )}
         </div>
-        <div className="search-wrapper1">
+        <div className="search-wrapperOE">
           <input
             type="text"
             placeholder="Pesquisar..."
-            className="search1"
+            className="searchOE"
             value={searchTerm}
             onChange={handleInputChange}
           />
-          <FaSearch className="search-icon1" />
+          <FaSearch className="search-iconOE" />
         </div>
       </div>
     </div>
@@ -123,12 +123,12 @@ const ListaItems = ({ searchTerm }) => {
   );
 
   return (
-    <div className="cards">
+    <div className="cardsOE">
       {filteredItems.map((item) => (
-        <div className="card" key={item.itemId}>
-          <div className="userTitleOE">
+        <div className="cardOE" key={item.itemId}>
+          <div className="userTitleOE1">
             <img
-              className="imgUsers"
+              className="imgUsersOE"
               src={fotosEmprestadores[item.itemId] || iconFallback}
               onError={(e) => {
                 e.target.onerror = null;
@@ -141,12 +141,12 @@ const ListaItems = ({ searchTerm }) => {
             <h2>{item.nomeItem}</h2>
           </div>
           <img
-            className="imgItemOE"
+            className="imgItemOE1"
             src={getImagemSrc(item.fotografiaItem)}
             alt={item.nomeItem}
           />
-          <div className="desc">
-            <h className="descP">
+          <div className="descOE">
+            <h className="descOE">
               {item.descItem || "Sem descrição disponível."}
             </h>
           </div>

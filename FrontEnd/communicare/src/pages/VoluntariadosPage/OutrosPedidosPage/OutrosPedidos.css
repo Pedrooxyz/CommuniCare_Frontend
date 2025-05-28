@@ -96,47 +96,61 @@ header .ptext {
   color: #888;
 }
 
-.cards {
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 10px;
-  padding: 30px;
-}
-
-.card {
-  background-color: white;
+.cardsOE {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 20px 60px;
+  justify-content: center;
+  }
+  
+  .cardOE {
+    background-color: white;
   border-radius: 20px;
-  padding: 15px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  width: 480px;
-  height: 650px;
-  margin-bottom: 10px;
-}
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  height: 550px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  }
 
-.userTitle {
+/*.userTitle {
   display: flex;
   justify-content: space-between;
   align-items: center;
   column-gap: 20px;
   margin-bottom: 15px;
-}
+}*/
 
-.imgUsers {
+.imgUsersOP {
   object-fit: cover;
   border-radius: 50%;
-  width: 70px;
-  height: 70px;
-  margin-left: 20px;
+  width: 65px;
+  height: 65px;
+  margin-left: 0px;
 }
 
-.card h2 {
+.userTitleOP {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 30px;
+}
+
+.cardOE h2 {
   background-color: #ffeef0;
   text-align: center;
-  font-size: 26px;
-  border-radius: 10px;
-  padding: 10px 20px;
-  width: 100%;
-  box-sizing: border-box;
+  font-size: 23px;
+  border-radius: 8px;
+  padding: 8px 17px;
+  margin-top: 10px; /* Remove default margin */
+  display: inline-block; /* Ensure it respects nowrap */
+  white-space: nowrap; 
 }
 
 .ptext {
@@ -161,6 +175,20 @@ header .ptext {
   display: block;
 }
 
+.imgItemOP{
+  width: 320px !important;
+  height: 184px !important;
+  min-width: 320px !important;
+  max-width: 320px !important;
+  min-height: 184px !important;
+  max-height: 184px !important;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 12px auto 20px auto;
+  display: block;
+  box-sizing: border-box;
+}
+
 .infoPedido,
 .datetime {
   display: flex;
@@ -169,27 +197,25 @@ header .ptext {
   margin: 0 20px 10px 20px;
 }
 
-.infoPedido span,
-.datetime span {
+.infoPedido span {
   background-color: #FAEEE7;
-  padding: 10px 20px;
-  border-radius: 15px;
-  font-size: 20px;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 14px;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
+  gap: 5px;
 }
 
 .voluntariarButtonWrapper {
   display: flex;
   justify-content: center;
-  margin-top: 15px;
+  margin-top: 5px;
 }
 
 .voluntariarButton {
   background-color: #FFEEF5;
-  font-size: 20px;  
+  font-size: 16px;  
   color: black;
   font-weight: bold;
   padding: 12px 30px;
@@ -202,3 +228,56 @@ header .ptext {
   margin: 0;
 }
 
+.descOP {
+  background-color: #FAEEE7;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  overflow-y: auto;
+  scrollbar-width: none;
+  width: 340px !important;
+  min-width: 340px !important;
+  max-width: 340px !important;
+  height: 80px !important;
+  min-height: 80px !important;
+  max-height: 80px !important;
+  margin: 0 auto 8px auto;
+  box-sizing: border-box;
+}
+
+.descoP {
+  margin: 0;
+  text-align: left;
+  font-weight: normal;
+}
+
+
+.infoExtraPedidoOP {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border-radius: 8px;
+  margin: 3px 0;
+  width: 100%;
+}
+
+.infoBoxOP {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000000;
+  background-color: #fef4ef;
+  padding: 8px 19px;
+  border-radius: 8px;
+}
+
+.iconOP,
+.caresIconMP {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+}

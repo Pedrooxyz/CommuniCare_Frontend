@@ -53,25 +53,25 @@ const Search = () => {
   return (
     <div>
       <div className="mainNameMI1">
-        <h1>Pedidos Ajuda</h1>
+        <h1>Voluntariados</h1>
       </div>
-      <div className="tabs1">
-        <div className="choose1">
-          <button className="tab1" onClick={() => navigate("/meusPedidos")}>
+      <div className="tabsMIOP">
+        <div className="chooseMIOP">
+          <button className="tabMIOP" onClick={() => navigate("/meusPedidos")}>
             Meus Pedidos
           </button>
-          <button className="tab1 active" onClick={() => navigate("/outrosPedidos")}>
+          <button className="tabMIOP active" onClick={() => navigate("/outrosPedidos")}>
             Outros Pedidos
           </button>
           {userTipoUtilizadorId === true && (
-            <button className="tab1" onClick={handleClickPendentes}>
+            <button className="tabMIOP" onClick={handleClickPendentes}>
               Pedidos Pendentes
             </button>
           )}
         </div>
-        <div className="search-wrapper1">
+        <div className="search-wrapperMIOP">
           <input type="text" placeholder="Pesquisar..." className="search1" />
-          <FaSearch className="search-icon1" />
+          <FaSearch className="search-iconMIOP" />
         </div>
       </div>
     </div>
@@ -160,8 +160,8 @@ const DetalhesItem = () => {
   };
 
   return (
-    <div className="detalhesContainer">
-      <div className="colunaEsquerdaMI">
+    <div className="detalhesContainerMIOP">
+      <div className="colunaEsquerdaMIOP">
         <div className="userTitleMD">
           <img
             className="imgUsers"
@@ -180,7 +180,7 @@ const DetalhesItem = () => {
         </div>
 
         <img
-          className="imgItemDetalhesMI"
+          className="imgItemDetalhesMIOP"
           src={getImagemSrc(item.fotografiaPA)}
           alt={item.titulo}
           onError={(e) => {
@@ -189,24 +189,24 @@ const DetalhesItem = () => {
           }}
         />
 
-        <div className="infoItemI detalhes">
-          <div className="infoExtraPedido">
-            <div className="infoBox">
+        <div className="infoItemIMIOP detalhes">
+          <div className="infoExtraPedidoMIOP">
+            <div className="infoBoxMIOP">
               <span>&#128100;</span>
               <span>{item.nPessoas}</span>
             </div>
-            <div className="infoBox">
+            <div className="infoBoxMIOP">
               <span>{item.recompensaCares}</span>
-              <img src={cares} width={30} height={30} alt="Cares" />
+              <img src={cares} width={40} height={40} alt="Cares" />
             </div>
           </div>
-          <button className="botaoAdquirir" onClick={() => voluntariar(id)}>
+          <button className="botaoAdquirirMIOP" onClick={() => voluntariar(id)}>
             Voluntariar
           </button>
         </div>
       </div>
 
-      <div className="colunaDireitaMI">
+      <div className="colunaDireitaMIOP">
         <h2 className="tituloItem">Detalhes</h2>
         <div className="caixaDescricao">{item.descPedido}</div>
       </div>
