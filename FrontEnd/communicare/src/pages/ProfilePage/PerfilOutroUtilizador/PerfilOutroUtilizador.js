@@ -9,66 +9,9 @@ import notification from "../../../assets/notification.jpg";
 import plusP from "../../../assets/plusProfile.png";
 import cares from "../../../assets/Cares.png";
 import loja from "../../../assets/loja.png";
+import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
 
-const HeaderNot = ({ userId }) => {
-  const navigate = useNavigate();
-  const [userInfo, setUserInfo] = useState(null);
-  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        console.log(`[HeaderNot] Buscando dados do utilizador com ID: ${userId}`);
-        const userResponse = await api.get(`/Utilizadores/InfoUtilizador/${userId}`);
-        console.log("[HeaderNot] Resposta da API /Utilizadores/InfoUtilizador:", userResponse.data);
-        setUserInfo(userResponse.data);
-      } catch (error) {
-        console.error("[HeaderNot] Erro ao buscar dados do utilizador:", error);
-        setError(`Erro ao carregar as informações do utilizador: ${error.message}`);
-      }
-    };
-
-    if (userId) {
-      fetchUserInfo();
-    } else {
-      console.error("[HeaderNot] ID do utilizador não fornecido.");
-      setError("ID do utilizador não fornecido.");
-    }
-  }, [userId]);
-
-  if (error) return <p className="error-message">{error}</p>;
-  if (!userInfo) return <p className="loading-message">Carregando informações do utilizador...</p>;
-
-  return (
-    <header className="headerNot">
-      <div className="headerNot-container">
-        <div className="cares-section">
-          <img className="cares" src={cares} width={40} height={40} alt="Cares" />
-          <span>{userInfo.numCares ?? "0"}</span>
-        </div>
-
-        <div className="loja-section" onClick={() => navigate("/Loja")} style={{ cursor: "pointer" }}>
-          <img className="loja icon-hover-effect" src={loja} width={40} height={40} alt="Loja" />
-          <span><strong></strong></span>
-        </div>
-
-        <button
-          className="imgButton"
-          onClick={() => navigate("/notificacoes")}
-          aria-label="Ver notificações"
-        >
-          <img
-            className="imgHeader icon-hover-effect"
-            src={notification}
-            width={40}
-            height={40}
-            alt="Notificações"
-          />
-        </button>
-      </div>
-    </header>
-  );
-};
 
 const mapTipoContacto = (tipoId) => {
   switch (tipoId) {
@@ -92,18 +35,34 @@ const DadosUserPI = ({ userId }) => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          throw new Error("Token de autenticação não encontrado.");
+        }
+
         console.log(`[DadosUserPI] Buscando dados para o utilizador com ID: ${userId}`);
-        const [userResponse, contactosResponse, itensResponse, pedidosResponse] = await Promise.all([
-          api.get(`/Utilizadores/InfoUtilizador/${userId}`),
-          api.get(`/Contactos/ContactosUtilizador/${userId}`).catch(() => ({ data: [] })),
-          api.get(`/ItensEmprestimo/Disponiveis/${userId}`).catch(() => ({ data: [] })),
-          api.get(`/PedidosAjuda/PedidosDisponiveis/${userId}`).catch(() => ({ data: [] })),
-        ]);
+        const userResponse = await api.get(`/Utilizadores/InfoUtilizador/${userId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        }).catch((err) => {
+          throw new Error(`Falha ao buscar informações do utilizador: ${err.message}`);
+        });
+
+        const contactosResponse = await api.get(`/Contactos/ContactosUtilizador/${userId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        }).catch(() => ({ data: [] }));
+
+        const itensResponse = await api.get(`/ItensEmprestimo/ItensUtilizador/${userId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        }).catch(() => ({ data: [] }));
+
+        const pedidosResponse = await api.get(`/PedidosAjuda/PedidosUtilizador/${userId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        }).catch(() => ({ data: [] }));
 
         console.log("[DadosUserPI] Resposta da API /Utilizadores/InfoUtilizador:", userResponse.data);
         console.log("[DadosUserPI] Resposta da API /Contactos/ContactosUtilizador:", contactosResponse.data);
-        console.log("[DadosUserPI] Resposta da API /ItensEmprestimo/Disponiveis:", itensResponse.data);
-        console.log("[DadosUserPI] Resposta da API /PedidosAjuda/PedidosDisponiveis:", pedidosResponse.data);
+        console.log("[DadosUserPI] Resposta da API /ItensEmprestimo/ItensUtilizador:", itensResponse.data);
+        console.log("[DadosUserPI] Resposta da API /PedidosAjuda/PedidosUtilizador:", pedidosResponse.data);
 
         setUserInfo(userResponse.data);
         setContactos(contactosResponse.data);
@@ -215,7 +174,7 @@ function PerfilOutroUtilizador() {
 
   return (
     <>
-      <HeaderNot userId={userId} />
+      <HeaderProfileCares userId={userId} />
       <DadosUserPI userId={userId} />
     </>
   );
