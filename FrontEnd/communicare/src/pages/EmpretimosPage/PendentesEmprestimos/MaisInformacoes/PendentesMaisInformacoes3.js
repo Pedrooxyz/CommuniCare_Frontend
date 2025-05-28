@@ -190,7 +190,6 @@ const DetalhesItem = () => {
         />
 
         <div className="infoItem detalhes">
-          <span><FaCubes /> {item.disponivel}</span>
           <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}/h</span>
         </div>
 
