@@ -1,8 +1,8 @@
 * {
     box-sizing: border-box;
-  }
-  
-    .header-secundario {
+}
+
+.header-secundario {
     display: flex;
     justify-content: center;
     gap: 12px;
@@ -10,9 +10,9 @@
     background-color: #FFAEAE;
     border-bottom: 2px solid #ddd;
     margin-bottom: 30px;
-  }
+}
 
-  .botao-header-secundario {
+.botao-header-secundario {
     padding: 10px 16px;
     border: 1px solid #8d6a6a;
     background-color: rgb(245, 205, 205);
@@ -20,19 +20,28 @@
     border-radius: 6px;
     font-weight: bold;
     transition: background-color 0.2s ease;
-  }
+}
 
-  .botao-header-secundario:hover {
+.botao-header-secundario:hover {
     background-color: #eaeaea;
-  }
+}
 
-  body {
+.botao-header-secundario.active {
+    background-color: #FF7C7C; 
+    color: white; 
+}
+
+.botao-header-secundario.active:hover {
+    background-color: #d48c8c; 
+}
+
+body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
     background-color: #E9DEDE;
-  }
-  
-  header {
+}
+
+header {
     display: flex;
     column-gap: 10px;
     align-items: center;
@@ -40,55 +49,52 @@
     top: 0; 
     right: 0; 
     padding: 10px 20px 10px; 
-  }
-  
-  header p{
+}
+
+header p {
     font-weight: bold;
     font-size: 20px;
-  }
-  
-  .imgHeaderVol{
+}
+
+.imgHeaderVol {
     border-radius: 50%;
     object-fit: cover;
-    
-    
-  }
-  
-  .mainName{
+}
+
+.mainName {
     background-color: #ffffff;
     display: flex;
     justify-content: center;
     margin: 20px 520px 0px;
     border-radius: 15px;
     margin-bottom: 30px;
-  }
-  
-  .mainName h1{
+}
+
+.mainName h1 {
     margin-top: 15px;
     margin-bottom: 15px;
     font-weight: bold;
     font-size: 40px;
-  }
-  
-  .app {
+}
+
+.app {
     padding: 20px;
-  }
-  
-  .choose {
+}
+
+.choose {
     display: flex;
     width: 100%; 
-  }
-  
-  
-  .tabs {
+}
+
+.tabs {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 10px;
     margin-bottom: 20px;
-  }
-  
-  .tab {
+}
+
+.tab {
     flex: 1;
     background-color: #FFAEAE;
     color: white;
@@ -99,20 +105,19 @@
     cursor: pointer;
     margin-left: 60px;
     text-align: center; 
-  }
-  
-  .tab.active {
+}
+
+.tab.active {
     background-color: #FF7C7C;
-  }
-  
-  .search-wrapper {
+}
+
+.search-wrapper {
     position: relative;
     display: flex;
     align-items: center;
-    
-  }
-  
-  .search {
+}
+
+.search {
     background-color: #E8F1FF;
     flex: 1;
     padding: 10px 20px 10px 40px; 
@@ -121,28 +126,28 @@
     border: 1px solid #ccc;
     margin-right: 50px;
     margin-left: 20px;
-  }
-  
-  .search-icon {
+}
+
+.search-icon {
     position: absolute;
     left: 35px;
     color: #888;
-  }
-  
-  input.placeholder{
+}
+
+input.placeholder {
     margin-left: 3px;
-  }
-  
-  .cards {
+}
+
+.cards {
     display: flex;
     flex-wrap: wrap; 
     column-gap: 10px;
     padding-left: 30px;
     padding-right: 30px;
     padding-bottom: 20px;
-  }
-  
-  .card {
+}
+
+.card {
     background-color: white;
     border-radius: 20px;
     padding: 15px;
@@ -150,36 +155,34 @@
     width: 480px;
     height: 650px;
     margin-bottom: 10px;
-  }
-  
-  .userTitleOE{
+}
+
+.userTitleOE {
     display: flex;
     justify-content: space-between;
     column-gap: 50px;
     align-items: center;
     margin-bottom: 15px;
-  }
-  
-  .imgItemOE {
+}
+
+.imgItemOE {
     width: 370px;
     height: 230px;
     object-fit: cover;
     border-radius: 12px;
     margin: 15px auto 25px auto; 
     display: block; 
-    
-  }
-  
-  .imgUsers {
+}
+
+.imgUsers {
     object-fit: cover; 
     border-radius: 50%;
     margin-left: 20px;
     width: 70px; 
     height: 70px; 
-  }
-  
-  
-  .card h2 {
+}
+
+.card h2 {
     background-color: #ffeef0;
     text-align: center;
     font-size: 26px;
@@ -189,10 +192,9 @@
     margin-bottom: 10px;
     width: 100%;
     box-sizing: border-box; 
-  }
-  
-  
-  .card p {
+}
+
+.card p {
     background-color: #f9f3f0;
     padding: 10px 20px;
     border-radius: 10px;
@@ -202,11 +204,11 @@
     margin-left: 15px;
     margin-right: 15px;
     overflow-y: scroll;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-  }
-  
-  .infoItemOE {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.infoItemOE {
     display: flex;
     justify-content: space-between;
     margin-top: 30px;
@@ -214,11 +216,9 @@
     margin-left: 20px;
     margin-right: 20px;
     margin-bottom: 5px;
-  }
-  
-  
-  
-  .infoItemOE span {
+}
+
+.infoItemOE span {
     background-color: #FAEEE7;
     padding: 10px 20px;
     border-radius: 15px;
@@ -227,14 +227,13 @@
     align-items: center;           
     justify-content: center;        
     gap: 8px;                        
-  }
-  
-  
-  .moreInfo {
+}
+
+.moreInfo {
     text-align: center;
-  }
-  
-  .moreInfo button{
+}
+
+.moreInfo button {
     background-color: #FAEEE7;
     display: inline-block;
     border-radius: 10px;
@@ -243,4 +242,4 @@
     font-size: 20px;
     margin-top: 15px;
     cursor: pointer;
-  }
+}
