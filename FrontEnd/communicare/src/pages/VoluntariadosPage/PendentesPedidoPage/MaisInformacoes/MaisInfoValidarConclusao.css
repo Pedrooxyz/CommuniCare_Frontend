@@ -371,12 +371,12 @@ header p {
   }
 }
 
-.infoExtraPedido {
+.infoExtraPedidoV2 {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 10px;
-  margin-top: 10px;
+  justify-content: flex-start;
+  gap: 100px; /* Ajusta o valor para o espaço entre nPessoas e cares */
+  margin-top: 30px;
 }
 
 .infoBox {
@@ -403,7 +403,7 @@ header p {
 .buttonGroup.center {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .botaoValidar {

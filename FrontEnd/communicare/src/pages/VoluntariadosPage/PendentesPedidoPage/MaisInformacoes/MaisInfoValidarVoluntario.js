@@ -227,7 +227,7 @@ fetchVoluntarios();
       />
 
       <div className="infoItemI detalhes">
-        <div className="infoExtraPedido">
+        <div className="infoExtraPedidoV">
           <div className="infoBox">
             <span className="icon">&#128100;</span>
             <span>{item.nPessoas}</span>

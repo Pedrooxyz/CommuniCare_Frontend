@@ -374,25 +374,33 @@ header p {
 
 .infoExtraPedido {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 30px;
-  margin-top: 10px;
+  justify-content: flex-start;
+  gap: 100px; /* Ajusta o valor para o espaço entre nPessoas e cares */
+  margin-top: 30px;
 }
 
 .infoBox {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px; /* Espaço entre o ícone e o número dentro de cada box */
+  background-color: #fef4ef;
+  padding: 8px 15px;
+  border-radius: 8px;
 }
 
 .infoBox .icon {
-  font-size: 1.5em;
+  font-size: 24px;
+}
+
+.infoBox span {
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .caresIcon {
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 40px;
 }
 
 .botoesContainer {
@@ -401,35 +409,48 @@ header p {
   width: 100%; 
 }
 
+.buttonGroup {
+  display: flex;
+  justify-content: center;  /* Centraliza os botões horizontalmente */
+  gap: 20px;                /* Espaçamento entre os botões */
+  margin-top: 10px;         /* Espaço acima do grupo */
+}
+
 .botaoValidar,
 .botaoRejeitar {
-  flex-grow: 1; 
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
+  width: 120px;           /* Mesmo tamanho para ambos */
+  height: 40px;           /* Altura igual */
+  font-size: 16px;        /* Tamanho de fonte consistente */
+  border-radius: 8px;     /* Bordas arredondadas (opcional) */
   cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-  color: white;
+  border: none;           /* Remove a borda padrão */
+  transition: 0.3s;
 }
 
+/* Cores (opcional - personaliza como preferires) */
 .botaoValidar {
-  background-color: #4CAF50; 
+  background-color: #4CAF50;
+  color: white;
+  display: flex;
+  justify-content: center;
 }
 
+.botaoRejeitar {
+  background-color: #f44336;
+  color: white;
+  display: flex;
+  justify-content: center;
+}
+
+/* Efeito hover (opcional) */
 .botaoValidar:hover {
   background-color: #45a049;
 }
 
-.botaoRejeitar {
-  background-color: #f44336; 
-  margin-left: 20px;
+.botaoRejeitar:hover {
+  background-color: #d32f2f;
 }
 
-.botaoRejeitar:hover {
-  background-color: #da190b;
-}
 
 
 

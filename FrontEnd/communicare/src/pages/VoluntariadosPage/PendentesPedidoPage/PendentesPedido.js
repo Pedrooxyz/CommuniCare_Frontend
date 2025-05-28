@@ -115,9 +115,9 @@ const ListaPedidos = () => {
   }, []);
 
   return (
-    <div className="cards">
+    <div className="cardsPP">
       {pedidos.map((pedido) => (
-        <div className="card" key={pedido.pedidoId}>
+        <div className="cardPP" key={pedido.pedidoId}>
           <div className="userTitleOE">
             <img
               className="imgUsers"
@@ -133,7 +133,7 @@ const ListaPedidos = () => {
             <h2>{pedido.titulo}</h2>
           </div>
           <img
-            className="imgItemOE"
+            className="imgItemPP"
             src={getImagemSrc(pedido.fotografiaPA)}
             alt={pedido.titulo}
             onError={(e) => {
@@ -141,7 +141,9 @@ const ListaPedidos = () => {
               e.target.src = iconFallback;
             }}
           />
-          <p>{pedido.descricao || "Sem descrição disponível."}</p>
+          <div className="descPP">
+            <p className="descpP">{pedido.descricao || "Sem descrição disponível."}</p>
+          </div>
           <div className="moreInfo2">
             <button onClick={() => navigate(`/pedidos/pendentes/mais-info/${pedido.pedidoId}`)}>
               Mais Informações
@@ -200,9 +202,9 @@ const ListaPedidosAquisicao = () => {
   }, []);
 
   return (
-    <div className="cards">
+    <div className="cardsPP">
       {pedidosWithPhotos.map((pedido) => (
-        <div className="card" key={pedido.pedidoId}>
+        <div className="cardPP" key={pedido.pedidoId}>
           <div className="userTitleOE">
             <img
               className="imgUsers"
@@ -218,7 +220,7 @@ const ListaPedidosAquisicao = () => {
             <h2>{pedido.titulo}</h2>
           </div>
           <img
-            className="imgItemOE"
+            className="imgItemPP"
             src={getImagemSrc(pedido.fotografiaPA)}
             alt={pedido.titulo}
             onError={(e) => {
@@ -226,8 +228,10 @@ const ListaPedidosAquisicao = () => {
               e.target.src = iconFallback;
             }}
           />
-          <p>{pedido.descricao || "Sem descrição disponível."}</p>
-          <div className="infoItemOE">
+          <div className="descPP">
+            <p className="descpP">{pedido.descricao || "Sem descrição disponível."}</p>
+          </div>
+          <div className="infoItemOEP">
             <span><FaUser /> Voluntários: {pedido.numeroVoluntarios}</span>
             <span style={{ display: "inline-flex", alignItems: "center", minWidth: 60 }}>
               <img
@@ -238,7 +242,7 @@ const ListaPedidosAquisicao = () => {
               {pedido.recompensaCares}
             </span>
           </div>
-          <div className="moreInfo">
+          <div className="moreInfoP">
             <button onClick={() => navigate(`/pedidos/pendentes/mais-info2/${pedido.pedidoId}`)}>
               Mais Informações
             </button>
@@ -296,9 +300,9 @@ const ListaPedidosDevolucao = () => {
   }, []);
 
   return (
-    <div className="cards">
+    <div className="cardsPP">
       {pedidos.map((pedido) => (
-        <div className="card" key={pedido.pedidoId}>
+        <div className="cardPP" key={pedido.pedidoId}>
           <div className="userTitleOE">
             <img
               className="imgUsers"
@@ -314,7 +318,7 @@ const ListaPedidosDevolucao = () => {
             <h2>{pedido.titulo}</h2>
           </div>
           <img
-            className="imgItemOE"
+            className="imgItemPP"
             src={getImagemSrc(pedido.fotografiaPA)}
             alt={pedido.titulo}
             onError={(e) => {
@@ -322,8 +326,10 @@ const ListaPedidosDevolucao = () => {
               e.target.src = iconFallback;
             }}
           />
-          <p>{pedido.descricao || "Sem descrição disponível."}</p>
-          <div className="infoItemOE">
+          <div className="descPP">
+            <p className="descpP">{pedido.descricao || "Sem descrição disponível."}</p>
+          </div>
+          <div className="infoItemOEP">
             <span><FaUser /> Voluntários: {pedido.numeroVoluntarios}</span>
             <span style={{ display: "inline-flex", alignItems: "center", minWidth: 60 }}>
               <img
@@ -334,7 +340,7 @@ const ListaPedidosDevolucao = () => {
               {pedido.recompensaCares}
             </span>
           </div>
-          <div className="moreInfo">
+          <div className="moreInfoP">
             <button onClick={() => navigate(`/pedidos/pendentes/mais-info3/${pedido.pedidoId}`)}>
               Mais Informações
             </button>

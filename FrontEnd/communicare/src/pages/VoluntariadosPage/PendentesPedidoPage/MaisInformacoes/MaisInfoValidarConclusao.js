@@ -187,7 +187,7 @@ const DetalhesItem = () => {
                 />
 
                 <div className="infoItemI detalhes">
-                    <div className="infoExtraPedido">
+                    <div className="infoExtraPedidoV2">
                         <div className="infoBox">
                             <span className="icon">&#128100;</span>
                             <span>{item.nPessoas}</span>
