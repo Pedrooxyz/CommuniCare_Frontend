@@ -47,6 +47,8 @@ import SidebarLayout from "./components/Sidebar/SidebarLayout";
 
 import HistoricoLoja from "./pages/Loja/HistoricoLoja/HistoricoLoja";
 
+import PerfilOutroUtilizador from "./pages/ProfilePage/PerfilOutroUtilizador/PerfilOutroUtilizador";
+
 
 function App() {
   return (
@@ -83,6 +85,7 @@ function App() {
             <Route path="/maisInfo/:id" element={<MaisInformacoes />} />
             <Route path="/HistoricoTransacoes" element={<HistoricoTransacoes />} />
             <Route path="/HistoricoLojas" element={<HistoricoLoja />} />
+            <Route path="/perfilOutroUtilizador/:userId" element={<PerfilOutroUtilizador />} />
 
           </Route>
 

@@ -83,7 +83,6 @@ const ListaPedidos = () => {
         });
         console.log("Pedidos pendentes recebidos:", response.data);
 
-        // Fetch photos for each pedido
         const pedidosWithPhotos = await Promise.all(
           response.data.map(async (pedido) => {
             try {
@@ -169,7 +168,6 @@ const ListaPedidosAquisicao = () => {
         });
         console.log("Pedidos para validar voluntariado recebidos:", response.data);
 
-        // Fetch photos for each pedido
         const pedidosWithPhotos = await Promise.all(
           response.data.map(async (pedido) => {
             try {
@@ -266,7 +264,6 @@ const ListaPedidosDevolucao = () => {
         });
         console.log("Pedidos para validar conclusão recebidos:", response.data);
 
-        // Fetch photos for each pedido
         const pedidosWithPhotos = await Promise.all(
           response.data.map(async (pedido) => {
             try {
