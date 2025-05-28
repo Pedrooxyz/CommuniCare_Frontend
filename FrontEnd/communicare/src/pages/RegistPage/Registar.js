@@ -129,7 +129,7 @@ function DadosAuthentication() {
             Registo foi sucedido
           </div>
         ) : (
-          console.log("Dados inseridos", formValues)
+          console.log("Registo", formValues)
         )}
 
         <form onSubmit={handleSubmit}>
@@ -215,18 +215,20 @@ function DadosAuthentication() {
                   />
                 </div>
                 <p className="pErrosR">{formErrors.cPostal}</p>
-
-                <div className="fieldR">
-                  <input className="inputDadosRegR"
-                    type="text"
-                    name="localidade"
-                    placeholder="Localidade"
-                    value={formValues.localidade}
-                    onChange={handleChange}
-                  />
-                </div>
-                <p className="pErrosR">{formErrors.localidade}</p>
               </div>
+            </div>
+
+            <div className="center-fieldR">
+              <div className="fieldR">
+                <input className="inputDadosRegR"
+                  type="text"
+                  name="localidade"
+                  placeholder="Localidade"
+                  value={formValues.localidade}
+                  onChange={handleChange}
+                />
+              </div>
+              <p className="pErrosR">{formErrors.localidade}</p>
             </div>
 
             <button className="buttonSubmitR" type="submit">Submeter</button>

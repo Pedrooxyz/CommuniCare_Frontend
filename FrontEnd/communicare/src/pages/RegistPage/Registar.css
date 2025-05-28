@@ -15,7 +15,6 @@ body {
 .headerR {
   margin-bottom: 0;
   position: relative;
-  
 }
 
 .iconCCR {
@@ -38,14 +37,13 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 0px; /* Move content closer to the top */
-  min-height: auto; /* Remove 100vh to avoid forcing vertical centering */
+  padding-top: 0px;
+  min-height: auto;
 }
 
 .h1RegR {
   margin-top: 0;
   margin-bottom: 20px;
-  
 }
 
 .containerR > form {
@@ -55,7 +53,7 @@ body {
   padding: 30px;
   border-radius: 15px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  margin-top: 0; /* Ensure no extra margin pushes it down */
+  margin-top: 0;
 }
 
 .form-columnsR {
@@ -67,13 +65,22 @@ body {
 .left-columnR,
 .right-columnR {
   flex: 1;
-  min-width: 0; /* Prevents overflow */
+  min-width: 0;
+}
+
+.center-fieldR {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px; /* Keep increased width for localidade */
+  margin: 0 auto;
 }
 
 .inputDadosRegR {
   background-color: rgba(124, 125, 126, 0.7);
   color: #000000;
-  padding: 12px;
+  padding: 12px; /* Consistent padding for all inputs */
   margin-bottom: 12px;
   border-radius: 10px;
   width: 100%;
@@ -104,14 +111,13 @@ body {
   padding: 10px;
   border-radius: 10px;
   width: 100%;
-  max-width: 200px; /* Limit width for centering */
+  max-width: 200px;
   text-align: center;
   border: 1px solid green;
   cursor: pointer;
- 
   transition: background 0.3s ease;
   display: block;
-  margin: 20px auto; /* Center the button */
+  margin: 20px auto;
 }
 
 .buttonSubmitR:hover {
@@ -123,6 +129,7 @@ body {
   font-size: 0.9em;
   margin-top: -8px;
   margin-bottom: 8px;
+  text-align: center;
 }
 
 .textRegR {
@@ -136,7 +143,7 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
-  font-weight: bold;
+  
 }
 
 .regLinksR:hover {
@@ -145,7 +152,7 @@ body {
 }
 
 .messageR.successR {
-  background-color: rgba(44, 208, 132, 0.9);
+  background-color: rgba(44, 255, 132, 9);
   color: white;
   padding: 12px;
   margin-bottom: 15px;
@@ -155,7 +162,9 @@ body {
 }
 
 .password-fieldR {
-  position: relative;
+ position: relative;
+
+ color: #333;
 }
 
 .password-fieldR input {
