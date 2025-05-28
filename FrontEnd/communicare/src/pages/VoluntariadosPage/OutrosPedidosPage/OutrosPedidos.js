@@ -121,12 +121,12 @@ const ListaPedidos = () => {
   }, []);
 
   return (
-    <div className="cards">
+    <div className="cardsOE">
       {pedidos.map((pedido) => (
-        <div className="card" key={pedido.pedidoId}>
-          <div className="userTitleOE">
+        <div className="cardOE" key={pedido.pedidoId}>
+          <div className="userTitleOP">
             <img
-              className="imgUsers"
+              className="imgUsersOP"
               src={pedido.fotoDono}
               onError={(e) => {
                 e.target.onerror = null;
@@ -141,7 +141,7 @@ const ListaPedidos = () => {
             <h2>{pedido.titulo}</h2>
           </div>
           <img
-            className="imgItemOE"
+            className="imgItemOP"
             src={getImagemSrc(pedido.fotografiaPA)}
             alt={pedido.titulo}
             onError={(e) => {
@@ -149,16 +149,16 @@ const ListaPedidos = () => {
               e.target.src = iconFallback;
             }}
           />
-          <div className="desc">
-            <h4 className="descP">{pedido.descPedido || "Sem descrição."}</h4>
+          <div className="descOP">
+            <h4 className="descoP">{pedido.descPedido || "Sem descrição."}</h4>
           </div>
-          <div className="infoExtraPedido">
-            <div className="infoBox">
-              <span className="icon">&#128100;</span>
+          <div className="infoExtraPedidoOP">
+            <div className="infoBoxOP">
+              <span className="iconOP">&#128100;</span>
               <span>{pedido.nPessoas}</span>
             </div>
-            <div className="infoBox">
-              <span className="icon">{pedido.recompensaCares}</span>
+            <div className="infoBoxOP">
+              <span className="iconOP">{pedido.recompensaCares}</span>
               <img src={cares} alt="Cares" className="caresIcon" />
             </div>
           </div>
