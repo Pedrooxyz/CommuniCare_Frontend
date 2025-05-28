@@ -48,27 +48,27 @@ const Search = ({ searchTerm, setSearchTerm }) => {
       <div className="mainName">
         <h1>Empréstimos</h1>
       </div>
-      <div className="tabs">
+      <div className="tabsME">
         <div className="choose">
-          <button className="tab active" onClick={() => navigate("/meusEmprestimos")}>
+          <button className="tabME active" onClick={() => navigate("/meusEmprestimos")}>
             Meus Empréstimos
           </button>
-          <button className="tab" onClick={() => navigate("/outrosEmprestimos")}>Outros Emprestimos</button>
+          <button className="tabME" onClick={() => navigate("/outrosEmprestimos")}>Outros Emprestimos</button>
           {userTipoUtilizadorId === true && (
-            <button className="tab" onClick={handleClickPendentes}>
+            <button className="tabME" onClick={handleClickPendentes}>
               Empréstimos Pendentes
             </button>
           )}
         </div>
-        <div className="search-wrapper">
+        <div className="search-wrapper1">
           <input
             type="text"
             placeholder="Pesquisar..."
-            className="search"
+            className="search1"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
           />
-          <FaSearch className="search-icon" />
+          <FaSearch className="search-icon1" />
         </div>
       </div>
     </div>
@@ -159,28 +159,28 @@ const ListaItems = ({ searchTerm }) => {
   );
 
   return (
-    <div className="cards">
-      <div className="card adicionar-card" onClick={() => navigate("/pedirEmprestimo")}>
-        <div className="TitleOE">
+    <div className="cardsME">
+      <div className="cardME adicionar-card" onClick={() => navigate("/pedirEmprestimo")}>
+        <div className="TitleME">
           <h2>Adicionar Item</h2>
         </div>
         <div className="adicionarIcon">+</div>
       </div>
 
       {filteredItems.map((item) => (
-        <div className="card" key={item.itemId}>
+        <div className="cardME" key={item.itemId}>
           <div className="TitleOE">
             <h2>{item.nomeItem}</h2>
           </div>
           <img
-            className="imgItemOE"
+            className="imgItemMP"
             src={getImagemSrc(item.fotografiaItem)}
             alt={item.nomeItem}
           />
           <div className="descME">
             <h>{item.descItem || "Sem descrição disponível."}</h>
           </div>
-          <div className="infoItemME">
+          <div className="infoItemME1">
             <span>
               <img src={cares} width={35} height={35} alt="Cares" /> {item.comissaoCares}/h
             </span>
