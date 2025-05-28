@@ -1,72 +1,146 @@
-import React, { useState, useEffect } from "react";
 import "./PerfilOutroUtilizador.css";
-import { useNavigate } from "react-router-dom";
-import { FaPlus, FaChevronRight } from 'react-icons/fa';
-import { api } from '../../../utils/axios.js';
-import defaultProfile from '../../../assets/icon.jpg';
-import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
+import { useNavigate, useParams } from "react-router-dom";
+import { FaPlus, FaChevronRight } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import { api } from "../../../utils/axios.js";
 
-const PerfilOutroUtilizador = ({ userId }) => {
+import defaultProfile from "../../../assets/icon.jpg";
+import notification from "../../../assets/notification.jpg";
+import plusP from "../../../assets/plusProfile.png";
+import cares from "../../../assets/Cares.png";
+import loja from "../../../assets/loja.png";
+
+const HeaderNot = ({ userId }) => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
-  const [contactos, setContactos] = useState([]);
-  const [helpRequests, setHelpRequests] = useState([]);
-  const [loans, setLoans] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchUserInfo = async () => {
       try {
-        const token = localStorage.getItem("token");
-
-        const userResponse = await api.get(`/Utilizadores/InfoUtilizador/${userId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        const contactosResponse = await api.get(`/Contactos/ContactosUtilizador/${userId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        const helpRequestsResponse = await api.get(`/PedidosAjuda/PedidosDisponiveis/${userId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        const loansResponse = await api.get(`/ItensEmprestimo/Disponiveis/${userId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
+        console.log(`[HeaderNot] Buscando dados do utilizador com ID: ${userId}`);
+        const userResponse = await api.get(`/Utilizadores/InfoUtilizador/${userId}`);
+        console.log("[HeaderNot] Resposta da API /Utilizadores/InfoUtilizador:", userResponse.data);
         setUserInfo(userResponse.data);
-        setContactos(contactosResponse.data);
-        setHelpRequests(helpRequestsResponse.data);
-        setLoans(loansResponse.data);
       } catch (error) {
-        console.error("Erro ao buscar dados:", error);
+        console.error("[HeaderNot] Erro ao buscar dados do utilizador:", error);
+        setError(`Erro ao carregar as informações do utilizador: ${error.message}`);
       }
     };
 
-    fetchUserData();
+    if (userId) {
+      fetchUserInfo();
+    } else {
+      console.error("[HeaderNot] ID do utilizador não fornecido.");
+      setError("ID do utilizador não fornecido.");
+    }
   }, [userId]);
 
-  const mapTipoContacto = (tipoId) => {
-    switch (tipoId) {
-      case 1: return 'Email';
-      case 2: return 'Contacto Telefónico';
-      default: return 'Desconhecido';
-    }
-  };
+  if (error) return <p className="error-message">{error}</p>;
+  if (!userInfo) return <p className="loading-message">Carregando informações do utilizador...</p>;
 
   return (
-    <div className="profile-container">
-      <HeaderProfileCares />
-      <div className="main-content">
-        <div className="profile-header">
-          <img
-            className="profile-pic"
-            src={userInfo?.FotoUtil ? `http://localhost:5182${userInfo.FotoUtil}` : defaultProfile}
-            alt="Foto de perfil"
-          />
-          <h1>{userInfo?.NomeUtilizador || "Carregando..."}</h1>
+    <header className="headerNot">
+      <div className="headerNot-container">
+        <div className="cares-section">
+          <img className="cares" src={cares} width={40} height={40} alt="Cares" />
+          <span>{userInfo.numCares ?? "0"}</span>
         </div>
-        <div className="contact-section">
+
+        <div className="loja-section" onClick={() => navigate("/Loja")} style={{ cursor: "pointer" }}>
+          <img className="loja icon-hover-effect" src={loja} width={40} height={40} alt="Loja" />
+          <span><strong></strong></span>
+        </div>
+
+        <button
+          className="imgButton"
+          onClick={() => navigate("/notificacoes")}
+          aria-label="Ver notificações"
+        >
+          <img
+            className="imgHeader icon-hover-effect"
+            src={notification}
+            width={40}
+            height={40}
+            alt="Notificações"
+          />
+        </button>
+      </div>
+    </header>
+  );
+};
+
+const mapTipoContacto = (tipoId) => {
+  switch (tipoId) {
+    case 1:
+      return "Email";
+    case 2:
+      return "Contacto Telefónico";
+    default:
+      return "Desconhecido";
+  }
+};
+
+const DadosUserPI = ({ userId }) => {
+  const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useState(null);
+  const [contactos, setContactos] = useState([]);
+  const [meusItens, setMeusItens] = useState([]);
+  const [pedidosDisponiveis, setPedidosDisponiveis] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        console.log(`[DadosUserPI] Buscando dados para o utilizador com ID: ${userId}`);
+        const [userResponse, contactosResponse, itensResponse, pedidosResponse] = await Promise.all([
+          api.get(`/Utilizadores/InfoUtilizador/${userId}`),
+          api.get(`/Contactos/ContactosUtilizador/${userId}`).catch(() => ({ data: [] })),
+          api.get(`/ItensEmprestimo/Disponiveis/${userId}`).catch(() => ({ data: [] })),
+          api.get(`/PedidosAjuda/PedidosDisponiveis/${userId}`).catch(() => ({ data: [] })),
+        ]);
+
+        console.log("[DadosUserPI] Resposta da API /Utilizadores/InfoUtilizador:", userResponse.data);
+        console.log("[DadosUserPI] Resposta da API /Contactos/ContactosUtilizador:", contactosResponse.data);
+        console.log("[DadosUserPI] Resposta da API /ItensEmprestimo/Disponiveis:", itensResponse.data);
+        console.log("[DadosUserPI] Resposta da API /PedidosAjuda/PedidosDisponiveis:", pedidosResponse.data);
+
+        setUserInfo(userResponse.data);
+        setContactos(contactosResponse.data);
+        setMeusItens(itensResponse.data);
+        setPedidosDisponiveis(pedidosResponse.data);
+      } catch (error) {
+        console.error("[DadosUserPI] Erro ao buscar dados:", error);
+        setError(`Erro ao carregar os dados do perfil: ${error.message}`);
+      }
+    };
+
+    if (userId) {
+      fetchUserInfo();
+    } else {
+      console.error("[DadosUserPI] ID do utilizador não fornecido.");
+      setError("ID do utilizador não fornecido.");
+    }
+  }, [userId]);
+
+  if (error) return <p className="error-message">{error}</p>;
+  if (!userInfo) return <p className="loading-message">Carregando perfil...</p>;
+
+  return (
+    <div>
+      <div className="info">
+        <div className="IconProfile">
+          <img
+            className="icPerson"
+            src={userInfo.fotoUtil ? `http://localhost:5182${userInfo.fotoUtil}` : defaultProfile}
+            alt="Imagem de Perfil"
+          />
+        </div>
+      </div>
+
+      <div className="gridProfile">
+        <div className="cardPofile profile">
+          <h2 className="name">{userInfo.nomeUtilizador ?? "..."}</h2>
           <h3>Contactos:</h3>
           {contactos.length > 0 ? (
             contactos.map((contacto, index) => (
@@ -77,73 +151,50 @@ const PerfilOutroUtilizador = ({ userId }) => {
           ) : (
             <p className="contact">Nenhum contacto disponível</p>
           )}
+          <span className="ellipsis"></span>
         </div>
-        <div className="sections">
-          <div className="section">
-            <h2>Pedidos de Ajuda</h2>
-            <div className="buttons">
-              <button
-                className="action-btn"
-                onClick={() => navigate(`/PedirVoluntariado/${userId}`)}
-              >
-                Pedir Ajuda <FaPlus style={{ marginLeft: '6px' }} />
-              </button>
-              <button
-                className="sub-action"
-                onClick={() => navigate(`/MeusPedidos/${userId}`)}
-              >
-                Gerir Pedidos <FaChevronRight style={{ marginLeft: '6px' }} />
-              </button>
-            </div>
-            <div className="recent">
-              <h4>Recentes:</h4>
-              {helpRequests.length > 0 ? (
-                helpRequests.map((pedido) => (
+
+        <div className="cardPofile">
+          <h2 className="section">Pedidos de Ajuda</h2>
+          <div className="recent">
+            <h4 className="recent-name">Recentes:</h4>
+            <div className="recent-items">
+              {pedidosDisponiveis.length > 0 ? (
+                pedidosDisponiveis.map((pedido) => (
                   <div
                     key={pedido.pedidoAjudaId}
                     className="item"
-                    onClick={() => navigate(`/maisInfoPedidos/${pedido.pedidoId}`)}
-                    style={{ cursor: 'pointer' }}
+                    style={{ cursor: "pointer" }}
+                    onClick={() => navigate(`/maisInfoPedidos/${pedido.pedidoAjudaId}`)}
                   >
                     {pedido.titulo}
                   </div>
                 ))
               ) : (
-                <p>Nenhum pedido disponível.</p>
+                <p className="contact">Nenhum pedido disponível.</p>
               )}
             </div>
           </div>
-          <div className="section">
-            <h2>Empréstimos</h2>
-            <div className="buttons">
-              <button
-                className="action-btn"
-                onClick={() => navigate(`/PedirEmprestimo/${userId}`)}
-              >
-                Adicionar Item <FaPlus style={{ marginLeft: '6px' }} />
-              </button>
-              <button
-                className="sub-action"
-                onClick={() => navigate(`/MeusEmprestimos/${userId}`)}
-              >
-                Gerir Empréstimos <FaChevronRight style={{ marginLeft: '6px' }} />
-              </button>
-            </div>
-            <div className="recent">
-              <h4>Recentes:</h4>
-              {loans.length > 0 ? (
-                loans.map((item) => (
+        </div>
+
+        <div className="cardPofile">
+          <h2 className="section">Empréstimos</h2>
+          <div className="recent">
+            <h4 className="recent-name">Recentes:</h4>
+            <div className="recent-items">
+              {meusItens.length > 0 ? (
+                meusItens.map((item) => (
                   <div
                     key={item.itemId}
                     className="item"
+                    style={{ cursor: "pointer" }}
                     onClick={() => navigate(`/maisInfo/${item.itemId}`)}
-                    style={{ cursor: 'pointer' }}
                   >
                     {item.nomeItem}
                   </div>
                 ))
               ) : (
-                <p>Nenhum item encontrado.</p>
+                <p className="contact">Nenhum item encontrado.</p>
               )}
             </div>
           </div>
@@ -152,5 +203,22 @@ const PerfilOutroUtilizador = ({ userId }) => {
     </div>
   );
 };
+
+function PerfilOutroUtilizador() {
+  const { userId } = useParams();
+  console.log("[PerfilOutroUtilizador] Parâmetros completos:", useParams());
+  console.log("[PerfilOutroUtilizador] ID extraído da URL:", userId);
+
+  if (!userId) {
+    return <p className="error-message">Erro: ID do utilizador não fornecido na URL. Verifique a URL (ex.: /PerfilOutroUtilizador/2).</p>;
+  }
+
+  return (
+    <>
+      <HeaderNot userId={userId} />
+      <DadosUserPI userId={userId} />
+    </>
+  );
+}
 
 export default PerfilOutroUtilizador;

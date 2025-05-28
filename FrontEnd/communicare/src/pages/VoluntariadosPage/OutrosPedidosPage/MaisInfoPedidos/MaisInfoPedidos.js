@@ -4,18 +4,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getUserImageUrl } from '../../../../utils/url';
 import iconFallback from '../../../../assets/icon.jpg';
 import HeaderProfileCares from "../../../../components/HeaderProfile/headerProfile.js";
-
 import "./MaisInfoPedidos.css";
-
 import cares from '../../../../assets/Cares.png';
 import { api } from '../../../../utils/axios.js';
-
 
 const getImagemSrc = (fotoItem) => {
   if (fotoItem && fotoItem.trim() !== "" && fotoItem !== "null") {
     return `data:image/jpeg;base64,${fotoItem}`;
   } else {
-    return iconFallback; 
+    return iconFallback;
   }
 };
 
@@ -78,17 +75,18 @@ const Search = () => {
   );
 };
 
-
 const DetalhesItem = () => {
-  const { id } = useParams();  
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [item, setItem] = useState({
     titulo: "",
     descPedido: "",
     recompensaCares: 0,
     fotografiaPA: "",
     nPessoas: 0,
+    utilizadorId: null, // Adicionado para armazenar o ID do dono
   });
-  const [fotoEmprestador, setFotoEmprestador] = useState(null);
+  const [fotoDono, setFotoDono] = useState(null);
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -100,7 +98,7 @@ const DetalhesItem = () => {
           },
         });
 
-        console.log("Resposta da API:", response.data); 
+        console.log("Resposta da API:", response.data);
 
         const data = response.data;
         setItem({
@@ -109,6 +107,7 @@ const DetalhesItem = () => {
           recompensaCares: data.recompensaCares ?? 0,
           fotografiaPA: data.fotografiaPA ?? "",
           nPessoas: data.nPessoas,
+          utilizadorId: data.utilizadorId, // Armazena o ID do dono
         });
       } catch (error) {
         console.error('Erro ao buscar detalhes do pedido:', error);
@@ -116,25 +115,27 @@ const DetalhesItem = () => {
       }
     };
 
-    const fetchFotoEmprestador = async () => {
+    const fetchFotoDono = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await api.get(`/ItensEmprestimo/${id}/foto-emprestador`, {
+        const response = await api.get(`/PedidosAjuda/${id}/foto-dono`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        const urlFoto = `http://localhost:5182/${response.data}`;
-        setFotoEmprestador(urlFoto);
+        const urlFoto = response.data && response.data.trim() && response.data !== "null"
+          ? `http://localhost:5182/${response.data}`
+          : iconFallback;
+        setFotoDono(urlFoto);
       } catch (error) {
-        console.error('Erro ao buscar foto do emprestador:', error);
-        setFotoEmprestador(null);
+        console.error('Erro ao buscar foto do dono:', error);
+        setFotoDono(iconFallback);
       }
     };
 
     fetchItem();
-    fetchFotoEmprestador();
-  }, [id]); 
+    fetchFotoDono();
+  }, [id]);
 
   const voluntariar = async (pedidoId) => {
     if (!pedidoId) {
@@ -150,74 +151,72 @@ const DetalhesItem = () => {
         },
       });
       alert(response.data);
-
     } catch (error) {
-  console.error("Erro ao se voluntariar:", error);
-  if (error.response?.data) {
-    alert("Erro: " + error.response.data);
-  } else {
-    alert("Erro ao se voluntariar para o pedido.");
-  }
-}
-
+      console.error("Erro ao se voluntariar:", error);
+      if (error.response?.data) {
+        alert("Erro: " + error.response.data);
+      } else {
+        alert("Erro ao se voluntariar para o pedido.");
+      }
+    }
   };
 
   return (
-  <div className="detalhesContainer">
-    <div className="colunaEsquerdaMI">
-      <div className="userTitleMD">
+    <div className="detalhesContainer">
+      <div className="colunaEsquerdaMI">
+        <div className="userTitleMD">
+          <img
+            className="imgUsers"
+            src={fotoDono || iconFallback}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = iconFallback;
+            }}
+            alt="Foto do dono"
+            width={70}
+            height={70}
+            style={{ cursor: "pointer" }}
+            onClick={() => item.utilizadorId && navigate(`/PerfilOutroUtilizador/${item.utilizadorId}`)} // Redireciona para o perfil do dono
+          />
+          <h2 className="tituloItem">{item.titulo}</h2>
+        </div>
+
         <img
-          className="imgUsers"
-          src={fotoEmprestador || iconFallback}
+          className="imgItemDetalhesMI"
+          src={getImagemSrc(item.fotografiaPA)}
+          alt={item.titulo}
           onError={(e) => {
             e.target.onerror = null;
             e.target.src = iconFallback;
           }}
-          alt="User"
-          width={70}
-          height={70}
         />
-        <h2 className="tituloItem">{item.titulo}</h2>
-      </div>
 
-      <img
-        className="imgItemDetalhesMI"
-        src={getImagemSrc(item.fotografiaPA)}
-        alt={item.titulo}
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = iconFallback;
-        }}
-      />
-
-      <div className="infoItem detalhes">
-        <div className="infoExtraPedido">
-          <div className="infoBox">
-            <span className="icon">&#128100;</span>
-            <span>{item.nPessoas}</span>
+        <div className="infoItem detalhes">
+          <div className="infoExtraPedido">
+            <div className="infoBox">
+              <span className="icon">👤</span>
+              <span>{item.nPessoas}</span>
+            </div>
+            <div className="infoBox">
+              <span className="icon">{item.recompensaCares}</span>
+              <img src={cares} width={30} height={30} alt="Cares" className="caresIcon" />
+            </div>
           </div>
-          <div className="infoBox">
-            <span className="icon">{item.recompensaCares}</span>
-            <img src={cares} width={30} height={30} alt="Cares" className="caresIcon" />
-          </div>
+          <button className="botaoAdquirir" onClick={() => voluntariar(id)}>
+            Voluntariar
+          </button>
         </div>
-        <button className="botaoAdquirir" onClick={() => voluntariar(id)}>
-          Voluntariar
-        </button>
+      </div>
+
+      <div className="colunaDireitaMI">
+        <h2 className="tituloItem">Detalhes</h2>
+        <div className="caixaDescricao">
+          {item.descPedido}
+        </div>
       </div>
     </div>
-
-    <div className="colunaDireitaMI">
-      <h2 className="tituloItem">Detalhes</h2>
-      <div className="caixaDescricao">
-        {item.descPedido}
-      </div>
-    </div>
-  </div>
-);
-
+  );
 };
-
 
 function MaisInformacoes() {
   return (
