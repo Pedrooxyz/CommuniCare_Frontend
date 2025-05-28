@@ -146,9 +146,7 @@ const ListaItems = ({ searchTerm }) => {
             alt={item.nomeItem}
           />
           <div className="descOE">
-            <h className="descOE">
               {item.descItem || "Sem descrição disponível."}
-            </h>
           </div>
           <div className="infoItemOE1">
             <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}/h</span>

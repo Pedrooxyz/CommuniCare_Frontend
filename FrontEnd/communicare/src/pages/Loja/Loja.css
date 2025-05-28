@@ -318,15 +318,16 @@
 }
 
 .header-historico {
-  position: fixed !important;
   top: 0 !important;
   left: 10 !important;
   right: auto !important;
   margin: 8px;
-  z-index: 1002;
-  display: block;
+  z-index: 102;
+  display: flex;
+  justify-content: start;
   box-sizing: border-box;
   transition: transform 0.3s ease, opacity 0.3s ease;
+  width: 50%;
 }
 
 .header-historico.hidden {
