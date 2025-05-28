@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { api } from "../../../utils/axios.js";
 import "./OutrosPedidos.css";
 import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
-
-// Imagens
 import cares from "../../../assets/Cares.png";
 import iconFallback from "../../../assets/icon.jpg";
 
@@ -92,8 +90,6 @@ const ListaPedidos = () => {
       try {
         const response = await api.get("PedidosAjuda/PedidosDisponiveis");
         const pedidosData = response.data;
-
-        // Buscar as fotos do dono
         const pedidosWithPhotos = await Promise.all(
           pedidosData.map(async (pedido) => {
             try {

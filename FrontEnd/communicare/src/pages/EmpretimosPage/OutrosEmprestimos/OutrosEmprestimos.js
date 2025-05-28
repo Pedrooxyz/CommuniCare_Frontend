@@ -1,20 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { FaSearch, FaCubes } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { api } from '../../../utils/axios.js';
-import cares from '../../../assets/Cares.png';
-import iconFallback from '../../../assets/icon.jpg';
+import { api } from "../../../utils/axios.js";
+import cares from "../../../assets/Cares.png";
+import iconFallback from "../../../assets/icon.jpg";
 import "./OutrosEmprestimos.css";
 import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
 
-
 const Search = ({ searchTerm, setSearchTerm, userTipoUtilizadorId, handleClickPendentes }) => {
   const navigate = useNavigate();
-
-  const handleInputChange = (e) => {
-    const term = e.target.value.toLowerCase();
-    setSearchTerm(term);
-  };
 
   return (
     <div>
@@ -41,7 +35,7 @@ const Search = ({ searchTerm, setSearchTerm, userTipoUtilizadorId, handleClickPe
             placeholder="Pesquisar..."
             className="searchOE"
             value={searchTerm}
-            onChange={handleInputChange}
+            onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
           />
           <FaSearch className="search-iconOE" />
         </div>
@@ -50,75 +44,76 @@ const Search = ({ searchTerm, setSearchTerm, userTipoUtilizadorId, handleClickPe
   );
 };
 
-const getImagemSrc = (fotoItem) => {
-  if (fotoItem && fotoItem.trim() !== "" && fotoItem !== "null" && fotoItem !== "string") {
-    return `data:image/jpeg;base64,${fotoItem}`;
-  } else {
-    return iconFallback;
+ 
+
+const getImagemSrc = (foto) => {
+  // Base URL do backend
+  const baseUrl = "http://localhost:5182";
+  if (foto && foto.trim() && foto !== "null" && foto !== "string") {
+    // Se for uma URL completa ou base64, retorna diretamente
+    if (foto.startsWith("data:image") || foto.startsWith("http")) {
+      return foto;
+    }
+    // Se for um caminho relativo, adiciona a baseUrl
+    return `${baseUrl}${foto}`;
   }
+  return iconFallback;
 };
+
+ const getImagemSrc2 = (fotografiaItem) => {
+    if (fotografiaItem && fotografiaItem.trim() !== "") {
+      return `data:image/jpeg;base64,${fotografiaItem}`;
+    } else {
+      return iconFallback;
+    }
+  };
 
 const ListaItems = ({ searchTerm }) => {
   const [items, setItems] = useState([]);
-  const [fotosEmprestadores, setFotosEmprestadores] = useState({});
   const navigate = useNavigate();
-
-  const requisitarItem = async (itemId) => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await api.post(`/ItensEmprestimo/AdquirirItem/${itemId}`, {}, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.status === 200) {
-        alert("Pedido de empréstimo efetuado. Aguarde validação do administrador.");
-      } else {
-        alert(`Erro: ${response.data}`);
-      }
-    } catch (error) {
-      console.error("Erro ao requisitar item:", error);
-      alert("Houve um erro ao realizar a requisição. Tente novamente.");
-    }
-  };
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const response = await api.get('/ItensEmprestimo/Disponiveis', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setItems(response.data);
+        const response = await api.get("/ItensEmprestimo/Disponiveis");
+        const itemsData = response.data;
+        const itemsWithEmprestador = await Promise.all(
+          itemsData.map(async (item) => {
+            try {
+              const emprestadorResponse = await api.get(`/ItensEmprestimo/${item.itemId}/dados-emprestador`);
+              console.log(`Dados do emprestador para item ${item.itemId}:`, emprestadorResponse.data);
+              return {
+                ...item,
+                emprestador: {
+                  id: emprestadorResponse.data.idEmprestador || null,
+                  nome: emprestadorResponse.data.nomeEmprestador || "Desconhecido",
+                  foto: getImagemSrc(emprestadorResponse.data.fotoUtil),
+                },
+              };
+            } catch (error) {
+              console.error(`Erro ao buscar dados do emprestador para item ${item.itemId}:`, error);
+              return {
+                ...item,
+                emprestador: {
+                  id: null,
+                  nome: "Desconhecido",
+                  foto: iconFallback,
+                },
+              };
+            }
+          })
+        );
 
-        response.data.forEach(async (item) => {
-          try {
-            const fotoResponse = await api.get(`/ItensEmprestimo/${item.itemId}/foto-emprestador`, {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            });
-            const urlFoto = `http://localhost:5182/${fotoResponse.data}`;
-            setFotosEmprestadores(prev => ({
-              ...prev,
-              [item.itemId]: urlFoto
-            }));
-          } catch (error) {
-            console.error(`Erro ao buscar foto do emprestador para item ${item.itemId}:`, error);
-          }
-        });
-
+        setItems(itemsWithEmprestador);
       } catch (error) {
-        console.error('Erro ao buscar os itens disponíveis:', error);
+        console.error("Erro ao buscar itens disponíveis:", error);
       }
     };
 
     fetchItems();
   }, []);
 
-  const filteredItems = items.filter(item =>
+  const filteredItems = items.filter((item) =>
     item.nomeItem.toLowerCase().includes(searchTerm)
   );
 
@@ -129,28 +124,42 @@ const ListaItems = ({ searchTerm }) => {
           <div className="userTitleOE1">
             <img
               className="imgUsersOE"
-              src={fotosEmprestadores[item.itemId] || iconFallback}
+              src={item.emprestador.foto}
               onError={(e) => {
+                console.log(`Erro ao carregar imagem do emprestador para item ${item.itemId}`);
                 e.target.onerror = null;
                 e.target.src = iconFallback;
               }}
-              alt="User"
+              alt="Foto do emprestador"
               width={70}
               height={70}
+              style={{ cursor: "pointer" }}
+              onClick={() => item.emprestador.id && navigate(`/PerfilOutroUtilizador/${item.emprestador.id}`)}
             />
             <h2>{item.nomeItem}</h2>
           </div>
           <img
             className="imgItemOE1"
-            src={getImagemSrc(item.fotografiaItem)}
+            src={getImagemSrc2(item.fotografiaItem)}
             alt={item.nomeItem}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = iconFallback;
+            }}
           />
           <div className="descOE">
-              {item.descItem || "Sem descrição disponível."}
+            <h4 className="descoE">{item.descItem || "Sem descrição disponível."}</h4>
           </div>
           <div className="infoItemOE1">
-            <span><img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}/h</span>
-            <button className="BotaoInformacaoOutros" onClick={() => navigate(`/maisInfo/${item.itemId}`)}>Mais Informações</button>
+            <span>
+              <img src={cares} width={30} height={30} alt="Cares" /> {item.comissaoCares}/h
+            </span>
+            <button
+              className="BotaoInformacaoOutros"
+              onClick={() => navigate(`/maisInfo/${item.itemId}`)}
+            >
+              Mais Informações
+            </button>
           </div>
         </div>
       ))}
@@ -159,26 +168,21 @@ const ListaItems = ({ searchTerm }) => {
 };
 
 function OutrosEmprestimos() {
-  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
-
-  const verificarTipoUtilizador = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await api.get("/Utilizadores/VerificarAdmin", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setUserTipoUtilizadorId(response.data);
-    } catch (error) {
-      console.error("Erro ao verificar o tipo de utilizador", error);
-      setUserTipoUtilizadorId(false);
-    }
-  };
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const verificarTipoUtilizador = async () => {
+      try {
+        const response = await api.get("/Utilizadores/VerificarAdmin");
+        setUserTipoUtilizadorId(response.data);
+      } catch (error) {
+        console.error("Erro ao verificar o tipo de utilizador", error);
+        setUserTipoUtilizadorId(false);
+      }
+    };
+
     verificarTipoUtilizador();
   }, []);
 
