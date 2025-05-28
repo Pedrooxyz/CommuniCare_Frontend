@@ -97,12 +97,12 @@ body {
   overflow-y: visible;
 }
 
-.notifications-page {
+.notifications-arq-page {
   min-height: 100vh;
   background-color: rgba(245, 245, 245, 0.95);
-  overflow-y: auto; /* Controle de rolagem da página inteira */
+  overflow-y: auto; 
   position: relative;
-  width: 100%; /* Garante que ocupe toda a largura */
+  width: 100%; 
 }
 
 .header-rightL {
