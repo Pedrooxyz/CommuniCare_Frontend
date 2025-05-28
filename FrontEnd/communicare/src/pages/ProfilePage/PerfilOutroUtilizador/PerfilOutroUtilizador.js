@@ -18,8 +18,11 @@ const HeaderNot = ({ userId }) => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
+        const token = localStorage.getItem("token");
         console.log(`[HeaderNot] Buscando dados do utilizador com ID: ${userId}`);
-        const userResponse = await api.get(`/Utilizadores/InfoUtilizador/${userId}`);
+        const userResponse = await api.get(`/Utilizadores/InfoUtilizador/${userId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         console.log("[HeaderNot] Resposta da API /Utilizadores/InfoUtilizador:", userResponse.data);
         setUserInfo(userResponse.data);
       } catch (error) {
@@ -92,12 +95,25 @@ const DadosUserPI = ({ userId }) => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          throw new Error("Token de autenticação não encontrado.");
+        }
+
         console.log(`[DadosUserPI] Buscando dados para o utilizador com ID: ${userId}`);
         const [userResponse, contactosResponse, itensResponse, pedidosResponse] = await Promise.all([
-          api.get(`/Utilizadores/InfoUtilizador/${userId}`),
-          api.get(`/Contactos/ContactosUtilizador/${userId}`).catch(() => ({ data: [] })),
-          api.get(`/ItensEmprestimo/Disponiveis/${userId}`).catch(() => ({ data: [] })),
-          api.get(`/PedidosAjuda/PedidosDisponiveis/${userId}`).catch(() => ({ data: [] })),
+          api.get(`/Utilizadores/InfoUtilizador/${userId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+          api.get(`/Contactos/ContactosUtilizador/${userId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }).catch(() => ({ data: [] })),
+          api.get(`/ItensEmprestimo/Disponiveis/${userId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }).catch(() => ({ data: [] })),
+          api.get(`/PedidosAjuda/PedidosDisponiveis/${userId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }).catch(() => ({ data: [] })),
         ]);
 
         console.log("[DadosUserPI] Resposta da API /Utilizadores/InfoUtilizador:", userResponse.data);
@@ -157,7 +173,7 @@ const DadosUserPI = ({ userId }) => {
         <div className="cardPofile">
           <h2 className="section">Pedidos de Ajuda</h2>
           <div className="recent">
-            <h4 className="recent-name">Recentes:</h4>
+            <h4 className="recent-name">Pedidos de Ajuda do Utilizador:</h4>
             <div className="recent-items">
               {pedidosDisponiveis.length > 0 ? (
                 pedidosDisponiveis.map((pedido) => (
@@ -180,7 +196,7 @@ const DadosUserPI = ({ userId }) => {
         <div className="cardPofile">
           <h2 className="section">Empréstimos</h2>
           <div className="recent">
-            <h4 className="recent-name">Recentes:</h4>
+            <h4 className="recent-name">Empréstimos do utilizador:</h4>
             <div className="recent-items">
               {meusItens.length > 0 ? (
                 meusItens.map((item) => (
