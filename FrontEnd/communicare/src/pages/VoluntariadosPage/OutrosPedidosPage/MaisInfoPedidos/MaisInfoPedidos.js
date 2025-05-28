@@ -81,6 +81,7 @@ const Search = () => {
 
 const DetalhesItem = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [item, setItem] = useState({
     titulo: "",
@@ -88,6 +89,7 @@ const DetalhesItem = () => {
     recompensaCares: 0,
     fotografiaPA: "",
     nPessoas: 0,
+    utilizadorId: null, 
   });
   const [fotoDono, setFotoDono] = useState(iconFallback);
 
@@ -106,6 +108,7 @@ const DetalhesItem = () => {
           recompensaCares: data.recompensaCares ?? 0,
           fotografiaPA: data.fotografiaPA ?? "",
           nPessoas: data.nPessoas ?? 0,
+          utilizadorId: data.utilizadorId,
         });
       } catch (error) {
         console.error('Erro ao buscar detalhes do pedido:', error);
@@ -170,6 +173,8 @@ const DetalhesItem = () => {
             alt="Foto do dono"
             width={70}
             height={70}
+            style={{ cursor: "pointer" }}
+            onClick={() => item.utilizadorId && navigate(`/PerfilOutroUtilizador/${item.utilizadorId}`)} // Redireciona para o perfil do dono
           />
           <h2 className="tituloItem">{item.titulo}</h2>
         </div>
