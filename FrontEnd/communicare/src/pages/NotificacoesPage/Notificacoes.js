@@ -42,7 +42,7 @@ const Header = () => {
   return (
     <header className="notification-headerN">
       <div className="header-leftN">
-        <h1 className="header-titleN">Notificações não lidas</h1>
+        <h1 className="header-titleN">Notificações Não Lidas</h1>
       </div>
       <div className="header-rightN">
         <div className="notification-bellN" onClick={goToArchivedNotifications}> 
