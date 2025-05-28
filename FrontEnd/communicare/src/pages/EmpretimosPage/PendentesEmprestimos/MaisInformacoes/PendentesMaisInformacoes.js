@@ -170,14 +170,14 @@ const DetalhesItem = () => {
 
         <div className="BotAcao">
           <button className="botaoAceitar" onClick={() => validarItem(item.itemId)}>Aceitar</button>
-          <button className="botaoRejeitar" onClick={() => rejeitarItem(item.itemId)}>Rejeitar</button>
+          <button className="botaoRejeitarA" onClick={() => rejeitarItem(item.itemId)}>Rejeitar</button>
         </div>
       </div>
 
       <div className="colunaDireita">
         <h2 className="tituloItem">{item.nomeItem}</h2>
         <div className="descricaoDetalhe">
-          <p className="decriptionText">{item.descItem || "Sem descrição disponível."}</p>
+          <p className="decriptionTextA">{item.descItem || "Sem descrição disponível."}</p>
         </div>
       </div>
     </div>

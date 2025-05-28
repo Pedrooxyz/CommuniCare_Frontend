@@ -194,7 +194,7 @@ const DetalhesItem = () => {
         </div>
 
         <div className="BotAcao">
-          <button className="botaoAceitar" onClick={validarEmprestimo}>Aceitar</button>
+          <button className="botaoAceitar" onClick={validarEmprestimo}>Validar</button>
         </div>
       </div>
 
@@ -202,7 +202,7 @@ const DetalhesItem = () => {
       <div className="colunaDireita">
         <h2 className="tituloItem">{item.nomeItem}</h2>
         <div className="descricaoDetalhe">
-          <p className="decriptionText">{item.descItem || "Sem descrição disponível."}</p>
+          <p className="decriptionTextA">{item.descItem || "Sem descrição disponível."}</p>
         </div>
       </div>
     </div>

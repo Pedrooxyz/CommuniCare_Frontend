@@ -58,7 +58,7 @@
  .userTitle{
   display: flex;
   margin-bottom: 0px;
-  
+  gap: 50px;
  }
 
   .imgUsers{
@@ -103,24 +103,28 @@
   margin-top: 20px;
 }
 
-.botaoAceitar, .botaoRejeitar {
-  font-size: 20px;
+.botaoAceitar, .botaoRejeitarA {
+  font-size: 17px;
   color: white; /* Cor branca para o texto */
   font-weight: bold;
   padding: 12px 40px;
   border-radius: 10px;
   border: none;
   cursor: pointer;
-  width: 150px; /* Tamanho fixo igual para ambos */
+  width: 130px; /* Tamanho fixo igual para ambos */
   text-align: center;
 }
 
 .botaoAceitar {
   background-color: #249413;
+  display: flex;
+  justify-content: center;
 }
 
-.botaoRejeitar {
-  background-color: #e6334280;
+.botaoRejeitarA {
+  background-color: #e63342; /* Removendo o '80' */
+  display: flex;
+  justify-content: center;
 }
   
   .colunaDireita {
@@ -170,8 +174,8 @@
   font-family:Arial, Helvetica, sans-serif;
  }
 
- .decriptionText{
+ .decriptionTextA{
   font-family:Arial, Helvetica, sans-serif;
   display: flex;
-  justify-content: start;
+  text-align: justify;
  }
