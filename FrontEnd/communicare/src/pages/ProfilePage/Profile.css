@@ -236,7 +236,7 @@ body {
   margin-top: 10px;
 }
 
-.action-btn {
+.action-btnP {
   background-color: #fde6ea;
   border: none;
   padding: 8px 12px;
@@ -249,7 +249,7 @@ body {
   width: 100%;
 }
 
-.sub-action {
+.sub-actionP {
   background-color: #fce5ec;
   border: none;
   padding: 8px 12px;
