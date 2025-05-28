@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./Loja.css";
 import cares from "../../assets/Cares.png";
 import iconFallback from "../../assets/icon.jpg";
-import coracaofv from "../../assets/coracaofv.jpg"; // Coração não favoritado
-import coracaofv2 from "../../assets/coracaofv2.jpg"; // Coração favoritado
+import coracaofv from "../../assets/coracaofv.jpg";
+import coracaofv2 from "../../assets/coracaofv2.jpg";
 import { api } from "../../utils/axios.js";
 import { useNavigate } from "react-router-dom";
 import { FaHistory } from "react-icons/fa";
@@ -60,7 +60,7 @@ const HeaderHistorico = () => {
 
 function Loja() {
   const [artigos, setArtigos] = useState([]);
-  const [favoritos, setFavoritos] = useState([]); // Estado para rastrear favoritos
+  const [favoritos, setFavoritos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [mostrarPopup, setMostrarPopup] = useState(false);
@@ -99,8 +99,7 @@ function Loja() {
             Authorization: `Bearer ${token}`,
           },
         });
-        // Assumindo que o endpoint /Favoritos retorna objetos com artigoId
-        console.log("Favoritos:", response.data); // Log para debugging
+        console.log("Favoritos:", response.data);
         setFavoritos(response.data.map((artigo) => artigo.artigoId));
       } catch (error) {
         console.error("Erro ao carregar favoritos:", error);

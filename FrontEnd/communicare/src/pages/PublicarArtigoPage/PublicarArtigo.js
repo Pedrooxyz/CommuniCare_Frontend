@@ -164,9 +164,6 @@ function PublicarArtigo() {
       <h1 className="titulo-principal">Publicar Artigo</h1>
       <div className="conteudo-artigo">
         <div className="form-lado-esquerdo">
-          <div className="perfil-user">
-            <img src={userInfo?.fotoUtil ? `http://localhost:5182/${userInfo.fotoUtil}` : iconFallback} className="img-perfil" width={60} height={60} alt="Perfil" />
-          </div>
 
           <label className="upload-label">
             {imagem ? (
