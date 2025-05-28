@@ -13,7 +13,7 @@ header {
   align-items: center;
   position: absolute;
   top: 0;
-  right: 0;
+  right: 8px;
   padding: 10px 20px;
   gap: 10px;
 }
@@ -100,113 +100,173 @@ header p {
     margin-left: 3px;
   }
 
-.cards {
+.cardsMP {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 35px;
+  gap: 30px;
   max-width: 1440px;
   margin: 0 auto;
   padding: 20px 60px;
   justify-content: center;
 }
 
-.card {
+.cardMP {
   background-color: white;
   border-radius: 20px;
-  padding: 15px;
+  padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 430px;
-  height: 650px;
+  width: 400px;
+  height: 550px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .userTitle {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.TitleMP {
+  text-align: center;
+  margin-top: 8px;
   margin-bottom: 10px;
+  padding: 0 10px; /* Reduced padding to fit fixed width */
+  width: 340px; /* Fixed width to match descMP for consistency */
+  min-width: 340px;
+  max-width: 340px;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  overflow-y: hidden; /* Prevent vertical scrolling */
+  scrollbar-width: thin; /* Firefox: slim scrollbar */
+  white-space: nowrap; /* Prevent text wrapping */
+  box-sizing: border-box;
+}
+
+.TitleMP::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and other Webkit browsers */
+}
+
+.TitleMP::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Track background */
+  border-radius: 10px;
+}
+
+.TitleMP::-webkit-scrollbar-thumb {
+  background: #FF7C7C; /* Scrollbar color */
+  border-radius: 10px;
+}
+
+.TitleMP::-webkit-scrollbar-thumb:hover {
+  background: #FF5A5A; /* Darker on hover */
+}
+
+.cardMP h2 {
+  background-color: #ffeef0;
+  text-align: center;
+  font-size: 23px;
+  border-radius: 8px;
+  padding: 8px 17px;
+  margin: 0; /* Remove default margin */
+  display: inline-block; /* Ensure it respects nowrap */
+  white-space: nowrap; /* Prevent wrapping of the title text */
 }
 
 .imgUsers {
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   object-fit: cover;
 }
 
-.card h2 {
-  background-color: #ffeef0;
-  text-align: center;
-  font-size: 22px;
-  border-radius: 10px;
-  padding: 10px 15px;
-  flex: 1;
-}
 
-.imgPedidos {
-  width: 100%;
-  height: 230px;
+
+.imgItemMP {
+  width: 320px !important;
+  height: 184px !important;
+  min-width: 320px !important;
+  max-width: 320px !important;
+  min-height: 184px !important;
+  max-height: 184px !important;
   object-fit: cover;
-  border-radius: 12px;
-  margin: 15px 0;
+  border-radius: 10px;
+  margin: 12px auto 20px auto;
+  display: block;
+  box-sizing: border-box;
 }
 
-.card p {
+.cardMP p {
   background-color: #f9f3f0;
-  padding: 10px 15px;
-  border-radius: 10px;
-  font-size: 0.95rem;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
   flex: 1;
   overflow-y: auto;
-  max-height: 100px;
+  max-height: 64px;
   scrollbar-width: none;
 }
 
-.card p::-webkit-scrollbar {
+.cardMP p::-webkit-scrollbar {
   display: none;
 }
 
 .infoPedido {
   display: flex;
   justify-content: space-between;
-  margin: 20px 10px 10px;
+  margin: 16px 8px 8px;
   font-weight: bold;
 }
 
 .infoPedido span {
   background-color: #FAEEE7;
-  padding: 8px 16px;
-  border-radius: 15px;
-  font-size: 16px;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 14px;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 
-.estadoItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 10px;
-  margin: 0 10px;
-}
+.estadoItemMP {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    margin-left: 0px;
+    
+    gap: 80px;
+  }
+  
+  .estadoItemMP span {
+    background-color: #FAEEE7;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
 
 .estado {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 16px;
+  gap: 6px;
+  font-size: 12px;
 }
 
 .estado-circlo {
   display: inline-block;
-  width: 130px;      
-  height: 30px;      
-  border-radius: 5px;
-  margin-left: 0px;
+  width: 100px;
+  height: 29px;
+  border-radius: 4px;
+  margin-left: 0;
+  text-align: center;
+  line-height: 26px;
+  color: white;
+  
 }
-
 
 .estado-circlo.vermelho {
   background-color: red;
@@ -224,112 +284,118 @@ header p {
   background-color: blue;
 }
 
-
 .controlesAcao {
   display: flex;
-  gap: 15px;
+  gap: 12px;
 }
 
 .EditDeleteButtons {
   border: none;
   background: none;
-  padding: 5px;
+  padding: 4px;
   cursor: pointer;
-  font-size: 30px;
+  font-size: 25px;
 }
 
-
 .adicionarIcon {
-  font-size: 100px;
-  width: 100px;
-  height: 100px;
+  font-size: 80px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-.card.adicionar-card {
+.cardMP.adicionar-card {
   position: relative;
   cursor: pointer;
 }
 
-
-.infoExtraPedido {
+.infoExtraPedidoMP {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
-  padding: 10px;
-  border-radius: 10px;
-  margin: 10px 0;
+  padding: 8px;
+  border-radius: 8px;
+  margin: 3px 0;
+  width: 100%;
 }
 
-.infoBox {
+.infoBoxMP {
   display: flex;
-  align-items: center;  
-  justify-content: center; 
-  gap: 8px;
-  font-size: 18px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 16px;
   font-weight: bold;
-  color: #333;
+  color: #000000;
   background-color: #fef4ef;
-  padding: 10px 20px;
-  border-radius: 10px;
+  padding: 8px 19px;
+  border-radius: 8px;
 }
 
-.icon, .caresIcon {
+.iconMP,
+.caresIconMP {
   font-size: 20px;
   display: flex;
   align-items: center;
 }
 
-
-.desc {
-  
+.descMP {
   background-color: #FAEEE7;
-  padding: 10px 15px;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  max-height: 100px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
   overflow-y: auto;
   scrollbar-width: none;
-  width: 95%;
-  height: 100px;
-  margin: 0 auto 10px auto;
+  width: 340px !important;
+  min-width: 340px !important;
+  max-width: 340px !important;
+  height: 80px !important;
+  min-height: 80px !important;
+  max-height: 80px !important;
+  margin: 0 auto 8px auto;
+  box-sizing: border-box;
 }
 
-
-.descP {
-  margin-top: 5px;
+.descmP {
+  margin: 0;
   text-align: left;
+  font-weight: normal;
 }
 
-.caresIcon {
-  width: 30px;
-  height: 30px;
+.caresIconMP {
+  width: 32px;
+  height: 32px;
   object-fit: contain;
 }
 
 .concluir-button {
   background-color: #5bd35f;
-  font-size: 16px;           
+  font-size: 14px;
   color: white;
   font-weight: bold;
-  padding: 8px 16px;        
-  border-radius: 8px;        
+  padding: 6px 12px;
+  border-radius: 6px;
   border: none;
   cursor: pointer;
-  margin: 0;                 
+  margin: 0;
 }
 
 .concluir-button:hover {
   background-color: #45a049;
 }
 
+.imgPedidos {
+  width: 100%;
+  height: 184px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 12px 0;
+}

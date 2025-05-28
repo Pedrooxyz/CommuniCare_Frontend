@@ -1,19 +1,22 @@
 .container-loja {
   padding: 1rem;
-  margin-top: 2rem; 
+  margin-top: 2rem;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .titulo-principal {
   text-align: center;
   color: #333;
-  margin-bottom: 4.5rem !important; 
+  margin-bottom: 4.5rem !important;
 }
 
 .conteudo-loja {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1.5rem; 
+  gap: 1.5rem;
 }
 
 .card-artigo {
@@ -24,19 +27,19 @@
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
   text-align: center;
   margin-top: 1rem;
-  position: relative; /* Para posicionar o ícone de favorito */
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 450px; /* Altura mínima para consistência */
+  min-height: 450px;
 }
 
 .card-artigo-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 0.5rem; /* Espaçamento após a imagem */
-  margin-bottom: 0.5rem; /* Espaçamento antes dos botões */
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
   width: 100%;
 }
 
@@ -59,7 +62,7 @@
 }
 
 .heart-icon.not-favorited {
-  opacity: 0.5; /* Opacidade reduzida para não favoritado */
+  opacity: 0.5;
 }
 
 .heart-icon:hover {
@@ -72,19 +75,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1rem; 
+  margin-bottom: 1rem;
 }
 
 .img-artigo img {
-  width: 100%; 
-  height: 100%; 
-  object-fit: cover; 
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: 4px;
 }
 
 .no-img {
-  width: 100%; 
-  height: 100%; 
+  width: 100%;
+  height: 100%;
   background-color: #eee;
   padding: 1rem;
   border-radius: 4px;
@@ -103,7 +106,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  justify-content: flex-start; /* Alinha o custo à esquerda */
+  justify-content: flex-start;
 }
 
 .custo-container {
@@ -113,26 +116,26 @@
 }
 
 .custo-artigo .icon {
-  width: 20px; 
-  height: 20px; 
+  width: 20px;
+  height: 20px;
 }
 
 .botoes-artigo {
   display: flex;
   gap: 0.5rem;
-  margin-top: 0; /* Removido para ajustar o espaçamento */
-  width: 100%; /* Garante que os botões ocupem a largura total */
+  margin-top: 0;
+  width: 100%;
 }
 
 .botao-mais-detalhes {
   background-color: #f0f0f0;
   color: #333;
   border: 1px solid #ccc;
-  padding: 0.4rem 0.8rem; 
-  border-radius: 20px; 
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
   cursor: pointer;
   flex: 1;
-  font-size: 0.85rem; 
+  font-size: 0.85rem;
   font-weight: 500;
   transition: background-color 0.3s ease, transform 0.1s ease;
 }
@@ -147,11 +150,11 @@
   background-color: #0077cc;
   color: white;
   border: none;
-  padding: 0.4rem 0.8rem; 
-  border-radius: 20px; 
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
   cursor: pointer;
   flex: 1;
-  font-size: 0.85rem; 
+  font-size: 0.85rem;
 }
 
 .botao-comprar:hover {
@@ -178,7 +181,7 @@
   background-color: #fff;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
   font-size: 2rem;
   color: #0077cc;
@@ -189,12 +192,12 @@
   width: 260px;
   height: 450px;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; 
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .novo-artigo:hover {
   transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .novo-artigo .img-artigo {
@@ -209,7 +212,7 @@
 }
 
 .novo-artigo .img-artigo .icone-plus {
-  font-size: 4rem; 
+  font-size: 4rem;
   color: #0077cc;
   display: flex;
   justify-content: center;
@@ -218,28 +221,28 @@
 }
 
 .novo-artigo .icone-plus {
-  font-size: 4rem; 
-  color: #0077cc; 
+  font-size: 4rem;
+  color: #0077cc;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
-  width: 100%; 
-  text-align: center; 
+  width: 100%;
+  text-align: center;
 }
 
 .novo-artigo .icone-plus h3 {
-  margin: 0; 
-  font-size: 4rem; 
+  margin: 0;
+  font-size: 4rem;
 }
 
 .titulo-novo-artigo {
   font-size: 1.2rem;
   color: #0077cc;
   font-weight: bold;
-  margin-bottom: 1rem; 
+  margin-bottom: 1rem;
   text-align: center;
-  margin-top: 1rem; 
+  margin-top: 1rem;
 }
 
 .icone-plus h3 {
@@ -296,12 +299,12 @@
 }
 
 .botao-confirmar:hover {
-  background-color: #009900; 
+  background-color: #009900;
   transform: scale(1.05);
 }
 
 .botao-cancelar:hover {
-  background-color: #cc0000; 
+  background-color: #cc0000;
   transform: scale(1.05);
 }
 
@@ -315,10 +318,20 @@
 }
 
 .header-historico {
-  position: absolute;
-  top: 10px;
-  left: 80px;
-  z-index: 1000;
+  position: fixed !important;
+  top: 0 !important;
+  left: 10 !important;
+  right: auto !important;
+  margin: 8px;
+  z-index: 1002;
+  display: block;
+  box-sizing: border-box;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.header-historico.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
 }
 
 .historico-button {
@@ -330,8 +343,7 @@
   color: #363636;
   font-size: 14px;
   font-weight: 500;
-  border: 2px solid #363636;
-;
+  border: 2px solid #aaaaaa;
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
@@ -342,14 +354,6 @@
   transform: scale(1.05);
 }
 
-
 .historico-icon {
   font-size: 16px;
-}
-
-.header-historico {
-  position: absolute;
-  top: 80px;
-  left: 0px;
-  z-index: 1;
 }

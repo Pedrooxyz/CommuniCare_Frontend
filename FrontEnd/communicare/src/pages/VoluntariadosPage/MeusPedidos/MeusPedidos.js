@@ -139,36 +139,36 @@ const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
   };
 
   return (
-    <div className="cards">
-      <div className="card adicionar-card" onClick={() => navigate("/pedirVoluntariado")}>
+    <div className="cardsMP">
+      <div className="cardMP adicionar-card" onClick={() => navigate("/pedirVoluntariado")}>
         <div className="TitleOE"><h2>Adicionar Pedido</h2></div>
         <div className="adicionarIcon">+</div>
       </div>
 
       {filteredPedidos.map((pedido) => (
-        <div className="card" key={pedido.pedidoId}>
-          <div className="TitleOE">
+        <div className="cardMP" key={pedido.pedidoId}>
+          <div className="TitleMP">
             <h2>{pedido.titulo}</h2>
           </div>
           <img
-            className="imgItemOE"
+            className="imgItemMP"
             src={getImagemSrc(pedido.fotografiaPA)}
             alt={pedido.titulo}
           />
-          <div className="desc">
-            <h4 className="descP">{pedido.descPedido || "Sem descrição."}</h4>
+          <div className="descMP">
+            <h4 className="descmP">{pedido.descPedido || "Sem descrição."}</h4>
           </div>
-          <div className="infoExtraPedido">
-            <div className="infoBox">
-              <span className="icon">&#128100;</span>
+          <div className="infoExtraPedidoMP">
+            <div className="infoBoxMP">
+              <span className="iconMP">&#128100;</span>
               <span>{pedido.nPessoas}</span>
             </div>
-            <div className="infoBox">
-              <span className="icon">{pedido.recompensaCares}</span>
-              <img src={cares} alt="Cares" className="caresIcon" />
+            <div className="infoBoxMP">
+              <span className="iconMP">{pedido.recompensaCares}</span>
+              <img src={cares} alt="Cares" className="caresIconMP" />
             </div>
           </div>
-          <div className="estadoItem">
+          <div className="estadoItemMP">
             <span>
               Estado:{" "}
               <span
@@ -185,7 +185,7 @@ const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
               >
                 {pedido.estado === 0 && "Pendente"}
                 {pedido.estado === 1 && "Disponível"}
-                {pedido.estado === 2 && "Em Progresso"}
+                {pedido.estado === 2 && "Progresso"}
                 {pedido.estado === 3 && "Concluído"}
               </span>
 
