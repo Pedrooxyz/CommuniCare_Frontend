@@ -1,0 +1,71 @@
+.profile-container {
+  background-color: #f5e6e8;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-pic {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.contact-section {
+  background: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.contact {
+  margin: 5px 0;
+}
+
+.sections {
+  display: flex;
+  gap: 20px;
+}
+
+.section {
+  flex: 1;
+  background: #fff;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.buttons {
+  margin-bottom: 15px;
+}
+
+.action-btn, .sub-action {
+  padding: 8px 15px;
+  margin-right: 10px;
+  background-color: #ffccd5;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.recent {
+  margin-top: 10px;
+}
+
+.recent h4 {
+  margin-bottom: 10px;
+}
+
+.item {
+  padding: 5px 0;
+  border-bottom: 1px solid #ddd;
+}
