@@ -19,6 +19,9 @@ const HeaderNot = ({ userId }) => {
     const fetchUserInfo = async () => {
       try {
         const token = localStorage.getItem("token");
+        if (!token) {
+          throw new Error("Token de autenticação não encontrado.");
+        }
         console.log(`[HeaderNot] Buscando dados do utilizador com ID: ${userId}`);
         const userResponse = await api.get(`/Utilizadores/InfoUtilizador/${userId}`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -101,25 +104,28 @@ const DadosUserPI = ({ userId }) => {
         }
 
         console.log(`[DadosUserPI] Buscando dados para o utilizador com ID: ${userId}`);
-        const [userResponse, contactosResponse, itensResponse, pedidosResponse] = await Promise.all([
-          api.get(`/Utilizadores/InfoUtilizador/${userId}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-          api.get(`/Contactos/ContactosUtilizador/${userId}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          }).catch(() => ({ data: [] })),
-          api.get(`/ItensEmprestimo/Disponiveis/${userId}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          }).catch(() => ({ data: [] })),
-          api.get(`/PedidosAjuda/PedidosDisponiveis/${userId}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          }).catch(() => ({ data: [] })),
-        ]);
+        const userResponse = await api.get(`/Utilizadores/InfoUtilizador/${userId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        }).catch((err) => {
+          throw new Error(`Falha ao buscar informações do utilizador: ${err.message}`);
+        });
+
+        const contactosResponse = await api.get(`/Contactos/ContactosUtilizador/${userId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        }).catch(() => ({ data: [] }));
+
+        const itensResponse = await api.get(`/ItensEmprestimo/Disponiveis/${userId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        }).catch(() => ({ data: [] }));
+
+        const pedidosResponse = await api.get(`/PedidosAjuda/PedidosUtilizador/${userId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        }).catch(() => ({ data: [] }));
 
         console.log("[DadosUserPI] Resposta da API /Utilizadores/InfoUtilizador:", userResponse.data);
         console.log("[DadosUserPI] Resposta da API /Contactos/ContactosUtilizador:", contactosResponse.data);
         console.log("[DadosUserPI] Resposta da API /ItensEmprestimo/Disponiveis:", itensResponse.data);
-        console.log("[DadosUserPI] Resposta da API /PedidosAjuda/PedidosDisponiveis:", pedidosResponse.data);
+        console.log("[DadosUserPI] Resposta da API /PedidosAjuda/PedidosUtilizador:", pedidosResponse.data);
 
         setUserInfo(userResponse.data);
         setContactos(contactosResponse.data);
@@ -173,7 +179,7 @@ const DadosUserPI = ({ userId }) => {
         <div className="cardPofile">
           <h2 className="section">Pedidos de Ajuda</h2>
           <div className="recent">
-            <h4 className="recent-name">Pedidos de Ajuda do Utilizador:</h4>
+            <h4 className="recent-name">Recentes:</h4>
             <div className="recent-items">
               {pedidosDisponiveis.length > 0 ? (
                 pedidosDisponiveis.map((pedido) => (
@@ -196,7 +202,7 @@ const DadosUserPI = ({ userId }) => {
         <div className="cardPofile">
           <h2 className="section">Empréstimos</h2>
           <div className="recent">
-            <h4 className="recent-name">Empréstimos do utilizador:</h4>
+            <h4 className="recent-name">Recentes:</h4>
             <div className="recent-items">
               {meusItens.length > 0 ? (
                 meusItens.map((item) => (

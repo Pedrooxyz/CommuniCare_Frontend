@@ -9,7 +9,7 @@ import notification from '../../assets/notification.jpg';
 import plusP from '../../assets/plusProfile.png';
 import cares from '../../assets/Cares.png';
 import loja from '../../assets/loja.png';
-import logoutIcon from '../../assets/logout.png'; // Nova imagem importada
+import logoutIcon from '../../assets/logout.png'; 
 
 import HeaderProfileCares from "../../components/HeaderProfile/headerProfile.js";
 
