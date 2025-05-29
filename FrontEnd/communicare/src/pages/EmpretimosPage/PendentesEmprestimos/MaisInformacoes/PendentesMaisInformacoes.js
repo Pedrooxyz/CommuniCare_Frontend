@@ -51,17 +51,17 @@ const Search = () => {
       <div className="mainName">
         <h1>Empréstimos</h1>
       </div>
-      <div className="tabs">
-        <div className="choose">
-          <button className="tab" onClick={() => navigate("/meusEmprestimos")}>Meus Empréstimos</button>
-          <button className="tab" onClick={() => navigate("/outrosEmprestimos")}>Outros Empréstimos</button>
+      <div className="tabsOE">
+        <div className="chooseOE">
+          <button className="tabOE" onClick={() => navigate("/meusEmprestimos")}>Meus Empréstimos</button>
+          <button className="tabOE" onClick={() => navigate("/outrosEmprestimos")}>Outros Empréstimos</button>
           {userTipoUtilizadorId === true && (
-            <button className="tab active" onClick={handleClickPendentes}>Empréstimos Pendentes</button>
+            <button className="tabOE active" onClick={handleClickPendentes}>Empréstimos Pendentes</button>
           )}
         </div>
-        <div className="search-wrapper">
-          <input type="text" placeholder="Pesquisar..." className="search" />
-          <FaSearch className="search-icon" />
+        <div className="search-wrapperOE">
+          <input type="text" placeholder="Pesquisar..." className="searchOE" />
+          <FaSearch className="search-iconOE" />
         </div>
       </div>
     </div>
