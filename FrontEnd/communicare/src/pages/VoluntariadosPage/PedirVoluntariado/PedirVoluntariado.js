@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./PedirVoluntariado.css";
-import cares from "../../../assets/Cares.png";
-import iconFallback from "../../../assets/icon.jpg";
+import ToastBar from '../../../components/ToastBar/ToastBar.js';
 import { api } from "../../../utils/axios.js";
 import { useNavigate } from "react-router-dom";
 import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
@@ -16,6 +15,7 @@ function PedirVoluntariado() {
   const [numPessoas, setNumPessoas] = useState("");
   const [duracao, setDuracao] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [toast, setToast] = useState(null); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -63,13 +63,13 @@ function PedirVoluntariado() {
 
   const handleSubmit = async () => {
     if (!titulo || !detalhes || !data || !numPessoas || !duracao) {
-      alert("Preencha todos os campos antes de enviar.");
+      setToast({ message: "Preencha todos os campos antes de enviar.", type: "error" });
       return;
     }
 
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("Utilizador não autenticado.");
+      setToast({ message: "Utilizador não autenticado.", type: "error" });
       return;
     }
 
@@ -92,7 +92,7 @@ function PedirVoluntariado() {
       });
 
       if (response.status === 200) {
-        alert(response.data.mensagem);
+        setToast({ message: response.data.mensagem, type: "success" });
         setTitulo("");
         setDetalhes("");
         setData("");
@@ -100,13 +100,13 @@ function PedirVoluntariado() {
         setDuracao("");
         setImagem(null);
         setImagemBase64("");
-        navigate("/MeusPedidos");
+        setTimeout(() => navigate("/MeusPedidos"), 3000);
       } else {
-        alert("Erro ao enviar o pedido: " + response.data.mensagem);
+        setToast({ message: "Erro ao enviar o pedido: " + response.data.mensagem, type: "error" });
       }
     } catch (error) {
       console.error("Erro ao enviar o pedido:", error);
-      alert("Erro ao enviar o pedido.");
+      setToast({ message: "Erro ao enviar o pedido.", type: "error" });
     } finally {
       setIsSubmitting(false);
     }
@@ -114,6 +114,13 @@ function PedirVoluntariado() {
 
   return (
     <div className="container-voluntariado">
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
       <HeaderProfileCares userInfo={userInfo} />
       <h1 className="titulo-principal1">Pedir Ajuda</h1>
       <div className="conteudo-voluntariado">

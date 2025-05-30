@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../../utils/axios.js";
-import "./EditarPedido.css"; // Podes copiar ou adaptar a CSS de EditarItem
+import "./EditarPedido.css";
+import ToastBar from '../../../components/ToastBar/ToastBar.js';
 
 const EditarPedido = () => {
     const { pedidoId } = useParams();
     const navigate = useNavigate();
+    const [toast, setToast] = useState(null);
 
     const [pedido, setPedido] = useState({
         titulo: "",
@@ -30,7 +32,8 @@ const EditarPedido = () => {
                 });
             } catch (error) {
                 console.error("Erro ao buscar detalhes do pedido:", error);
-                alert("Erro ao carregar os detalhes do pedido.");
+                setToast({ message: "Erro ao carregar os detalhes do pedido.", type: "error" });
+
             }
         };
 
@@ -57,16 +60,23 @@ const EditarPedido = () => {
 
 
             await api.put(`/PedidosAjuda/AtualizarPedido/${pedidoId}`, updatedPedido);
-            alert("Pedido atualizado com sucesso!");
-            navigate("/meusPedidos"); // Ajusta o caminho para onde queres redirecionar
+            setToast({ message: "Pedido atualizado com sucesso!", type: "success" });
+            setTimeout(() => navigate("/meusPedidos"), 2500);
         } catch (error) {
             console.error("Erro ao atualizar o pedido:", error);
-            alert("Erro ao atualizar o pedido. Tente novamente.");
+            setToast({ message: "Erro ao atualizar o pedido. Tente novamente.", type: "error" });
         }
     };
 
     return (
         <div className="editar-pedido">
+            {toast && (
+                <ToastBar
+                    message={toast.message}
+                    type={toast.type}
+                    onClose={() => setToast(null)}
+                />
+            )}
             <h2>Editar Pedido de Ajuda</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">

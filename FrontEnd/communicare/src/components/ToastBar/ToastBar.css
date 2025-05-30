@@ -1,0 +1,41 @@
+.toast-bar {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  width: 50%;
+  background-color: #f5f2f1;
+  text-align: center;
+  padding: 1rem;
+  font-weight: bold;
+  z-index: 1000;
+  color: black;
+  animation: slideDown 0.3s ease forwards;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden; /* importante para a barra de progresso ficar dentro */
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateX(-50%) translateY(-100%);
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+
+
+
+
+
+.toast-bar.success {
+  color: #1fa557; /* Texto verde para sucesso */
+}
+
+.toast-bar.error {
+  color: #e74c3c; /* Texto vermelho para erro */
+}
+
+

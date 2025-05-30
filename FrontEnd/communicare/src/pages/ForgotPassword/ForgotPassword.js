@@ -114,7 +114,7 @@ function EmailAuthentication() {
 function ForgotPassword() {
   return (
     <>
-      <Header />
+      <Header/>
       <EmailAuthentication />
     </>
   );

@@ -4,15 +4,16 @@ import { FaSearch, FaEdit, FaTrash } from "react-icons/fa";
 import { api } from "../../../utils/axios.js";
 import "./MeusPedidos.css";
 import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
+import ToastBar from "../../../components/ToastBar/ToastBar.js";
+import ConfirmModal from "../../../components/ConfirmModal/ConfirmModal.js"; 
 
 import cares from "../../../assets/Cares.png";
 import iconFallback from "../../../assets/icon.jpg";
 
-
-
 const Search = ({ searchTerm, setSearchTerm }) => {
   const navigate = useNavigate();
   const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
+  const [toast, setToast] = useState(null);
 
   const verificarTipoUtilizador = async () => {
     try {
@@ -38,7 +39,10 @@ const Search = ({ searchTerm, setSearchTerm }) => {
     if (userTipoUtilizadorId === true) {
       navigate("/pendentesPedidos");
     } else {
-      alert("Apenas administradores podem aceder a esta página!");
+      setToast({
+        message: "Apenas administradores podem aceder a esta página!",
+        type: "error",
+      });
     }
   };
 
@@ -74,18 +78,26 @@ const Search = ({ searchTerm, setSearchTerm }) => {
           <FaSearch className="search-icon" />
         </div>
       </div>
+
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 };
 
-
-
 const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
   const navigate = useNavigate();
+  const [toast, setToast] = useState(null);
+  const [modal, setModal] = useState({ isOpen: false, message: "", action: null });
 
   // Filtra apenas pelos títulos dos pedidos
   const filteredPedidos = pedidos.filter((pedido) => {
-    const titulo = pedido.titulo ? pedido.titulo.toLowerCase() : '';
+    const titulo = pedido.titulo ? pedido.titulo.toLowerCase() : "";
     return titulo.includes(searchTerm.toLowerCase());
   });
 
@@ -100,42 +112,55 @@ const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm("Deseja apagar este pedido de ajuda?")) {
-      try {
-        const response = await api.delete(`/PedidosAjuda/ApagarPedido/${id}`);
-        if (response.status === 204) {
-          setPedidos((prev) => prev.filter((p) => p.pedidoId !== id));
-          alert("Pedido apagado com sucesso!"); 
-        } else {
-          alert("Erro ao apagar o pedido.");
+    setModal({
+      isOpen: true,
+      message: "Deseja apagar este pedido de ajuda?",
+      action: async () => {
+        try {
+          const response = await api.delete(`/PedidosAjuda/ApagarPedido/${id}`);
+          if (response.status === 204) {
+            setPedidos((prev) => prev.filter((p) => p.pedidoId !== id));
+            setToast({ message: "Pedido apagado com sucesso!", type: "success" });
+          } else {
+            setToast({ message: "Erro ao apagar o pedido.", type: "error" });
+          }
+        } catch (error) {
+          console.error("Erro ao apagar o pedido:", error);
+          setToast({ message: "Erro ao apagar o pedido.", type: "error" });
         }
-      } catch (error) {
-        console.error("Erro ao apagar o pedido:", error);
-        alert("Erro ao apagar o pedido.");
-      }
-    }
+        setModal({ isOpen: false, message: "", action: null });
+      },
+    });
   };
 
-
   const handleConcluir = async (id) => {
-    if (window.confirm("Deseja concluir este pedido?")) {
-      try {
-        const response = await api.post(`/PedidosAjuda/ConcluirPedido/${id}`);
-        if (response.status === 200) {
-
-          setPedidos((prev) =>
-            prev.map((p) =>
-              p.pedidoId === id ? { ...p, estado: 4 } : p
-            )
-          );
-        } else {
-          alert("Erro ao concluir o pedido.");
+    setModal({
+      isOpen: true,
+      message: "Deseja concluir este pedido?",
+      action: async () => {
+        try {
+          const response = await api.post(`/PedidosAjuda/ConcluirPedido/${id}`);
+          if (response.status === 200) {
+            setPedidos((prev) =>
+              prev.map((p) =>
+                p.pedidoId === id ? { ...p, estado: 4 } : p
+              )
+            );
+            setToast({ message: "Pedido concluído com sucesso!", type: "success" });
+          } else {
+            setToast({ message: "Erro ao concluir o pedido.", type: "error" });
+          }
+        } catch (error) {
+          console.error("Erro ao concluir o pedido:", error);
+          setToast({ message: "Erro ao concluir o pedido.", type: "error" });
         }
-      } catch (error) {
-        console.error("Erro ao concluir o pedido:", error);
-        alert("Erro ao concluir o pedido.");
-      }
-    }
+        setModal({ isOpen: false, message: "", action: null });
+      },
+    });
+  };
+
+  const handleCancelModal = () => {
+    setModal({ isOpen: false, message: "", action: null });
   };
 
   return (
@@ -160,7 +185,7 @@ const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
           </div>
           <div className="infoExtraPedidoMP">
             <div className="infoBoxMP">
-              <span className="iconMP">&#128100;</span>
+              <span className="iconMP">👤</span>
               <span>{pedido.nPessoas}</span>
             </div>
             <div className="infoBoxMP">
@@ -172,23 +197,23 @@ const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
             <span>
               Estado:{" "}
               <span
-                className={`estado-circlo ${pedido.estado === 0
-                  ? "amarelo"
-                  : pedido.estado === 1
+                className={`estado-circlo ${
+                  pedido.estado === 0
+                    ? "amarelo"
+                    : pedido.estado === 1
                     ? "verde"
                     : pedido.estado === 2
-                      ? "azul"
-                      : pedido.estado === 3
-                        ? "vermelho"
-                        : ""
-                  }`}
+                    ? "azul"
+                    : pedido.estado === 3
+                    ? "vermelho"
+                    : ""
+                }`}
               >
                 {pedido.estado === 0 && "Pendente"}
                 {pedido.estado === 1 && "Disponível"}
                 {pedido.estado === 2 && "Progresso"}
                 {pedido.estado === 3 && "Concluído"}
               </span>
-
             </span>
             <div className="controlesAcao">
               {(pedido.estado === 0 || pedido.estado === 1) && (
@@ -210,6 +235,21 @@ const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
           </div>
         </div>
       ))}
+
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
+
+      <ConfirmModal
+        isOpen={modal.isOpen}
+        message={modal.message}
+        onConfirm={modal.action}
+        onCancel={handleCancelModal}
+      />
     </div>
   );
 };
@@ -234,7 +274,7 @@ function MeusPedidos() {
   return (
     <>
       <HeaderProfileCares />
-      <Search setSearchTerm={setSearchTerm} />
+      <Search setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
       <ListaPedidos pedidos={pedidos} searchTerm={searchTerm} setPedidos={setPedidos} />
     </>
   );
