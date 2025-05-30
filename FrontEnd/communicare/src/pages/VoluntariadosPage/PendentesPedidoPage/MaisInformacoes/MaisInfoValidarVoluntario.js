@@ -4,12 +4,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getUserImageUrl } from '../../../../utils/url';
 import iconFallback from '../../../../assets/icon.jpg';
 import HeaderProfileCares from "../../../../components/HeaderProfile/headerProfile.js";
-
-import "./MaisInfoValidarVoluntario.css"
-
+import ToastBar from "../../../../components/ToastBar/ToastBar.js"; // Import ToastBar
+import "./MaisInfoValidarVoluntario.css";
 import cares from '../../../../assets/Cares.png';
 import { api } from '../../../../utils/axios.js';
-
 
 const getImagemSrc = (foto) => {
   return foto && foto.trim() && foto !== "null" && foto !== "string"
@@ -20,6 +18,7 @@ const getImagemSrc = (foto) => {
 const Search = () => {
   const navigate = useNavigate();
   const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
+  const [toast, setToast] = useState(null); // Estado para o ToastBar
 
   useEffect(() => {
     const verificarTipoUtilizador = async () => {
@@ -34,6 +33,10 @@ const Search = () => {
       } catch (error) {
         console.error("Erro ao verificar o tipo de utilizador", error);
         setUserTipoUtilizadorId(false);
+        setToast({
+          message: "Erro ao verificar o tipo de utilizador.",
+          type: "error",
+        });
       }
     };
 
@@ -44,7 +47,10 @@ const Search = () => {
     if (userTipoUtilizadorId === true) {
       navigate("/pendentesPedidos");
     } else {
-      alert("Apenas administradores podem aceder a esta página!");
+      setToast({
+        message: "Apenas administradores podem aceder a esta página!",
+        type: "error",
+      });
     }
   };
 
@@ -72,17 +78,23 @@ const Search = () => {
           <FaSearch className="search-icon1" />
         </div>
       </div>
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 };
-
 
 const DetalhesItem = () => {
   const navigate = useNavigate();
   const [voluntarios, setVoluntarios] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
-const [voluntarioSelecionado, setVoluntarioSelecionado] = useState(null);
-  const { id } = useParams();  
+  const [voluntarioSelecionado, setVoluntarioSelecionado] = useState(null);
+  const { id } = useParams();
   const [item, setItem] = useState({
     titulo: "",
     descPedido: "",
@@ -91,51 +103,79 @@ const [voluntarioSelecionado, setVoluntarioSelecionado] = useState(null);
     nPessoas: 0,
   });
   const [fotoEmprestador, setFotoEmprestador] = useState(null);
+  const [toast, setToast] = useState(null); // Estado para o ToastBar
 
   const abrirPopup = (voluntario) => {
-  setVoluntarioSelecionado(voluntario);
-  setShowPopup(true);
-};
+    setVoluntarioSelecionado(voluntario);
+    setShowPopup(true);
+  };
 
-const fecharPopup = () => {
-  setVoluntarioSelecionado(null);
-  setShowPopup(false);
-};
+  const fecharPopup = () => {
+    setVoluntarioSelecionado(null);
+    setShowPopup(false);
+  };
 
-const validarVoluntario = async () => {
-  try {
-    const token = localStorage.getItem('token');
-    
-    await api.post(`/Voluntariados/pedidos/${id}/voluntarios/${voluntarioSelecionado.utilizadorId}/aceitar`, {}, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+  const fetchVoluntarios = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await api.get(`/PedidosAjuda/pedido/${id}/voluntarios`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setVoluntarios(response.data);
+    } catch (error) {
+      console.error('Erro ao buscar voluntários:', error);
+      setToast({
+        message: "Erro ao carregar a lista de voluntários.",
+        type: "error",
+      });
+    }
+  };
 
-    alert("Voluntário validado com sucesso.");
-    fecharPopup();
-    fetchVoluntarios();
-  } catch (error) {
-    console.error("Erro ao validar:", error);
-    alert("Erro ao validar o voluntário.");
-  }
-};
+  const validarVoluntario = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      await api.post(`/Voluntariados/pedidos/${id}/voluntarios/${voluntarioSelecionado.utilizadorId}/aceitar`, {}, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setToast({
+        message: "Voluntário validado com sucesso.",
+        type: "success",
+      });
+      setTimeout(() => {
+        fecharPopup();
+        fetchVoluntarios();
+      }, 3000);
+    } catch (error) {
+      console.error("Erro ao validar:", error);
+      setToast({
+        message: "Erro ao validar o voluntário.",
+        type: "error",
+      });
+    }
+  };
 
-const rejeitarVoluntario = async () => {
-  try {
-    const token = localStorage.getItem('token');
-    
-   
-    await api.post(`/Voluntariados/pedidos/${id}/voluntarios/${voluntarioSelecionado.utilizadorId}/rejeitar`, {}, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    alert("Voluntário rejeitado com sucesso.");
-    fecharPopup();
-    fetchVoluntarios();
-  } catch (error) {
-    console.error("Erro ao rejeitar:", error);
-    alert("Erro ao rejeitar o voluntário.");
-  }
-};
+  const rejeitarVoluntario = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      await api.post(`/Voluntariados/pedidos/${id}/voluntarios/${voluntarioSelecionado.utilizadorId}/rejeitar`, {}, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setToast({
+        message: "Voluntário rejeitado com sucesso.",
+        type: "success",
+      });
+        fecharPopup();
+        fetchVoluntarios();
+    } catch (error) {
+      console.error("Erro ao rejeitar:", error);
+      setToast({
+        message: "Erro ao rejeitar o voluntário.",
+        type: "error",
+      });
+    }
+  };
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -146,7 +186,6 @@ const rejeitarVoluntario = async () => {
             Authorization: `Bearer ${token}`,
           },
         });
-
         const data = response.data;
         setItem({
           titulo: data.titulo ?? "",
@@ -157,7 +196,6 @@ const rejeitarVoluntario = async () => {
         });
       } catch (error) {
         console.error('Erro ao buscar detalhes do pedido:', error);
-        alert('Erro ao carregar os detalhes do pedido.');
       }
     };
 
@@ -174,115 +212,104 @@ const rejeitarVoluntario = async () => {
       } catch (error) {
         console.error('Erro ao buscar foto do emprestador:', error);
         setFotoEmprestador(null);
+        setToast({
+          message: "Erro ao carregar a foto do emprestador.",
+          type: "error",
+        });
       }
     };
 
     fetchItem();
     fetchFotoEmprestador();
-  }, [id]); 
-
-  const fetchVoluntarios = async () => {
-  try {
-    const token = localStorage.getItem('token');
-    const response = await api.get(`/PedidosAjuda/pedido/${id}/voluntarios`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    setVoluntarios(response.data);
-  } catch (error) {
-    console.error('Erro ao buscar voluntários:', error);
-  }
-};
-
-fetchVoluntarios();
-
+    fetchVoluntarios();
+  }, [id]);
 
   return (
-  <div className="detalhesContainer">
-    <div className="colunaEsquerdaMI">
-      <div className="userTitleMD">
+    <div className="detalhesContainer">
+      <div className="colunaEsquerdaMI">
+        <div className="userTitleMD">
+          <img
+            className="imgUsers"
+            src={fotoEmprestador || iconFallback}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = iconFallback;
+            }}
+            alt="User"
+            width={70}
+            height={70}
+          />
+          <h2 className="tituloItem">{item.titulo}</h2>
+        </div>
+
         <img
-          className="imgUsers"
-          src={fotoEmprestador || iconFallback}
+          className="imgItemDetalhesMI"
+          src={getImagemSrc(item.fotografiaPA)}
+          alt={item.titulo}
           onError={(e) => {
             e.target.onerror = null;
             e.target.src = iconFallback;
           }}
-          alt="User"
-          width={70}
-          height={70}
         />
-        <h2 className="tituloItem">{item.titulo}</h2>
-      </div>
 
-      <img
-        className="imgItemDetalhesMI"
-        src={getImagemSrc(item.fotografiaPA)}
-        alt={item.titulo}
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = iconFallback;
-        }}
-      />
-
-      <div className="infoItemI detalhes">
-        <div className="infoExtraPedidoV">
-          <div className="infoBox">
-            <span className="icon">&#128100;</span>
-            <span>{item.nPessoas}</span>
-          </div>
-          <div className="infoBox">
-            <span className="icon">{item.recompensaCares}</span>
-            <img src={cares} width={30} height={30} alt="Cares" className="caresIcon" />
+        <div className="infoItemI detalhes">
+          <div className="infoExtraPedidoV">
+            <div className="infoBox">
+              <span className="icon">👤</span>
+              <span>{item.nPessoas}</span>
+            </div>
+            <div className="infoBox">
+              <span className="icon">{item.recompensaCares}</span>
+              <img src={cares} width={30} height={30} alt="Cares" className="caresIcon" />
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div className="colunaDireitaMI">
-      <h2 className="tituloItem">Voluntários</h2>
-      <div className="listaVoluntarios">
-        {voluntarios.length > 0 ? (
-          voluntarios.map((vol, index) => (
-            <div key={index} className="voluntarioBox">
-              <span>{vol.nome}</span>
-              <button
-                className="avaliarBtn"
-                onClick={() => {
-                  setVoluntarioSelecionado(vol);
-                  setShowPopup(true);
-                }}
-              >
-                Avaliar
-              </button>
+      <div className="colunaDireitaMI">
+        <h2 className="tituloItem">Voluntários</h2>
+        <div className="listaVoluntarios">
+          {voluntarios.length > 0 ? (
+            voluntarios.map((vol, index) => (
+              <div key={index} className="voluntarioBox">
+                <span>{vol.nome}</span>
+                <button
+                  className="avaliarBtn"
+                  onClick={() => abrirPopup(vol)}
+                >
+                  Avaliar
+                </button>
+              </div>
+            ))
+          ) : (
+            <p>Nenhum voluntário encontrado.</p>
+          )}
+        </div>
+      </div>
+
+      {showPopup && voluntarioSelecionado && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <button className="close-btn" onClick={fecharPopup}>×</button>
+            <h3>Avaliar {voluntarioSelecionado.nome}</h3>
+            <p>Deseja validar ou rejeitar este voluntário?</p>
+            <div className="popup-buttons">
+              <button className="validarBtn" onClick={validarVoluntario}>Validar</button>
+              <button className="rejeitarBtn" onClick={rejeitarVoluntario}>Rejeitar</button>
             </div>
-          ))
-        ) : (
-          <p>Nenhum voluntário encontrado.</p>
-        )}
-      </div>
+          </div>
+        </div>
+      )}
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
-
-    {showPopup && voluntarioSelecionado && (
-  <div className="popup-overlay">
-    <div className="popup-content">
-      <button className="close-btn" onClick={fecharPopup}>×</button>
-      <h3>Avaliar {voluntarioSelecionado.nome}</h3>
-      <p>Deseja validar ou rejeitar este voluntário?</p>
-      <div className="popup-buttons">
-        <button className="validarBtn" onClick={validarVoluntario}>Validar</button>
-        <button className="rejeitarBtn" onClick={rejeitarVoluntario}>Rejeitar</button>
-      </div>
-    </div>
-  </div>
-)}
-  </div>
-);
-
+  );
 };
-
-
 
 function MaisInformacoes() {
   return (

@@ -4,24 +4,23 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getUserImageUrl } from '../../../../utils/url';
 import iconFallback from '../../../../assets/icon.jpg';
 import HeaderProfileCares from "../../../../components/HeaderProfile/headerProfile.js";
-
+import ToastBar from "../../../../components/ToastBar/ToastBar.js"; // Import ToastBar
 import "./MaisInfoPedidos.css";
-
 import cares from '../../../../assets/Cares.png';
 import { api } from '../../../../utils/axios.js';
-
 
 const getImagemSrc = (fotoItem) => {
   if (fotoItem && fotoItem.trim() !== "" && fotoItem !== "null") {
     return `data:image/jpeg;base64,${fotoItem}`;
   } else {
-    return iconFallback; 
+    return iconFallback;
   }
 };
 
 const Search = () => {
   const navigate = useNavigate();
   const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
+  const [toast, setToast] = useState(null); // Estado para o ToastBar
 
   useEffect(() => {
     const verificarTipoUtilizador = async () => {
@@ -46,7 +45,10 @@ const Search = () => {
     if (userTipoUtilizadorId === true) {
       navigate("/pendentesPedidos");
     } else {
-      alert("Apenas administradores podem aceder a esta página!");
+      setToast({
+        message: "Apenas administradores podem aceder a esta página!",
+        type: "error",
+      });
     }
   };
 
@@ -74,24 +76,30 @@ const Search = () => {
           <FaSearch className="search-iconMIOP" />
         </div>
       </div>
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 };
 
-
 const DetalhesItem = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-
   const [item, setItem] = useState({
     titulo: "",
     descPedido: "",
     recompensaCares: 0,
     fotografiaPA: "",
     nPessoas: 0,
-    utilizadorId: null, 
+    utilizadorId: null,
   });
   const [fotoDono, setFotoDono] = useState(iconFallback);
+  const [toast, setToast] = useState(null); // Estado para o ToastBar
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -112,7 +120,10 @@ const DetalhesItem = () => {
         });
       } catch (error) {
         console.error('Erro ao buscar detalhes do pedido:', error);
-        alert('Erro ao carregar os detalhes do pedido.');
+        setToast({
+          message: "Erro ao carregar os detalhes do pedido.",
+          type: "error",
+        });
       }
     };
 
@@ -140,6 +151,10 @@ const DetalhesItem = () => {
   const voluntariar = async (pedidoId) => {
     if (!pedidoId) {
       console.error("pedidoId não fornecido");
+      setToast({
+        message: "Erro: ID do pedido não fornecido.",
+        type: "error",
+      });
       return;
     }
 
@@ -148,14 +163,16 @@ const DetalhesItem = () => {
       const response = await api.post(`/PedidosAjuda/${pedidoId}/Voluntariar`, null, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      alert(response.data);
+      setToast({
+        message: response.data,
+        type: "success",
+      });
     } catch (error) {
       console.error("Erro ao se voluntariar:", error);
-      if (error.response?.data) {
-        alert("Erro: " + error.response.data);
-      } else {
-        alert("Erro ao se voluntariar para o pedido.");
-      }
+      setToast({
+        message: error.response?.data ? `Erro: ${error.response.data}` : "Erro ao se voluntariar para o pedido.",
+        type: "error",
+      });
     }
   };
 
@@ -174,7 +191,7 @@ const DetalhesItem = () => {
             width={70}
             height={70}
             style={{ cursor: "pointer" }}
-            onClick={() => item.utilizadorId && navigate(`/PerfilOutroUtilizador/${item.utilizadorId}`)} // Redireciona para o perfil do dono
+            onClick={() => item.utilizadorId && navigate(`/PerfilOutroUtilizador/${item.utilizadorId}`)}
           />
           <h2 className="tituloItem">{item.titulo}</h2>
         </div>
@@ -190,15 +207,13 @@ const DetalhesItem = () => {
         />
 
         <div className="infoItemIMIOP detalhes">
-          <div className="infoExtraPedidoMIOP">
-            <div className="infoBoxMIOP">
-              <span>&#128100;</span>
-              <span>{item.nPessoas}</span>
-            </div>
-            <div className="infoBoxMIOP">
-              <span>{item.recompensaCares}</span>
-              <img src={cares} width={40} height={40} alt="Cares" />
-            </div>
+          <div className="infoBoxMIOP">
+            <span>👤</span>
+            <span>{item.nPessoas}</span>
+          </div>
+          <div className="infoBoxMIOP">
+            <span>{item.recompensaCares}</span>
+            <img src={cares} width={40} height={40} alt="Cares" />
           </div>
           <button className="botaoAdquirirMIOP" onClick={() => voluntariar(id)}>
             Voluntariar
@@ -210,10 +225,17 @@ const DetalhesItem = () => {
         <h2 className="tituloItem">Detalhes</h2>
         <div className="caixaDescricao">{item.descPedido}</div>
       </div>
+
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 };
-
 
 function MaisInformacoes() {
   return (

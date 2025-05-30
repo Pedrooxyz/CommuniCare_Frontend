@@ -4,24 +4,23 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getUserImageUrl } from '../../../../utils/url';
 import iconFallback from '../../../../assets/icon.jpg';
 import HeaderProfileCares from "../../../../components/HeaderProfile/headerProfile.js";
-
+import ToastBar from "../../../../components/ToastBar/ToastBar.js"; // Import ToastBar
 import "./MaisInfoValidarConclusao.css";
-
 import cares from '../../../../assets/Cares.png';
 import { api } from '../../../../utils/axios.js';
-
 
 const getImagemSrc = (fotoItem) => {
     if (fotoItem && fotoItem.trim() !== "" && fotoItem !== "null") {
         return `data:image/jpeg;base64,${fotoItem}`;
     } else {
-        return iconFallback; 
+        return iconFallback;
     }
 };
 
 const Search = () => {
     const navigate = useNavigate();
     const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
+    const [toast, setToast] = useState(null); // Estado para o ToastBar
 
     useEffect(() => {
         const verificarTipoUtilizador = async () => {
@@ -36,6 +35,10 @@ const Search = () => {
             } catch (error) {
                 console.error("Erro ao verificar o tipo de utilizador", error);
                 setUserTipoUtilizadorId(false);
+                setToast({
+                    message: "Erro ao verificar o tipo de utilizador.",
+                    type: "error",
+                });
             }
         };
 
@@ -46,7 +49,10 @@ const Search = () => {
         if (userTipoUtilizadorId === true) {
             navigate("/pendentesPedidos");
         } else {
-            alert("Apenas administradores podem aceder a esta página!");
+            setToast({
+                message: "Apenas administradores podem aceder a esta página!",
+                type: "error",
+            });
         }
     };
 
@@ -74,14 +80,20 @@ const Search = () => {
                     <FaSearch className="search-icon1" />
                 </div>
             </div>
+            {toast && (
+                <ToastBar
+                    message={toast.message}
+                    type={toast.type}
+                    onClose={() => setToast(null)}
+                />
+            )}
         </div>
     );
 };
 
-
 const DetalhesItem = () => {
     const navigate = useNavigate();
-    const { id } = useParams();  
+    const { id } = useParams();
     const [item, setItem] = useState({
         titulo: "",
         descPedido: "",
@@ -90,6 +102,7 @@ const DetalhesItem = () => {
         nPessoas: 0,
     });
     const [fotoEmprestador, setFotoEmprestador] = useState(null);
+    const [toast, setToast] = useState(null); // Estado para o ToastBar
 
     useEffect(() => {
         const fetchItem = async () => {
@@ -101,7 +114,7 @@ const DetalhesItem = () => {
                     },
                 });
 
-                console.log("Resposta da API:", response.data); 
+                console.log("Resposta da API:", response.data);
 
                 const data = response.data;
                 setItem({
@@ -113,7 +126,10 @@ const DetalhesItem = () => {
                 });
             } catch (error) {
                 console.error('Erro ao buscar detalhes do pedido:', error);
-                alert('Erro ao carregar os detalhes do pedido.');
+                setToast({
+                    message: "Erro ao carregar os detalhes do pedido.",
+                    type: "error",
+                });
             }
         };
 
@@ -130,33 +146,38 @@ const DetalhesItem = () => {
             } catch (error) {
                 console.error('Erro ao buscar foto do emprestador:', error);
                 setFotoEmprestador(null);
+                setToast({
+                    message: "Erro ao carregar a foto do emprestador.",
+                    type: "error",
+                });
             }
         };
 
         fetchItem();
         fetchFotoEmprestador();
-    }, [id]); 
+    }, [id]);
 
     const validarPedido = async (pedidoId) => {
-    try {
-        const token = localStorage.getItem("token");
-        const response = await api.post(`/PedidosAjuda/ValidarConclusao-(admin)/${pedidoId}`, null, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        alert(response.data); 
-        navigate("/outrosPedidos"); 
-    } catch (error) {
-        console.error("Erro ao validar pedido:", error);
-        if (error.response?.data) {
-            alert("Erro: " + error.response.data);
-        } else {
-            alert("Erro ao validar o pedido.");
+        try {
+            const token = localStorage.getItem("token");
+            const response = await api.post(`/PedidosAjuda/ValidarConclusao-(admin)/${pedidoId}`, null, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setToast({
+                message: response.data,
+                type: "success",
+            });
+            setTimeout(() => navigate("/outrosPedidos"), 3000);
+        } catch (error) {
+            console.error("Erro ao validar pedido:", error);
+            setToast({
+                message: error.response?.data ? `Erro: ${error.response.data}` : "Erro ao validar o pedido.",
+                type: "error",
+            });
         }
-    }
-};
-
+    };
 
     return (
         <div className="detalhesContainer">
@@ -189,7 +210,7 @@ const DetalhesItem = () => {
                 <div className="infoItemI detalhes">
                     <div className="infoExtraPedidoV2">
                         <div className="infoBox">
-                            <span className="icon">&#128100;</span>
+                            <span className="icon">👤</span>
                             <span>{item.nPessoas}</span>
                         </div>
                         <div className="infoBox">
@@ -202,7 +223,6 @@ const DetalhesItem = () => {
                             Validar
                         </button>
                     </div>
-
                 </div>
             </div>
 
@@ -212,11 +232,16 @@ const DetalhesItem = () => {
                     {item.descPedido}
                 </div>
             </div>
+            {toast && (
+                <ToastBar
+                    message={toast.message}
+                    type={toast.type}
+                    onClose={() => setToast(null)}
+                />
+            )}
         </div>
     );
 };
-
-
 
 function MaisInformacoes() {
     return (

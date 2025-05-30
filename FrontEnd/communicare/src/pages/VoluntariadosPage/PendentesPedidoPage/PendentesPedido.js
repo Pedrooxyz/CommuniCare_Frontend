@@ -4,12 +4,48 @@ import { api } from "../../../utils/axios.js";
 import "./PendentesPedido.css";
 import { FaSearch, FaUser } from "react-icons/fa";
 import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
-
+import ToastBar from "../../../components/ToastBar/ToastBar.js"; // Import ToastBar
 import iconFallback from "../../../assets/icon.jpg";
 import cares from "../../../assets/Cares.png";
 
 const Search = () => {
   const navigate = useNavigate();
+  const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
+  const [toast, setToast] = useState(null); // Estado para o ToastBar
+
+  useEffect(() => {
+    const verificarTipoUtilizador = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await api.get("/Utilizadores/VerificarAdmin", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUserTipoUtilizadorId(response.data);
+      } catch (error) {
+        console.error("Erro ao verificar o tipo de utilizador", error);
+        setUserTipoUtilizadorId(false);
+        setToast({
+          message: "Erro ao verificar o tipo de utilizador.",
+          type: "error",
+        });
+      }
+    };
+
+    verificarTipoUtilizador();
+  }, []);
+
+  const handleClickPendentes = () => {
+    if (userTipoUtilizadorId === true) {
+      navigate("/pendentesPedidos");
+    } else {
+      setToast({
+        message: "Apenas administradores podem aceder a esta página!",
+        type: "error",
+      });
+    }
+  };
 
   return (
     <div>
@@ -24,7 +60,7 @@ const Search = () => {
           <button className="tab" onClick={() => navigate("/outrosPedidos")}>
             Outros Pedidos
           </button>
-          <button className="tab active" onClick={() => navigate("/pendentesPedidos")}>
+          <button className="tab active" onClick={handleClickPendentes}>
             Pedidos Pendentes
           </button>
         </div>
@@ -33,6 +69,13 @@ const Search = () => {
           <FaSearch className="search-icon" />
         </div>
       </div>
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 };
@@ -70,6 +113,7 @@ const getImagemSrc = (foto) => {
 
 const ListaPedidos = () => {
   const [pedidos, setPedidos] = useState([]);
+  const [toast, setToast] = useState(null); // Estado para o ToastBar
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -108,6 +152,10 @@ const ListaPedidos = () => {
         setPedidos(pedidosWithPhotos);
       } catch (error) {
         console.error('Erro ao buscar os pedidos pendentes:', error);
+        setToast({
+          message: "Erro ao buscar os pedidos pendentes.",
+          type: "error",
+        });
       }
     };
 
@@ -151,12 +199,20 @@ const ListaPedidos = () => {
           </div>
         </div>
       ))}
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 };
 
 const ListaPedidosAquisicao = () => {
   const [pedidosWithPhotos, setPedidos] = useState([]);
+  const [toast, setToast] = useState(null); // Estado para o ToastBar
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -195,6 +251,10 @@ const ListaPedidosAquisicao = () => {
         setPedidos(pedidosWithPhotos);
       } catch (error) {
         console.error('Erro ao buscar os pedidos:', error);
+        setToast({
+          message: "Erro ao buscar os pedidos de voluntariado.",
+          type: "error",
+        });
       }
     };
 
@@ -249,12 +309,20 @@ const ListaPedidosAquisicao = () => {
           </div>
         </div>
       ))}
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 };
 
 const ListaPedidosDevolucao = () => {
   const [pedidos, setPedidos] = useState([]);
+  const [toast, setToast] = useState(null); // Estado para o ToastBar
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -293,6 +361,10 @@ const ListaPedidosDevolucao = () => {
         setPedidos(pedidosWithPhotos);
       } catch (error) {
         console.error('Erro ao buscar os pedidos:', error);
+        setToast({
+          message: "Erro ao buscar os pedidos de conclusão.",
+          type: "error",
+        });
       }
     };
 
@@ -347,6 +419,13 @@ const ListaPedidosDevolucao = () => {
           </div>
         </div>
       ))}
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 };

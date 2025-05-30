@@ -4,12 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { api } from "../../../utils/axios.js";
 import "./OutrosPedidos.css";
 import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
+import ToastBar from "../../../components/ToastBar/ToastBar.js"; // Import ToastBar
 import cares from "../../../assets/Cares.png";
 import iconFallback from "../../../assets/icon.jpg";
 
 const Search = ({ searchTerm, setSearchTerm }) => {
   const navigate = useNavigate();
   const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
+  const [toast, setToast] = useState(null); // Estado para o ToastBar
 
   const verificarTipoUtilizador = async () => {
     try {
@@ -35,7 +37,10 @@ const Search = ({ searchTerm, setSearchTerm }) => {
     if (userTipoUtilizadorId === true) {
       navigate("/pendentesPedidos");
     } else {
-      alert("Apenas administradores podem aceder a esta página!");
+      setToast({
+        message: "Apenas administradores podem aceder a esta página!",
+        type: "error",
+      });
     }
   };
 
@@ -71,6 +76,14 @@ const Search = ({ searchTerm, setSearchTerm }) => {
           <FaSearch className="search-icon" />
         </div>
       </div>
+
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 };
@@ -132,7 +145,7 @@ const ListaPedidos = () => {
               width={70}
               height={70}
               style={{ cursor: "pointer" }}
-              onClick={() => navigate(`/PerfilOutroUtilizador/${pedido.utilizadorId}`)} // Redireciona para o perfil do dono
+              onClick={() => navigate(`/PerfilOutroUtilizador/${pedido.utilizadorId}`)}
             />
             <h2>{pedido.titulo}</h2>
           </div>
@@ -150,7 +163,7 @@ const ListaPedidos = () => {
           </div>
           <div className="infoExtraPedidoOP">
             <div className="infoBoxOP">
-              <span className="iconOP">&#128100;</span>
+              <span className="iconOP">👤</span>
               <span>{pedido.nPessoas}</span>
             </div>
             <div className="infoBoxOP">

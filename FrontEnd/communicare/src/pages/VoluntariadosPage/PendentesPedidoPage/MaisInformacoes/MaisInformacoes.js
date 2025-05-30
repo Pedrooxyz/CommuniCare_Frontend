@@ -4,9 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getUserImageUrl } from '../../../../utils/url';
 import iconFallback from '../../../../assets/icon.jpg';
 import HeaderProfileCares from "../../../../components/HeaderProfile/headerProfile.js";
-
+import ToastBar from "../../../../components/ToastBar/ToastBar.js"; // Import ToastBar
 import "./MaisInfoPedidosPendentes.css";
-
 import cares from '../../../../assets/Cares.png';
 import { api } from '../../../../utils/axios.js';
 
@@ -20,6 +19,7 @@ const getImagemSrc = (fotoItem) => {
 const Search = () => {
   const navigate = useNavigate();
   const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
+  const [toast, setToast] = useState(null); // Estado para o ToastBar
 
   useEffect(() => {
     const verificarTipoUtilizador = async () => {
@@ -34,6 +34,10 @@ const Search = () => {
       } catch (error) {
         console.error("Erro ao verificar o tipo de utilizador", error);
         setUserTipoUtilizadorId(false);
+        setToast({
+          message: "Erro ao verificar o tipo de utilizador.",
+          type: "error",
+        });
       }
     };
 
@@ -44,7 +48,10 @@ const Search = () => {
     if (userTipoUtilizadorId === true) {
       navigate("/pendentesPedidos");
     } else {
-      alert("Apenas administradores podem aceder a esta página!");
+      setToast({
+        message: "Apenas administradores podem aceder a esta página!",
+        type: "error",
+      });
     }
   };
 
@@ -72,6 +79,13 @@ const Search = () => {
           <FaSearch className="search-icon1" />
         </div>
       </div>
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 };
@@ -87,7 +101,8 @@ const DetalhesItem = () => {
     nPessoas: 0,
   });
   const [fotoDono, setFotoDono] = useState(iconFallback);
-  const [isLoadingFoto, setIsLoadingFoto] = useState(true); 
+  const [isLoadingFoto, setIsLoadingFoto] = useState(true);
+  const [toast, setToast] = useState(null); // Estado para o ToastBar
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -111,7 +126,10 @@ const DetalhesItem = () => {
         });
       } catch (error) {
         console.error('Erro ao buscar detalhes do pedido:', error);
-        alert('Erro ao carregar os detalhes do pedido.');
+        setToast({
+          message: "Erro ao carregar os detalhes do pedido.",
+          type: "error",
+        });
       }
     };
 
@@ -126,7 +144,6 @@ const DetalhesItem = () => {
 
         console.log("Resposta da API (foto-dono):", response.data);
 
-      
         if (response.data && response.data.trim() !== "" && response.data !== "null") {
           const urlFoto = `http://localhost:5182/${response.data}`;
           setFotoDono(urlFoto);
@@ -136,8 +153,12 @@ const DetalhesItem = () => {
       } catch (error) {
         console.error('Erro ao buscar foto do dono:', error);
         setFotoDono(iconFallback);
+        setToast({
+          message: "Erro ao carregar a foto do dono.",
+          type: "error",
+        });
       } finally {
-        setIsLoadingFoto(false); 
+        setIsLoadingFoto(false);
       }
     };
 
@@ -153,15 +174,17 @@ const DetalhesItem = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      alert(response.data);
-      navigate("/outrosPedidos");
+      setToast({
+        message: response.data,
+        type: "success",
+      });
+      setTimeout(() => navigate("/outrosPedidos"), 3000);
     } catch (error) {
       console.error("Erro ao validar pedido:", error);
-      if (error.response?.data) {
-        alert("Erro: " + error.response.data);
-      } else {
-        alert("Erro ao validar o pedido.");
-      }
+      setToast({
+        message: error.response?.data ? `Erro: ${error.response.data}` : "Erro ao validar o pedido.",
+        type: "error",
+      });
     }
   };
 
@@ -173,15 +196,17 @@ const DetalhesItem = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      alert(response.data);
-      navigate("/outrosPedidos");
+      setToast({
+        message: "Pedido rejeitado com sucesso!",
+        type: "success",
+      });
+      setTimeout(() => navigate("/outrosPedidos"), 3000);
     } catch (error) {
       console.error("Erro ao rejeitar pedido:", error);
-      if (error.response?.data) {
-        alert("Erro: " + error.response.data);
-      } else {
-        alert("Erro ao rejeitar o pedido.");
-      }
+      setToast({
+        message: error.response?.data ? `Erro: ${error.response.data}` : "Erro ao rejeitar o pedido.",
+        type: "error",
+      });
     }
   };
 
@@ -193,7 +218,7 @@ const DetalhesItem = () => {
             className="imgUsers"
             src={isLoadingFoto ? iconFallback : fotoDono}
             onError={(e) => {
-              e.target.onerror = null; 
+              e.target.onerror = null;
               e.target.src = iconFallback;
             }}
             alt="Foto do dono"
@@ -241,6 +266,13 @@ const DetalhesItem = () => {
           {item.descPedido}
         </div>
       </div>
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 };
