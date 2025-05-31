@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
 import "./Favoritos.css";
 import cares from "../../../assets/Cares.png";
-import coracaofv2 from "../../../assets/coracaofv2.jpg";  
+import coracaofv2 from "../../../assets/coracaofv2.jpg";
 import { api } from "../../../utils/axios.js";
 import { useNavigate } from "react-router-dom";
 import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
+import ToastBar from "../../../components/ToastBar/ToastBar.js";
+import ConfirmModal from "../../../components/ConfirmModal/ConfirmModal.js";
 
 function Favoritos() {
-  const [favoritos, setFavoritos] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [artigos, setArtigos] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [mostrarPopup, setMostrarPopup] = useState(false);
   const [artigoSelecionado, setArtigoSelecionado] = useState(null);
-  const [transacaoId, setTransacaoId] = useState(null);
+  const [transacaoId, setTransacaoId] = useState("");
   const [mostrarEscolhaComprovativo, setMostrarEscolhaComprovativo] = useState(false);
+  const [toast, setToast] = useState(null);
+  const [modal, setModal] = useState({ isOpen: false, message: "", action: null });
 
   const navigate = useNavigate();
 
@@ -21,15 +25,19 @@ function Favoritos() {
       setIsLoading(true);
       try {
         const token = localStorage.getItem("token");
+        if (!token) throw new Error("Token de autenticação não encontrado.");
         const response = await api.get("/Favoritos", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setFavoritos(response.data);
+        setArtigos(response.data || []);
       } catch (error) {
         console.error("Erro ao carregar favoritos:", error);
-        alert("Erro ao carregar artigos favoritos.");
+        setToast({
+          message: error.message || "Erro ao carregar artigos favoritos.",
+          type: "error",
+        });
       } finally {
         setIsLoading(false);
       }
@@ -38,35 +46,53 @@ function Favoritos() {
     fetchFavoritos();
   }, []);
 
-  const handleRemoverFavorito = async (artigoId) => {
-    try {
-      const token = localStorage.getItem("token");
-      await api.delete(`/Favoritos/${artigoId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setFavoritos(favoritos.filter((artigo) => artigo.artigoId !== artigoId));
-      alert("Artigo removido dos favoritos.");
-    } catch (error) {
-      console.error("Erro ao remover favorito:", error);
-      if (error.response?.status === 404) {
-        alert("Artigo não encontrado nos favoritos.");
-      } else {
-        alert("Erro ao remover artigo dos favoritos.");
-      }
-    }
+  const handleRemoverFavorito = (artigoId) => {
+    console.log("Botão Remover Favorito clicado para artigoId:", artigoId);
+    setModal({
+      isOpen: true,
+      message: "Deseja remover este artigo dos favoritos?",
+      action: async () => {
+        try {
+          const token = localStorage.getItem("token");
+          if (!token) throw new Error("Token de autenticação não encontrado.");
+          await api.delete(`/Favoritos/${artigoId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setToast({
+            message: "Artigo removido dos favoritos.",
+            type: "success",
+          });
+            setArtigos((prev) => prev.filter((artigo) => artigo.artigoId !== artigoId));
+        } catch (error) {
+          console.error("Erro ao remover favorito:", error);
+          let message = "Erro ao remover artigo dos favoritos.";
+          if (error.response?.status === 404) {
+            message = "Artigo não encontrado nos favoritos.";
+          }
+          setToast({ message, type: "error" });
+        }
+        setModal({ isOpen: false, message: "", action: null });
+      },
+    });
+    console.log("Estado modal atualizado para remoção:", {
+      isOpen: true,
+      message: "Deseja remover este artigo dos favoritos?",
+    });
   };
 
   const handleComprar = (artigoId) => {
+    console.log("Botão Comprar clicado para artigoId:", artigoId);
     setArtigoSelecionado(artigoId);
     setMostrarPopup(true);
   };
 
   const confirmarCompra = async () => {
+    console.log("Confirmando compra para artigoId:", artigoSelecionado);
     try {
       const token = localStorage.getItem("token");
-
+      if (!token) throw new Error("Token de autenticação não encontrado.");
       const response = await api.post(
         "/Vendas/Comprar",
         { artigosIds: [artigoSelecionado] },
@@ -78,22 +104,34 @@ function Favoritos() {
       );
 
       if (response.data.sucesso) {
-        alert("Compra realizada com sucesso!");
-        const transacaoId = response.data.transacaoId;
-        setTransacaoId(transacaoId);
-        setMostrarPopup(false);
-        setMostrarEscolhaComprovativo(true);
+        setToast({
+          message: "Compra realizada com sucesso!",
+          type: "success",
+        });
+        setTimeout(() => {
+          setTransacaoId(response.data.transacaoId);
+          setMostrarPopup(false);
+          setMostrarEscolhaComprovativo(true);
+        }, 3000);
       } else {
-        alert("Erro na compra: " + response.data.erro);
+        setToast({
+          message: "Erro na compra: " + response.data.erro,
+          type: "error",
+        });
+        setMostrarPopup(false);
       }
     } catch (error) {
       console.error("Erro ao realizar a compra:", error);
-      alert("Erro ao realizar a compra.");
+      setToast({
+        message: error.response?.data || "Erro ao realizar a compra.",
+        type: "error",
+      });
       setMostrarPopup(false);
     }
   };
 
   const cancelarCompra = () => {
+    console.log("Compra cancelada");
     setMostrarPopup(false);
     setArtigoSelecionado(null);
   };
@@ -103,27 +141,32 @@ function Favoritos() {
   };
 
   const enviarComprovativoEmail = async () => {
+    console.log("Enviando comprovativo por email para transacaoId:", transacaoId);
     if (!transacaoId) {
-      alert("Transação não encontrada.");
+      setToast({ message: "Transação não encontrada.", type: "error" });
       return;
     }
 
     try {
       const response = await api.get(`/Vendas/Comprovativo/Email/${transacaoId}`);
-      if (response.data.mensagem) {
-        alert(response.data.mensagem);
-      } else {
-        alert("Erro ao enviar comprovativo por email.");
-      }
+      setToast({
+        message: response.data.mensagem || "Comprovativo enviado por email com sucesso!",
+        type: "success",
+      });
     } catch (error) {
-      alert("Erro ao enviar comprovativo por email.");
+      console.error("Erro ao enviar comprovativo por email:", error);
+      setToast({
+        message: "Erro ao enviar comprovativo por email.",
+        type: "error",
+      });
     }
     setMostrarEscolhaComprovativo(false);
   };
 
   const downloadComprovativoPDF = async () => {
+    console.log("Baixando comprovativo PDF para transacaoId:", transacaoId);
     if (!transacaoId) {
-      alert("Transação não encontrada.");
+      setToast({ message: "Transação não encontrada.", type: "error" });
       return;
     }
 
@@ -137,10 +180,23 @@ function Favoritos() {
       link.setAttribute("download", "ComprovativoCompra.pdf");
       document.body.appendChild(link);
       link.click();
+      setToast({
+        message: "Comprovativo baixado com sucesso!",
+        type: "success",
+      });
     } catch (error) {
-      alert("Erro ao baixar comprovativo em PDF.");
+      console.error("Erro ao baixar comprovativo em PDF:", error);
+      setToast({
+        message: "Erro ao baixar comprovativo em PDF.",
+        type: "error",
+      });
     }
     setMostrarEscolhaComprovativo(false);
+  };
+
+  const handleCancelModal = () => {
+    console.log("Modal cancelado");
+    setModal({ isOpen: false, message: "", action: null });
   };
 
   return (
@@ -152,10 +208,10 @@ function Favoritos() {
         <p>A carregar favoritos...</p>
       ) : (
         <div className="conteudo-favoritos">
-          {favoritos.length === 0 ? (
+          {artigos.length === 0 ? (
             <p className="sem-favoritos">Sem artigos favoritos.</p>
           ) : (
-            favoritos.map((artigo) => (
+            artigos.map((artigo) => (
               <div key={artigo.artigoId} className="card-artigo">
                 <div className="favorito-icon">
                   <img
@@ -168,7 +224,10 @@ function Favoritos() {
                 <h3>{artigo.nomeArtigo}</h3>
                 <div className="img-artigo">
                   {artigo.fotografiaArt && artigo.fotografiaArt !== "string" ? (
-                    <img src={`data:image/jpeg;base64,${artigo.fotografiaArt}`} alt={artigo.nomeArtigo} />
+                    <img
+                      src={`data:image/jpeg;base64,${artigo.fotografiaArt}`}
+                      alt={artigo.nomeArtigo}
+                    />
                   ) : (
                     <span className="no-img">Sem imagem</span>
                   )}
@@ -227,6 +286,22 @@ function Favoritos() {
             </div>
           </div>
         </div>
+      )}
+
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
+
+      {modal.isOpen && (
+        <ConfirmModal
+          message={modal.message}
+          onConfirm={modal.action}
+          onCancel={handleCancelModal}
+        />
       )}
     </div>
   );

@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { FaCubes, FaSearch } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
-import { api } from '../../../../utils/axios.js';
-import { getUserImageUrl } from '../../../../utils/url';
+import { api } from "../../../../utils/axios.js";
 import HeaderProfileCares from "../../../../components/HeaderProfile/headerProfile.js";
-
 import iconFallback from '../../../../assets/icon.jpg';
 import cares from '../../../../assets/Cares.png';
-import person1 from '../../../../assets/person1.jpg';
-
 import "./PendentesMaisInformacoes.css";
-
+import ToastBar from "../../../../components/ToastBar/ToastBar.js";
 
 const getImagemSrc = (fotoItem) => {
   if (fotoItem && fotoItem.trim() !== "" && fotoItem !== "null") {
@@ -20,22 +16,26 @@ const getImagemSrc = (fotoItem) => {
   }
 };
 
-
 const Search = () => {
   const navigate = useNavigate();
   const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
+  const [toast, setToast] = useState(null);
 
   useEffect(() => {
     const verificarTipoUtilizador = async () => {
       try {
         const token = localStorage.getItem("token");
+        if (!token) throw new Error("Token de autenticação não encontrado.");
         const response = await api.get("/Utilizadores/VerificarAdmin", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUserTipoUtilizadorId(response.data);
       } catch (error) {
-        console.error("Erro ao verificar o tipo de utilizador", error);
         setUserTipoUtilizadorId(false);
+        setToast({
+          message: error.message || "Erro ao verificar o tipo de utilizador.",
+          type: "error",
+        });
       }
     };
     verificarTipoUtilizador();
@@ -45,7 +45,10 @@ const Search = () => {
     if (userTipoUtilizadorId === true) {
       navigate("/PendentesEmprestimos");
     } else {
-      alert("Apenas administradores podem aceder a esta página!");
+      setToast({
+        message: "Apenas administradores podem aceder a esta página!",
+        type: "error",
+      });
     }
   };
 
@@ -67,41 +70,56 @@ const Search = () => {
           <FaSearch className="search-iconOE" />
         </div>
       </div>
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 };
-
 
 const DetalhesItem = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [item, setItem] = useState(null);
   const [fotoEmprestador, setFotoEmprestador] = useState(null);
+  const [toast, setToast] = useState(null);
 
   useEffect(() => {
     const fetchItem = async () => {
       try {
         const token = localStorage.getItem('token');
+        if (!token) throw new Error("Token de autenticação não encontrado.");
         const response = await api.get(`/ItensEmprestimo/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setItem(response.data[0]);
       } catch (error) {
-        console.error('Erro ao buscar detalhes do item:', error);
+        setToast({
+          message: error.message || "Erro ao buscar detalhes do item.",
+          type: "error",
+        });
       }
     };
 
     const fetchFotoEmprestador = async () => {
       try {
         const token = localStorage.getItem('token');
+        if (!token) throw new Error("Token de autenticação não encontrado.");
         const response = await api.get(`/ItensEmprestimo/${id}/foto-emprestador`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const urlFoto = `http://localhost:5182/${response.data}`;
         setFotoEmprestador(urlFoto);
       } catch (error) {
-        console.error('Erro ao buscar foto do emprestador:', error);
         setFotoEmprestador(iconFallback);
+        setToast({
+          message: error.message || "Erro ao buscar foto do emprestador.",
+          type: "error",
+        });
       }
     };
 
@@ -112,6 +130,7 @@ const DetalhesItem = () => {
   const validarEmprestimo = async () => {
     try {
       const token = localStorage.getItem('token');
+      if (!token) throw new Error("Token de autenticação não encontrado.");
 
       const emprestimoResponse = await api.get(`/Emprestimos/EmprestimoCorrespondenteItem/${item.itemId}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -119,50 +138,68 @@ const DetalhesItem = () => {
 
       const emprestimoCorrespondente = emprestimoResponse.data;
 
-      console.log("Emprestimo ativo encontrado:", emprestimoCorrespondente);
+      if (!emprestimoCorrespondente?.emprestimoId) {
+        setToast({
+          message: "Nenhum empréstimo correspondente encontrado.",
+          type: "error",
+        });
+        return;
+      }
 
       await api.post(`/Emprestimos/ValidarEmprestimo-(admin)/${emprestimoCorrespondente.emprestimoId}`, null, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      alert("Empréstimo validado com sucesso!");
-      navigate("/PendentesEmprestimos");
+      setToast({
+        message: "Empréstimo validado com sucesso!",
+        type: "success",
+      });
+      setTimeout(() => {
+        navigate("/PendentesEmprestimos");
+      }, 3000);
     } catch (error) {
-      console.error("Erro ao validar empréstimo:", error);
-      alert("Erro ao validar empréstimo.");
+      setToast({
+        message: error.response?.data || "Erro ao validar empréstimo.",
+        type: "error",
+      });
     }
   };
 
   const rejeitarEmprestimo = async () => {
     try {
       const token = localStorage.getItem('token');
+      if (!token) throw new Error("Token de autenticação não encontrado.");
 
       const emprestimoResponse = await api.get(`/Emprestimos/EmprestimoCorrespondenteItem/${item.itemId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       const emprestimoCorrespondente = emprestimoResponse.data;
-      
-      console.log("Emprestimo ativo encontrado:", emprestimoCorrespondente);
 
-
-      if (!emprestimoCorrespondente) {
-        alert("Nenhum empréstimo correspondente encontrado.");
+      if (!emprestimoCorrespondente?.emprestimoId) {
+        setToast({
+          message: "Nenhum empréstimo correspondente encontrado.",
+          type: "error",
+        });
         return;
       }
 
-      console.log("Emprestimo ativo encontrado para rejeição:", emprestimoCorrespondente);
-
-    
       await api.post(`/Emprestimos/RejeitarEmprestimo-(admin)/${emprestimoCorrespondente.emprestimoId}`, null, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      alert("Empréstimo rejeitado com sucesso!");
-      navigate("/PendentesEmprestimos");
+      setToast({
+        message: "Empréstimo rejeitado com sucesso!",
+        type: "success",
+      });
+      setTimeout(() => {
+        navigate("/PendentesEmprestimos");
+      }, 3000);
     } catch (error) {
-      console.error("Erro ao rejeitar empréstimo:", error);
-      alert("Erro ao rejeitar empréstimo.");
+      setToast({
+        message: error.response?.data || "Erro ao rejeitar empréstimo.",
+        type: "error",
+      });
     }
   };
 
@@ -170,7 +207,6 @@ const DetalhesItem = () => {
 
   return (
     <div className="detalhesContainer">
-
       <div className="colunaEsquerda">
         <div className="userTitle">
           <img
@@ -207,18 +243,22 @@ const DetalhesItem = () => {
         </div>
       </div>
 
-
       <div className="colunaDireita">
         <h2 className="tituloItem">{item.nomeItem}</h2>
         <div className="descricaoDetalhe">
           <p className="decriptionTextA">{item.descItem || "Sem descrição disponível."}</p>
         </div>
       </div>
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 };
-
-
 
 function MaisInformacoes() {
   return (

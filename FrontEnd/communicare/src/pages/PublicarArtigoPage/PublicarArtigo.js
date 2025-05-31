@@ -1,72 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./PublicarArtigo.css";
-import person1 from "../../assets/person1.jpg";
 import cares from "../../assets/Cares.png";
-import { api } from "../../utils/axios";
+import { api } from "../../utils/axios.js";
 import { useNavigate } from "react-router-dom";
 import iconFallback from '../../assets/icon.jpg';
 import HeaderProfileCares from "../../components/HeaderProfile/headerProfile.js";
-
-/*
-const HeaderProfileCaresComponent = () => {
-  const navigate = useNavigate();
-  const [isHovered, setIsHovered] = useState(false);
-  const [userInfo, setUserInfo] = useState(null);
-
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await api.get('/Utilizadores/InfoUtilizador', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setUserInfo(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar info do utilizador:", error);
-      }
-    };
-
-    fetchUserInfo();
-  }, []);
-
-  return (
-    <header>
-      <p style={{ textAlign: "center" }}>
-        {userInfo ? userInfo.numCares : "..."}
-      </p>
-      <img className="imgHeaderVol" src={cares} width={45} height={45} alt="Cares" />
-      <img
-        className="imgHeaderVol"
-        onClick={() => navigate(`/profile`)}
-        src={
-          userInfo && userInfo.fotoUtil
-            ? `http://localhost:5182/${userInfo.fotoUtil}`
-            : iconFallback
-        }
-        width={60}
-        height={60}
-        alt="User"
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = iconFallback;
-        }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        style={{
-          margin: "5px",
-          cursor: "pointer",
-          borderRadius: "50%",
-          transition: "transform 0.3s ease, box-shadow 0.3s ease",
-          transform: isHovered ? "scale(1.1)" : "scale(1)",
-          boxShadow: isHovered ? "0 0 10px rgba(0,0,0,0.3)" : "none",
-        }}
-      />
-    </header>
-  );
-};
-*/
+import ToastBar from "../../components/ToastBar/ToastBar.js";
 
 function PublicarArtigo() {
   const [userInfo, setUserInfo] = useState(null);
@@ -77,20 +16,27 @@ function PublicarArtigo() {
   const [custoCares, setCustoCares] = useState("");
   const [quantidade, setQuantidade] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [toast, setToast] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
         const token = localStorage.getItem('token');
+        if (!token) throw new Error("Token de autenticação não encontrado.");
         const response = await api.get('/Utilizadores/InfoUtilizador', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         setUserInfo(response.data);
+        console.log("Informações do utilizador carregadas:", response.data);
       } catch (error) {
         console.error("Erro ao buscar info do utilizador:", error);
+        setToast({
+          message: error.message || "Erro ao carregar informações do utilizador.",
+          type: "error",
+        });
       }
     };
 
@@ -104,20 +50,29 @@ function PublicarArtigo() {
       reader.onloadend = () => {
         setImagem(reader.result);
         setImagemBase64(reader.result.split(',')[1]);
+        console.log("Imagem selecionada, base64 gerado com tamanho:", reader.result.length);
       };
       reader.readAsDataURL(file);
     }
   };
 
   const handleSubmit = async () => {
+    console.log("Tentando publicar artigo:", { titulo, conteudo, custoCares, quantidade, imagemBase64: imagemBase64 ? "presente" : "ausente" });
+
     if (!titulo || !conteudo || !custoCares || !quantidade) {
-      alert("Preencha todos os campos obrigatórios.");
+      setToast({
+        message: "Preencha todos os campos obrigatórios.",
+        type: "error",
+      });
       return;
     }
 
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("Utilizador não autenticado.");
+      setToast({
+        message: "Utilizador não autenticado.",
+        type: "error",
+      });
       return;
     }
 
@@ -139,20 +94,31 @@ function PublicarArtigo() {
       });
 
       if (response.status === 201) {
-        alert("Artigo publicado com sucesso!");
-        setTitulo("");
-        setConteudo("");
-        setImagem(null);
-        setImagemBase64("");
-        setCustoCares("");
-        setQuantidade("");
-        navigate("/loja");
+        setToast({
+          message: "Artigo publicado com sucesso!",
+          type: "success",
+        });
+        setTimeout(() => {
+          setTitulo("");
+          setConteudo("");
+          setImagem(null);
+          setImagemBase64("");
+          setCustoCares("");
+          setQuantidade("");
+          navigate("/loja");
+        }, 3000);
       } else {
-        alert("Erro: " + response.data.mensagem);
+        setToast({
+          message: response.data.mensagem || "Erro ao publicar artigo.",
+          type: "error",
+        });
       }
     } catch (error) {
       console.error("Erro ao publicar artigo:", error);
-      alert("Erro ao publicar artigo.");
+      setToast({
+        message: error.response?.data?.mensagem || "Erro ao publicar artigo.",
+        type: "error",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -164,7 +130,6 @@ function PublicarArtigo() {
       <h1 className="titulo-principal">Publicar Artigo</h1>
       <div className="conteudo-artigo">
         <div className="form-lado-esquerdo">
-
           <label className="upload-label">
             {imagem ? (
               <img src={imagem} alt="Preview" className="preview-img" />
@@ -220,6 +185,14 @@ function PublicarArtigo() {
           <span className="contador-detalhes">{conteudo.length}/1500</span>
         </div>
       </div>
+
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 }

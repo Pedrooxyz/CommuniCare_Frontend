@@ -7,6 +7,7 @@ import HeaderProfileCares from "../../../../components/HeaderProfile/headerProfi
 import cares from "../../../../assets/Cares.png";
 import { api } from "../../../../utils/axios.js";
 import "./MaisInformacoes.css";
+import ToastBar from "../../../../components/ToastBar/ToastBar.js";
 
 const getImagemSrc = (fotoItem) => {
   if (fotoItem && fotoItem.trim() !== "" && fotoItem !== "null") {
@@ -19,11 +20,13 @@ const getImagemSrc = (fotoItem) => {
 const Search = () => {
   const navigate = useNavigate();
   const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
+  const [toast, setToast] = useState(null);
 
   useEffect(() => {
     const verificarTipoUtilizador = async () => {
       try {
         const token = localStorage.getItem("token");
+        if (!token) throw new Error("Token de autenticação não encontrado.");
         const response = await api.get("/Utilizadores/VerificarAdmin", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -31,8 +34,11 @@ const Search = () => {
         });
         setUserTipoUtilizadorId(response.data);
       } catch (error) {
-        console.error("Erro ao verificar o tipo de utilizador", error);
         setUserTipoUtilizadorId(false);
+        setToast({
+          message: error.message || "Erro ao verificar o tipo de utilizador.",
+          type: "error",
+        });
       }
     };
 
@@ -43,7 +49,10 @@ const Search = () => {
     if (userTipoUtilizadorId === true) {
       navigate("/PendentesEmprestimos");
     } else {
-      alert("Apenas administradores podem aceder a esta página!");
+      setToast({
+        message: "Apenas administradores podem aceder a esta página!",
+        type: "error",
+      });
     }
   };
 
@@ -71,6 +80,13 @@ const Search = () => {
           <FaSearch className="search-iconMIOE" />
         </div>
       </div>
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 };
@@ -89,11 +105,13 @@ const DetalhesItem = ({ setPopupMessage, setShowPopup }) => {
     nome: "Desconhecido",
     foto: iconFallback,
   });
+  const [toast, setToast] = useState(null);
 
   useEffect(() => {
     const fetchItem = async () => {
       try {
         const token = localStorage.getItem("token");
+        if (!token) throw new Error("Token de autenticação não encontrado.");
         const response = await api.get(`/ItensEmprestimo/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -108,14 +126,17 @@ const DetalhesItem = ({ setPopupMessage, setShowPopup }) => {
           fotografiaItem: data.fotografiaItem ?? "",
         });
       } catch (error) {
-        console.error("Erro ao buscar detalhes do item:", error);
-        alert("Erro ao carregar os detalhes do item.");
+        setToast({
+          message: error.message || "Erro ao carregar os detalhes do item.",
+          type: "error",
+        });
       }
     };
 
     const fetchEmprestador = async () => {
       try {
         const token = localStorage.getItem("token");
+        if (!token) throw new Error("Token de autenticação não encontrado.");
         const response = await api.get(`/ItensEmprestimo/${id}/dados-emprestador`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -134,11 +155,14 @@ const DetalhesItem = ({ setPopupMessage, setShowPopup }) => {
           foto: fotoEmprestador,
         });
       } catch (error) {
-        console.error("Erro ao buscar dados do emprestador:", error);
         setEmprestador({
           id: null,
           nome: "Desconhecido",
           foto: iconFallback,
+        });
+        setToast({
+          message: error.message || "Erro ao carregar os dados do emprestador.",
+          type: "error",
         });
       }
     };
@@ -150,6 +174,7 @@ const DetalhesItem = ({ setPopupMessage, setShowPopup }) => {
   const requisitarItem = async (itemId) => {
     try {
       const token = localStorage.getItem("token");
+      if (!token) throw new Error("Token de autenticação não encontrado.");
       const response = await api.post(`/ItensEmprestimo/AdquirirItem/${itemId}`, {}, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -157,12 +182,18 @@ const DetalhesItem = ({ setPopupMessage, setShowPopup }) => {
       });
 
       if (response.status === 200) {
-        alert("Pedido de empréstimo efetuado. Aguarde validação do administrador.");
+        setToast({
+          message: "Pedido de empréstimo efetuado. Aguarde validação do administrador.",
+          type: "success",
+        });
+        setTimeout(() => {}, 3000); // Placeholder para consistência, sem ação adicional
       } else {
-        alert(`Erro: ${response.data}`);
+        setToast({
+          message: response.data || "Erro ao requisitar o item.",
+          type: "error",
+        });
       }
     } catch (error) {
-      console.error("Erro ao requisitar item:", error);
       const mensagemErro = error?.response?.data;
 
       if (mensagemErro === "Saldo de Cares insuficiente para adquirir este item.") {
@@ -170,7 +201,10 @@ const DetalhesItem = ({ setPopupMessage, setShowPopup }) => {
         setShowPopup(true);
         setTimeout(() => setShowPopup(false), 15000);
       } else {
-        alert("Houve um erro ao realizar a requisição. Tente novamente.");
+        setToast({
+          message: mensagemErro || "Houve um erro ao realizar a requisição. Tente novamente.",
+          type: "error",
+        });
       }
     }
   };
@@ -183,7 +217,6 @@ const DetalhesItem = ({ setPopupMessage, setShowPopup }) => {
             className="imgUsers"
             src={emprestador.foto}
             onError={(e) => {
-              console.log(`Erro ao carregar imagem do emprestador para item ${id}`);
               e.target.onerror = null;
               e.target.src = iconFallback;
             }}
@@ -220,6 +253,13 @@ const DetalhesItem = ({ setPopupMessage, setShowPopup }) => {
         <h2 className="tituloItem">Detalhes</h2>
         <div className="caixaDescricao">{item.descItem}</div>
       </div>
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 };

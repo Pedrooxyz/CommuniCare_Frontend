@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import "./PedirEmprestimo.css";
 import cares from '../../../assets/Cares.png';
 import iconFallback from '../../../assets/icon.jpg';
-import { api } from '../../../utils/axios.js';
+import { api } from "../../../utils/axios.js";
 import { useNavigate } from 'react-router-dom';
 import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
+import ToastBar from "../../../components/ToastBar/ToastBar.js";
 
 function PedirEmprestimo() {
   const [userInfo, setUserInfo] = useState(null);
@@ -16,13 +17,18 @@ function PedirEmprestimo() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [utilizadorId, setUtilizadorId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [toast, setToast] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       const token = localStorage.getItem('token');
       if (!token) {
-        alert('Utilizador não autenticado.');
+        setToast({
+          message: "Utilizador não autenticado.",
+          type: "error",
+        });
+        setIsLoading(false);
         return;
       }
 
@@ -36,11 +42,16 @@ function PedirEmprestimo() {
           setUserInfo(response.data);
           setUtilizadorId(response.data.utilizadorId);
         } else {
-          alert('Erro ao obter as informações do utilizador.');
+          setToast({
+            message: "Erro ao obter as informações do utilizador.",
+            type: "error",
+          });
         }
       } catch (error) {
-        console.error('Erro ao buscar informações do utilizador:', error);
-        alert('Erro ao buscar informações do utilizador.');
+        setToast({
+          message: error.response?.data?.mensagem || "Erro ao buscar informações do utilizador.",
+          type: "error",
+        });
       } finally {
         setIsLoading(false);
       }
@@ -71,18 +82,27 @@ function PedirEmprestimo() {
 
   const handleSubmit = async () => {
     if (!titulo || !detalhes || !numCares) {
-      alert('Preencha todos os campos antes de enviar.');
+      setToast({
+        message: "Preencha todos os campos antes de enviar.",
+        type: "error",
+      });
       return;
     }
 
     if (!utilizadorId) {
-      alert("Informações do utilizador ainda a carregar. Aguarde uns segundos e tente novamente.");
+      setToast({
+        message: "Informações do utilizador ainda a carregar. Aguarde uns segundos e tente novamente.",
+        type: "error",
+      });
       return;
     }
 
     const token = localStorage.getItem('token');
     if (!token) {
-      alert('Utilizador não autenticado.');
+      setToast({
+        message: "Utilizador não autenticado.",
+        type: "error",
+      });
       return;
     }
 
@@ -105,19 +125,29 @@ function PedirEmprestimo() {
       });
 
       if (response.status === 200) {
-        alert(response.data);
-        setTitulo("");
-        setDetalhes("");
-        setNumCares("");
-        setImagem(null);
-        setImagemBase64("");
-        navigate('/MeusEmprestimos');
+        setToast({
+          message: response.data || "Item adicionado com sucesso!",
+          type: "success",
+        });
+        setTimeout(() => {
+          setTitulo("");
+          setDetalhes("");
+          setNumCares("");
+          setImagem(null);
+          setImagemBase64("");
+          navigate('/MeusEmprestimos');
+        }, 3000);
       } else {
-        alert('Erro ao enviar o pedido: ' + response.data.mensagem);
+        setToast({
+          message: response.data.mensagem || "Erro ao enviar o pedido.",
+          type: "error",
+        });
       }
     } catch (error) {
-      console.error('Erro ao enviar o pedido:', error);
-      alert('Erro ao enviar o pedido.');
+      setToast({
+        message: error.response?.data?.mensagem || "Erro ao enviar o pedido.",
+        type: "error",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -126,12 +156,10 @@ function PedirEmprestimo() {
   return (
     <div className="container-Emprestimo">
       <HeaderProfileCares userInfo={userInfo} />
-      <h1 className="titulo-principal1">Adicionar Item </h1>
+      <h1 className="titulo-principal1">Adicionar Item</h1>
       <div className="conteudo-Emprestimo">
         <div className="form-lado-esquerdo1">
-          <div className="perfil-user">
-
-          </div>
+          <div className="perfil-user"></div>
 
           <div className="upload-imagem">
             <label className="upload-label">
@@ -160,6 +188,13 @@ function PedirEmprestimo() {
           <span className="contador-detalhes2">{detalhes.length}/255</span>
         </div>
       </div>
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 }

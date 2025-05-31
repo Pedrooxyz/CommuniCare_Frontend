@@ -6,9 +6,11 @@ import cares from "../../../assets/Cares.png";
 import iconFallback from "../../../assets/icon.jpg";
 import "./OutrosEmprestimos.css";
 import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
+import ToastBar from "../../../components/ToastBar/ToastBar.js";
 
 const Search = ({ searchTerm, setSearchTerm, userTipoUtilizadorId, handleClickPendentes }) => {
   const navigate = useNavigate();
+  const [toast, setToast] = useState(null);
 
   return (
     <div>
@@ -40,11 +42,16 @@ const Search = ({ searchTerm, setSearchTerm, userTipoUtilizadorId, handleClickPe
           <FaSearch className="search-iconOE" />
         </div>
       </div>
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 };
-
- 
 
 const getImagemSrc = (foto) => {
   const baseUrl = "http://localhost:5182";
@@ -57,28 +64,34 @@ const getImagemSrc = (foto) => {
   return iconFallback;
 };
 
- const getImagemSrc2 = (fotografiaItem) => {
-    if (fotografiaItem && fotografiaItem.trim() !== "") {
-      return `data:image/jpeg;base64,${fotografiaItem}`;
-    } else {
-      return iconFallback;
-    }
-  };
+const getImagemSrc2 = (fotografiaItem) => {
+  if (fotografiaItem && fotografiaItem.trim() !== "") {
+    return `data:image/jpeg;base64,${fotografiaItem}`;
+  } else {
+    return iconFallback;
+  }
+};
 
 const ListaItems = ({ searchTerm }) => {
   const [items, setItems] = useState([]);
+  const [toast, setToast] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await api.get("/ItensEmprestimo/Disponiveis");
+        const token = localStorage.getItem("token");
+        if (!token) throw new Error("Token de autenticação não encontrado.");
+        const response = await api.get("/ItensEmprestimo/Disponiveis", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         const itemsData = response.data;
         const itemsWithEmprestador = await Promise.all(
           itemsData.map(async (item) => {
             try {
-              const emprestadorResponse = await api.get(`/ItensEmprestimo/${item.itemId}/dados-emprestador`);
-              console.log(`Dados do emprestador para item ${item.itemId}:`, emprestadorResponse.data);
+              const emprestadorResponse = await api.get(`/ItensEmprestimo/${item.itemId}/dados-emprestador`, {
+                headers: { Authorization: `Bearer ${token}` },
+              });
               return {
                 ...item,
                 emprestador: {
@@ -88,7 +101,6 @@ const ListaItems = ({ searchTerm }) => {
                 },
               };
             } catch (error) {
-              console.error(`Erro ao buscar dados do emprestador para item ${item.itemId}:`, error);
               return {
                 ...item,
                 emprestador: {
@@ -103,7 +115,10 @@ const ListaItems = ({ searchTerm }) => {
 
         setItems(itemsWithEmprestador);
       } catch (error) {
-        console.error("Erro ao buscar itens disponíveis:", error);
+        setToast({
+          message: error.message || "Erro ao buscar itens disponíveis.",
+          type: "error",
+        });
       }
     };
 
@@ -123,7 +138,6 @@ const ListaItems = ({ searchTerm }) => {
               className="imgUsersOE"
               src={item.emprestador.foto}
               onError={(e) => {
-                console.log(`Erro ao carregar imagem do emprestador para item ${item.itemId}`);
                 e.target.onerror = null;
                 e.target.src = iconFallback;
               }}
@@ -160,6 +174,13 @@ const ListaItems = ({ searchTerm }) => {
           </div>
         </div>
       ))}
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 };
@@ -167,16 +188,24 @@ const ListaItems = ({ searchTerm }) => {
 function OutrosEmprestimos() {
   const [searchTerm, setSearchTerm] = useState("");
   const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
+  const [toast, setToast] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const verificarTipoUtilizador = async () => {
       try {
-        const response = await api.get("/Utilizadores/VerificarAdmin");
+        const token = localStorage.getItem("token");
+        if (!token) throw new Error("Token de autenticação não encontrado.");
+        const response = await api.get("/Utilizadores/VerificarAdmin", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setUserTipoUtilizadorId(response.data);
       } catch (error) {
-        console.error("Erro ao verificar o tipo de utilizador", error);
         setUserTipoUtilizadorId(false);
+        setToast({
+          message: error.message || "Erro ao verificar o tipo de utilizador.",
+          type: "error",
+        });
       }
     };
 
@@ -187,7 +216,10 @@ function OutrosEmprestimos() {
     if (userTipoUtilizadorId === true) {
       navigate("/PendentesEmprestimos");
     } else {
-      alert("Apenas administradores podem aceder a esta página!");
+      setToast({
+        message: "Apenas administradores podem aceder a esta página!",
+        type: "error",
+      });
     }
   };
 
@@ -201,6 +233,13 @@ function OutrosEmprestimos() {
         handleClickPendentes={handleClickPendentes}
       />
       <ListaItems searchTerm={searchTerm} />
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </>
   );
 }

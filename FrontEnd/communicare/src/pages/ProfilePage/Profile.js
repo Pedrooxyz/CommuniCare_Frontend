@@ -10,6 +10,7 @@ import plusP from '../../assets/plusProfile.png';
 import cares from '../../assets/Cares.png';
 import loja from '../../assets/loja.png';
 import logoutIcon from '../../assets/logout.png'; 
+import ConfirmModal from '../../components/ConfirmModal/ConfirmModal.js';
 
 import HeaderProfileCares from "../../components/HeaderProfile/headerProfile.js";
 
@@ -17,12 +18,12 @@ const HeaderNot = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
   const [contactos, setContactos] = useState([]);
+  const [showConfirm, setShowConfirm] = useState(false); // Novo estado
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
         const token = localStorage.getItem("token");
-
         const [userResponse, contactosResponse] = await Promise.all([
           api.get("/Utilizadores/InfoUtilizador", {
             headers: { Authorization: `Bearer ${token}` },
@@ -42,55 +43,51 @@ const HeaderNot = () => {
     fetchUserInfo();
   }, []);
 
-  const handleLogout = () => {
-  const confirmLogout = window.confirm("Tem a certeza que deseja terminar sessão?");
-  if (confirmLogout) {
+  const handleLogoutConfirm = () => {
     localStorage.removeItem("token");
     navigate("/");
-  }
-};
+  };
+
+  const handleLogout = () => {
+    setShowConfirm(true);
+  };
 
   return (
-    <header className="headerNot">
-  <div className="headerNot-container">
-    <div className="cares-section">
-      <img className="cares" src={cares} width={40} height={40} alt="Cares" />
-      <span>{userInfo ? userInfo.numCares : "..."}</span>
-    </div>
+    <>
+      <header className="headerNot">
+        <div className="headerNot-container">
+          <div className="cares-section">
+            <img className="cares" src={cares} width={40} height={40} alt="Cares" />
+            <span>{userInfo ? userInfo.numCares : "..."}</span>
+          </div>
 
-    <div className="loja-section" onClick={() => navigate("/Loja")} style={{ cursor: "pointer" }}>
-      <img className="loja icon-hover-effect" src={loja} width={40} height={40} alt="Loja" />
-      <span><strong></strong></span>
-    </div>
+          <div className="loja-section" onClick={() => navigate("/Loja")} style={{ cursor: "pointer" }}>
+            <img className="loja icon-hover-effect" src={loja} width={40} height={40} alt="Loja" />
+          </div>
 
-    <button
-      className="imgButton"
-      onClick={() => navigate("/notificacoes")}
-      aria-label="Ver notificações"
-    >
-      <img
-        className="imgHeader icon-hover-effect"
-        src={notification}
-        width={40}
-        height={40}
-        alt="Notificações"
-      />
-    </button>
+          <button className="imgButton" onClick={() => navigate("/notificacoes")} aria-label="Ver notificações">
+            <img className="imgHeader icon-hover-effect" src={notification} width={40} height={40} alt="Notificações" />
+          </button>
 
-    <button
-      className="logout-button"
-      onClick={handleLogout}
-      aria-label="Terminar sessão"
-      >
-      <img
-        src={logoutIcon}
-        alt="Logout"
-        className="logout-icon icon-hover-effect small-icon"
-      />
-    </button>
-  </div>
-</header>
+          <button className="logout-button" onClick={handleLogout} aria-label="Terminar sessão">
+            <img src={logoutIcon} alt="Logout" className="logout-icon icon-hover-effect small-icon" />
+          </button>
+        </div>
+      </header>
 
+      {/* ConfirmModal aparece quando showConfirm for true */}
+      {showConfirm && (
+        <ConfirmModal
+          title="Confirmar Logout"
+          message="Tem a certeza que deseja terminar sessão?"
+          onConfirm={() => {
+            handleLogoutConfirm();
+            setShowConfirm(false);
+          }}
+          onCancel={() => setShowConfirm(false)}
+        />
+      )}
+    </>
   );
 };
 

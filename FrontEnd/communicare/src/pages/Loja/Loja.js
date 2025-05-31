@@ -8,6 +8,7 @@ import { api } from "../../utils/axios.js";
 import { useNavigate } from "react-router-dom";
 import { FaHistory } from "react-icons/fa";
 import HeaderProfileCares from "../../components/HeaderProfile/headerProfile.js";
+import ToastBar from "../../components/ToastBar/ToastBar.js";
 
 const HeaderHistorico = () => {
   const navigate = useNavigate();
@@ -69,6 +70,7 @@ function Loja() {
   const [mostrarEscolhaComprovativo, setMostrarEscolhaComprovativo] = useState(false);
   const [mostrarPopupStock, setMostrarPopupStock] = useState(false);
   const [quantidadeStock, setQuantidadeStock] = useState("");
+  const [toast, setToast] = useState(null);
 
   const navigate = useNavigate();
 
@@ -77,15 +79,17 @@ function Loja() {
       setIsLoading(true);
       try {
         const token = localStorage.getItem("token");
+        if (!token) throw new Error("Token de autenticação não encontrado.");
         const response = await api.get("Artigos/Disponiveis", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
-        setArtigos(response.data);
+        setArtigos(response.data || []);
       } catch (error) {
         console.error("Erro ao carregar artigos:", error);
-        alert("Erro ao carregar artigos da loja.");
+        setToast({
+          message: error.message || "Erro ao carregar artigos da loja.",
+          type: "error",
+        });
       } finally {
         setIsLoading(false);
       }
@@ -94,31 +98,36 @@ function Loja() {
     const fetchFavoritos = async () => {
       try {
         const token = localStorage.getItem("token");
+        if (!token) throw new Error("Token de autenticação não encontrado.");
         const response = await api.get("/Favoritos", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         console.log("Favoritos:", response.data);
-        setFavoritos(response.data.map((artigo) => artigo.artigoId));
+        setFavoritos(response.data.map((artigo) => artigo.artigoId) || []);
       } catch (error) {
         console.error("Erro ao carregar favoritos:", error);
-        alert("Erro ao carregar favoritos.");
+        setToast({
+          message: "Erro ao carregar favoritos.",
+          type: "error",
+        });
       }
     };
 
     const verificarAdmin = async () => {
       try {
         const token = localStorage.getItem("token");
+        if (!token) throw new Error("Token de autenticação não encontrado.");
         const response = await api.get("/Utilizadores/VerificarAdmin", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         setIsAdmin(response.data);
       } catch (error) {
         console.error("Erro ao verificar o tipo de utilizador", error);
         setIsAdmin(false);
+        setToast({
+          message: "Erro ao verificar permissões de administrador.",
+          type: "error",
+        });
       }
     };
 
@@ -130,75 +139,89 @@ function Loja() {
   const handleFavoritar = async (artigoId) => {
     try {
       const token = localStorage.getItem("token");
+      if (!token) throw new Error("Token de autenticação não encontrado.");
       if (favoritos.includes(artigoId)) {
-        // Remover dos favoritos
         await api.delete(`/Favoritos/${artigoId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         setFavoritos(favoritos.filter((id) => id !== artigoId));
-        alert("Artigo removido dos favoritos.");
+        setToast({
+          message: "Artigo removido dos favoritos.",
+          type: "success",
+        });
       } else {
-        // Adicionar aos favoritos
         const response = await api.post(`/Favoritos/${artigoId}`, null, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         if (response.status === 204) {
           setFavoritos([...favoritos, artigoId]);
-          alert("Artigo adicionado aos favoritos.");
+          setToast({
+            message: "Artigo adicionado aos favoritos.",
+            type: "success",
+          });
         }
       }
     } catch (error) {
       console.error("Erro ao favoritar/desfavoritar artigo:", error);
+      let message = "Erro ao favoritar/desfavoritar artigo.";
       if (error.response?.status === 404) {
-        alert("Artigo não encontrado.");
+        message = "Artigo não encontrado.";
       } else if (error.response?.status === 409) {
-        alert("Artigo já está nos favoritos.");
-        setFavoritos([...favoritos, artigoId]); 
-      } else {
-        alert("Erro ao favoritar/desfavoritar artigo.");
+        message = "Artigo já está nos favoritos.";
+        setFavoritos([...favoritos, artigoId]);
       }
+      setToast({ message, type: "error" });
     }
   };
 
   const handleComprar = (artigoId) => {
+    console.log("Botão Comprar clicado para artigoId:", artigoId);
     setArtigoSelecionado(artigoId);
     setMostrarPopup(true);
   };
 
   const confirmarCompra = async () => {
+    console.log("Confirmando compra para artigoId:", artigoSelecionado);
     try {
       const token = localStorage.getItem("token");
+      if (!token) throw new Error("Token de autenticação não encontrado.");
       const response = await api.post(
         "Vendas/Comprar",
         { artigosIds: [artigoSelecionado] },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
       if (response.data.sucesso) {
-        alert("Compra realizada com sucesso!");
-        const transacaoId = response.data.transacaoId;
-        setTransacaoId(transacaoId);
-        setMostrarPopup(false);
-        setMostrarEscolhaComprovativo(true);
+        setToast({
+          message: "Compra realizada com sucesso!",
+          type: "success",
+        });
+        setTimeout(() => {
+          setTransacaoId(response.data.transacaoId);
+          setMostrarPopup(false);
+          setMostrarEscolhaComprovativo(true);
+        }, 3000);
       } else {
-        alert("Erro na compra: " + response.data.erro);
+        setToast({
+          message: "Erro na compra: " + response.data.erro,
+          type: "error",
+        });
+        setMostrarPopup(false);
       }
     } catch (error) {
       console.error("Erro ao realizar a compra:", error);
-      alert("Erro ao realizar a compra.");
+      setToast({
+        message: error.response?.data || "Erro ao realizar a compra.",
+        type: "error",
+      });
       setMostrarPopup(false);
     }
   };
 
   const cancelarCompra = () => {
+    console.log("Compra cancelada");
     setMostrarPopup(false);
     setArtigoSelecionado(null);
   };
@@ -212,48 +235,61 @@ function Loja() {
   };
 
   const handleEditarStock = (artigoId) => {
+    console.log("Botão Repor Stock clicado para artigoId:", artigoId);
     setArtigoSelecionado(artigoId);
     setQuantidadeStock("");
     setMostrarPopupStock(true);
   };
 
   const confirmarReporStock = async () => {
+    console.log("Confirmando reposição de stock para artigoId:", artigoSelecionado);
     if (!quantidadeStock || parseInt(quantidadeStock) <= 0) {
-      alert("Por favor, insira uma quantidade válida maior que zero.");
+      setToast({
+        message: "Por favor, insira uma quantidade válida maior que zero.",
+        type: "error",
+      });
       return;
     }
 
     try {
       const token = localStorage.getItem("token");
+      if (!token) throw new Error("Token de autenticação não encontrado.");
       const response = await api.put(
         `Artigos/${artigoSelecionado}/Repor-stock-(admin)`,
         { quantidade: parseInt(quantidadeStock) },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
-      alert("Stock reposto com sucesso!");
-      setArtigos((prevArtigos) =>
-        prevArtigos.map((artigo) =>
-          artigo.artigoId === artigoSelecionado
-            ? { ...artigo, quantidadeDisponivel: response.data.quantidadeDisponivel }
-            : artigo
-        )
-      );
+      setToast({
+        message: "Stock reposto com sucesso!",
+        type: "success",
+      });
       setMostrarPopupStock(false);
-      setArtigoSelecionado(null);
-      setQuantidadeStock("");
+      setTimeout(() => {
+        setArtigos((prevArtigos) =>
+          prevArtigos.map((artigo) =>
+            artigo.artigoId === artigoSelecionado
+              ? { ...artigo, quantidadeDisponivel: response.data.quantidadeDisponivel }
+              : artigo
+          )
+        );
+        setArtigoSelecionado(null);
+        setQuantidadeStock("");
+      }, 3000);
     } catch (error) {
       console.error("Erro ao repor stock:", error);
-      alert("Erro ao repor stock: " + (error.response?.data || "Erro desconhecido"));
+      setToast({
+        message: error.response?.data || "Erro ao repor stock.",
+        type: "error",
+      });
       setMostrarPopupStock(false);
     }
   };
 
   const cancelarReporStock = () => {
+    console.log("Reposição de stock cancelada");
     setMostrarPopupStock(false);
     setArtigoSelecionado(null);
     setQuantidadeStock("");
@@ -261,26 +297,29 @@ function Loja() {
 
   const enviarComprovativoEmail = async () => {
     if (!transacaoId) {
-      alert("Transação não encontrada.");
+      setToast({ message: "Transação não encontrada.", type: "error" });
       return;
     }
 
     try {
       const response = await api.get(`Vendas/Comprovativo/Email/${transacaoId}`);
-      if (response.data.mensagem) {
-        alert(response.data.mensagem);
-      } else {
-        alert("Erro ao enviar comprovativo por email.");
-      }
+      setToast({
+        message: response.data.mensagem || "Comprovativo enviado por email com sucesso!",
+        type: "success",
+      });
     } catch (error) {
-      alert("Erro ao enviar comprovativo por email.");
+      console.error("Erro ao enviar comprovativo por email:", error);
+      setToast({
+        message: "Erro ao enviar comprovativo por email.",
+        type: "error",
+      });
     }
     setMostrarEscolhaComprovativo(false);
   };
 
   const downloadComprovativoPDF = async () => {
     if (!transacaoId) {
-      alert("Transação não encontrada.");
+      setToast({ message: "Transação não encontrada.", type: "error" });
       return;
     }
 
@@ -294,8 +333,16 @@ function Loja() {
       link.setAttribute("download", "ComprovativoCompra.pdf");
       document.body.appendChild(link);
       link.click();
+      setToast({
+        message: "Comprovativo baixado com sucesso!",
+        type: "success",
+      });
     } catch (error) {
-      alert("Erro ao baixar comprovativo em PDF.");
+      console.error("Erro ao baixar comprovativo em PDF:", error);
+      setToast({
+        message: "Erro ao baixar comprovativo em PDF.",
+        type: "error",
+      });
     }
     setMostrarEscolhaComprovativo(false);
   };
@@ -428,6 +475,14 @@ function Loja() {
             </div>
           </div>
         </div>
+      )}
+
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
       )}
     </div>
   );

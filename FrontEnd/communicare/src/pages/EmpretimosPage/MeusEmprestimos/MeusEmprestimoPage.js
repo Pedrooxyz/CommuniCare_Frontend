@@ -4,12 +4,11 @@ import { FaSearch, FaEdit, FaTrash } from "react-icons/fa";
 import { api } from "../../../utils/axios.js";
 import "./MeusEmprestimosPage.css";
 import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
-
-
+import ToastBar from "../../../components/ToastBar/ToastBar.js";
+import ConfirmModal from "../../../components/ConfirmModal/ConfirmModal.js";
 import cares from "../../../assets/Cares.png";
 import cortaRelva from "../../../assets/cortaRelva.jpg";
 import iconFallback from '../../../assets/icon.jpg';
-
 
 const Search = ({ searchTerm, setSearchTerm }) => {
   const navigate = useNavigate();
@@ -18,16 +17,19 @@ const Search = ({ searchTerm, setSearchTerm }) => {
   const verificarTipoUtilizador = async () => {
     try {
       const token = localStorage.getItem("token");
+      if (!token) throw new Error("Token de autenticação não encontrado.");
       const response = await api.get("/Utilizadores/VerificarAdmin", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
       setUserTipoUtilizadorId(response.data);
     } catch (error) {
-      console.error("Erro ao verificar o tipo de utilizador", error);
       setUserTipoUtilizadorId(false);
+      setToast({
+        message: error.message || "Erro ao verificar o tipo de utilizador.",
+        type: "error",
+      });
     }
   };
 
@@ -39,9 +41,14 @@ const Search = ({ searchTerm, setSearchTerm }) => {
     if (userTipoUtilizadorId === true) {
       navigate("/PendentesEmprestimos");
     } else {
-      alert("Apenas administradores podem aceder a esta página!");
+      setToast({
+        message: "Apenas administradores podem aceder a esta página!",
+        type: "error",
+      });
     }
   };
+
+  const [toast, setToast] = useState(null);
 
   return (
     <div>
@@ -71,6 +78,13 @@ const Search = ({ searchTerm, setSearchTerm }) => {
           <FaSearch className="search-icon1" />
         </div>
       </div>
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 };
@@ -78,18 +92,29 @@ const Search = ({ searchTerm, setSearchTerm }) => {
 const ListaItems = ({ searchTerm }) => {
   const [items, setItems] = useState([]);
   const [itensEmUso, setItensEmUso] = useState([]);
+  const [toast, setToast] = useState(null);
+  const [modal, setModal] = useState({ isOpen: false, message: "", action: null });
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await api.get("/ItensEmprestimo/MeusItens");
+        const token = localStorage.getItem("token");
+        if (!token) throw new Error("Token de autenticação não encontrado.");
+        const response = await api.get("/ItensEmprestimo/MeusItens", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setItems(response.data);
 
-        const responseEmUso = await api.get("/ItensEmprestimo/MeusItensEmUso");
+        const responseEmUso = await api.get("/ItensEmprestimo/MeusItensEmUso", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setItensEmUso(responseEmUso.data);
       } catch (error) {
-        console.error("Erro ao buscar itens:", error);
+        setToast({
+          message: error.message || "Erro ao buscar itens.",
+          type: "error",
+        });
       }
     };
 
@@ -108,20 +133,44 @@ const ListaItems = ({ searchTerm }) => {
     navigate(`/editarItem/${itemId}`);
   };
 
-  const handleDelete = async (itemId) => {
-    if (window.confirm("Tem certeza que deseja indisponibilizar permanentemente este item?")) {
-      try {
-        const response = await api.delete(`/ItensEmprestimo/IndisponibilizarPermanenteItem/${itemId}`);
-        if (response.status === 204) {
-          setItems((prevItems) => prevItems.filter((item) => item.itemId !== itemId));
-        } else {
-          alert("Erro ao indisponibilizar o item. Tente novamente.");
+  const handleDelete = (itemId) => {
+    setModal({
+      isOpen: true,
+      message: "Tem certeza que deseja indisponibilizar permanentemente este item?",
+      action: async () => {
+        try {
+          const token = localStorage.getItem("token");
+          if (!token) throw new Error("Token de autenticação não encontrado.");
+          const response = await api.delete(`/ItensEmprestimo/IndisponibilizarPermanenteItem/${itemId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          if (response.status === 204) {
+            setToast({
+              message: "Item indisponibilizado com sucesso!",
+              type: "success",
+            });
+            setTimeout(() => {
+              setItems((prevItems) => prevItems.filter((item) => item.itemId !== itemId));
+            }, 3000);
+          } else {
+            setToast({
+              message: "Erro ao indisponibilizar o item. Tente novamente.",
+              type: "error",
+            });
+          }
+        } catch (error) {
+          setToast({
+            message: error.response?.data?.mensagem || "Erro ao indisponibilizar o item. Tente novamente.",
+            type: "error",
+          });
         }
-      } catch (error) {
-        console.error("Erro ao indisponibilizar o item:", error);
-        alert("Erro ao indisponibilizar o item. Tente novamente.");
-      }
-    }
+        setModal({ isOpen: false, message: "", action: null });
+      },
+    });
+  };
+
+  const handleCancelModal = () => {
+    setModal({ isOpen: false, message: "", action: null });
   };
 
   const isItemEmUso = (item) => {
@@ -130,7 +179,8 @@ const ListaItems = ({ searchTerm }) => {
 
   const concluirEmprestimo = async (itemId) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("Token de autenticação não encontrado.");
       const emprestimoResponse = await api.get(`/Emprestimos/EmprestimoCorrespondenteItem/${itemId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -138,19 +188,34 @@ const ListaItems = ({ searchTerm }) => {
       const emprestimoCorrespondente = emprestimoResponse.data;
 
       if (emprestimoCorrespondente) {
-        const response = await api.post(`/Emprestimos/DevolucaoItem/${emprestimoCorrespondente.emprestimoId}`);
+        const response = await api.post(`/Emprestimos/DevolucaoItem/${emprestimoCorrespondente.emprestimoId}`, {}, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         if (response.status === 200) {
-          alert("Devolução concluída com sucesso!");
-          setItensEmUso((prevItens) => prevItens.filter((item) => item.itemId !== itemId));
+          setToast({
+            message: "Devolução concluída com sucesso!",
+            type: "success",
+          });
+          setTimeout(() => {
+            setItensEmUso((prevItens) => prevItens.filter((item) => item.itemId !== itemId));
+          }, 3000);
         } else {
-          alert("Erro ao concluir a devolução.");
+          setToast({
+            message: "Erro ao concluir a devolução.",
+            type: "error",
+          });
         }
       } else {
-        alert("Nenhum empréstimo encontrado para este item.");
+        setToast({
+          message: "Nenhum empréstimo encontrado para este item.",
+          type: "error",
+        });
       }
     } catch (error) {
-      console.error("Erro ao concluir devolução:", error);
-      alert("Erro ao concluir devolução.");
+      setToast({
+        message: error.response?.data?.mensagem || "Erro ao concluir devolução.",
+        type: "error",
+      });
     }
   };
 
@@ -218,7 +283,7 @@ const ListaItems = ({ searchTerm }) => {
             )}
             {!isItemEmUso(item) && (item.disponivel === 1 || item.disponivel === 0) && (
               <div className="controlesAcao">
-                <button className="EditDeleteButtonsME" onClick={() => handleEdit(item.itemId)} >
+                <button className="EditDeleteButtonsME" onClick={() => handleEdit(item.itemId)}>
                   <FaEdit />
                 </button>
                 <button className="EditDeleteButtonsME" onClick={() => handleDelete(item.itemId)}>
@@ -229,10 +294,23 @@ const ListaItems = ({ searchTerm }) => {
           </div>
         </div>
       ))}
+      {toast && (
+        <ToastBar
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
+      {modal.isOpen && (
+        <ConfirmModal
+          message={modal.message}
+          onConfirm={modal.action}
+          onCancel={handleCancelModal}
+        />
+      )}
     </div>
   );
 };
-
 
 function MeusEmprestimos() {
   const [searchTerm, setSearchTerm] = useState("");
