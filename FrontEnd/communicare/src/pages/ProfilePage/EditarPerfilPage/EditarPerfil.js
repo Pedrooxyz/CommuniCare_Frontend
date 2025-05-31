@@ -4,14 +4,16 @@ import { useState, useEffect } from "react";
 import { api } from '../../../utils/axios.js';
 import noImage from '../../../assets/icon.jpg';
 import { Link } from "react-router-dom";
-import { ArrowLeft } from "lucide-react"; 
+import { ArrowLeft } from "lucide-react";
 import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
+import ToastBar from "../../../components/ToastBar/ToastBar.js"; // Import ToastBar
 
 const EditarPerfil = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
   const [contactos, setContactos] = useState([]);
   const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
+  const [toast, setToast] = useState(null); // Estado para o ToastBar
 
   const [formData, setFormData] = useState({
     nome: "",
@@ -29,6 +31,10 @@ const EditarPerfil = () => {
     } catch (error) {
       console.error("Erro ao verificar o tipo de utilizador", error);
       setUserTipoUtilizadorId(false);
+      setToast({
+        message: "Erro ao verificar o tipo de utilizador.",
+        type: "error",
+      });
     }
   };
 
@@ -60,6 +66,10 @@ const EditarPerfil = () => {
         });
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
+        setToast({
+          message: "Erro ao carregar os dados do perfil.",
+          type: "error",
+        });
       }
     };
 
@@ -93,7 +103,10 @@ const EditarPerfil = () => {
       console.log("Dados alterados:", dadosAlterados);
 
       if (Object.keys(dadosAlterados).length === 0) {
-        alert("Não houve alterações para guardar.");
+        setToast({
+          message: "Não houve alterações para guardar.",
+          type: "info",
+        });
         return;
       }
 
@@ -102,9 +115,19 @@ const EditarPerfil = () => {
       });
 
       console.log("Resposta da API:", response.data);
-      navigate("/profile");
+      setToast({
+        message: "Perfil atualizado com sucesso!",
+        type: "success",
+      });
+      setTimeout(() => {
+        navigate("/profile");
+      }, 3000);
     } catch (error) {
       console.error("Erro ao atualizar perfil:", error);
+      setToast({
+        message: "Erro ao atualizar o perfil.",
+        type: "error",
+      });
     }
   };
 
@@ -165,6 +188,13 @@ const EditarPerfil = () => {
             </form>
           </div>
         </div>
+        {toast && (
+          <ToastBar
+            message={toast.message}
+            type={toast.type}
+            onClose={() => setToast(null)}
+          />
+        )}
       </div>
     </>
   );

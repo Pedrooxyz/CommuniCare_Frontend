@@ -6,6 +6,7 @@ import backImage from '../../assets/back.jpg';
 import icon from '../../assets/icon.jpg';
 import { Link, useNavigate } from "react-router-dom";
 import { api } from '../../utils/axios.js';
+import ToastBar from "../../components/ToastBar/ToastBar.js";
 
 const Header = () => {
   return (
@@ -30,6 +31,7 @@ function DadosAuthentication() {
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [toast, setToast] = useState(null); // Estado para o ToastBar
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -60,13 +62,21 @@ function DadosAuthentication() {
           const response = await api.post("Utilizadores/RegisterUtilizador", payload);
 
           if (response.status === 200 || response.status === 201) {
-            alert("Registo bem-sucedido!");
-            navigate("/");
+            setToast({
+              message: "Registo bem-sucedido!",
+              type: "success",
+            });
+            setTimeout(() => {
+              navigate("/");
+            }, 3000);
           }
         } catch (error) {
           const apiError = error?.response?.data;
           const message = typeof apiError === "string" ? apiError : "Erro ao registar.";
-          alert(message);
+          setToast({
+            message: message,
+            type: "error",
+          });
         }
       };
 
@@ -238,6 +248,13 @@ function DadosAuthentication() {
             </div>
           </div>
         </form>
+        {toast && (
+          <ToastBar
+            message={toast.message}
+            type={toast.type}
+            onClose={() => setToast(null)}
+          />
+        )}
       </div>
     </>
   );

@@ -1,16 +1,19 @@
 import React from "react";
 import "./ConfirmModal.css";
 
-const ConfirmModal = ({ isOpen, message, onConfirm, onCancel }) => {
-  if (!isOpen) return null;
-
+const ConfirmModal = ({ message, onConfirm, onCancel }) => {
+  console.log("ConfirmModal renderizado com message:", message); // Log para depuração
   return (
-    <div className="modalOverlay">
-      <div className="modalContent">
+    <div className="modal-overlay">
+      <div className="modal-content">
         <p>{message}</p>
-        <div className="modalButtons">
-          <button className="confirmar" onClick={onConfirm}>Confirmar</button>
-          <button className="cancelar" onClick={onCancel}>Cancelar</button>
+        <div className="modal-buttons">
+          <button className="modal-confirm-btn" onClick={onConfirm}>
+            Confirmar
+          </button>
+          <button className="modal-cancel-btn" onClick={onCancel}>
+            Cancelar
+          </button>
         </div>
       </div>
     </div>

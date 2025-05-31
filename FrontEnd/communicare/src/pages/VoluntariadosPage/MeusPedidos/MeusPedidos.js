@@ -112,6 +112,7 @@ const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
   };
 
   const handleDelete = async (id) => {
+    console.log("Botão Apagar clicado para pedidoId:", id);
     setModal({
       isOpen: true,
       message: "Deseja apagar este pedido de ajuda?",
@@ -131,9 +132,11 @@ const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
         setModal({ isOpen: false, message: "", action: null });
       },
     });
+    console.log("Estado modal atualizado para apagar:", { isOpen: true, message: "Deseja apagar este pedido de ajuda?" });
   };
 
   const handleConcluir = async (id) => {
+    console.log("Botão Concluir clicado para pedidoId:", id);
     setModal({
       isOpen: true,
       message: "Deseja concluir este pedido?",
@@ -157,9 +160,11 @@ const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
         setModal({ isOpen: false, message: "", action: null });
       },
     });
+    console.log("Estado modal atualizado para concluir:", { isOpen: true, message: "Deseja concluir este pedido?" });
   };
 
   const handleCancelModal = () => {
+    console.log("Modal cancelado");
     setModal({ isOpen: false, message: "", action: null });
   };
 
@@ -244,12 +249,13 @@ const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
         />
       )}
 
-      <ConfirmModal
-        isOpen={modal.isOpen}
-        message={modal.message}
-        onConfirm={modal.action}
-        onCancel={handleCancelModal}
-      />
+      {modal.isOpen && (
+        <ConfirmModal
+          message={modal.message}
+          onConfirm={modal.action}
+          onCancel={handleCancelModal}
+        />
+      )}
     </div>
   );
 };
