@@ -116,13 +116,13 @@
 }
 
 .botaoAceitar {
-  background-color: #249413;
+  background-color: #4dc03b;
   display: flex;
   justify-content: center;
 }
 
 .botaoRejeitarA {
-  background-color: #e63342; /* Removendo o '80' */
+  background-color: #e63342; 
   display: flex;
   justify-content: center;
 }
