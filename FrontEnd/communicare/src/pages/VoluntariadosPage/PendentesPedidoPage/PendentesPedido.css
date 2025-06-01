@@ -191,8 +191,8 @@ background-color: #ffeef0;
   font-size: 23px;
   border-radius: 8px;
   padding: 8px 17px;
-  margin: 0; /* Remove default margin */
-  display: inline-block; /* Ensure it respects nowrap */
+  margin: 0; 
+  display: inline-block; 
   white-space: nowrap;
 }
 
@@ -248,17 +248,6 @@ background-color: #ffeef0;
     margin-top: 15px;
     cursor: pointer;
 }
-
-/*.moreInfo button {
-    background-color: #FAEEE7;
-    display: inline-block;
-    border-radius: 10px;
-    padding: 10px 20px;
-    border: none;
-    font-size: 20px;
-    margin-top: 15px;
-    cursor: pointer;
-}*/
 
 .descPP{
     background-color: #FAEEE7;

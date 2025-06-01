@@ -376,14 +376,14 @@ header p {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 100px; /* Ajusta o valor para o espaço entre nPessoas e cares */
+  gap: 100px; 
   margin-top: 30px;
 }
 
 .infoBox {
   display: flex;
   align-items: center;
-  gap: 8px; /* Espaço entre o ícone e o número dentro de cada box */
+  gap: 8px; 
   background-color: #fef4ef;
   padding: 8px 15px;
   border-radius: 8px;
@@ -411,23 +411,22 @@ header p {
 
 .buttonGroup {
   display: flex;
-  justify-content: center;  /* Centraliza os botões horizontalmente */
-  gap: 20px;                /* Espaçamento entre os botões */
-  margin-top: 10px;         /* Espaço acima do grupo */
+  justify-content: center;  
+  gap: 20px;            
+  margin-top: 10px;        
 }
 
 .botaoValidar,
 .botaoRejeitar {
-  width: 120px;           /* Mesmo tamanho para ambos */
-  height: 40px;           /* Altura igual */
-  font-size: 16px;        /* Tamanho de fonte consistente */
-  border-radius: 8px;     /* Bordas arredondadas (opcional) */
+  width: 120px;         
+  height: 40px;       
+  font-size: 16px;      
+  border-radius: 8px;   
   cursor: pointer;
-  border: none;           /* Remove a borda padrão */
+  border: none;          
   transition: 0.3s;
 }
 
-/* Cores (opcional - personaliza como preferires) */
 .botaoValidar {
   background-color: #4CAF50;
   color: white;

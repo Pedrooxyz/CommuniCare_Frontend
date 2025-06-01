@@ -118,14 +118,6 @@ header .ptext {
   align-items: center;
   }
 
-/*.userTitle {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  column-gap: 20px;
-  margin-bottom: 15px;
-}*/
-
 .imgUsersOP {
   object-fit: cover;
   border-radius: 50%;
@@ -148,8 +140,8 @@ header .ptext {
   font-size: 23px;
   border-radius: 8px;
   padding: 8px 17px;
-  margin-top: 10px; /* Remove default margin */
-  display: inline-block; /* Ensure it respects nowrap */
+  margin-top: 10px; 
+  display: inline-block; 
   white-space: nowrap; 
 }
 
