@@ -88,7 +88,7 @@
 }
 
 .popupAviso button:hover {
-  background-color: lime;
+  background-color: rgb(60, 189, 60);
 }
 
 .popupFundo {
@@ -113,7 +113,7 @@
 .popupCheckbox input[type="checkbox"] {
   width: 18px;
   height: 18px;
-  accent-color: #4f46e5;
+  accent-color: #4f48de;
   cursor: pointer;
 }
 
