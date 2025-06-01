@@ -33,11 +33,11 @@
 
 .imgButton {
   border: none;
-  background: none !important; /* <- força o fundo a ser transparente */
+  background: none !important; 
   cursor: pointer;
   outline: none;
   box-shadow: none;
-  padding: 0; /* <- remove espaço interno que pode dar impressão de fundo */
+  padding: 0; 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -72,7 +72,7 @@
 
 
 .logout-icon {
-  width: 60px; /* Tamanho ajustado para a imagem */
+  width: 60px; 
   height: 60px;
 }
 
@@ -124,8 +124,8 @@ body {
 }
 
 .iconplus1 img {
-  border-radius: 50%; /* Bordas 100% redondas */
-  border: 2px solid #ccc; /* Opcional: uma borda ao redor */
+  border-radius: 50%; 
+  border: 2px solid #ccc; 
   
 }
 

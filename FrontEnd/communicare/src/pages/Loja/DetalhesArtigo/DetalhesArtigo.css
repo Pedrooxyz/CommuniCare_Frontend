@@ -12,10 +12,10 @@ header {
   display: flex;
   column-gap: 10px;
   align-items: center;
-  justify-content: flex-end; /* Conteúdo à direita */
+  justify-content: flex-end; 
   width: 100%;
   padding: 10px 20px;
-  z-index: 10; /* Para garantir que fique acima */
+  z-index: 10; 
 }
 
 header p {
@@ -222,7 +222,7 @@ header p {
     padding: 15px;
     width: 90%;
     height: fit-content;
-    margin: 80px auto 0 auto; /* Mantém o espaçamento */
+    margin: 80px auto 0 auto; 
   }
 
   .colunaEsquerda, .colunaDireita {
@@ -279,7 +279,7 @@ header p {
     padding: 20px;
     width: 80%;
     justify-content: center;
-    margin: 60px auto 0 auto; /* Espaço para header */
+    margin: 60px auto 0 auto; 
   }
 
   .colunaEsquerda, .colunaDireita {

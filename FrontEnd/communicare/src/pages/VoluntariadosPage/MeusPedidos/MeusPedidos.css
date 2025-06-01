@@ -133,33 +133,33 @@ header p {
   text-align: center;
   margin-top: 8px;
   margin-bottom: 10px;
-  padding: 0 10px; /* Reduced padding to fit fixed width */
-  width: 340px; /* Fixed width to match descMP for consistency */
+  padding: 0 10px;
+  width: 340px; 
   min-width: 340px;
   max-width: 340px;
-  overflow-x: auto; /* Enable horizontal scrolling */
-  overflow-y: hidden; /* Prevent vertical scrolling */
-  scrollbar-width: thin; /* Firefox: slim scrollbar */
-  white-space: nowrap; /* Prevent text wrapping */
+  overflow-x: auto; 
+  overflow-y: hidden; 
+  scrollbar-width: thin; 
+  white-space: nowrap; 
   box-sizing: border-box;
 }
 
 .TitleMP::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, and other Webkit browsers */
+  display: none; 
 }
 
 .TitleMP::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Track background */
+  background: #f1f1f1; 
   border-radius: 10px;
 }
 
 .TitleMP::-webkit-scrollbar-thumb {
-  background: #FF7C7C; /* Scrollbar color */
+  background: #FF7C7C; 
   border-radius: 10px;
 }
 
 .TitleMP::-webkit-scrollbar-thumb:hover {
-  background: #FF5A5A; /* Darker on hover */
+  background: #FF5A5A;
 }
 
 .cardMP h2 {
@@ -168,9 +168,9 @@ header p {
   font-size: 23px;
   border-radius: 8px;
   padding: 8px 17px;
-  margin: 0; /* Remove default margin */
-  display: inline-block; /* Ensure it respects nowrap */
-  white-space: nowrap; /* Prevent wrapping of the title text */
+  margin: 0; 
+  display: inline-block; 
+  white-space: nowrap;
 }
 
 .imgUsers {
@@ -269,19 +269,19 @@ header p {
 }
 
 .estado-circlo.vermelho {
-  background-color: red;
+  background-color: rgb(247, 118, 118);
 }
 
 .estado-circlo.amarelo {
-  background-color: #ffc107;
+  background-color: #f3cc59;
 }
 
 .estado-circlo.verde {
-  background-color: green;
+  background-color: rgb(100, 227, 100);
 }
 
 .estado-circlo.azul {
-  background-color: blue;
+  background-color: rgb(107, 107, 234);
 }
 
 .controlesAcao {
