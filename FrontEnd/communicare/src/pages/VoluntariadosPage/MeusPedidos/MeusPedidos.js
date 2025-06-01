@@ -95,7 +95,6 @@ const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
   const [toast, setToast] = useState(null);
   const [modal, setModal] = useState({ isOpen: false, message: "", action: null });
 
-  // Filtra apenas pelos títulos dos pedidos
   const filteredPedidos = pedidos.filter((pedido) => {
     const titulo = pedido.titulo ? pedido.titulo.toLowerCase() : "";
     return titulo.includes(searchTerm.toLowerCase());
@@ -260,7 +259,6 @@ const ListaPedidos = ({ pedidos, searchTerm, setPedidos }) => {
   );
 };
 
-// COMPONENTE PRINCIPAL
 function MeusPedidos() {
   const [pedidos, setPedidos] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");

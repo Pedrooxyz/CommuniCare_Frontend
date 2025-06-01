@@ -196,8 +196,8 @@ background-color: #ffeef0;
   font-size: 23px;
   border-radius: 8px;
   padding: 8px 17px;
-  margin: 0; /* Remove default margin */
-  display: inline-block; /* Ensure it respects nowrap */
+  margin: 0; 
+  display: inline-block; 
   white-space: nowrap;
 }
 

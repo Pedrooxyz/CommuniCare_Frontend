@@ -13,7 +13,7 @@
   animation: slideDown 0.3s ease forwards;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  overflow: hidden; /* importante para a barra de progresso ficar dentro */
+  overflow: hidden;
 }
 
 @keyframes slideDown {
@@ -31,11 +31,11 @@
 
 
 .toast-bar.success {
-  color: #1fa557; /* Texto verde para sucesso */
+  color: #1fa557; 
 }
 
 .toast-bar.error {
-  color: #e74c3c; /* Texto vermelho para erro */
+  color: #e74c3c; 
 }
 
 

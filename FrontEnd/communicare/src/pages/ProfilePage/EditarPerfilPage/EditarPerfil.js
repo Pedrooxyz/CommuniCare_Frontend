@@ -6,14 +6,14 @@ import noImage from '../../../assets/icon.jpg';
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
-import ToastBar from "../../../components/ToastBar/ToastBar.js"; // Import ToastBar
+import ToastBar from "../../../components/ToastBar/ToastBar.js"; 
 
 const EditarPerfil = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
   const [contactos, setContactos] = useState([]);
   const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
-  const [toast, setToast] = useState(null); // Estado para o ToastBar
+  const [toast, setToast] = useState(null); 
 
   const [formData, setFormData] = useState({
     nome: "",

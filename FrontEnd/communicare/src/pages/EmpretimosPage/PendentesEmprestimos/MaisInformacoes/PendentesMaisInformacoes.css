@@ -99,19 +99,19 @@
   .BotAcao {
   display: flex;
   justify-content: center;
-  gap: 20px; /* Espaçamento entre os botões */
+  gap: 20px; 
   margin-top: 20px;
 }
 
 .botaoAceitar, .botaoRejeitarA {
   font-size: 17px;
-  color: white; /* Cor branca para o texto */
+  color: white;
   font-weight: bold;
   padding: 12px 40px;
   border-radius: 10px;
   border: none;
   cursor: pointer;
-  width: 130px; /* Tamanho fixo igual para ambos */
+  width: 130px;
   text-align: center;
 }
 

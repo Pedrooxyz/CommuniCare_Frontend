@@ -41,6 +41,7 @@ const Search = () => {
     verificarTipoUtilizador();
   }, []);
 
+  
   const handleClickPendentes = () => {
     if (userTipoUtilizadorId === true) {
       navigate("/PendentesEmprestimos");

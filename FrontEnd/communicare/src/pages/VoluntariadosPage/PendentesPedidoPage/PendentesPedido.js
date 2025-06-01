@@ -4,14 +4,14 @@ import { api } from "../../../utils/axios.js";
 import "./PendentesPedido.css";
 import { FaSearch, FaUser } from "react-icons/fa";
 import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
-import ToastBar from "../../../components/ToastBar/ToastBar.js"; // Import ToastBar
+import ToastBar from "../../../components/ToastBar/ToastBar.js"; 
 import iconFallback from "../../../assets/icon.jpg";
 import cares from "../../../assets/Cares.png";
 
 const Search = () => {
   const navigate = useNavigate();
   const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
-  const [toast, setToast] = useState(null); // Estado para o ToastBar
+  const [toast, setToast] = useState(null); 
 
   useEffect(() => {
     const verificarTipoUtilizador = async () => {
@@ -113,7 +113,7 @@ const getImagemSrc = (foto) => {
 
 const ListaPedidos = () => {
   const [pedidos, setPedidos] = useState([]);
-  const [toast, setToast] = useState(null); // Estado para o ToastBar
+  const [toast, setToast] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -212,7 +212,7 @@ const ListaPedidos = () => {
 
 const ListaPedidosAquisicao = () => {
   const [pedidosWithPhotos, setPedidos] = useState([]);
-  const [toast, setToast] = useState(null); // Estado para o ToastBar
+  const [toast, setToast] = useState(null); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -322,7 +322,7 @@ const ListaPedidosAquisicao = () => {
 
 const ListaPedidosDevolucao = () => {
   const [pedidos, setPedidos] = useState([]);
-  const [toast, setToast] = useState(null); // Estado para o ToastBar
+  const [toast, setToast] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {

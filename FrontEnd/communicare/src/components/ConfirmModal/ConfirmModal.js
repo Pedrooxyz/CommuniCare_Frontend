@@ -2,7 +2,7 @@ import React from "react";
 import "./ConfirmModal.css";
 
 const ConfirmModal = ({ message, onConfirm, onCancel }) => {
-  console.log("ConfirmModal renderizado com message:", message); // Log para depuração
+  console.log("ConfirmModal renderizado com message:", message); 
   return (
     <div className="modal-overlay">
       <div className="modal-content">

@@ -62,25 +62,17 @@ function DadosAuthentication() {
 
       localStorage.setItem("token", token);
 
-      /*localStorage.setItem("userId", userId);
-      localStorage.setItem("userName", userName);
-      localStorage.setItem("isLoggedIn", true);
-      localStorage.setItem("tokenIssuedAt", Date.now());
-      localStorage.setItem("tokenExpiresIn", expiresIn);*/
-
       const esconderPopup = localStorage.getItem("popupLoginEscondido") === "true";
 
       if (!esconderPopup) {
         setPopupMessage("Bem-vindo à CommuniCare! Esta plataforma foi criada para facilitar a interação entre membros de comunidades locais, promovendo a entreajuda através de um sistema de recompensas sustentável. Para começares a ganhar os teus primeiros Cares (a nossa moeda virtual), basta começares por te voluntariar. Esperamos que aproveites ao máximo as experiências e ligações que a CommuniCare tem para te oferecer!");
         setShowPopup(true);
 
-        // Só espera os 70s se mostrar o popup
         setTimeout(() => {
           setShowPopup(false);
           navigate("/profile");
         }, 70000);
       } else {
-        // Se não mostrar popup, navega imediatamente
         navigate("/profile");
       }
 

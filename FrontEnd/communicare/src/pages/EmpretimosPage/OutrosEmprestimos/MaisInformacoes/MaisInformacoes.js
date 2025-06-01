@@ -186,7 +186,7 @@ const DetalhesItem = ({ setPopupMessage, setShowPopup }) => {
           message: "Pedido de empréstimo efetuado. Aguarde validação do administrador.",
           type: "success",
         });
-        setTimeout(() => {}, 3000); // Placeholder para consistência, sem ação adicional
+        setTimeout(() => {}, 3000); 
       } else {
         setToast({
           message: response.data || "Erro ao requisitar o item.",

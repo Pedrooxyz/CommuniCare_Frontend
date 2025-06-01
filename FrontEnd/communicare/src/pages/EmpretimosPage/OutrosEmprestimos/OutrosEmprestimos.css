@@ -172,8 +172,8 @@ header p {
   font-size: 23px;
   border-radius: 8px;
   padding: 8px 17px;
-  margin-top: 10px; /* Remove default margin */
-  display: inline-block; /* Ensure it respects nowrap */
+  margin-top: 10px; 
+  display: inline-block; 
   white-space: nowrap; 
   }
 

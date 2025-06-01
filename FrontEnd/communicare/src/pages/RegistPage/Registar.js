@@ -31,7 +31,7 @@ function DadosAuthentication() {
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [toast, setToast] = useState(null); // Estado para o ToastBar
+  const [toast, setToast] = useState(null); 
   const navigate = useNavigate();
 
   const handleChange = (e) => {

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getUserImageUrl } from '../../../../utils/url';
 import iconFallback from '../../../../assets/icon.jpg';
 import HeaderProfileCares from "../../../../components/HeaderProfile/headerProfile.js";
-import ToastBar from "../../../../components/ToastBar/ToastBar.js"; // Import ToastBar
+import ToastBar from "../../../../components/ToastBar/ToastBar.js"; 
 import "./MaisInfoPedidosPendentes.css";
 import cares from '../../../../assets/Cares.png';
 import { api } from '../../../../utils/axios.js';
@@ -19,7 +19,7 @@ const getImagemSrc = (fotoItem) => {
 const Search = () => {
   const navigate = useNavigate();
   const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
-  const [toast, setToast] = useState(null); // Estado para o ToastBar
+  const [toast, setToast] = useState(null); 
 
   useEffect(() => {
     const verificarTipoUtilizador = async () => {
@@ -102,7 +102,7 @@ const DetalhesItem = () => {
   });
   const [fotoDono, setFotoDono] = useState(iconFallback);
   const [isLoadingFoto, setIsLoadingFoto] = useState(true);
-  const [toast, setToast] = useState(null); // Estado para o ToastBar
+  const [toast, setToast] = useState(null);
 
   useEffect(() => {
     const fetchItem = async () => {

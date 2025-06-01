@@ -18,7 +18,7 @@ const HeaderNot = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
   const [contactos, setContactos] = useState([]);
-  const [showConfirm, setShowConfirm] = useState(false); // Novo estado
+  const [showConfirm, setShowConfirm] = useState(false); 
 
   useEffect(() => {
     const fetchUserInfo = async () => {

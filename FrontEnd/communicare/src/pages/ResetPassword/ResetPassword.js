@@ -53,7 +53,7 @@ function ResetPasswordForm() {
         setSuccessMessage("A sua password foi alterada com sucesso!");
         setTimeout(() => {
           navigate("/");
-        }, 2000); // Redireciona para a página de login após 2 segundos
+        }, 2000);
       }
     } catch (error) {
       setErrorMessage(error?.response?.data?.message || error.message);

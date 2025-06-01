@@ -4,14 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { api } from "../../../utils/axios.js";
 import "./OutrosPedidos.css";
 import HeaderProfileCares from "../../../components/HeaderProfile/headerProfile.js";
-import ToastBar from "../../../components/ToastBar/ToastBar.js"; // Import ToastBar
+import ToastBar from "../../../components/ToastBar/ToastBar.js"; 
 import cares from "../../../assets/Cares.png";
 import iconFallback from "../../../assets/icon.jpg";
 
 const Search = ({ searchTerm, setSearchTerm }) => {
   const navigate = useNavigate();
   const [userTipoUtilizadorId, setUserTipoUtilizadorId] = useState(null);
-  const [toast, setToast] = useState(null); // Estado para o ToastBar
+  const [toast, setToast] = useState(null); 
 
   const verificarTipoUtilizador = async () => {
     try {

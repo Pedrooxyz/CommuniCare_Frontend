@@ -13,7 +13,7 @@ export default function ToastBar({ message, type = 'success', onClose }) {
   return (
     <div className={`toast-bar ${type}`}>
       {message}
-      <div className="toast-progress"></div> {/* Barra de progresso */}
+      <div className="toast-progress"></div> {}
     </div>
   );
 }

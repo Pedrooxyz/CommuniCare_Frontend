@@ -129,33 +129,33 @@
   text-align: center;
   margin-top: 0px;
   margin-bottom: 10px;
-  padding: 0 10px; /* Reduced padding to fit fixed width */
-  width: 340px; /* Fixed width to match descMP for consistency */
+  padding: 0 10px; 
+  width: 340px; 
   min-width: 340px;
   max-width: 340px;
-  overflow-x: auto; /* Enable horizontal scrolling */
-  overflow-y: hidden; /* Prevent vertical scrolling */
-  scrollbar-width: thin; /* Firefox: slim scrollbar */
-  white-space: nowrap; /* Prevent text wrapping */
+  overflow-x: auto; 
+  overflow-y: hidden;
+  scrollbar-width: thin; 
+  white-space: nowrap; 
   box-sizing: border-box;
 }
 
 .TitleME::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, and other Webkit browsers */
+  display: none; 
 }
 
 .TitleME::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Track background */
+  background: #f1f1f1;
   border-radius: 10px;
 }
 
 .TitleME::-webkit-scrollbar-thumb {
-  background: #FF7C7C; /* Scrollbar color */
+  background: #FF7C7C;
   border-radius: 10px;
 }
 
 .TitleME::-webkit-scrollbar-thumb:hover {
-  background: #FF5A5A; /* Darker on hover */
+  background: #FF5A5A;
 }
   
   .imgItemMP {
@@ -184,8 +184,8 @@
   font-size: 23px;
   border-radius: 8px;
   padding: 8px 17px;
-  margin-top: 10px; /* Remove default margin */
-  display: inline-block; /* Ensure it respects nowrap */
+  margin-top: 10px; 
+  display: inline-block; 
   white-space: nowrap; 
   }
   
@@ -304,17 +304,17 @@
   }
   
   .estado-circle.disponivel {
-  background-color: #28a745; /* verde */
+  background-color: #28a745; 
   position: relative;
 }
 
 .estado-circle.indisponivel {
-  background-color: #ffc107; /* amarelo */
+  background-color: #ffc107; 
   position: relative;
 }
 
 .estado-circle.permanentemente-indisponivel {
-  background-color: #dc3545; /* vermelho */
+  background-color: #dc3545; 
   position: relative;
 }
 
