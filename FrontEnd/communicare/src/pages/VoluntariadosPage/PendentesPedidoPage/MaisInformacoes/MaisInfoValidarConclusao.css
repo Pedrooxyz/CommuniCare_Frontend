@@ -375,7 +375,7 @@ header p {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 100px; /* Ajusta o valor para o espaço entre nPessoas e cares */
+  gap: 100px; 
   margin-top: 30px;
 }
 

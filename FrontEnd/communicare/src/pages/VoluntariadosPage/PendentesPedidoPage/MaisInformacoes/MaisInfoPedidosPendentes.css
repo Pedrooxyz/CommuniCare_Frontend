@@ -428,27 +428,26 @@ header p {
 }
 
 .botaoValidar {
-  background-color: #4CAF50;
+  background-color: #76ee7a;
   color: white;
   display: flex;
   justify-content: center;
 }
 
 .botaoRejeitar {
-  background-color: #f44336;
+  background-color: #ee645a;
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* Efeito hover (opcional) */
 .botaoValidar:hover {
-  background-color: #45a049;
+  background-color: #44a549;
 }
 
 .botaoRejeitar:hover {
-  background-color: #d32f2f;
+  background-color: #813030;
 }
 
 
