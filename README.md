@@ -66,6 +66,8 @@ npm install
 npm start
 ```
 
+> **Importante:** Para que o frontend funcione corretamente, também é necessário que o backend esteja a correr. Podes clonar e executar o backend a partir deste repositório: [CommuniCare_Backend](https://github.com/Pedrooxyz/CommuniCare_Backend.git)
+
 ---
 
 # Bibliografia
