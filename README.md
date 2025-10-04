@@ -42,6 +42,32 @@ Acreditámos que a **Communicare** oferece uma solução para os desafios do ind
 
 ---
 
+# CommuniCare - Frontend
+
+Interface web da aplicação **CommuniCare**, permitindo aos utilizadores interagir com a comunidade, solicitar ajuda, oferecer voluntariado e gerir pontos digitais. Funciona em conjunto com o backend [CommuniCare_Backend](https://github.com/Pedrooxyz/CommuniCare_Backend).
+
+---
+
+# Instalação e Execução
+
+1. Clonar o repositório
+```
+git clone https://github.com/Pedrooxyz/CommuniCare_Frontend.git
+cd CommuniCare_Frontend/FrontEnd/communicare
+```
+
+2. Instalar dependências
+```
+npm install
+```
+
+4. Executar a aplicação localmente
+```
+npm start
+```
+
+---
+
 # Bibliografia
 
 [1] Bauman, Z. (2009). *Medo Líquido: A Insegurança na Era do Medo*. Rio de Janeiro: Zahar.
